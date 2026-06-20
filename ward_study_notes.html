@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>병동 실습 노트 · Renal / Gastro / Hepatology</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1b2230;
+    --muted:#5d6675;
+    --faint:#8a93a3;
+    --paper:#eef1f5;
+    --card:#ffffff;
+    --line:#e3e8ef;
+
+    --renal:#1d6fb8;      --renal-bg:#eaf3fb;  --renal-line:#bcdcef;
+    --gastro:#2c8c6a;     --gastro-bg:#e7f4ee; --gastro-line:#bfe3d3;
+    --hep:#bb851a;        --hep-bg:#fbf2dc;    --hep-line:#ecd9a8;
+    --flag:#c0392b;       --flag-bg:#fbeae7;   --flag-line:#f0c4bd;
+
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:'Noto Sans KR',system-ui,sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- layout shell ---------- */
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px 90px}
+
+  /* ---------- hero ---------- */
+  header.hero{
+    background:
+      radial-gradient(120% 140% at 0% 0%, #1d6fb8 0%, transparent 42%),
+      radial-gradient(120% 140% at 100% 0%, #bb851a 0%, transparent 42%),
+      radial-gradient(140% 160% at 50% 120%, #2c8c6a 0%, transparent 45%),
+      #11161f;
+    color:#fff;
+    padding:54px 22px 46px;
+    margin-bottom:26px;
+  }
+  .hero-inner{max-width:1080px;margin:0 auto}
+  .hero .eyebrow{
+    font-family:var(--mono);font-size:.72rem;letter-spacing:.28em;
+    text-transform:uppercase;color:#cfe0f2;margin:0 0 14px;
+  }
+  .hero h1{
+    font-weight:900;font-size:clamp(1.8rem,4.6vw,2.9rem);
+    line-height:1.12;margin:0 0 14px;letter-spacing:-.01em;
+  }
+  .hero p.sub{margin:0;max-width:640px;color:#d7deea;font-size:1.02rem;font-weight:300}
+  .hero .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}
+  .hero .tags span{
+    font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.04em;
+    padding:5px 11px;border-radius:999px;background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.22);
+  }
+
+  /* ---------- sticky toolbar ---------- */
+  .toolbar{
+    position:sticky;top:0;z-index:40;
+    background:rgba(255,255,255,.86);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+    margin-bottom:30px;
+  }
+  .toolbar-inner{
+    max-width:1080px;margin:0 auto;padding:10px 22px;
+    display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  }
+  .navlinks{display:flex;gap:4px;flex-wrap:wrap;flex:1}
+  .navlinks a{
+    font-size:.8rem;font-weight:500;color:var(--muted);text-decoration:none;
+    padding:6px 11px;border-radius:8px;white-space:nowrap;transition:.15s;
+  }
+  .navlinks a:hover{background:var(--paper);color:var(--ink)}
+  .toggle-btn{
+    font-family:var(--mono);font-size:.74rem;font-weight:700;cursor:pointer;
+    border:1px solid var(--line);background:#fff;color:var(--ink);
+    padding:7px 13px;border-radius:9px;transition:.15s;white-space:nowrap;
+  }
+  .toggle-btn:hover{border-color:var(--ink)}
+  .toggle-btn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+  body.hide-kr .kr{display:none}
+
+  /* ---------- section ---------- */
+  section{margin-bottom:54px;scroll-margin-top:64px}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin:0 0 6px}
+  .sec-num{font-family:var(--mono);font-size:.9rem;font-weight:700;color:var(--faint)}
+  .sec-head h2{font-size:1.5rem;font-weight:900;margin:0;letter-spacing:-.01em}
+  .sec-desc{color:var(--muted);font-size:.92rem;margin:0 0 22px;padding-left:34px}
+
+  /* ---------- system block ---------- */
+  .sys{margin-bottom:26px;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--card)}
+  .sys-bar{
+    display:flex;align-items:center;gap:10px;
+    padding:11px 18px;font-weight:700;font-size:.98rem;color:#fff;
+  }
+  .sys-bar .dot{font-family:var(--mono);font-size:.7rem;font-weight:700;
+    background:rgba(255,255,255,.22);padding:3px 8px;border-radius:6px;letter-spacing:.05em}
+  .renal .sys-bar{background:var(--renal)}
+  .gastro .sys-bar{background:var(--gastro)}
+  .hep .sys-bar{background:var(--hep)}
+
+  /* ---------- table ---------- */
+  table{width:100%;border-collapse:collapse;font-size:.9rem}
+  thead th{
+    text-align:left;font-size:.7rem;font-weight:700;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--faint);
+    padding:10px 16px;border-bottom:1px solid var(--line);background:#fafbfc;
+  }
+  tbody td{padding:13px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:hover td{background:#fcfcfd}
+
+  .term{font-weight:700;color:var(--ink);display:block;margin-bottom:3px}
+  .abbr{
+    font-family:var(--mono);font-size:.72rem;font-weight:700;
+    padding:2px 7px;border-radius:5px;display:inline-block;
+  }
+  .renal .abbr{background:var(--renal-bg);color:var(--renal)}
+  .gastro .abbr{background:var(--gastro-bg);color:var(--gastro)}
+  .hep .abbr{background:var(--hep-bg);color:var(--hep)}
+
+  .en{color:var(--ink)}
+  .kr{color:var(--muted);font-size:.84rem;display:block;margin-top:4px;font-weight:300}
+  td .mech-label{font-family:var(--mono);font-size:.64rem;font-weight:700;color:var(--faint);letter-spacing:.05em}
+
+  /* nursing focus cell pill */
+  .focus{font-size:.82rem;color:var(--muted)}
+  .focus strong{color:var(--ink);font-weight:500}
+
+  /* column widths */
+  col.c-term{width:20%}
+  col.c-mid{width:42%}
+  col.c-focus{width:38%}
+
+  /* ---------- callout / red flag ---------- */
+  .flag{
+    border:1px solid var(--flag-line);background:var(--flag-bg);
+    border-radius:12px;padding:16px 18px;margin:18px 0;
+  }
+  .flag .ttl{
+    display:flex;align-items:center;gap:9px;font-weight:700;color:var(--flag);
+    font-size:.92rem;margin-bottom:8px;
+  }
+  .flag .ttl::before{content:"!";font-family:var(--mono);font-weight:700;
+    background:var(--flag);color:#fff;width:20px;height:20px;border-radius:6px;
+    display:grid;place-items:center;font-size:.8rem}
+  .flag ul{margin:0;padding-left:18px;font-size:.88rem}
+  .flag li{margin:3px 0}
+  .flag .kr{margin-top:2px}
+
+  /* ---------- lab reference panel ---------- */
+  .labs{
+    border:1px solid var(--line);border-radius:14px;background:var(--card);
+    padding:6px 2px;overflow:hidden;
+  }
+  .lab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1px;background:var(--line)}
+  .lab{background:var(--card);padding:13px 16px}
+  .lab .name{font-size:.82rem;color:var(--muted);margin-bottom:3px}
+  .lab .val{font-family:var(--mono);font-weight:700;font-size:.96rem;color:var(--ink)}
+  .lab .val small{font-weight:500;color:var(--faint);font-size:.74rem}
+  .lab.r{box-shadow:inset 3px 0 0 var(--renal)}
+  .lab.h{box-shadow:inset 3px 0 0 var(--hep)}
+  .lab.g{box-shadow:inset 3px 0 0 var(--gastro)}
+  .lab.n{box-shadow:inset 3px 0 0 var(--faint)}
+
+  /* ---------- key phrases ---------- */
+  .phrase{
+    border-radius:14px;border:1px solid var(--line);background:var(--card);
+    padding:18px 20px;margin-bottom:14px;position:relative;overflow:hidden;
+  }
+  .phrase::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px}
+  .phrase.renal::before{background:var(--renal)}
+  .phrase.gastro::before{background:var(--gastro)}
+  .phrase.hep::before{background:var(--hep)}
+  .phrase.flag::before{background:var(--flag)}
+  .phrase .lbl{font-family:var(--mono);font-size:.7rem;font-weight:700;letter-spacing:.08em;
+    text-transform:uppercase;margin-bottom:8px;display:block}
+  .phrase.renal .lbl{color:var(--renal)}
+  .phrase.gastro .lbl{color:var(--gastro)}
+  .phrase.hep .lbl{color:var(--hep)}
+  .phrase.flag .lbl{color:var(--flag)}
+  .phrase .en{font-size:.96rem;font-weight:500;line-height:1.6}
+  .phrase .kr{font-size:.86rem;margin-top:8px}
+
+  .note{font-size:.8rem;color:var(--faint);margin-top:10px;padding-left:34px}
+
+  footer{text-align:center;color:var(--faint);font-size:.8rem;padding-top:30px;border-top:1px solid var(--line)}
+
+  @media (max-width:680px){
+    col.c-term,col.c-mid,col.c-focus{width:auto}
+    .navlinks{order:2;width:100%}
+    table{font-size:.84rem}
+    tbody td{padding:11px 12px}
+    thead th{padding:9px 12px}
+  }
+
+  @media print{
+    .toolbar{display:none}
+    body{background:#fff}
+    body.hide-kr .kr{display:block}
+    section{page-break-inside:auto}
+    .sys,.phrase,.flag,.labs{break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">Clinical Placement · Ward Reference</p>
+    <h1>병동 실습 노트<br>Renal · Gastroenterology · Hepatology</h1>
+    <p class="sub">신장 · 소화기 · 간 병동에서 자주 보는 용어 · 약물 · 병명 · 시술을 한눈에 정리한 레퍼런스입니다. 각 항목마다 병태생리학적 기전(mechanism), 실습 중 반드시 관찰해야 할 간호 포인트, 그리고 RN에게 보고할 때 바로 쓸 수 있는 문장까지 담았습니다.</p>
+    <div class="tags">
+      <span style="background:rgba(29,111,184,.35)">● RENAL 신장</span>
+      <span style="background:rgba(44,140,106,.35)">● GASTRO 소화기</span>
+      <span style="background:rgba(187,133,26,.4)">● HEPATOLOGY 간</span>
+    </div>
+  </div>
+</header>
+
+<div class="toolbar">
+  <div class="toolbar-inner">
+    <nav class="navlinks">
+      <a href="#labs">정상수치</a>
+      <a href="#terms">① 용어</a>
+      <a href="#meds">② 약</a>
+      <a href="#conditions">③ 병명</a>
+      <a href="#procedures">④ 시술</a>
+      <a href="#phrases">⑤ 보고문장</a>
+      <a href="#abbrevs">⑥ 호주약어</a>
+    </nav>
+    <button class="toggle-btn" id="krToggle" onclick="toggleKR()">한글 해석 ON</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ============ LAB REFERENCE ============ -->
+  <section id="labs">
+    <div class="sec-head"><span class="sec-num">REF</span><h2>정상 수치 빠른 참고</h2></div>
+    <p class="sec-desc">실습 중 lab 결과 볼 때 기준. ⚠️ 병원마다 reference range가 다르니 차트의 정상범위를 항상 확인하세요. (성인 일반 기준, Australia)</p>
+    <div class="labs">
+      <div class="lab-grid">
+        <div class="lab r"><div class="name">Creatinine 크레아티닌</div><div class="val">60–110 <small>µmol/L (M)</small></div></div>
+        <div class="lab r"><div class="name">eGFR</div><div class="val">&gt;90 <small>정상 · &lt;60 (3mo)=CKD</small></div></div>
+        <div class="lab r"><div class="name">Urea 요소</div><div class="val">3.0–8.0 <small>mmol/L</small></div></div>
+        <div class="lab r"><div class="name">Potassium K⁺ 칼륨</div><div class="val">3.5–5.2 <small>mmol/L</small></div></div>
+        <div class="lab r"><div class="name">Sodium Na⁺ 나트륨</div><div class="val">135–145 <small>mmol/L</small></div></div>
+        <div class="lab r"><div class="name">Phosphate 인</div><div class="val">0.75–1.5 <small>mmol/L</small></div></div>
+        <div class="lab h"><div class="name">Bilirubin 빌리루빈</div><div class="val">&lt;20 <small>µmol/L</small></div></div>
+        <div class="lab h"><div class="name">Albumin 알부민</div><div class="val">35–50 <small>g/L</small></div></div>
+        <div class="lab h"><div class="name">INR <small>(no anticoag)</small></div><div class="val">0.9–1.2</div></div>
+        <div class="lab h"><div class="name">ALT / AST <small>(LFTs)</small></div><div class="val">~&lt;40 <small>U/L</small></div></div>
+        <div class="lab n"><div class="name">Haemoglobin Hb</div><div class="val">120–170 <small>g/L</small></div></div>
+        <div class="lab g"><div class="name">CRP 염증</div><div class="val">&lt;5 <small>mg/L</small></div></div>
+        <div class="lab g"><div class="name">WCC 백혈구</div><div class="val">4–11 <small>×10⁹/L</small></div></div>
+        <div class="lab n"><div class="name">Urine output 소변량</div><div class="val">≥0.5 <small>mL/kg/hr</small></div></div>
+      </div>
+    </div>
+    <p class="note">💡 소변량 0.5 mL/kg/hr 미만이 지속되면 AKI를 의심하고 fluid balance · 혈압과 함께 봐야 해요.</p>
+  </section>
+
+  <!-- ============ 1. TERMS ============ -->
+  <section id="terms">
+    <div class="sec-head"><span class="sec-num">01</span><h2>주로 쓰는 용어</h2></div>
+    <p class="sec-desc">용어 · 의미 · 기전과 함께, 학생 입장에서 "그래서 뭘 봐야 하는지" 간호 포인트를 붙였어요.</p>
+
+    <!-- RENAL TERMS -->
+    <div class="sys renal">
+      <div class="sys-bar"><span class="dot">RENAL</span> 신장 관련 용어</div>
+      <table>
+        <colgroup><col class="c-term"><col class="c-mid"><col class="c-focus"></colgroup>
+        <thead><tr><th>용어 Term</th><th>의미 · 기전 Meaning / Mechanism</th><th>간호 포인트 Nursing focus</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="term">AKI</span><span class="abbr">Acute Kidney Injury (급성 신손상)</span></td>
+            <td><span class="en">In AKI (Acute Kidney Injury), the kidneys suddenly lose their filtering ability over hours to days. Waste products (creatinine, urea) accumulate to toxic levels, excess fluid causes oedema and pulmonary oedema, and rising K⁺ can trigger cardiac arrest. Common causes are severe dehydration, low blood pressure, and nephrotoxic drugs such as NSAIDs (Non-Steroidal Anti-Inflammatory Drugs) or gentamicin. AKI is often reversible if treated early.</span><span class="kr">AKI(급성 신손상)에서는 신장의 여과 기능이 수 시간~수일 내에 갑자기 정지합니다. 노폐물(크레아티닌, 요소)이 독성 수준까지 축적되고, 과잉 수분으로 부종과 폐부종이 발생하며, K⁺ 상승은 심정지를 유발할 수 있습니다. 흔한 원인은 심한 탈수, 저혈압, NSAIDs(비스테로이드성 소염제)나 gentamicin 같은 신독성 약물입니다. 조기 치료 시 회복 가능한 경우가 많습니다.</span></td>
+            <td class="focus"><strong>매 시간 소변량 측정</strong> — 0.5 mL/kg/hr 미만이면 즉시 보고. <strong>Fluid balance(수분 균형)</strong> 정확하게 기록(모든 IV 수액, 경구 섭취, 소변, 구토, 배액 포함). <strong>매일 같은 시간에 체중 측정</strong> — 갑작스러운 증가(1일 1 kg 이상)는 수분 저류를 의미. <strong>혈액검사(Cr, K⁺, urea)</strong> 결과 추적하고 상승 추세이면 RN에게 보고. 신독성 약물(NSAIDs 등) 복용 여부 확인. 탈수 징후(구갈, 피부 탄력 저하, 저혈압, 빈맥) 사정.</td>
+          </tr>
+          <tr>
+            <td><span class="term">CKD</span><span class="abbr">Chronic Kidney Disease (만성 신장 질환)</span></td>
+            <td><span class="en">CKD (Chronic Kidney Disease) is a gradual decline in kidney function over months to years. It is staged by eGFR (estimated Glomerular Filtration Rate): Stage 1 (eGFR ≥90), Stage 2 (60-89), Stage 3a (45-59), Stage 3b (30-44), Stage 4 (15-29), Stage 5 (&lt;15, dialysis or transplant needed). Key complications include anaemia (low EPO / Erythropoietin), renal bone disease (low vitamin D activation, high phosphate), fluid overload, electrolyte imbalance (high K⁺/phosphate, low calcium), and uraemia. The most common causes are diabetes and hypertension.</span><span class="kr">CKD(만성 신장 질환)는 수개월~수년에 걸쳐 신장 기능이 서서히 저하되는 질환입니다. eGFR(추정 사구체 여과율)로 단계를 분류합니다: 1단계(eGFR ≥90), 2단계(60-89), 3a(45-59), 3b(30-44), 4단계(15-29), 5단계(&lt;15, 투석/이식 필요). 주요 합병증은 빈혈(EPO/에리스로포이에틴 감소), 신장성 골질환(비타민D 활성화 저하, 인산 상승), 체액 과다, 전해질 불균형(K⁺·인산 상승, 칼슘 저하), 요독증입니다. 가장 흔한 원인은 당뇨와 고혈압입니다.</span></td>
+            <td class="focus"><strong>혈압 관리가 CKD 진행을 늦추는 핵심</strong> — 매 근무 시 혈압 측정 및 목표 범위 확인. <strong>부종 사정</strong> — 발목, 천골부, 눈 주위 부종을 확인하고 pitting 정도를 기록. <strong>식이 관리 확인</strong> — 저칼륨(K⁺), 저인(phosphate), 저염(Na⁺) 식이 지시 여부 확인하고 환자가 이해하고 있는지 교육. <strong>빈혈 관련 관찰</strong> — 피로, 어지러움, 창백함, 숨참 호소 시 Hb 수치 확인. EPO/철분제 투여 여부 확인. <strong>혈액검사 추세 파악</strong> — Cr, eGFR, K⁺, phosphate, calcium, Hb 결과를 이전 값과 비교. <strong>투석 전환 가능성</strong> — Stage 4-5 환자는 AV fistula 생성 또는 투석 교육 계획 여부 확인.</td>
+          </tr>
+          <tr>
+            <td><span class="term">eGFR</span><span class="abbr">estimated Glomerular Filtration Rate (추정 사구체 여과율)</span></td>
+            <td><span class="en">eGFR (estimated Glomerular Filtration Rate) estimates how much blood the glomeruli (tiny filtering capillary clusters in each nephron) filter per minute. Normal is 90-120 mL/min. The formula uses blood creatinine, age, and sex. Stages: ≥90 normal, 60-89 mild decrease, 45-59 mild-moderate, 30-44 moderate-severe, 15-29 severe, &lt;15 kidney failure. eGFR &lt;60 for 3+ months confirms CKD (Chronic Kidney Disease).</span><span class="kr">eGFR(추정 사구체 여과율)은 사구체(네프론 내 여과 모세혈관 다발)가 1분에 여과하는 혈액량을 추정합니다. 정상은 90-120 mL/분입니다. 공식에 혈중 크레아티닌, 나이, 성별을 사용합니다. 단계: ≥90 정상, 60-89 경도 저하, 45-59 경도~중등도, 30-44 중등도~중증, 15-29 중증, &lt;15 신부전. eGFR &lt;60이 3개월 이상 지속 시 CKD(만성 신장 질환) 확정입니다.</span></td>
+            <td class="focus"><strong>eGFR 수치에 따라 약물 용량 조절이 필요</strong> — 신장으로 배설되는 약물(metformin, gentamicin, 조영제 등)은 eGFR이 낮으면 용량을 줄이거나 투여를 중지해야 함. <strong>eGFR 추세를 파악</strong> — 한 번의 수치보다 시간에 따른 변화가 중요함. 급격한 하락은 AKI를 시사. <strong>단계별 의미 숙지</strong> — Stage 3 이상이면 신장내과 의뢰가 필요할 수 있고, Stage 4-5이면 투석 준비 논의가 시작됨. eGFR &lt;60이 3개월 이상 지속되면 CKD 확정.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Creatinine</span><span class="abbr">크레아티닌 (Cr)</span></td>
+            <td><span class="en">Creatinine is a waste product from daily muscle creatine breakdown. The kidneys filter it into urine, so blood levels rise when kidney function declines. Normal range: males 60-110 µmol/L, females 45-90 µmol/L. The patient's baseline matters most — a sudden rise from baseline (e.g. 80 to 200 in 48 hours) strongly suggests AKI, regardless of the reference range. Muscle mass affects the level, so low-muscle patients may have misleadingly low creatinine.</span><span class="kr">크레아티닌은 근육 크레아틴의 일상적 분해에서 나오는 노폐물입니다. 신장이 이를 소변으로 배출하므로, 신기능 저하 시 혈중 수치가 상승합니다. 정상 범위: 남성 60-110 µmol/L, 여성 45-90 µmol/L. 환자의 baseline이 가장 중요합니다 — baseline에서의 급격한 상승(예: 48시간 내 80→200)은 참고 범위와 관계없이 AKI를 강하게 시사합니다. 근육량이 수치에 영향을 주므로 근육이 적은 환자는 수치가 오해를 줄 만큼 낮을 수 있습니다.</span></td>
+            <td class="focus"><strong>baseline(환자 평소 수치) 파악이 가장 중요</strong> — 차트에서 이전 Cr 수치를 확인하고 현재 값과 비교. <strong>상승 추세 확인</strong> — Cr이 baseline에서 1.5배 이상 상승하거나 48시간 내 26 µmol/L 이상 상승하면 AKI 기준에 해당할 수 있음. <strong>eGFR과 함께 해석</strong> — Cr이 올라가면 eGFR은 내려감(반비례 관계). <strong>근육량 고려</strong> — 노인이나 근육 소모가 심한 환자는 신기능이 나빠도 Cr이 크게 오르지 않을 수 있어 주의가 필요. 정상 범위: 남성 약 60-110 µmol/L, 여성 약 45-90 µmol/L.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Urea</span><span class="abbr">요소 (Blood Urea Nitrogen과 관련)</span></td>
+            <td><span class="en">Urea is a waste product from protein breakdown by the liver. The kidneys filter it into urine; normal range is 3.0-8.0 mmol/L. Two key causes of elevated urea: (1) Pre-renal — dehydration reduces kidney blood flow, so urea rises disproportionately more than creatinine. (2) Renal — in AKI or CKD, both urea and creatinine rise together. Other causes include GI bleeding, high-protein diet, corticosteroids, and catabolic states.</span><span class="kr">요소(Urea)는 간에서 단백질을 분해할 때 생기는 노폐물입니다. 신장이 이를 소변으로 배출하며, 정상 범위는 3.0-8.0 mmol/L입니다. 상승의 두 가지 핵심 원인: (1) 신전성 — 탈수로 신장 혈류가 감소하면 요소가 크레아티닌보다 불균형하게 더 많이 상승합니다. (2) 신성 — AKI나 CKD에서는 요소와 크레아티닌이 함께 상승합니다. 기타 원인으로 위장관 출혈, 고단백 식이, 코르티코스테로이드, 이화 상태가 있습니다.</span></td>
+            <td class="focus"><strong>Urea와 Cr을 함께 비교하여 원인 감별</strong> — Urea만 상승하고 Cr은 정상이면 탈수(신전성)를 먼저 의심, 둘 다 상승하면 신장 자체 문제(신성)를 의심. <strong>탈수 징후와 함께 사정</strong> — 구갈, 구강 건조, 피부 탄력 저하, 저혈압, 빈맥, 진한 소변. <strong>GI 출혈 환자에서 Urea 상승 가능성 인지</strong> — 소화된 혈액이 단백질 공급원이 되어 간에서 요소 생성이 늘어남. 정상 범위: 3.0-8.0 mmol/L.</td>
+          </tr>
+          <tr>
+            <td><span class="term">K⁺ / Potassium</span><span class="abbr">칼륨 (Potassium)</span></td>
+            <td><span class="en">Potassium (K⁺) is an electrolyte essential for nerve, muscle, and heart function. Normal range: 3.5-5.2 mmol/L, regulated mainly by the kidneys. Hyperkalaemia (K⁺ ≥6.0) is a medical emergency — ECG (Electrocardiogram) shows peaked T waves, widened QRS, and can progress to ventricular fibrillation or cardiac arrest. Hypokalaemia (K⁺ &lt;3.5), caused by vomiting, diarrhoea, or diuretics, causes muscle cramps, weakness, and arrhythmias. Both extremes are life-threatening.</span><span class="kr">칼륨(K⁺)은 신경, 근육, 심장 기능에 필수적인 전해질입니다. 정상 범위: 3.5-5.2 mmol/L이며 주로 신장이 조절합니다. 고칼륨혈증(K⁺ ≥6.0)은 의료 응급으로, ECG(심전도)에서 뾰족한 T파, QRS 확장이 나타나며 심실세동이나 심정지로 진행할 수 있습니다. 저칼륨혈증(K⁺ &lt;3.5)은 구토, 설사, 이뇨제로 발생하며 근육 경련, 쇠약, 부정맥을 유발합니다. 양극단 모두 생명을 위협합니다.</span></td>
+            <td class="focus"><strong>고칼륨(K⁺ ≥ 6.0) = 즉각 응급 대응</strong> — RN에게 즉시 보고하고 ECG 모니터링, 치료 시작 여부 확인. <strong>ECG 변화 인지</strong> — 뾰족한 T파(peaked T waves)가 가장 먼저 나타나는 징후. <strong>응급 치료 순서 숙지</strong> — (1) Calcium gluconate(심장 보호), (2) Insulin + Dextrose(K⁺를 세포 안으로 이동), (3) Potassium binders(장으로 K⁺ 제거). <strong>저칼륨(K⁺ &lt; 3.5) 징후도 관찰</strong> — 근육 경련, 약화, 부정맥, 변비. <strong>신장 환자에서 고칼륨 식품 교육</strong> — 바나나, 오렌지, 감자, 토마토, 초콜릿 등 제한 여부 확인. 정상 범위: 3.5-5.2 mmol/L.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Fluid balance / I&amp;O</span><span class="abbr">Input and Output — 수분 섭취량과 배출량 (수분 균형)</span></td>
+            <td><span class="en">Fluid balance (I&amp;O — Input and Output) is recording every mL of fluid entering and leaving the patient. Input includes oral fluids, IV fluids, blood transfusions, and enteral feeds. Output includes urine, vomit, diarrhoea, and drain output. Each shift, calculate Input minus Output. Positive balance means fluid retention; negative balance means fluid loss. In renal patients every mL matters because the kidneys cannot self-regulate.</span><span class="kr">수분 균형(I&amp;O — Input and Output, 섭취량과 배출량)은 환자에게 들어가고 나오는 모든 mL의 수분을 기록하는 것입니다. 섭취량에는 경구 수분, IV 수액, 수혈, 경관급식이 포함됩니다. 배출량에는 소변, 구토, 설사, 드레인 배출량이 포함됩니다. 매 근무마다 섭취량 - 배출량을 계산합니다. 양성 균형은 수분 저류, 음성 균형은 수분 손실을 의미합니다. 신장 환자에서는 신장이 스스로 조절하지 못하므로 모든 mL이 중요합니다.</span></td>
+            <td class="focus"><strong>정확한 기록이 환자 안전에 직결</strong> — "대충" 기록하면 안 됨. 모든 음료, IV, 약물 flush까지 빠짐없이 포함. <strong>소변은 반드시 측정</strong> — 눈대중이 아닌 측정 용기 사용. 도뇨관이 있으면 urimeter 읽기. <strong>구토/설사는 추정량이라도 기록</strong> — "소량", "중량", "대량"으로라도 기술. <strong>매 근무 종료 시 합산</strong> — 양성/음성 균형을 계산하여 RN에게 보고. <strong>체중과 함께 해석</strong> — 1 kg 체중 증가 ≈ 약 1 L 수분 저류. 매일 같은 시간, 같은 옷, 같은 체중계로 측정. <strong>수분 제한(fluid restriction) 여부 확인</strong> — CKD/투석 환자는 하루 섭취 수분량이 제한될 수 있음(예: 1000 mL/일).</td>
+          </tr>
+          <tr>
+            <td><span class="term">Urine output</span><span class="abbr">소변량 (UO)</span></td>
+            <td><span class="en">Urine output is one of the earliest indicators of kidney function. Normal is at least 0.5 mL/kg/hr. Oliguria is &lt;400 mL/24hr or &lt;0.5 mL/kg/hr; anuria is &lt;100 mL/24hr. Low output has three causes: pre-renal (low BP, dehydration, heart failure), renal (AKI or CKD), or post-renal (obstruction such as kidney stone, enlarged prostate, or blocked catheter).</span><span class="kr">소변량은 신장 기능의 가장 초기 지표 중 하나입니다. 정상은 최소 0.5 mL/kg/hr입니다. 핍뇨(oliguria)는 24시간 400 mL 미만 또는 0.5 mL/kg/hr 미만, 무뇨(anuria)는 24시간 100 mL 미만입니다. 감소 원인은 세 가지: 신전성(저혈압, 탈수, 심부전), 신성(AKI 또는 CKD), 신후성(신장 결석, 전립선 비대, 막힌 도뇨관 등의 폐쇄)입니다.</span></td>
+            <td class="focus"><strong>&lt; 0.5 mL/kg/hr이 지속되면 즉시 RN에게 보고</strong> — 이는 AKI의 초기 징후일 수 있음. <strong>도뇨관 환자: 매 시간 소변량 기록</strong> — urimeter에서 읽고 시간별로 기록. <strong>도뇨관 없는 환자: 매 배뇨 시 측정 용기 사용</strong> — 소변 색, 양, 혼탁도도 함께 관찰. <strong>소변량 감소 시 먼저 확인할 것</strong> — (1) 도뇨관이 꺾이거나 막혔는지 확인(신후성 원인 배제), (2) 혈압과 맥박 확인(저혈압이면 신전성 원인 시사), (3) fluid balance 확인(탈수 여부). <strong>Oliguria 정의</strong>: &lt; 400 mL/24hr 또는 &lt; 0.5 mL/kg/hr. <strong>Anuria 정의</strong>: &lt; 100 mL/24hr. <strong>색깔도 관찰</strong> — 진한 호박색은 농축(탈수 시사), 혈뇨(붉은색/갈색)면 보고.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Oedema</span><span class="abbr">부종 (Oedema / Edema)</span></td>
+            <td><span class="en">Oedema is swelling from excess fluid leaking out of blood vessels into tissues. Causes: kidney disease (salt/water retention), liver disease (low albumin reduces oncotic pressure), and heart failure (venous congestion). Pitting oedema leaves a dent when pressed, graded 1+ to 4+. Non-pitting oedema does not indent and suggests lymphatic or thyroid problems. Check ankles/feet (ambulant patients), sacrum (bed-bound), periorbital area (nephrotic syndrome), and hands.</span><span class="kr">부종(Oedema)은 과잉 수분이 혈관에서 조직으로 새어 나와 생기는 부기입니다. 원인: 신장 질환(염분/수분 저류), 간 질환(알부민 저하로 교질삼투압 감소), 심부전(정맥 울혈). 함요부종(pitting oedema)은 누르면 자국이 남으며 1+~4+로 등급을 매깁니다. 비함요부종(non-pitting oedema)은 자국이 남지 않으며 림프계나 갑상선 문제를 시사합니다. 확인 부위: 발목/발(거동 환자), 천골(와상 환자), 눈 주위(신증후군), 손.</span></td>
+            <td class="focus"><strong>pitting 정도를 기록</strong> — 1+(2mm, 즉시 회복)부터 4+(8mm, 2-5분 지속)까지. 매 근무마다 같은 부위에서 비교 사정. <strong>사정 부위</strong> — 앉아 있는 환자: 발목/발. 누워 있는 환자: 천골(sacral area). 신증후군 의심 시: 눈 주위. <strong>체중 변화가 가장 객관적인 지표</strong> — 하루 1 kg 이상 증가는 약 1 L 수분 저류를 의미. <strong>피부 통합성 관찰</strong> — 부종 부위의 피부는 얇아지고 쉽게 손상되므로 욕창 위험 증가. <strong>원인에 따른 감별</strong> — 양측 대칭이면 전신성(신장/심장/간), 한쪽이면 국소성(DVT, 림프 문제). <strong>호흡곤란 동반 시</strong> — 폐부종 가능성이므로 SpO₂ 확인하고 즉시 보고.</td>
+          </tr>
+          <tr>
+            <td><span class="term">AV fistula</span><span class="abbr">Arteriovenous Fistula (동정맥루)</span></td>
+            <td><span class="en">An AV fistula (Arteriovenous Fistula) is a surgically created connection between an artery and a vein in the arm for haemodialysis access. The high-pressure arterial blood enlarges and strengthens the vein over a 6-8 week maturation period, creating a vessel suitable for repeated needle access. Patency signs: (1) Thrill — a palpable buzzing vibration over the site, and (2) Bruit — a continuous whooshing sound on auscultation. Absence of either suggests thrombosis. The fistula arm must always be protected.</span><span class="kr">AV 누관(동정맥루, Arteriovenous Fistula)은 혈액투석 접근을 위해 팔의 동맥과 정맥을 외과적으로 연결한 것입니다. 고압의 동맥혈이 정맥을 확대·강화시키며, 6-8주의 성숙 기간이 필요합니다. 개통성 확인: (1) Thrill — 촉진 시 윙윙거리는 진동감, (2) Bruit — 청진 시 지속적인 쉬- 소리. 둘 중 하나라도 없으면 혈전을 의심합니다. 누관 팔은 항상 보호해야 합니다.</span></td>
+            <td class="focus"><strong>절대 금지 사항 (그 팔에서)</strong> — 혈압 측정 금지, 채혈 금지, IV 라인 삽입 금지, 꽉 조이는 의류/밴드 착용 금지. 이러한 행위는 누관을 손상시키거나 막히게 할 수 있음. <strong>매 근무마다 thrill과 bruit 확인</strong> — (1) 손가락을 누관 위에 올려 thrill(진동감)을 촉진, (2) 청진기로 bruit(연속적 잡음)을 청진. 둘 중 하나라도 없으면 즉시 RN에게 보고 — 혈전(thrombosis)으로 인한 폐쇄 가능. <strong>성숙 기간 인지</strong> — 새로 만든 누관은 사용까지 보통 6-8주 소요. 그 전에는 임시 접근로(중심정맥 카테터 등) 사용. <strong>감염/출혈 징후 관찰</strong> — 누관 부위의 발적, 부종, 열감, 삼출물, 통증이 있으면 보고. 투석 후 바늘 제거 부위에서 지속적 출혈이 있으면 압박하고 보고. <strong>환자 교육</strong> — 누관 팔로 무거운 물건 들지 않기, 잘 때 누관 팔을 깔고 눕지 않기, 매일 thrill을 스스로 확인하도록 교육.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- GASTRO TERMS -->
+    <div class="sys gastro">
+      <div class="sys-bar"><span class="dot">GASTRO</span> 소화기 관련 용어</div>
+      <table>
+        <colgroup><col class="c-term"><col class="c-mid"><col class="c-focus"></colgroup>
+        <thead><tr><th>용어 Term</th><th>의미 · 기전 Meaning / Mechanism</th><th>간호 포인트 Nursing focus</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="term">GI</span><span class="abbr">Gastrointestinal (위장관)</span></td>
+            <td><span class="en">GI (Gastrointestinal) refers to the entire digestive tract from mouth to anus. Upper GI includes the oesophagus, stomach, and duodenum; Lower GI covers the remaining small intestine, colon, rectum, and anus. Its three main functions are digestion, absorption, and excretion of waste.</span><span class="kr">GI(Gastrointestinal, 위장관)는 입에서 항문까지의 전체 소화관입니다. 상부 GI는 식도·위·십이지장, 하부 GI는 나머지 소장·대장·직장·항문을 포함합니다. 주요 기능은 소화, 흡수, 배설입니다.</span></td>
+            <td class="focus"><strong>상부 GI 문제</strong>는 주로 오심, 구토, 상복부 통증, 흑색변(melaena)으로 나타나고, <strong>하부 GI 문제</strong>는 설사, 변비, 혈변(PR bleeding), 하복부 통증으로 나타납니다. 매 근무 시 <strong>식사 섭취량, 배변 양상, 복부 팽만 여부</strong>를 확인하고 기록합니다.</td>
+          </tr>
+          <tr>
+            <td><span class="term">N/V</span><span class="abbr">Nausea and Vomiting (오심과 구토)</span></td>
+            <td><span class="en">N/V (Nausea and Vomiting) is triggered by the vomiting centre in the medulla via stomach irritation, infections, opioids, pain, or blood toxins. Repeated vomiting causes dehydration, electrolyte loss (K⁺, Na⁺), aspiration risk, and possible Mallory-Weiss tear with bleeding.</span><span class="kr">N/V(Nausea and Vomiting, 오심과 구토)는 연수의 구토 중추가 위 자극·감염·아편유사제·통증·혈중 독소에 의해 활성화되어 발생합니다. 반복 구토 시 탈수, 전해질 소실(K⁺, Na⁺), 흡인 위험, Mallory-Weiss 열상 출혈이 생길 수 있습니다.</span></td>
+            <td class="focus"><strong>구토 횟수, 양, 색깔, 내용물(음식/담즙/혈액/커피색)</strong>을 정확히 기록합니다. <strong>탈수 징후</strong>(구강 건조, 피부 긴장도 저하, 소변량 감소, 빈맥, 저혈압)를 평가합니다. <strong>전해질 검사 결과(특히 K⁺, Na⁺)</strong>를 확인하고 이상치 시 즉시 보고합니다. 의식 저하 환자는 <strong>측위(side-lying)</strong>로 체위를 유지하여 흡인을 예방합니다. 처방된 <strong>항구토제(antiemetics)</strong> 투여 후 효과를 평가합니다.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Diarrhoea</span><span class="abbr">설사 (Diarrhoea)</span></td>
+            <td><span class="en">Diarrhoea is loose or watery stools more than three times daily, caused by poor water absorption or rapid bowel transit. It leads to dehydration, electrolyte loss (K⁺, Na⁺), and perianal skin breakdown. In hospital, C. difficile infection (post-antibiotic foul-smelling diarrhoea) requires strict isolation and soap-and-water hand hygiene (alcohol gel is ineffective against spores). Falls risk is also elevated.</span><span class="kr">설사는 하루 3회 이상 묽은 변으로, 수분 흡수 장애나 장운동 과속이 원인입니다. 탈수, 전해질 소실(K⁺, Na⁺), 항문 주위 피부 손상을 유발합니다. 병원에서는 C. difficile 감염(항생제 후 악취 설사)이 주요 우려로, 격리와 비누·물 손씻기가 필수입니다(알코올 젤은 포자에 무효). 낙상 위험도 증가합니다.</span></td>
+            <td class="focus"><strong>배변 횟수, 양, Bristol Stool Scale 유형, 색깔, 냄새</strong>를 매번 기록합니다. <strong>탈수 징후</strong>를 면밀히 관찰하고 <strong>I/O(섭취량/배출량)</strong>를 정확히 측정합니다. <strong>C. difficile 의심 시</strong>(항생제 사용 후 악취 설사) <strong>즉시 격리하고 대변 검체를 채취</strong>합니다. 손위생은 <strong>반드시 비누와 물로</strong> 시행합니다. <strong>항문 주위 피부 관리</strong>: 매 배변 후 부드럽게 세척하고 보호 크림(barrier cream) 도포. <strong>낙상 예방</strong>: 침대 옆 간이변기(commode) 배치, 콜벨(call bell) 접근 확인.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Melaena</span><span class="abbr">흑색변 (Melaena / Melena)</span></td>
+            <td><span class="en">Melaena is black, tar-like, foul-smelling stool indicating upper GI bleeding. Stomach acid converts haemoglobin to black haematin during gut transit. Significant blood loss (500 mL+) may be hidden before melaena appears, so the patient may already show shock signs. Common causes: peptic ulcers, oesophageal varices, gastritis, NSAIDs (Non-Steroidal Anti-Inflammatory Drugs).</span><span class="kr">흑색변(melaena)은 검고 타르 같으며 악취가 나는 대변으로 상부 GI 출혈을 시사합니다. 위산이 헤모글로빈을 검은 헤마틴으로 변환합니다. 흑색변 출현 전 이미 500 mL 이상 실혈이 숨겨져 있을 수 있어 쇼크 징후가 동반될 수 있습니다. 흔한 원인: 소화성 궤양, 식도 정맥류, 위염, NSAIDs(비스테로이드성 소염제).</span></td>
+            <td class="focus"><strong>검고 타르 같은 대변 발견 시 즉시 보고</strong> — 상부 위장관 출혈의 징후입니다. <strong>활력징후(vital signs)</strong>를 긴급 측정: 빈맥, 저혈압, 빈호흡은 쇼크 초기 징후. <strong>대변의 색, 양, 질감, 냄새</strong>를 기록하고 가능하면 <strong>대변 검체를 보존</strong>합니다. <strong>IV 수액 투여를 위한 정맥로 확보</strong> 준비와 <strong>혈액검사(FBC, Cross-match)</strong> 준비. 환자가 <strong>NSAIDs나 항응고제</strong>를 복용 중인지 확인. <strong>금식(NBM)</strong> 지시 여부 확인 — 내시경이 필요할 수 있습니다.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Haematemesis</span><span class="abbr">토혈 (Vomiting Blood)</span></td>
+            <td><span class="en">Haematemesis is vomiting blood, signalling upper GI bleeding. Fresh red blood means active rapid bleeding (emergency); coffee-ground vomit means partially digested blood (slower but still serious). Causes: peptic ulcers, oesophageal varices (liver cirrhosis), Mallory-Weiss tear, and gastritis from alcohol or NSAIDs. Always an emergency — ruptured varices can be fatal within minutes.</span><span class="kr">토혈(haematemesis)은 혈액 구토로 상부 GI 출혈을 의미합니다. 선홍색은 활발한 급속 출혈(응급), 커피 찌꺼기 양상은 부분 소화된 혈액(느리지만 심각)입니다. 원인: 소화성 궤양, 식도 정맥류(간경변), Mallory-Weiss 열상, 알코올·NSAIDs 위염. 항상 응급이며 식도 정맥류 파열 시 수 분 내 치명적일 수 있습니다.</span></td>
+            <td class="focus"><strong>토혈 발생 시 즉각 응급 대응</strong>. <strong>기도 확보</strong>를 위해 환자를 <strong>측위(recovery position)</strong>로 눕힙니다. <strong>대구경 정맥관(large bore IV) 2개 확보</strong>하고 수액 시작. <strong>긴급 혈액검사: FBC(전혈구검사), U&E(요소·전해질), LFT(간기능검사), 응고검사, Cross-match(교차적합시험)</strong>. <strong>구토물 색과 양</strong> 정확히 기록(선홍색 vs 커피 찌꺼기). <strong>활력징후 15분마다</strong> 측정. <strong>금식(NBM)</strong> 유지하고 <strong>긴급 내시경</strong> 준비. 환자의 <strong>간질환 병력</strong> 확인(식도 정맥류 가능성).</td>
+          </tr>
+          <tr>
+            <td><span class="term">PR Bleeding</span><span class="abbr">Per Rectal Bleeding (직장 출혈)</span></td>
+            <td><span class="en">PR (Per Rectal) bleeding is fresh red blood from the anus, indicating lower GI bleeding (colon, rectum, or anus). Common causes: haemorrhoids, diverticular disease, colorectal cancer, and IBD (Inflammatory Bowel Disease). Red flags requiring urgent investigation: bowel habit change over 3 weeks, unexplained weight loss, blood mixed into stool, and new PR bleeding in patients over 40.</span><span class="kr">PR bleeding(Per Rectal, 직장 출혈)은 항문에서 나오는 선홍색 혈액으로 하부 GI 출혈(대장·직장·항문)을 시사합니다. 흔한 원인: 치질, 게실 질환, 대장직장암, IBD(염증성 장질환). 긴급 검사가 필요한 경고 징후: 3주 이상 배변 습관 변화, 원인 불명 체중 감소, 대변 속 혈액 혼합, 40세 이상의 새로운 PR bleeding.</span></td>
+            <td class="focus"><strong>출혈량, 색깔(선홍색 vs 암적색), 혈전 유무, 대변과의 관계</strong>(표면에 묻은 것 vs 섞인 것)를 정확히 기록합니다. <strong>활력징후 확인</strong>하여 대량 출혈 여부 평가. <strong>40세 이상 환자의 새로운 PR bleeding</strong>은 <strong>대장암 가능성을 고려하여 반드시 보고</strong>. 배변 습관 변화, 체중 감소, 빈혈 증상(피로, 창백, 호흡곤란) 동반 여부 확인. 환자의 심리적 당혹감에 유의하여 <strong>프라이버시를 보호</strong>합니다.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Bowel Chart</span><span class="abbr">배변 기록지 (Bristol Stool Scale)</span></td>
+            <td><span class="en">A bowel chart records every bowel movement using the Bristol Stool Scale (Types 1-7): Types 1-2 indicate constipation, 3-4 are normal (4 is ideal), 5-7 indicate increasingly loose stools to severe diarrhoea. Sudden shift to Type 6-7 may signal infection (C. difficile); Type 1-2 pattern suggests need for fluids, fibre, or laxatives; no bowel movement for 3+ days may indicate obstruction.</span><span class="kr">배변 기록지는 Bristol Stool Scale(Type 1-7)로 모든 배변을 기록합니다. Type 1-2는 변비, 3-4는 정상(4가 이상적), 5-7은 점점 묽은 변~심한 설사입니다. Type 6-7로의 급변은 감염(C. difficile) 가능성, Type 1-2 패턴은 수분·섬유질·완하제 필요, 3일 이상 배변 없으면 장폐색을 의심합니다.</span></td>
+            <td class="focus"><strong>모든 입원 환자의 배변을 빠짐없이 기록</strong> — Bristol Stool Scale Type 번호, 양, 색깔, 특이사항 포함. <strong>3일 이상 배변 없으면 의료팀에 보고</strong> — 변비 또는 장폐색 가능성. <strong>Type 6-7 반복 시</strong> 감염(특히 C. difficile)을 의심하고 보고. <strong>인수인계 시 마지막 배변 날짜와 양상</strong>을 반드시 전달합니다. 환자에게 <strong>배변 후 알려달라고 교육</strong>하여 기록 누락을 방지합니다.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Bowel Prep</span><span class="abbr">장 정결 준비 (Bowel Preparation)</span></td>
+            <td><span class="en">Bowel prep (Bowel Preparation) uses strong laxative solutions (MoviPrep, KleanPrep, Picolax) to flush all stool before colonoscopy or bowel surgery. Incomplete prep may cancel the procedure. The patient has 10-20+ watery stools until output is clear. Risks include dehydration, electrolyte imbalance (K⁺, Na⁺), and falls. Only clear fluids are allowed (no red/purple drinks). Elderly, renal, and cardiac patients are highest risk.</span><span class="kr">장 정결 준비(Bowel Preparation)는 대장내시경이나 장 수술 전 강력한 완하제(MoviPrep, KleanPrep, Picolax)로 장을 비우는 과정입니다. 불완전한 정결 시 시술이 취소될 수 있습니다. 배출물이 맑아질 때까지 10-20회 이상 물 같은 설사를 합니다. 탈수, 전해질 불균형(K⁺, Na⁺), 낙상 위험이 있으며 맑은 음료만 허용됩니다(빨간색·보라색 음료 금지). 고령·신장·심장 환자가 고위험입니다.</span></td>
+            <td class="focus"><strong>정결제 복용 스케줄</strong>을 정확히 안내하고 전량 복용 확인. <strong>수분 섭취를 적극 격려</strong> — 맑은 음료만 허용, <strong>빨간색·보라색 음료 금지</strong>. <strong>탈수 징후</strong>(구강 건조, 저혈압, 빈맥, 소변량 감소)를 자주 모니터링. <strong>전해질 검사(K⁺, Na⁺)</strong> 결과 확인 — 특히 신장 질환·심부전 환자. <strong>낙상 예방</strong>: 화장실 가까이 배치, 콜벨 접근 확인, 야간 보행 보조. <strong>대변이 맑은 액체가 되었는지</strong> 확인하여 정결 완료 여부 평가.</td>
+          </tr>
+          <tr>
+            <td><span class="term">NBM / NPO</span><span class="abbr">Nil By Mouth / Nothing Per Oral (금식)</span></td>
+            <td><span class="en">NBM (Nil By Mouth) / NPO (Nothing Per Oral) means no eating or drinking, mainly before sedation or general anaesthesia. Suppressed protective reflexes during anaesthesia risk aspiration pneumonia if stomach contents enter the lungs. Fasting rule: solids 6 hours, clear fluids 2 hours before procedure. Essential medications may be given with a sip of water after medical review. Diabetic patients need blood glucose checks every 1-2 hours as hypoglycaemia risk is high.</span><span class="kr">NBM(Nil By Mouth) / NPO(Nothing Per Oral)는 주로 진정·전신마취 전 금식을 의미합니다. 마취 중 보호 반사 억제로 위 내용물이 폐에 흡인되면 흡인성 폐렴을 유발합니다. 금식 기준: 고형 6시간, 맑은 음료 2시간 전. 필수 약물은 의료팀 검토 후 소량의 물과 함께 투여 가능합니다. 당뇨 환자는 저혈당 위험이 높아 1-2시간마다 혈당 확인이 필요합니다.</span></td>
+            <td class="focus"><strong>금식 시작 시간과 사유</strong>를 정확히 확인하고 기록합니다. 침상에 <strong>NBM 표지판 부착</strong>하고 식이부서(kitchen)에 통보합니다. <strong>정규 약물 복용 가능 여부</strong>를 의료팀에 반드시 확인 — 필수 약물은 소량의 물과 함께 투여 가능한 경우가 많습니다. <strong>당뇨 환자</strong>: 혈당 1-2시간마다 측정, 인슐린/혈당강하제 용량 조정 지시 확인, <strong>저혈당 증상(떨림, 발한, 혼돈)</strong> 관찰. 금식 장기화 시 <strong>IV 수액 처방</strong> 확인. <strong>구강 간호(oral care)</strong>를 제공하여 불편감 완화.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- HEP TERMS -->
+    <div class="sys hep">
+      <div class="sys-bar"><span class="dot">HEPATO</span> 간 관련 용어</div>
+      <table>
+        <colgroup><col class="c-term"><col class="c-mid"><col class="c-focus"></colgroup>
+        <thead><tr><th>용어 Term</th><th>의미 · 기전 Meaning / Mechanism</th><th>간호 포인트 Nursing focus</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="term">LFTs</span><span class="abbr">Liver Function Tests (간기능검사)</span></td>
+            <td><span class="en">LFTs (Liver Function Tests) are blood tests assessing liver damage and function. Key components: (1) ALT (Alanine Aminotransferase) / AST (Aspartate Aminotransferase) — enzymes inside liver cells; released into blood when cells are damaged ("hepatocellular pattern"). (2) ALP (Alkaline Phosphatase) / GGT (Gamma-Glutamyl Transferase) — bile duct enzymes; rise when bile flow is blocked ("cholestatic pattern"). (3) Bilirubin — yellow waste from old red blood cells; accumulates when the liver or bile ducts fail. ALT/AST-dominant elevation suggests hepatitis or drug toxicity; ALP/GGT-dominant elevation suggests biliary obstruction.</span><span class="kr">LFTs(간기능검사)는 간 손상과 기능을 평가하는 혈액검사입니다. 주요 항목: (1) ALT/AST — 간세포 내 효소로, 세포 손상 시 혈중 방출("간세포형 패턴"). (2) ALP/GGT — 담관 효소로, 담즙 흐름 차단 시 상승("담즙정체형 패턴"). (3) 빌리루빈 — 적혈구 분해 노폐물로, 간·담관 기능 저하 시 축적. ALT/AST 우세 상승은 간염·약물 독성, ALP/GGT 우세 상승은 담도 폐색을 시사합니다.</span></td>
+            <td class="focus"><strong>패턴 해석이 핵심:</strong> ALT/AST 우세 상승 → 간세포 손상형(hepatocellular), ALP/GGT 우세 상승 → 담즙정체형(cholestatic). <strong>추세(trend)를 확인</strong>하여 수치가 오르고 있는지 내리고 있는지 파악. 약물 투여 후 LFTs 변화도 기록. 환자에게 채혈 전 금식 여부 안내.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Bilirubin</span><span class="abbr">빌리루빈 (Bilirubin)</span></td>
+            <td><span class="en">Bilirubin is a yellow waste product from the breakdown of old red blood cells. The spleen destroys aged RBCs, releasing haemoglobin, which is converted to unconjugated (indirect) bilirubin. The liver conjugates it with glucuronic acid, making it water-soluble (conjugated / direct bilirubin), which then flows via bile ducts into the intestines (colours stool brown) and urine (colours it yellow). Liver damage causes unconjugated bilirubin to accumulate; bile duct obstruction causes conjugated bilirubin to back up. Either way, excess blood bilirubin causes jaundice — yellowing of skin and sclera.</span><span class="kr">빌리루빈은 오래된 적혈구 분해에서 생기는 노란색 노폐물입니다. 비장이 노화 적혈구를 파괴하면 헤모글로빈이 비포합(indirect) 빌리루빈으로 전환되고, 간이 글루쿠론산을 결합시켜 수용성 포합(direct) 빌리루빈으로 만듭니다. 포합 빌리루빈은 담관을 통해 장으로 배출(대변 갈색)되고 일부는 소변으로 배출됩니다. 간 손상 시 비포합 빌리루빈이, 담관 폐색 시 포합 빌리루빈이 축적되어 피부·공막이 노랗게 변하는 황달이 발생합니다.</span></td>
+            <td class="focus"><strong>소변색 변화 관찰:</strong> 빌리루빈이 높으면 소변이 진한 갈색/콜라색(dark tea-coloured urine)이 됨. <strong>대변색도 확인:</strong> 담관이 막히면 빌리루빈이 장으로 못 가서 대변이 옅은 회백색(pale/clay-coloured stool)이 됨. 피부·공막의 노란색 변화를 매 교대(shift)마다 평가. 혈액검사에서 direct(포합)와 indirect(비포합) 빌리루빈을 구분하여 원인 감별에 활용.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Jaundice</span><span class="abbr">황달 (Jaundice / Icterus)</span></td>
+            <td><span class="en">Jaundice is yellowing of the skin, sclera, and mucous membranes when blood bilirubin exceeds roughly 35-40 µmol/L. Three types: (1) Pre-hepatic — excess haemolysis produces more unconjugated bilirubin than the liver can process (e.g. sickle cell, transfusion reaction). (2) Hepatic — damaged liver cells cannot conjugate bilirubin (e.g. hepatitis, cirrhosis). (3) Post-hepatic (obstructive) — blocked bile ducts trap conjugated bilirubin (e.g. gallstones, pancreatic tumour). Clues: pre-hepatic has normal stool colour; post-hepatic has pale clay-coloured stool, dark urine, and intense pruritus from bile salt skin deposits.</span><span class="kr">황달은 혈중 빌리루빈이 약 35-40 µmol/L을 넘으면 피부·공막·점막이 노랗게 변하는 상태입니다. 세 유형: (1) 간전성 — 과도한 용혈로 비포합 빌리루빈 과잉(겸상적혈구병, 수혈 반응 등). (2) 간성 — 간세포 손상으로 포합 장애(간염, 간경변 등). (3) 간후성(폐쇄성) — 담관 폐색으로 포합 빌리루빈 역류(담석, 췌장 종양 등). 단서: 간전성은 대변색 정상, 간후성은 회백색 대변·암갈색 소변·담즙염 침착에 의한 심한 가려움이 특징입니다.</span></td>
+            <td class="focus"><strong>공막(sclera)에서 가장 먼저 관찰됨</strong> — 피부보다 먼저 노란색 변화가 나타나므로 눈을 먼저 확인. <strong>소변색·대변색을 매일 기록</strong>하여 원인 감별 단서 제공. 가려움(pruritus)이 심하면 RN에게 보고 — 항히스타민제·담즙산 결합제(cholestyramine) 처방 가능. 환자의 기존 피부색과 비교하여 변화 정도를 평가.</td>
+          </tr>
+          <tr>
+            <td><span class="term">INR</span><span class="abbr">International Normalised Ratio (국제 표준화 비율)</span></td>
+            <td><span class="en">INR (International Normalised Ratio) measures clotting time relative to normal. The liver produces most clotting factors; when damaged (cirrhosis, hepatitis), clotting factor output falls and blood clots more slowly. Normal INR is about 1.0; higher values mean longer clotting and greater bleeding risk (e.g. INR 2.0 = twice normal clotting time). A rising INR in liver disease signals significant loss of synthetic function. High-INR patients bruise easily, bleed prolongedly from minor cuts, and risk dangerous internal haemorrhage, especially with concurrent oesophageal varices.</span><span class="kr">INR(국제 표준화 비율)은 정상 대비 응고 시간을 측정합니다. 간은 대부분의 응고인자를 생산하며, 간 손상(간경변, 간염) 시 응고인자가 감소하여 응고가 지연됩니다. 정상 INR은 약 1.0이며, 높을수록 출혈 위험 증가(INR 2.0 = 정상의 2배 응고 시간). 간질환에서 INR 상승은 간 합성 기능 저하의 경고 신호입니다. INR 높은 환자는 쉽게 멍들고 소상처에도 출혈이 지속되며, 식도정맥류 동반 시 내부 출혈 위험이 큽니다.</span></td>
+            <td class="focus"><strong>INR 상승 시 출혈 위험 증가:</strong> 멍(bruising), 잇몸 출혈(gum bleeding), 코피(epistaxis), 주사 부위 지연 출혈 관찰. <strong>시술·검사 전 반드시 INR 확인</strong> — 간생검, 복수천자 등 침습적 시술은 INR이 너무 높으면 연기될 수 있음. Vitamin K 투여 시 효과 모니터링(간 기능이 남아있어야 효과 있음). 낙상 예방 철저히 — 출혈 시 지혈이 어려움.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Albumin</span><span class="abbr">알부민 (Albumin)</span></td>
+            <td><span class="en">Albumin is the most abundant plasma protein, made by the liver. Two key roles: (1) Oncotic pressure — large albumin molecules hold fluid inside blood vessels; low albumin reduces oncotic pressure, causing oedema and ascites. (2) Transport marker — carries hormones, drugs, and nutrients; low levels indicate poor nutrition or chronic illness. In liver disease the damaged liver under-produces albumin, leading to peripheral oedema and ascites. Also drops in nephrotic syndrome, sepsis, and malnutrition. Normal: 35-50 g/L; below 25 g/L causes significant fluid leakage.</span><span class="kr">알부민은 간에서 만드는 혈장 내 가장 풍부한 단백질입니다. 두 가지 핵심 역할: (1) 교질삼투압 유지 — 큰 알부민 분자가 체액을 혈관 안에 유지하며, 저하 시 부종과 복수 발생. (2) 운반·영양 지표 — 호르몬·약물·영양소를 운반하며, 저알부민은 영양불량이나 만성 질환을 시사. 간 손상 시 알부민 생산 감소로 부종·복수가 생기며, 신증후군·패혈증·영양실조에서도 감소합니다. 정상: 35-50 g/L, 25 g/L 미만은 심각한 체액 누출과 연관됩니다.</span></td>
+            <td class="focus"><strong>알부민 저하 시 부종·복수 악화 예측:</strong> 매일 체중 측정, 다리·발목·천골 부위 부종 사정(pitting oedema 등급 기록). <strong>IV 알부민(Human Albumin Solution, HAS) 투여 시</strong> 주입 속도·과민반응 관찰(발열, 오한, 두드러기). 영양 섭취 상태 모니터링 — 식사량, 단백질 섭취 기록. 알부민이 낮으면 약물(특히 단백결합 약물)의 효과가 변할 수 있으므로 약물 반응 관찰 강화.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Ascites</span><span class="abbr">복수 (Ascites)</span></td>
+            <td><span class="en">Ascites is fluid accumulation in the peritoneal cavity. In liver disease, three mechanisms combine: (1) Portal hypertension — cirrhotic scarring raises portal vein pressure, pushing fluid into the abdomen. (2) Low albumin — reduced oncotic pressure lets fluid leak from vessels. (3) Renal sodium/water retention — kidneys compensate for low effective blood volume, worsening fluid overload. Symptoms: abdominal distension, early satiety, dyspnoea, and weight gain. Key complication: SBP (Spontaneous Bacterial Peritonitis) — infection of ascitic fluid presenting with fever, abdominal pain, and worsening confusion; requires urgent antibiotics.</span><span class="kr">복수는 복막강에 체액이 고이는 것입니다. 간질환에서 세 기전이 결합합니다: (1) 문맥압항진 — 간경변으로 문맥압이 상승하여 체액이 복강으로 밀려남. (2) 저알부민 — 교질삼투압 저하로 체액 누출. (3) 신장의 나트륨·수분 저류 — 유효 혈액량 감소를 보상하려는 신장이 체액 과부하를 악화시킴. 증상: 복부 팽만, 조기 포만감, 호흡곤란, 체중 증가. 주요 합병증: SBP(자발성 세균성 복막염) — 발열·복통·혼돈 악화로 나타나며 긴급 항생제가 필요합니다.</span></td>
+            <td class="focus"><strong>복위(abdominal girth) 매일 같은 위치에서 측정</strong> — 배꼽 높이, 같은 시간(보통 아침 배뇨 후). <strong>매일 체중 측정</strong>(같은 시간, 같은 옷). 수분 섭취-배출량(I&O) 정확히 기록. 호흡 양상 관찰 — 대량 복수 시 호흡곤란 발생 가능, 반좌위(semi-Fowler) 유지. <strong>SBP 징후 감시:</strong> 발열, 복통, 갑작스런 혼돈 → 즉시 RN에게 보고. 복수천자(paracentesis) 시 활력징후·천자 부위 누출 관찰. 저염식(low sodium diet) 이행 여부 확인.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Hepatic encephalopathy</span><span class="abbr">간성뇌증 (Hepatic Encephalopathy, HE)</span></td>
+            <td><span class="en">Hepatic encephalopathy (HE) occurs when the damaged liver cannot clear ammonia from the blood. Gut bacteria produce ammonia from protein; normally the liver converts it to urea for renal excretion. In cirrhosis or liver failure, ammonia accumulates, crosses the blood-brain barrier, and causes astrocyte swelling, leading to confusion, personality changes, drowsiness, and coma. Grades: 1 — mild confusion, poor attention; 2 — obvious confusion, lethargy, asterixis (flapping tremor); 3 — somnolent, cannot follow commands; 4 — coma. Common triggers: infection (SBP, UTI), GI bleeding, constipation, dehydration, sedatives, and hypokalaemia.</span><span class="kr">간성뇌증(HE)은 손상된 간이 혈중 암모니아를 제거하지 못해 발생합니다. 장내 세균이 단백질에서 암모니아를 생성하고, 정상 간은 이를 요소로 전환하여 신장으로 배출합니다. 간경변·간부전 시 암모니아가 축적되어 혈액-뇌 장벽을 넘고 성상세포를 부풀려 혼돈·성격 변화·졸음·혼수를 유발합니다. 등급: 1 — 경미한 혼돈; 2 — 뚜렷한 혼돈, asterixis; 3 — 기면, 지시 수행 불가; 4 — 혼수. 흔한 유발 요인: 감염, GI 출혈, 변비, 탈수, 진정제, 저칼륨혈증.</span></td>
+            <td class="focus"><strong>의식 수준(level of consciousness) 변화를 매 교대마다 평가</strong> — GCS(Glasgow Coma Scale) 또는 병동 자체 도구 사용. <strong>Asterixis(간성 떨림) 확인:</strong> 환자에게 양손을 앞으로 뻗고 손목을 젖히게 하여 퍼덕이는 떨림이 있는지 관찰. <strong>Lactulose 투여 관리:</strong> 하루 2-3회 부드러운 배변이 목표(변비 방지 → 암모니아 배출 촉진). 배변 횟수·양상 기록. <strong>유발 요인 감시:</strong> 발열(감염), 흑색변·토혈(GI 출혈), 변비, 탈수 징후 발견 시 즉시 보고. 낙상 위험 높음 — 안전 조치(침상 난간, 보행 보조). 가족에게 "성격이 변하거나 평소와 다르면 바로 알려달라"고 교육.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Portal hypertension</span><span class="abbr">문맥압항진증 (Portal Hypertension)</span></td>
+            <td><span class="en">Portal hypertension is elevated pressure in the portal venous system. The portal vein collects blood from the stomach, intestines, spleen, and pancreas and delivers it to the liver for detoxification. In cirrhosis, scar tissue narrows the liver sinusoids, obstructing flow and raising portal pressure. High-pressure blood seeks alternative routes through small veins, which swell into varices (most dangerous in the oesophagus and stomach). Portal hypertension also causes ascites, splenomegaly (with resulting thrombocytopenia), and hepatic encephalopathy as toxin-laden blood bypasses the liver.</span><span class="kr">문맥압항진증은 문맥 정맥계의 압력이 비정상적으로 높아진 상태입니다. 문맥은 위·장·비장·췌장의 혈액을 모아 간으로 운반하여 해독합니다. 간경변 시 반흔 조직이 동양혈관을 좁혀 혈류를 방해하고 문맥압을 상승시킵니다. 고압 혈액이 작은 정맥을 통한 우회로를 찾아 정맥류를 형성합니다(식도·위 정맥류가 가장 위험). 문맥압항진은 복수, 비장비대(혈소판 감소 동반), 독소 함유 혈액의 간 우회로 인한 간성뇌증도 유발합니다.</span></td>
+            <td class="focus"><strong>간경변의 핵심 합병증 경로</strong> — 문맥압항진이 정맥류·복수·비장비대·간성뇌증 모두와 연결됨을 이해. <strong>출혈 징후 항시 감시:</strong> 토혈(haematemesis), 흑색변(melaena), 혈변(haematochezia), 활력징후 변화(빈맥, 저혈압). 복부 팽만·복위 증가 관찰(복수 악화 의심). <strong>비장비대 시 혈소판 감소(thrombocytopenia) 동반 가능</strong> → 출혈 경향 증가, 멍·점상출혈(petechiae) 확인. Caput medusae(배꼽 주위 정맥 확장) 등 피부 징후도 관찰.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Oesophageal varices</span><span class="abbr">식도정맥류 (Oesophageal Varices)</span></td>
+            <td><span class="en">Oesophageal varices are swollen, thin-walled veins in the lower oesophagus caused by portal hypertension forcing high-pressure blood through small oesophageal veins not designed for such flow. Rupture causes massive haematemesis or melaena and is a life-threatening emergency. Prevention: beta-blockers (propranolol, carvedilol) to lower portal pressure; variceal band ligation via endoscopy. Active bleeding treatment: emergency endoscopy with banding, IV terlipressin or octreotide, blood transfusion, and TIPS (Transjugular Intrahepatic Portosystemic Shunt) in severe cases.</span><span class="kr">식도정맥류는 문맥압항진으로 인해 식도 하부의 얇은 정맥이 고압 혈류를 받아 확장된 것입니다. 파열 시 대량 토혈이나 흑색변을 일으키는 생명 위협 응급입니다. 예방: 베타차단제(propranolol, carvedilol)로 문맥압 감소, 내시경 정맥류 결찰술. 활동성 출혈 치료: 응급 내시경 결찰, IV terlipressin 또는 octreotide, 수혈, 중증 시 TIPS(경경정맥 간내 문맥-전신 단락술) 시행.</span></td>
+            <td class="focus"><strong>토혈(haematemesis)·흑색변(melaena) 발생 시 즉각 응급 대응:</strong> RN·의사에게 즉시 보고, 대구경(large-bore) IV 확보, 활력징후 연속 감시. <strong>예방적 beta-blocker(propranolol 등) 복용 여부 확인</strong> — 맥박·혈압 모니터링(서맥·저혈압 주의). 내시경 결찰술(banding) 전후 간호: 시술 전 금식 확인, 시술 후 흉부 불편감·연하곤란·재출혈 여부 관찰. <strong>환자 교육:</strong> 딱딱하거나 뾰족한 음식 피하기, 무거운 것 들지 않기(복압 상승 방지), 음주 금지. 대변 색깔 변화(흑색, 적색) 시 즉시 보고하도록 안내.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="flag">
+      <div class="ttl">고칼륨혈증(Hyperkalaemia) — 즉시 인지 / Recognise fast</div>
+      <ul>
+        <li><span class="en">ECG changes: peaked T waves, then widening QRS. Muscle weakness, palpitations.</span><span class="kr">ECG: 뾰족한 T파 → QRS 넓어짐. 근력저하·두근거림.</span></li>
+        <li><span class="en">Treatment order: <strong>calcium gluconate</strong> (protect heart) → <strong>insulin + dextrose</strong> (shift K⁺ into cells) → <strong>binders</strong> (remove K⁺).</span><span class="kr">치료 순서: calcium gluconate(심장 보호) → insulin+dextrose(세포 내 이동) → binder(제거).</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 2. MEDICATIONS ============ -->
+  <section id="meds">
+    <div class="sec-head"><span class="sec-num">02</span><h2>주로 쓰는 약</h2></div>
+    <p class="sec-desc">약 · 작용 · 기전과 함께, 실습에서 챙겨야 할 관찰·주의점을 같이 정리했어요.</p>
+
+    <!-- RENAL MEDS -->
+    <div class="sys renal">
+      <div class="sys-bar"><span class="dot">RENAL</span> 신장 쪽 약</div>
+      <table>
+        <colgroup><col class="c-term"><col class="c-mid"><col class="c-focus"></colgroup>
+        <thead><tr><th>약 Drug</th><th>작용 · 기전 Action / Mechanism</th><th>관찰 · 주의 Monitor / Caution</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="term">Furosemide / Frusemide</span><span class="abbr">Loop Diuretic (루프 이뇨제)</span></td>
+            <td><span class="en">Used for fluid overload (oedema, pulmonary congestion). It acts on the Loop of Henle in the kidney, blocking sodium and water reabsorption so excess fluid is excreted in urine. This reduces swelling and cardiac workload. Side effects: hypotension, hypokalaemia, dehydration, dizziness.</span><span class="kr">체액 과부하(부종, 폐울혈) 시 사용합니다. 신장의 헨레고리(Loop of Henle)에서 나트륨과 수분 재흡수를 차단하여 소변으로 과잉 수분을 배출합니다. 부종 감소와 심장 부담 경감 효과가 있습니다. 부작용: 저혈압, 저칼륨혈증(hypokalaemia), 탈수, 어지러움.</span></td>
+            <td class="focus"><strong>저혈압(hypotension)</strong> 확인: 투약 전후 혈압 측정 필수. <strong>저칼륨혈증(hypokalaemia)</strong>: 혈중 칼륨(K⁺) 수치 정기적으로 확인 — 칼륨이 너무 낮으면 부정맥(심장 리듬 이상) 위험. <strong>탈수 징후</strong>: 소변량, 피부 탄력, 구갈(갈증) 관찰. <strong>매일 체중 측정</strong>과 <strong>fluid balance(수분 섭취·배출량 기록)</strong>로 약 효과 평가. 어지러움·기립성 저혈압 시 낙상 주의.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Spironolactone</span><span class="abbr">Potassium-Sparing Diuretic (칼륨 보존 이뇨제)</span></td>
+            <td><span class="en">Used for fluid buildup (ascites, oedema) while preserving potassium. It blocks aldosterone, so the kidneys excrete sodium and water but retain potassium. Often combined with Furosemide to balance potassium. Main risk: hyperkalaemia, which can cause dangerous arrhythmias.</span><span class="kr">체액 저류(복수, 부종) 시 칼륨을 보존하면서 사용합니다. 알도스테론(aldosterone)을 차단하여 나트륨과 수분은 배출하고 칼륨은 보존합니다. Furosemide와 병용하여 칼륨 균형을 맞춥니다. 주요 위험: 고칼륨혈증(hyperkalaemia)으로 부정맥 유발 가능.</span></td>
+            <td class="focus"><strong>고칼륨혈증(hyperkalaemia)</strong>: 혈중 칼륨(K⁺) 수치 정기적으로 확인 — Furosemide는 칼륨을 낮추고 Spironolactone은 칼륨을 높이므로 반대 방향임을 기억. <strong>신장 기능(renal function)</strong>: 크레아티닌(creatinine)과 전해질(electrolytes) 혈액검사 모니터. 고칼륨 증상: 근육 약화, 심장 두근거림, 부정맥 — 이상 시 즉시 보고. 복수 환자의 경우 <strong>복위(복부 둘레)</strong> 측정으로 효과 평가.</td>
+          </tr>
+          <tr>
+            <td><span class="term">ACE Inhibitors / ARBs</span><span class="abbr">Angiotensin-Converting Enzyme Inhibitors (안지오텐신 전환효소 억제제) / Angiotensin II Receptor Blockers (안지오텐신 II 수용체 차단제) — 예: Perindopril, Ramipril, Irbesartan</span></td>
+            <td><span class="en">Used for hypertension and to protect kidneys by lowering pressure in the glomeruli. ACE inhibitors block the enzyme that produces angiotensin II; ARBs block its receptor. Both relax blood vessels and reduce blood pressure, slowing kidney damage. Side effects: hyperkalaemia, rising creatinine, dry cough (ACE inhibitors), hypotension.</span><span class="kr">고혈압 치료 및 사구체(glomeruli) 내 압력을 낮춰 신장을 보호합니다. ACE 억제제는 안지오텐신 II 생성 효소를 차단하고, ARB는 수용체를 차단합니다. 혈관을 이완시켜 혈압을 낮추고 신장 손상을 지연시킵니다. 부작용: 고칼륨혈증, 크레아티닌 상승, 마른 기침(ACE 억제제), 저혈압.</span></td>
+            <td class="focus"><strong>칼륨(K⁺)과 크레아티닌(creatinine) 상승</strong> 가능: 혈액검사 정기적으로 확인. <strong>AKI(Acute Kidney Injury, 급성 신장 손상)</strong>이나 <strong>sick day(환자가 구토·설사·발열 등으로 아플 때)</strong>에는 일시적으로 약을 보류(중단)하기도 함 — 의사에게 확인. ACE 억제제는 <strong>마른 기침</strong>을 유발할 수 있음 — 환자에게 기침 발생 여부 물어보기. <strong>혈압</strong> 모니터: 특히 첫 복용 시 또는 용량 변경 시 저혈압(어지러움, 실신) 주의.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Phosphate Binders</span><span class="abbr">인산 결합제 — 예: Calcium Carbonate (탄산칼슘), Sevelamer (세벨라머)</span></td>
+            <td><span class="en">Used in CKD (Chronic Kidney Disease) when failing kidneys cannot clear phosphate, causing hyperphosphataemia. High phosphate weakens bones and deposits calcium in vessels. Taken with meals, these tablets bind dietary phosphate in the gut so it is excreted in stool instead of being absorbed.</span><span class="kr">CKD(Chronic Kidney Disease, 만성 신장 질환)에서 신장이 인을 배출하지 못해 고인산혈증(hyperphosphataemia)이 생길 때 사용합니다. 높은 인 수치는 뼈 약화와 혈관 칼슘 침착을 유발합니다. 식사와 함께 복용하여 장내 음식 속 인산과 결합시켜 대변으로 배출합니다.</span></td>
+            <td class="focus"><strong>반드시 식사와 함께 복용</strong>해야 효과가 있음 — 식간이나 공복에 먹으면 결합할 인산이 없어 효과 없음. 환자 교육 시 이 점 강조. <strong>혈중 인산(phosphate)과 칼슘(calcium) 수치</strong> 정기적으로 확인. Calcium carbonate 사용 시 <strong>고칼슘혈증(hypercalcaemia)</strong> 가능 — 구역감, 변비, 혼란 등의 증상 관찰. CKD 환자에게 매우 흔히 처방되는 약물.</td>
+          </tr>
+          <tr>
+            <td><span class="term">EPO / Darbepoetin</span><span class="abbr">Erythropoietin (에리스로포이에틴, 적혈구 생성 촉진 호르몬)</span></td>
+            <td><span class="en">Used for renal anaemia in CKD. Damaged kidneys produce less EPO (Erythropoietin), so the bone marrow makes fewer red blood cells. EPO or Darbepoetin (a longer-acting form) replaces the missing hormone, stimulating red blood cell production and raising haemoglobin (Hb).</span><span class="kr">CKD의 신장성 빈혈에 사용합니다. 손상된 신장이 EPO(Erythropoietin, 에리스로포이에틴)를 적게 만들어 적혈구가 부족해집니다. EPO 또는 Darbepoetin(지속형)을 투여하여 골수의 적혈구 생산을 촉진하고 헤모글로빈(Hb)을 높입니다.</span></td>
+            <td class="focus">보통 <strong>피하주사(subcutaneous injection)</strong>로 투여 — 주사 부위 확인 및 교대 투여. <strong>헤모글로빈(Hb) 수치</strong> 정기적으로 모니터: 목표 범위 초과 시 혈전 위험 증가. <strong>혈압(BP) 상승</strong> 가능: EPO가 적혈구를 늘리면 혈액 점도가 올라가 혈압이 상승할 수 있음 — 투약 전후 혈압 확인. 두통, 관절통 등의 부작용 관찰.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Iron (철분 보충제)</span><span class="abbr">Iron Supplement (철분 보충제) — 경구(Oral) 또는 정맥주사(IV, Intravenous)</span></td>
+            <td><span class="en">Used for iron deficiency worsening anaemia. Iron is essential for making haemoglobin. Given orally or IV (Intravenous); IV iron acts faster when oral absorption is poor. Supports EPO therapy since the bone marrow needs iron to build red blood cells. Symptoms of deficiency: fatigue, dizziness, SOB (Shortness of Breath).</span><span class="kr">빈혈을 악화시키는 철분 결핍에 사용합니다. 철분은 헤모글로빈 생성에 필수입니다. 경구 또는 IV(Intravenous, 정맥주사)로 투여하며, 경구 흡수가 불량할 때 IV를 사용합니다. 골수가 적혈구를 만드는 데 철분이 필요하므로 EPO 치료를 보조합니다. 결핍 증상: 피로, 어지러움, 호흡곤란(SOB, Shortness of Breath).</span></td>
+            <td class="focus">경구 철분: <strong>변이 검게</strong> 변할 수 있음 — 환자에게 미리 설명. 위장 장애(구역감, 변비) 가능. <strong>IV 철분 투여 시</strong>: 과민반응(anaphylaxis) 위험이 있으므로 <strong>활력징후(vital signs) 밀착 관찰</strong> 필수 — 특히 투여 시작 후 15분간. 두드러기, 호흡곤란, 저혈압, 흉통 발생 시 즉시 투여 중단하고 보고. 철분 수치(ferritin, transferrin saturation) 혈액검사 추적.</td>
+          </tr>
+          <tr>
+            <td><span class="term">K⁺-Lowering Treatment (칼륨 저하 치료)</span><span class="abbr">Insulin with Dextrose (인슐린/포도당), Calcium Gluconate (글루콘산칼슘), Potassium Binders (칼륨 결합제)</span></td>
+            <td><span class="en">Emergency treatment for hyperkalaemia (dangerously high potassium), which can cause cardiac arrest. Three approaches: (1) Calcium Gluconate IV stabilises heart cell membranes (does not lower potassium). (2) Insulin with Dextrose IV pushes potassium into cells temporarily; Dextrose prevents hypoglycaemia. (3) Potassium Binders (Resonium, Patiromer) bind potassium in the gut for excretion in stool.</span><span class="kr">심장 정지를 유발할 수 있는 고칼륨혈증(hyperkalaemia) 응급 치료입니다. 세 가지 접근: (1) Calcium Gluconate IV로 심장 세포막 안정화(칼륨 자체를 낮추지는 않음). (2) Insulin과 Dextrose IV로 칼륨을 세포 내로 이동시켜 일시적으로 저하; Dextrose는 저혈당(hypoglycaemia) 예방. (3) 칼륨 결합제(Resonium, Patiromer)가 장내 칼륨과 결합하여 대변으로 배출.</span></td>
+            <td class="focus"><strong>인슐린 투여 시 저혈당(hypoglycaemia) 위험</strong>: 투여 후 최소 4~6시간 동안 <strong>혈당(BSL, Blood Sugar Level) 반복 측정</strong> 필수. 저혈당 증상(떨림, 발한, 혼란, 무력감) 관찰. <strong>심전도(ECG) 모니터링</strong>: 고칼륨 시 심전도 변화(뾰족한 T파, QRS 확장) 확인. <strong>혈중 칼륨(K⁺) 재검사</strong>: 치료 후 1~2시간 뒤 칼륨 수치 재확인하여 효과 평가. Calcium Gluconate는 반드시 <strong>심전도 모니터 하에</strong> 천천히 IV 투여.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- GASTRO MEDS -->
+    <div class="sys gastro">
+      <div class="sys-bar"><span class="dot">GASTRO</span> 소화기 쪽 약</div>
+      <table>
+        <colgroup><col class="c-term"><col class="c-mid"><col class="c-focus"></colgroup>
+        <thead><tr><th>약 Drug</th><th>작용 · 기전 Action / Mechanism</th><th>관찰 · 주의 Monitor / Caution</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="term">PPI</span><span class="abbr">Proton Pump Inhibitor (양성자 펌프 억제제) — 예: Pantoprazole (판토프라졸), Esomeprazole (에소메프라졸), Omeprazole (오메프라졸)</span></td>
+            <td><span class="en">Used for excess stomach acid conditions: ulcers, GORD (Gastro-Oesophageal Reflux Disease), or GI bleeds (Gastrointestinal Bleed). PPI (Proton Pump Inhibitor) blocks proton pumps on parietal cells, greatly reducing acid secretion. This promotes ulcer healing and slows bleeding. Given orally or IV for acute bleeds. Long-term side effects: hypomagnesaemia, bone fracture risk, gut infections.</span><span class="kr">위산 과다 질환(궤양, GORD(Gastro-Oesophageal Reflux Disease, 위식도역류질환), GI 출혈(Gastrointestinal Bleed, 위장관 출혈))에 사용합니다. PPI(Proton Pump Inhibitor, 양성자 펌프 억제제)는 벽세포(parietal cell)의 양성자 펌프를 차단하여 위산 분비를 크게 줄입니다. 궤양 치유를 촉진하고 출혈을 지연시킵니다. 경구 또는 급성 출혈 시 IV 투여. 장기 부작용: 저마그네슘혈증, 골절 위험, 장 감염.</span></td>
+            <td class="focus"><strong>GI 출혈(위장관 출혈) 시 IV로 투여</strong>하는 경우가 많음 — 주입 속도 및 용량 확인. 출혈 환자: <strong>대변 색깔</strong>(검은색=흑색변 melena, 빨간색=혈변 haematochezia), <strong>구토물에 혈액</strong>(토혈 haematemesis) 여부, <strong>활력징후(vital signs)</strong> 밀착 관찰. 장기 복용 환자: <strong>저마그네슘혈증(hypomagnesaemia)</strong> — 근육 경련, 떨림 관찰. <strong>골밀도 감소</strong> 및 <strong>C. difficile 감염</strong>(항생제 관련 설사) 위험 인지.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Antiemetics (항구토제)</span><span class="abbr">Antiemetic Drugs (구토 방지 약물) — 예: Ondansetron (온단세트론), Metoclopramide (메토클로프라마이드)</span></td>
+            <td><span class="en">Used for nausea and vomiting (post-surgery, medications, infections), which risk dehydration and electrolyte imbalance. Ondansetron blocks serotonin 5-HT3 receptors in the vomiting centre. Metoclopramide blocks dopamine receptors to reduce nausea and speeds stomach emptying (prokinetic effect). Metoclopramide side effect: extrapyramidal symptoms (EPS) such as facial twitching and stiffness.</span><span class="kr">오심 및 구토(수술 후, 약물, 감염 등) 시 사용하며, 탈수와 전해질 불균형을 예방합니다. Ondansetron은 구토 중추의 세로토닌 5-HT3 수용체를 차단합니다. Metoclopramide는 도파민 수용체를 차단하여 오심을 줄이고 위 배출을 촉진(prokinetic effect, 위장운동 촉진 효과)합니다. Metoclopramide 부작용: 추체외로 증상(EPS, Extrapyramidal Symptoms) — 얼굴 경련, 경직 등.</span></td>
+            <td class="focus"><strong>Metoclopramide 투여 시 추체외로 증상(EPS)</strong> 관찰 필수: 얼굴·목·혀의 비자발적 움직임, 근육 경직, 안절부절 — 증상 발견 시 즉시 보고하고 약 중단 고려. <strong>탈수 징후</strong> 관찰: 소변량, 구갈, 피부 탄력. 구토 횟수·양 기록하여 약 효과 평가. Ondansetron은 <strong>변비</strong>와 <strong>두통</strong>을 유발할 수 있음 — 배변 상태 확인. 구토가 지속되면 <strong>경구 약물 흡수 불가</strong>할 수 있으므로 투여 경로(IV, IM) 변경 필요 여부 확인.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Laxatives / Aperients (완하제 / 배변 촉진제)</span><span class="abbr">Laxative Drugs (완하제) — 예: Movicol (모비콜, 삼투성), Lactulose (락툴로오스, 삼투성), Senna (센나, 자극성), Docusate (도쿠세이트, 변 연화제)</span></td>
+            <td><span class="en">Used for constipation, common in hospital (opioid use, immobility, poor intake). Types: (1) Osmotic (Movicol, Lactulose) draw water into the bowel to soften stool. (2) Stimulant (Senna) contract bowel muscles to push stool forward. (3) Stool softeners (Docusate) add moisture. Often co-prescribed with opioids to prevent opioid-induced constipation.</span><span class="kr">병원에서 흔한 변비(오피오이드 사용, 부동, 섭취 부족) 시 사용합니다. 종류: (1) 삼투성(Movicol, Lactulose) — 장으로 수분을 끌어들여 대변 연화. (2) 자극성(Senna) — 장벽 근육을 수축시켜 배변 촉진. (3) 변 연화제(Docusate) — 대변에 수분 추가. 오피오이드 유발 변비 예방을 위해 흔히 병용 처방됩니다.</span></td>
+            <td class="focus"><strong>배변 기록(bowel chart)</strong> 작성: 마지막 배변 날짜, 횟수, 대변의 양상(Bristol Stool Chart 기준) 기록. <strong>오피오이드 사용 환자</strong>에게는 변비 예방을 위해 완하제가 반드시 병용되고 있는지 확인. <strong>복부 팽만</strong>, 통증, 구역감 관찰 — 장폐색(bowel obstruction) 가능성 배제. 삼투성 완하제 사용 시 충분한 <strong>수분 섭취</strong> 권장. 과도한 사용 시 <strong>설사·탈수·전해질 불균형</strong> 주의.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Bowel Prep (장 준비제)</span><span class="abbr">Bowel Preparation Solution (장 정결 용액) — 예: Glycoprep (글리코프렙), Moviprep (모비프렙), PicoPrep (피코프렙)</span></td>
+            <td><span class="en">Taken before colonoscopy to empty the bowel completely. The solution draws water into the bowel (osmotic effect), causing watery diarrhoea that flushes all stool. The patient drinks several litres over hours. Risks from large fluid loss: dehydration, hypotension, dizziness, fainting, and electrolyte imbalance (low potassium and sodium).</span><span class="kr">대장내시경(colonoscopy) 전에 장을 완전히 비우기 위해 복용합니다. 삼투 효과로 장에 수분을 끌어들여 물설사를 유발하고 대변을 배출합니다. 수 시간에 걸쳐 수 리터를 마십니다. 대량 수분 손실로 인한 위험: 탈수, 저혈압, 어지러움, 실신, 전해질 불균형(저칼륨·저나트륨).</span></td>
+            <td class="focus"><strong>수분 섭취량과 배출량</strong> 기록(fluid balance). <strong>어지러움·실신·기립성 저혈압</strong> 관찰 — <strong>낙상 예방</strong>을 위해 화장실 이동 시 도움 제공, 호출벨 가까이 두기. <strong>전해질(electrolytes)</strong> 모니터: 특히 칼륨(K⁺)과 나트륨(Na⁺). 고령 환자, 신장 질환 환자, 심장 질환 환자에게는 위험이 더 높으므로 <strong>활력징후 자주 측정</strong>. 환자가 용액을 다 마시지 못하는 경우 의료팀에 보고.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Antibiotics (항생제)</span><span class="abbr">Antibiotic Drugs (항생제) — 예: Ceftriaxone (세프트리악손, 3세대 세팔로스포린), Metronidazole (메트로니다졸, 혐기성 세균용), Piperacillin/Tazobactam (피페라실린/타조박탐, 광범위 항생제, 줄여서 Pip/Taz)</span></td>
+            <td><span class="en">Used for bacterial infections (signs: fever, chills, high WCC (White Cell Count), high CRP (C-Reactive Protein)). They kill bacteria or stop their growth. Ceftriaxone (cephalosporin) breaks cell walls. Metronidazole targets anaerobic bacteria (gut, abscesses). Pip/Taz (Piperacillin/Tazobactam) is broad-spectrum for serious infections. Side effects: allergic reactions, diarrhoea, C. difficile infection.</span><span class="kr">세균 감염(징후: 발열, 오한, WCC(White Cell Count, 백혈구 수) 상승, CRP(C-Reactive Protein, C-반응성 단백질) 상승) 시 사용합니다. 세균을 죽이거나 증식을 억제합니다. Ceftriaxone(세팔로스포린)은 세포벽을 파괴합니다. Metronidazole은 혐기성 세균(장, 농양)에 효과적입니다. Pip/Taz(Piperacillin/Tazobactam)는 중증 감염용 광범위 항생제입니다. 부작용: 알레르기 반응, 설사, C. difficile 감염.</span></td>
+            <td class="focus"><strong>알레르기력 반드시 확인</strong>: 투여 전 환자에게 항생제 알레르기 병력 질문 — 특히 페니실린(penicillin) 알레르기가 있으면 세팔로스포린 교차반응 가능. <strong>알레르기 반응 징후</strong>: 발진, 두드러기, 호흡곤란, 저혈압 — 아나필락시스(anaphylaxis) 시 즉시 투여 중단 및 응급 대응. <strong>설사</strong> 발생 시 C. difficile 감염 가능성 고려 — 대변 검체 채취 필요 여부 확인. <strong>체온(temperature)·WCC·CRP</strong> 추적하여 항생제 효과 평가. IV 항생제 투여 시 <strong>정맥 접근 부위(IV site)</strong> 감염 징후(발적, 부종, 통증) 관찰.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Analgesia (진통제)</span><span class="abbr">Analgesic Drugs (진통 약물) — 예: Paracetamol (파라세타몰, 비오피오이드), Oxycodone (옥시코돈, 오피오이드), Morphine (모르핀, 오피오이드)</span></td>
+            <td><span class="en">Used for pain (surgery, inflammation, infection). Paracetamol is a non-opioid that raises the pain threshold in the brain. Oxycodone and Morphine are opioids that bind to opioid receptors in the brain and spinal cord, blocking pain signals. Opioid side effects: sedation, respiratory depression, constipation, nausea, dependence risk. In liver disease, Paracetamol dose must be reduced to prevent further liver injury.</span><span class="kr">통증(수술, 염증, 감염) 시 사용합니다. Paracetamol은 비오피오이드로 뇌에서 통증 역치를 높입니다. Oxycodone과 Morphine은 뇌·척수의 오피오이드 수용체에 결합하여 통증 신호를 차단하는 오피오이드입니다. 오피오이드 부작용: 진정, 호흡 억제, 변비, 오심, 의존성 위험. 간 질환 시 Paracetamol은 간 손상 방지를 위해 용량을 줄여야 합니다.</span></td>
+            <td class="focus"><strong>오피오이드 투여 시 핵심 관찰 사항</strong>: (1) <strong>진정 수준(sedation level)</strong> — 환자가 지나치게 졸리거나 깨우기 어려우면 즉시 보고. (2) <strong>호흡수(respiratory rate)</strong> — 분당 8회 미만이면 호흡 억제로 위험, 즉시 보고. (3) <strong>변비</strong> — 배변 기록 확인, 완하제 병용 여부 확인. (4) <strong>오심·구토</strong> — 항구토제 필요 여부 확인. <strong>통증 점수(pain score)</strong> 정기적으로 평가하여 약 효과 확인. <strong>간 질환 환자</strong>: Paracetamol 1일 최대 용량이 줄어듦(보통 2g/일 이하) — 처방 용량 확인 필수. 오피오이드 과량 시 <strong>Naloxone(날록손, 오피오이드 해독제)</strong> 위치 파악해 두기.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- HEP MEDS -->
+    <div class="sys hep">
+      <div class="sys-bar"><span class="dot">HEPATO</span> 간 쪽 약</div>
+      <table>
+        <colgroup><col class="c-term"><col class="c-mid"><col class="c-focus"></colgroup>
+        <thead><tr><th>약 Drug</th><th>작용 · 기전 Action / Mechanism</th><th>관찰 · 주의 Monitor / Caution</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="term">Lactulose (락툴로오스)</span><span class="abbr">Osmotic Laxative (삼투성 완하제) — 간성뇌증 치료 목적으로 사용</span></td>
+            <td><span class="en">Used for hepatic encephalopathy (HE) — confusion caused by ammonia buildup when the damaged liver cannot clear toxins. Lactulose is a non-absorbable synthetic sugar that (1) draws water into the bowel, increasing bowel movements to excrete ammonia faster, and (2) acidifies the bowel, converting ammonia (NH3) to non-absorbable ammonium (NH4+). Goal: 2-3 soft stools per day.</span><span class="kr">간성뇌증(HE, Hepatic Encephalopathy) 치료에 사용합니다. 손상된 간이 독소를 제거하지 못해 암모니아(ammonia)가 축적되고 혼란이 발생합니다. Lactulose는 비흡수성 합성 당으로 (1) 삼투 효과로 배변을 늘려 암모니아를 빠르게 배출하고 (2) 장을 산성화하여 암모니아(NH3)를 비흡수성 암모늄(NH4+)으로 전환합니다. 목표: 하루 2-3회 무른 변.</span></td>
+            <td class="focus"><strong>배변 횟수와 양상 기록</strong>: 목표는 하루 2~3회 무른 변 — 너무 적으면 용량 증가 필요, 너무 많으면(물설사) 탈수 위험. <strong>의식 수준(consciousness level) 평가</strong>: GCS(Glasgow Coma Scale) 또는 간성뇌증 등급(Grade 1~4) 추적 — 혼란, 졸음, 행동 변화, 손떨림(asterixis/flapping tremor) 관찰. 의식 수준 호전 여부로 약 효과 평가. <strong>탈수 징후</strong> 관찰: 과도한 설사 시 수분·전해질 불균형 가능. 환자가 약 복용을 거부하면 <strong>관장(enema)</strong>으로 투여할 수도 있음 — 의료팀과 상의.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Rifaximin (리팍시민)</span><span class="abbr">Non-Absorbable Gut Antibiotic (비흡수성 장내 항생제)</span></td>
+            <td><span class="en">Used for hepatic encephalopathy (HE) prevention and treatment. It is a gut-only antibiotic (not absorbed into blood) that reduces ammonia-producing bacteria in the intestines. Less ammonia means fewer HE episodes. Almost always combined with Lactulose. Minimal side effects due to non-absorption.</span><span class="kr">간성뇌증(HE, Hepatic Encephalopathy) 예방 및 치료에 사용합니다. 혈액으로 흡수되지 않는 장내 전용 항생제로, 암모니아 생성 세균을 줄입니다. 암모니아 감소로 뇌증 에피소드 위험이 줄어듭니다. 거의 항상 Lactulose와 병용합니다. 비흡수성이므로 부작용이 적습니다.</span></td>
+            <td class="focus">보통 <strong>Lactulose와 반드시 병용</strong>하여 처방됨 — 두 약이 모두 처방되어 있는지 확인. <strong>의식 수준 변화</strong> 지속적으로 관찰하여 뇌증 재발 여부 평가. 드물지만 <strong>복부 팽만, 복통, 설사</strong> 등의 위장관 부작용 관찰. 환자가 경구 복용이 가능한지 확인 — 의식이 저하된 환자는 삼킴 장애(dysphagia)로 약을 못 삼킬 수 있으므로 대체 경로 고려. <strong>간 기능 검사(LFTs, Liver Function Tests)</strong> 추적.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Albumin Infusion (알부민 주입)</span><span class="abbr">Human Albumin Solution (사람 알부민 용액) — 혈장 단백질 보충</span></td>
+            <td><span class="en">Used for hypoalbuminaemia in liver disease. The damaged liver cannot make enough albumin, so fluid leaks from vessels into tissues, causing oedema and ascites. IV albumin raises intravascular osmotic pressure, pulling fluid back into vessels. Especially critical after LVP (Large-Volume Paracentesis) to prevent dangerous hypotension from fluid shifting out of vessels.</span><span class="kr">간 질환의 저알부민혈증(hypoalbuminaemia) 시 사용합니다. 손상된 간이 알부민을 충분히 만들지 못해 수분이 혈관 밖으로 빠져나가 부종과 복수(ascites)를 유발합니다. IV 알부민은 혈관 내 삼투압을 높여 수분을 혈관으로 되돌립니다. LVP(Large-Volume Paracentesis, 대량 복수 천자) 후 수분 이동에 의한 위험한 저혈압을 예방하는 데 특히 중요합니다.</span></td>
+            <td class="focus"><strong>수혈과 유사하게 활력징후(vital signs) 관찰</strong>: 주입 시작 전, 주입 중 15분 간격, 주입 완료 후 혈압·맥박·체온·호흡수 측정. <strong>과민반응(알레르기 반응)</strong> 징후: 발열, 오한, 두드러기, 호흡곤란, 저혈압 — 발생 시 즉시 주입 중단하고 보고. <strong>체액 과부하(fluid overload)</strong> 징후: 호흡곤란, 폐 수포음(crackles), 산소포화도(SpO2) 저하 — 특히 심장 질환이 있는 환자에서 주의. LVP 후에는 보통 <strong>배액 1L당 알부민 6~8g</strong> 비율로 투여 — 처방 용량 확인.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Vitamin K (비타민 K)</span><span class="abbr">Phytomenadione (피토메나디온) — Coagulation Factor Cofactor (응고인자 보조인자)</span></td>
+            <td><span class="en">Used for coagulopathy (impaired clotting) in liver disease. The liver needs Vitamin K to produce clotting factors II, VII, IX, and X. Supplementing Vitamin K provides the raw material for clotting factor synthesis. In severe liver failure, it may not help if liver cells themselves are too damaged. INR (International Normalised Ratio) measures clotting; higher INR means greater bleeding risk.</span><span class="kr">간 질환의 응고병증(coagulopathy, 응고 장애) 시 사용합니다. 간은 응고인자 II, VII, IX, X를 만들기 위해 비타민 K가 필요합니다. 비타민 K 투여로 응고인자 합성의 원료를 제공합니다. 중증 간부전에서는 간세포 자체의 기능 저하로 효과가 제한될 수 있습니다. INR(International Normalised Ratio, 국제 정상화 비율)로 응고 상태를 측정하며, INR이 높을수록 출혈 위험이 큽니다.</span></td>
+            <td class="focus"><strong>INR(International Normalised Ratio) 추적</strong>: 비타민 K 투여 전후로 INR 혈액검사를 통해 응고 상태 평가 — INR이 개선되지 않으면 간 기능 저하가 심한 것. <strong>출혈 징후 관찰</strong>: 잇몸 출혈, 코피, 멍이 쉽게 드는 것, 혈뇨(소변에 피), 혈변(대변에 피), 토혈(구토물에 피), 주사 부위 지혈 지연. <strong>투여 경로</strong>: 경구(PO), 정맥주사(IV), 또는 피하주사(SC)로 투여 가능 — IV 투여 시 <strong>아나필락시스 위험</strong>이 있으므로 천천히 투여하고 반응 관찰. 침습적 시술(채혈, 카테터 삽입 등) 전 <strong>응고 상태 확인</strong> 필수.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Thiamine (티아민) / Vitamin B1 (비타민 B1)</span><span class="abbr">Thiamine Hydrochloride (티아민 염산염) — Water-Soluble B Vitamin (수용성 비타민 B)</span></td>
+            <td><span class="en">Used in alcohol-related liver disease to prevent Thiamine (Vitamin B1) deficiency. Heavy drinkers have poor nutrition and absorption. Without Thiamine, Wernicke's Encephalopathy (WE) develops — confusion, ataxia, ophthalmoplegia — which can progress to Korsakoff's Syndrome (permanent memory loss). Must be given IV before any glucose drip, as glucose without Thiamine can trigger WE.</span><span class="kr">알코올 관련 간 질환에서 티아민(Thiamine, 비타민 B1) 결핍 예방을 위해 사용합니다. 과음자는 영양 및 흡수 상태가 불량합니다. 티아민 부족 시 베르니케 뇌증(Wernicke's Encephalopathy, WE) — 혼란, 운동실조(ataxia), 안근마비(ophthalmoplegia) — 이 발생하며, 코르사코프 증후군(Korsakoff's Syndrome, 영구적 기억 상실)으로 진행될 수 있습니다. 포도당 수액 전에 반드시 IV로 먼저 투여해야 하며, 티아민 없이 포도당을 주면 WE를 유발할 수 있습니다.</span></td>
+            <td class="focus"><strong>알코올성 간 질환·알코올 금단(alcohol withdrawal) 환자</strong>에게 흔히 처방됨 — 처방 여부 확인. <strong>반드시 포도당(glucose) 수액 투여 전에 티아민을 먼저 투여</strong>해야 함 — 순서 중요! 포도당을 먼저 주면 베르니케 뇌증 유발 가능. IV 투여 시 드물게 <strong>아나필락시스(anaphylaxis)</strong> 가능 — 투여 중 과민반응 징후(발진, 호흡곤란, 저혈압) 관찰. <strong>신경학적 상태</strong> 평가: 혼란, 보행 불안정, 안구 운동 이상이 있으면 즉시 보고 — 베르니케 뇌증 의심. 알코올 금단 증상(떨림, 발한, 불안, 발작) 동반 관찰.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Beta Blockers (베타 차단제)</span><span class="abbr">Beta-Adrenergic Blocking Agents (베타-아드레날린 수용체 차단제) — 예: Propranolol (프로프라놀롤), Carvedilol (카르베딜롤)</span></td>
+            <td><span class="en">Used in liver cirrhosis with portal hypertension to prevent variceal bleeding. Scarred liver raises portal vein pressure, forming fragile varices (oesophageal or gastric) that can rupture. Beta blockers slow heart rate and reduce cardiac output, lowering portal pressure and variceal strain. Used for both primary prophylaxis (preventing first bleed) and secondary prophylaxis (preventing re-bleed).</span><span class="kr">간경변(cirrhosis)에 동반된 문맥 고혈압(portal hypertension)에서 정맥류 출혈을 예방하기 위해 사용합니다. 반흔이 생긴 간은 문맥 압력을 높여 파열 위험이 있는 정맥류(varices, 식도·위)를 형성합니다. 베타 차단제는 심박수와 심박출량을 줄여 문맥 압력과 정맥류 부담을 낮춥니다. 일차 예방(primary prophylaxis, 첫 출혈 예방)과 이차 예방(secondary prophylaxis, 재출혈 예방) 모두에 사용됩니다.</span></td>
+            <td class="focus"><strong>심박수(heart rate, HR)</strong> 모니터: 투약 전후 맥박 측정 — 목표 안정시 심박수는 보통 55~60회/분. 심박수가 50회/분 미만이면 <strong>서맥(bradycardia)</strong>으로 위험하므로 투여 보류하고 보고. <strong>혈압(blood pressure, BP)</strong> 모니터: 저혈압(수축기 90mmHg 미만) 시 투여 보류하고 보고. <strong>어지러움·실신·피로감</strong> 관찰 — 특히 기립 시(기립성 저혈압). 간경변 환자는 기저 혈압이 낮을 수 있으므로 <strong>베이스라인(기본) 활력징후</strong>를 파악해 두기. 환자가 약을 잘 복용하고 있는지 <strong>복약 순응도</strong> 확인 — 갑자기 중단하면 반동성 빈맥·고혈압 위험.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ 3. CONDITIONS ============ -->
+  <section id="conditions">
+    <div class="sec-head"><span class="sec-num">03</span><h2>주로 있는 병명</h2></div>
+    <p class="sec-desc">병명 · 핵심 설명 · 징후/기전과 함께, 무엇을 관찰할지 정리했어요.</p>
+
+    <!-- RENAL CONDITIONS -->
+    <div class="sys renal">
+      <div class="sys-bar"><span class="dot">RENAL</span> 신장 질환</div>
+      <table>
+        <colgroup><col class="c-term"><col class="c-mid"><col class="c-focus"></colgroup>
+        <thead><tr><th>병명 Condition</th><th>설명 · 기전 Description / Mechanism</th><th>관찰 포인트 Watch</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="term">AKI</span><span class="abbr">Acute Kidney Injury (급성 신손상)</span></td>
+            <td><span class="en">AKI means the kidneys suddenly lose filtering ability over hours to days. Waste products (creatinine, urea) and potassium build up in the blood, while extra fluid causes oedema and possible pulmonary oedema. Oliguria or anuria develops. Common causes are dehydration, sepsis, hypotension, and nephrotoxic drugs. Untreated AKI can lead to cardiac arrest from hyperkalaemia, fluid overload, or metabolic acidosis. AKI may be reversible if caught early.</span><span class="kr">AKI(급성 신손상)는 수 시간~수일 내에 신장 여과 기능이 갑자기 저하되는 것입니다. 노폐물(크레아티닌, 요소)과 칼륨이 혈중에 쌓이고, 과잉 수분으로 부종과 폐부종이 발생합니다. 핍뇨 또는 무뇨가 나타납니다. 주요 원인은 탈수, 패혈증, 저혈압, 신독성 약물입니다. 치료하지 않으면 고칼륨혈증에 의한 심정지, 체액 과부하, 대사성 산증이 올 수 있습니다. 원인을 조기에 치료하면 회복 가능합니다.</span></td>
+            <td class="focus">소변량을 매 시간 정확히 측정하고 기록합니다. 혈액 검사 결과에서 크레아티닌(Cr), 요소(urea), 칼륨(K⁺) 수치를 확인합니다. 수분 섭취량과 배출량(fluid balance)을 꼼꼼히 기록합니다. 부종(다리·발목·눈 주위) 유무를 사정합니다. 호흡곤란이나 산소포화도(SpO₂) 저하가 있는지 관찰합니다. 체중을 매일 같은 시간에 측정합니다. AKI는 가역적일 수 있으므로 원인 파악과 조기 대응이 중요합니다.</td>
+          </tr>
+          <tr>
+            <td><span class="term">CKD</span><span class="abbr">Chronic Kidney Disease (만성 신장 질환)</span></td>
+            <td><span class="en">CKD means the kidneys are damaged over months to years, with GFR gradually declining. Waste products accumulate and electrolyte balance is impaired. Complications include hypertension, anaemia (low EPO production), bone disease, and oedema. CKD is staged 1-5 by GFR. Early stages may be asymptomatic; later stages cause fatigue, nausea, and ankle swelling. Without management it progresses to ESKD requiring dialysis or transplant, and raises cardiovascular risk.</span><span class="kr">CKD(만성 신장 질환)는 수개월~수년에 걸쳐 신장이 손상되어 GFR이 점차 감소하는 것입니다. 노폐물이 축적되고 전해질 균형이 깨집니다. 합병증으로 고혈압, 빈혈(EPO 생산 감소), 골질환, 부종이 발생합니다. CKD는 GFR에 따라 1~5단계로 분류됩니다. 초기에는 무증상이나, 진행 시 피로, 오심, 발목 부종이 나타납니다. 관리하지 않으면 ESKD로 진행되어 투석·이식이 필요하며, 심혈관 위험이 증가합니다.</span></td>
+            <td class="focus">혈압을 정기적으로 측정합니다 (목표 혈압 범위를 확인합니다). 혈액 검사에서 Cr, urea, eGFR, 전해질(K⁺, Ca²⁺, PO₄³⁻), Hb 수치를 확인합니다. 빈혈 증상(피로, 어지러움, 창백)을 관찰합니다. 체중과 부종(발목·다리)을 매일 확인합니다. 식이 제한(저염·저칼륨·저인산 식이)을 지키고 있는지 관찰합니다. 소변량 변화를 기록합니다.</td>
+          </tr>
+          <tr>
+            <td><span class="term">ESKD / ESRD</span><span class="abbr">End-Stage Kidney Disease / End-Stage Renal Disease (말기 신장 질환)</span></td>
+            <td><span class="en">ESKD (also called ESRD) is CKD Stage 5, where GFR falls below 15 mL/min and the kidneys can no longer sustain life. Without treatment, uraemia causes nausea, confusion, seizures, and death. The patient requires dialysis (HD or PD) or kidney transplant, with strict fluid and diet restrictions. These patients are at high risk for infection, cardiovascular disease, and malnutrition.</span><span class="kr">ESKD(말기 신장 질환, ESRD)는 CKD 5단계로, GFR이 15 mL/min 미만으로 떨어져 신장이 생명을 유지할 수 없는 상태입니다. 치료 없이는 요독증으로 오심, 혼돈, 발작, 사망에 이릅니다. 투석(HD 또는 PD)이나 신장 이식이 필요하며, 엄격한 수분·식이 제한을 지켜야 합니다. 감염, 심혈관 질환, 영양불량 위험이 높습니다.</span></td>
+            <td class="focus">투석 스케줄을 확인하고 빠지지 않도록 합니다. AV fistula가 있는 경우 해당 팔에서 혈압 측정·채혈·IV를 절대 하지 않습니다. Fistula에서 thrill(진동 촉지)과 bruit(청진 시 잡음)가 있는지 확인합니다. 투석 전후 체중과 혈압을 측정합니다. 체액 관리(수분 섭취 제한)를 관찰합니다. 투석 카테터 부위의 감염 징후(발적, 부종, 분비물, 열)를 관찰합니다. 식이 제한 준수 여부를 확인합니다.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Hyperkalaemia</span><span class="abbr">Hyperkalaemia = High Potassium in the Blood (고칼륨혈증)</span></td>
+            <td><span class="en">Hyperkalaemia means blood potassium (K⁺) is above normal (3.5-5.0 mmol/L). Impaired kidneys cannot excrete enough potassium; other causes include ACE inhibitors, potassium-sparing diuretics, and tissue damage. Elevated K⁺ disrupts cardiac electrical signals, causing bradycardia, arrhythmias, or cardiac arrest. Symptoms may include muscle weakness, tingling, and palpitations, but sometimes there are none. K⁺ above 6.0 mmol/L is a medical emergency.</span><span class="kr">고칼륨혈증은 혈중 칼륨(K⁺)이 정상(3.5~5.0 mmol/L) 이상으로 높은 상태입니다. 신장 기능 저하로 칼륨 배출이 부족하며, ACE 억제제, 칼륨 보존 이뇨제, 조직 손상도 원인입니다. 높은 K⁺는 심장 전기 신호를 교란하여 서맥, 부정맥, 심정지를 유발합니다. 근육 약화, 저림, 두근거림이 나타나지만 무증상일 수도 있습니다. K⁺ 6.0 mmol/L 이상은 응급상황입니다.</span></td>
+            <td class="focus"><strong>심전도(ECG) 변화를 즉시 확인합니다</strong> (높은 T파, 넓은 QRS 등). 칼륨 수치가 6.0 이상이면 즉시 RN/의사에게 보고합니다. 응급 치료 준비: calcium gluconate(심장 보호), insulin + glucose(칼륨을 세포 안으로 이동), salbutamol 네뷸라이저. 심장 모니터링을 지속합니다. 고칼륨 식품(바나나, 오렌지, 토마토, 감자, 초콜릿 등) 섭취를 제한합니다. 원인 약물이 있는지 확인합니다.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Fluid Overload</span><span class="abbr">Fluid Overload = Hypervolaemia (체액과다 / 고혈량증)</span></td>
+            <td><span class="en">Fluid overload (hypervolaemia) occurs when failing kidneys cannot excrete enough water. Excess fluid causes peripheral oedema, pulmonary oedema (dyspnoea, pink frothy sputum), and ascites. The heart works harder, risking heart failure. Blood pressure rises and weight increases rapidly. Untreated fluid overload can be life-threatening.</span><span class="kr">체액과다(고혈량증)는 신장이 수분을 충분히 배출하지 못해 발생합니다. 과잉 수분은 말초 부종, 폐부종(호흡곤란, 분홍색 거품 가래), 복수를 유발합니다. 심장에 과부하가 걸려 심부전 위험이 있으며, 혈압 상승과 체중 급증이 나타납니다. 치료하지 않으면 생명을 위협합니다.</span></td>
+            <td class="focus"><strong>호흡곤란 유무와 호흡수를 관찰합니다.</strong> 산소포화도(SpO₂)를 측정합니다. 부종의 정도와 위치를 사정합니다 (양쪽 다리·발목·천골 부위). 매일 같은 시간·같은 조건으로 체중을 측정합니다 (급격한 체중 증가 = 체액 저류). 수분 섭취량과 배출량(I&O)을 정확히 기록합니다. 폐 청진 시 수포음(crackles)이 들리는지 확인합니다. 기좌호흡(앉아야 숨쉬기 편한 것)이 있는지 관찰합니다. 혈압을 확인합니다.</td>
+          </tr>
+          <tr>
+            <td><span class="term">UTI / Pyelonephritis</span><span class="abbr">UTI = Urinary Tract Infection / Pyelonephritis = Kidney Infection (요로감염 / 신우신염)</span></td>
+            <td><span class="en">A UTI (Urinary Tract Infection) starts in the bladder (cystitis) and can spread to the kidneys (pyelonephritis). Bacteria (usually E. coli) ascend through the urethra, causing dysuria, frequency, cloudy urine, and haematuria. Pyelonephritis adds high fever, chills, and flank pain. Untreated UTI can progress to sepsis. In elderly patients, sudden confusion may be the only sign.</span><span class="kr">UTI(요로감염)는 방광(방광염)에서 시작하여 신장(신우신염)으로 퍼질 수 있습니다. 세균(주로 대장균)이 요도를 통해 상행하며, 배뇨통, 빈뇨, 혼탁한 소변, 혈뇨가 나타납니다. 신우신염에서는 고열, 오한, 옆구리 통증이 추가됩니다. 치료하지 않으면 패혈증으로 진행됩니다. 고령 환자에서는 갑작스러운 혼돈이 유일한 징후일 수 있습니다.</span></td>
+            <td class="focus">체온을 측정하고 발열 여부를 확인합니다. 소변의 양상(색, 탁도, 냄새, 혈뇨 유무)을 관찰합니다. 배뇨 시 통증이나 작열감을 호소하는지 확인합니다. 옆구리 통증(CVA tenderness)이 있는지 사정합니다. 고령 환자의 경우 갑작스러운 혼돈·섬망·행동 변화가 UTI의 유일한 징후일 수 있으므로 주의 깊게 관찰합니다. 항생제 투여 시간을 지키고 반응을 관찰합니다. 수분 섭취를 격려합니다.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Renal Anaemia</span><span class="abbr">Renal Anaemia = Anaemia of Chronic Kidney Disease (신장성 빈혈 / 만성 신장 질환에 의한 빈혈)</span></td>
+            <td><span class="en">Renal anaemia occurs because damaged kidneys produce insufficient erythropoietin (EPO), so the bone marrow makes fewer red blood cells and haemoglobin drops. Patients experience fatigue, pallor, dizziness, exertional dyspnoea, and tachycardia. Prolonged anaemia can cause heart failure. Treatment includes synthetic EPO injections (epoetin alfa, darbepoetin) and iron supplements.</span><span class="kr">신장성 빈혈은 손상된 신장이 에리스로포이에틴(EPO)을 충분히 생산하지 못해 골수의 적혈구 생성이 감소하고 혈색소가 떨어지는 것입니다. 피로, 창백, 어지러움, 활동 시 호흡곤란, 빈맥이 나타납니다. 지속되면 심부전으로 이어질 수 있습니다. 치료는 합성 EPO 주사(에포에틴 알파, 다베포에틴)와 철분 보충제입니다.</span></td>
+            <td class="focus">혈색소(Hb) 수치를 확인합니다 (보통 100~120 g/L 유지 목표). 피로·어지러움·창백·빈맥·숨참 등 빈혈 증상을 관찰합니다. EPO 주사 투여 일정과 반응을 확인합니다. 철분 보충제(경구 시 위장 부작용, IV 시 과민 반응) 투여 후 반응을 관찰합니다. 기립성 저혈압(일어설 때 어지러움)이 있는지 확인합니다. 낙상 예방 조치를 합니다.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- GASTRO CONDITIONS -->
+    <div class="sys gastro">
+      <div class="sys-bar"><span class="dot">GASTRO</span> 소화기 질환</div>
+      <table>
+        <colgroup><col class="c-term"><col class="c-mid"><col class="c-focus"></colgroup>
+        <thead><tr><th>병명 Condition</th><th>설명 · 기전 Description / Mechanism</th><th>관찰 포인트 Watch</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="term">GI Bleed</span><span class="abbr">GI Bleed = Gastrointestinal Bleeding (위장관 출혈)</span></td>
+            <td><span class="en">A GI bleed is bleeding anywhere in the gastrointestinal tract. Upper GI bleeds (ulcers, varices, gastritis) present with melaena or haematemesis; lower GI bleeds (diverticulitis, IBD, cancer) cause fresh rectal bleeding. Significant blood loss leads to hypotension, tachycardia, pallor, and confusion. Untreated severe bleeding causes hypovolaemic shock and death. GI bleeding is always a medical emergency.</span><span class="kr">위장관 출혈은 위장관 어디서든 발생하는 출혈입니다. 상부 출혈(궤양, 정맥류, 위염)은 흑색변이나 토혈로, 하부 출혈(게실염, IBD, 암)은 선홍색 혈변으로 나타납니다. 대량 출혈 시 저혈압, 빈맥, 창백, 혼돈이 발생합니다. 심한 출혈을 치료하지 않으면 저혈량성 쇼크와 사망에 이릅니다. 항상 의료 응급상황입니다.</span></td>
+            <td class="focus"><strong>활력징후(혈압·맥박·호흡수·체온)를 자주 측정합니다.</strong> 저혈압과 빈맥은 출혈 진행의 징후입니다. 대변의 색과 양상(흑색변, 혈변)을 관찰하고 기록합니다. 토혈의 유무·양·색을 관찰합니다. Hb 수치를 확인합니다. 어지러움·창백·의식 수준 변화를 관찰합니다. <strong>금식(NBM) 상태를 유지하고</strong> IV 수액 주입을 확인합니다. 이상 발견 시 즉시 RN/의사에게 보고합니다.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Peptic Ulcer Disease</span><span class="abbr">PUD = Peptic Ulcer Disease (소화성 궤양)</span></td>
+            <td><span class="en">PUD (Peptic Ulcer Disease) is an open sore in the stomach or duodenal lining, caused mainly by H. pylori infection or long-term NSAID use, which break down the protective mucus layer. Patients feel epigastric burning pain, nausea, and bloating. Deep ulcers can erode blood vessels causing GI bleeding, or perforate the bowel wall, which is a surgical emergency. Treatment includes PPIs (e.g. omeprazole) and antibiotics for H. pylori.</span><span class="kr">소화성 궤양(PUD)은 위 또는 십이지장 내벽의 열린 상처로, 주로 H. pylori 감염이나 장기 NSAID 사용으로 보호 점액층이 파괴되어 발생합니다. 상복부 작열통, 오심, 팽만감이 나타납니다. 깊은 궤양은 혈관을 침식하여 GI 출혈을 일으키거나, 장벽 천공으로 수술 응급이 됩니다. 치료는 PPI(예: 오메프라졸)와 H. pylori 항생제입니다.</span></td>
+            <td class="focus">통증의 양상·위치·강도·시간(식전/식후 악화 여부)을 사정합니다. 출혈 징후(흑색변, 토혈, 어지러움, 저혈압)를 관찰합니다. PPI(양성자 펌프 억제제) 투여 시간과 효과를 확인합니다. 복부를 촉진하여 압통 부위를 확인합니다. 갑작스럽고 심한 복통(천공 의심)이 있으면 즉시 보고합니다. NSAIDs 복용 여부를 확인합니다.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Gastritis</span><span class="abbr">Gastritis (위염)</span></td>
+            <td><span class="en">Gastritis is inflammation of the stomach lining, either acute or chronic. When the protective mucus fails, stomach acid irritates the lining. Common causes include H. pylori, alcohol, NSAIDs, stress, and bile reflux. Symptoms are epigastric pain, nausea, early satiety, and possible bleeding (haematemesis or melaena). Untreated chronic gastritis can lead to ulcers, stomach cancer risk, and B12 deficiency anaemia.</span><span class="kr">위염은 위 내벽의 염증으로, 급성 또는 만성입니다. 보호 점액이 실패하면 위산이 내벽을 자극합니다. 주요 원인은 H. pylori, 음주, NSAIDs, 스트레스, 담즙 역류입니다. 상복부 통증, 오심, 조기 포만감이 나타나며, 출혈 시 토혈이나 흑색변이 발생합니다. 만성 위염을 치료하지 않으면 위궤양, 위암 위험, B12 결핍 빈혈로 이어집니다.</span></td>
+            <td class="focus">통증의 위치·양상·강도·악화/완화 요인을 사정합니다. 식이 섭취 상태(먹는 양, 소화 정도)를 관찰합니다. 오심·구토의 빈도와 양을 기록합니다. 구토물에 혈액이 섞여 있는지 확인합니다. 약물 투여(PPI, 제산제) 후 증상 변화를 관찰합니다. 위염을 악화시킬 수 있는 음식(맵거나 기름진 음식, 카페인, 알코올)을 피하도록 교육합니다.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Gastroenteritis</span><span class="abbr">Gastroenteritis (위장염 / 장염)</span></td>
+            <td><span class="en">Gastroenteritis is infection and inflammation of the stomach and intestines, caused by viruses (norovirus, rotavirus) or bacteria (Salmonella, E. coli). It causes frequent watery diarrhoea and vomiting, leading to rapid fluid and electrolyte loss. Dehydration can cause kidney damage, electrolyte imbalance, and shock, especially in elderly patients. It is highly contagious, so infection control (isolation, hand hygiene with soap) is essential.</span><span class="kr">위장염은 바이러스(노로바이러스, 로타바이러스) 또는 세균(살모넬라, 대장균)에 의한 위와 장의 감염·염증입니다. 잦은 수양성 설사와 구토로 수분·전해질이 급격히 손실됩니다. 탈수는 신장 손상, 전해질 불균형, 쇼크를 유발할 수 있으며, 특히 고령 환자에서 위험합니다. 전염성이 강하므로 감염 관리(격리, 비누 손위생)가 필수입니다.</span></td>
+            <td class="focus"><strong>수분 섭취량과 배출량(I&O)을 정확히 기록합니다.</strong> 설사의 빈도·양·양상(수양성, 점액, 혈액 유무)을 기록합니다. 구토의 빈도와 양을 기록합니다. 탈수 징후(구강건조, 피부 탄력 저하, 소변량 감소, 저혈압, 빈맥)를 관찰합니다. 전해질 수치(Na⁺, K⁺)를 확인합니다. <strong>감염성이면 격리 조치를 시행하고</strong> 손 위생(비누와 물 — 알코올 소독제는 노로바이러스에 효과 없음)을 철저히 합니다. IV 수액 주입 상태를 확인합니다.</td>
+          </tr>
+          <tr>
+            <td><span class="term">IBD</span><span class="abbr">IBD = Inflammatory Bowel Disease, including Crohn's Disease and UC = Ulcerative Colitis (염증성 장질환: 크론병과 궤양성 대장염)</span></td>
+            <td><span class="en">IBD (Inflammatory Bowel Disease) is a chronic autoimmune condition with two types: Crohn's disease (affects any part of the GI tract, deep inflammation) and Ulcerative Colitis (UC, colon and rectum only, mucosal). Symptoms include abdominal pain, bloody diarrhoea (especially UC), weight loss, and malabsorption causing anaemia. IBD alternates between flare-ups and remission. Complications include strictures, fistulas, perforation, and colorectal cancer risk. Treatment uses immunosuppressants, increasing infection vulnerability.</span><span class="kr">IBD(염증성 장질환)는 만성 자가면역 질환으로 두 유형이 있습니다: 크론병(GI관 어디든, 깊은 염증)과 궤양성 대장염(UC, 대장·직장만, 점막). 복통, 혈성 설사(특히 UC), 체중 감소, 흡수 장애로 인한 빈혈이 나타납니다. 악화기와 관해기가 반복됩니다. 합병증으로 협착, 누공, 천공, 대장암 위험이 있습니다. 면역억제제로 치료하며, 감염에 취약해집니다.</span></td>
+            <td class="focus">배변 횟수·양·양상(수양성, 혈액, 점액 유무)을 매번 기록합니다. 복통의 위치·강도·양상을 사정합니다. 체중을 정기적으로 측정하고 변화를 기록합니다. 영양 상태를 평가합니다(식이 섭취량, 알부민 수치). 면역억제제 복용 중이므로 감염 징후(발열, 인후통, 기침, 배뇨통 등)를 주의 깊게 관찰합니다. 탈수 징후를 관찰합니다. 환자의 심리적·정서적 상태(만성 질환으로 인한 우울, 불안)를 사정합니다.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Pancreatitis</span><span class="abbr">Pancreatitis (췌장염)</span></td>
+            <td><span class="en">Pancreatitis is inflammation of the pancreas, where digestive enzymes activate inside the organ and begin self-digestion. The main causes are gallstones (blocking the pancreatic duct) and heavy alcohol use. Symptoms include severe epigastric pain radiating to the back, nausea, vomiting, fever, and unstable blood sugar. Severe cases can cause organ failure, necrotising pancreatitis, and shock with significant mortality. Treatment is NBM, IV fluids, analgesia, and blood sugar monitoring.</span><span class="kr">췌장염은 소화효소가 췌장 내에서 활성화되어 자가소화를 일으키는 염증입니다. 주요 원인은 담석(췌관 폐색)과 과도한 음주입니다. 등으로 방사되는 심한 상복부 통증, 오심, 구토, 발열, 혈당 불안정이 나타납니다. 중증 시 장기부전, 괴사성 췌장염, 쇼크가 발생하며 사망률이 높습니다. 치료는 금식(NBM), IV 수액, 진통제, 혈당 모니터링입니다.</span></td>
+            <td class="focus"><strong>통증 강도를 통증 척도로 정기적으로 평가합니다</strong> (위치: 상복부, 등으로 방사). 진통제 투여 후 효과를 확인합니다. 혈당을 자주 측정합니다 (고혈당 또는 저혈당 모두 가능). 금식(NBM) 상태를 유지합니다. <strong>IV 수액 주입 속도와 양을 확인합니다.</strong> 활력징후를 자주 측정합니다 (발열, 빈맥은 합병증 징후). 구토의 빈도와 양을 기록합니다. 복부 팽만의 변화를 관찰합니다. 오심 관리를 합니다.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Bowel Obstruction</span><span class="abbr">Bowel Obstruction = Intestinal Obstruction (장폐색)</span></td>
+            <td><span class="en">Bowel obstruction is a blockage preventing stool, gas, and fluid from passing through the intestine. It may be mechanical (adhesions, tumour, hernia, volvulus) or functional (ileus after surgery). Symptoms include abdominal distension, cramping pain, vomiting (possibly faecal), and absolute constipation. Trapped fluids cause dehydration and electrolyte imbalance. If unrelieved, strangulation can lead to bowel necrosis, perforation, peritonitis, and sepsis.</span><span class="kr">장폐색은 대변·가스·소화액이 장을 통과하지 못하는 것입니다. 기계적(유착, 종양, 탈장, 장축전증) 또는 기능적(수술 후 마비성 장폐색)이 있습니다. 복부 팽만, 경련통, 구토(분변성 가능), 완전 변비가 나타납니다. 갇힌 소화액으로 탈수와 전해질 불균형이 발생합니다. 해결되지 않으면 교착으로 장 괴사, 천공, 복막염, 패혈증이 올 수 있습니다.</span></td>
+            <td class="focus">복부 팽만의 정도를 관찰하고 복위를 측정합니다. 배변과 가스 배출 유무를 기록합니다 (가스·대변이 나오기 시작하면 호전 징후). 구토의 빈도·양·양상(담즙성, 분변성)을 기록합니다. 통증의 양상(경련성, 지속성)과 강도를 사정합니다. <strong>금식(NBM) 상태를 유지합니다.</strong> 비위관(NG tube)이 삽입된 경우 배액량·색·양상을 기록합니다. 활력징후를 자주 측정합니다 (빈맥·발열 = 교착/천공 의심). 탈수 징후를 관찰합니다. IV 수액 주입 상태를 확인합니다.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Diverticulitis</span><span class="abbr">Diverticulitis (게실염)</span></td>
+            <td><span class="en">Diverticulitis occurs when small pouches (diverticula) in the colon wall become inflamed or infected after trapping stool or bacteria. Symptoms include left lower abdominal pain, fever, nausea, and altered bowel habits. Complications include abscess, perforation causing peritonitis, fistula, and stricture. Mild cases are treated with antibiotics and liquid diet; severe cases may need IV antibiotics or surgery.</span><span class="kr">게실염은 대장 벽의 작은 주머니(게실)에 대변이나 세균이 갇혀 염증·감염이 발생한 것입니다. 좌하복부 통증, 발열, 오심, 배변 변화가 나타납니다. 합병증으로 농양, 천공에 의한 복막염, 누공, 협착이 있습니다. 경증은 항생제와 유동식, 중증은 IV 항생제 또는 수술이 필요합니다.</span></td>
+            <td class="focus">체온을 측정하여 발열 유무를 확인합니다. 통증의 위치(주로 좌하복부)·강도·변화를 사정합니다. 항생제 투여 일정과 반응(열 감소, 통증 완화 여부)을 관찰합니다. 배변 양상(횟수, 혈액 유무)을 기록합니다. 복부 압통의 변화를 관찰합니다. 갑작스러운 통증 악화·복부 경직·고열은 천공 의심 → 즉시 보고합니다. 식이 지시(유동식 → 저잔사식 → 일반식)를 확인하고 진행 상태를 관찰합니다.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Cholecystitis / Gallstones</span><span class="abbr">Cholecystitis = Gallbladder Inflammation / Cholelithiasis = Gallstones (담낭염 / 담석증)</span></td>
+            <td><span class="en">Gallstones (cholelithiasis) form in the gallbladder from excess cholesterol or bilirubin. When a stone blocks the cystic duct, bile is trapped and the gallbladder becomes inflamed (cholecystitis). Symptoms are severe RUQ pain (often post-fatty meal, radiating to shoulder), nausea, fever, and positive Murphy's sign. Common bile duct blockage causes jaundice. Complications include gangrene, perforation, and pancreatitis. Treatment is cholecystectomy.</span><span class="kr">담석(담석증)은 담즙 내 과잉 콜레스테롤이나 빌리루빈으로 형성됩니다. 담석이 담낭관을 막으면 담즙이 갇혀 담낭에 염증이 생깁니다(담낭염). 심한 우상복부 통증(기름진 식사 후, 어깨로 방사), 오심, 발열, Murphy's sign 양성이 나타납니다. 총담관 폐색 시 황달이 발생합니다. 합병증으로 괴저, 천공, 췌장염이 있으며, 치료는 담낭절제술입니다.</span></td>
+            <td class="focus">우상복부(RUQ) 통증의 강도·양상·방사 유무를 사정합니다. 체온을 측정하여 발열 유무를 확인합니다. 황달 징후(피부·공막 노란빛, 짙은 소변, 밝은 색 대변)를 관찰합니다. 오심·구토를 관찰하고 기록합니다. Murphy's sign(우상복부를 누른 상태에서 숨쉴 때 통증으로 호흡 멈춤)을 확인합니다. 수술 예정인 경우 수술 전 준비(금식, 동의서, 검사 결과 확인)를 합니다. 수술 후 상처 부위·통증·식이 진행·가스 배출을 관찰합니다.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- HEP CONDITIONS -->
+    <div class="sys hep">
+      <div class="sys-bar"><span class="dot">HEPATO</span> 간 질환</div>
+      <table>
+        <colgroup><col class="c-term"><col class="c-mid"><col class="c-focus"></colgroup>
+        <thead><tr><th>병명 Condition</th><th>설명 · 기전 Description / Mechanism</th><th>관찰 포인트 Watch</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="term">Cirrhosis</span><span class="abbr">Cirrhosis = Liver Scarring (간경변 / 간경화)</span></td>
+            <td><span class="en">Cirrhosis is progressive scarring of the liver from repeated damage (alcohol, hepatitis B/C, fatty liver disease). Scar tissue replaces healthy cells, impairing the liver's ability to detoxify blood (causing hepatic encephalopathy), produce clotting factors (easy bleeding), and make albumin (leading to ascites and oedema). Portal hypertension develops, causing oesophageal varices. Patients show jaundice, fatigue, and weight loss. Cirrhosis is irreversible but progression can be slowed; without management it leads to liver failure.</span><span class="kr">간경변은 반복적 손상(음주, B형·C형 간염, 지방간)으로 간에 점진적으로 흉터가 생기는 것입니다. 흉터 조직이 건강한 세포를 대체하여 해독(간성뇌증 유발), 응고인자 생산(출혈 경향), 알부민 생산(복수·부종)이 저하됩니다. 문맥고혈압이 발생하여 식도정맥류가 생깁니다. 황달, 피로, 체중 감소가 나타납니다. 간경변은 비가역적이나 진행을 늦출 수 있으며, 관리하지 않으면 간부전으로 이어집니다.</span></td>
+            <td class="focus"><strong>출혈 징후를 관찰합니다</strong> (멍, 잇몸 출혈, 코피, 토혈, 흑색변, 혈변). INR/PT 수치를 확인합니다 (응고 기능 저하 시 상승). <strong>복수를 사정합니다</strong> (복위 측정, 체중 변화, 복부 팽만). <strong>간성뇌증 징후를 관찰합니다</strong> (혼돈, 성격 변화, 졸림, 손 떨림/flapping tremor). 황달의 정도(피부·공막)를 확인합니다. 부종(다리·발목)을 사정합니다. LFT(간기능검사), 빌리루빈, 알부민 수치를 확인합니다. 영양 상태와 식이 섭취량을 관찰합니다. 감염 징후를 주의합니다 (면역 기능 저하).</td>
+          </tr>
+          <tr>
+            <td><span class="term">Ascites</span><span class="abbr">Ascites = Abdominal Fluid Accumulation (복수)</span></td>
+            <td><span class="en">Ascites is abnormal fluid accumulation in the peritoneal cavity, most commonly from cirrhosis. Portal hypertension pushes fluid out of blood vessels, and low albumin allows further leakage into the abdomen. The abdomen becomes distended, causing discomfort, reduced appetite, and dyspnoea. The fluid can become infected (spontaneous bacterial peritonitis, SBP), which is life-threatening. Treatment includes sodium/fluid restriction, diuretics, and paracentesis with albumin replacement for large-volume drainage.</span><span class="kr">복수는 복막강에 비정상적으로 수분이 축적되는 것으로, 가장 흔한 원인은 간경변입니다. 문맥고혈압이 혈관에서 수분을 밀어내고, 낮은 알부민이 수분 유출을 심화시킵니다. 복부가 팽만해져 불편감, 식욕 감소, 호흡곤란이 발생합니다. 수분 감염 시 자발성 세균성 복막염(SBP)이 발생하며 생명을 위협합니다. 치료는 나트륨·수분 제한, 이뇨제, 대량 배액 시 알부민 보충과 함께 복수천자를 시행합니다.</span></td>
+            <td class="focus"><strong>복위를 매일 같은 위치에서 측정하고 기록합니다.</strong> 체중을 매일 같은 시간·같은 조건으로 측정합니다. 호흡 곤란 유무와 호흡수를 관찰합니다 (대량 복수 시 호흡 곤란 악화). 식이 섭취량을 확인합니다 (포만감으로 섭취 감소 가능). 수분·나트륨 제한을 지키고 있는지 관찰합니다. 이뇨제 투여 후 소변량을 확인합니다. 복수천자(paracentesis) 시행 시: 시술 전 활력징후 측정, 시술 중 배액량·색·양상 기록, 시술 후 저혈압 관찰, 알부민 보충 여부 확인, 천자 부위 누출 관찰. <strong>SBP 징후(발열, 복통, 혼돈 악화)를 주의합니다.</strong></td>
+          </tr>
+          <tr>
+            <td><span class="term">Hepatic Encephalopathy</span><span class="abbr">HE = Hepatic Encephalopathy (간성뇌증)</span></td>
+            <td><span class="en">Hepatic encephalopathy (HE) occurs when the damaged liver cannot convert ammonia to urea, so ammonia accumulates and crosses into the brain. Early signs include personality changes, poor concentration, and sleep reversal. Progression brings confusion, asterixis (flapping tremor), disorientation, and eventually coma. Common triggers are constipation, GI bleeding, infection, and dehydration. Treatment includes lactulose (traps ammonia in stool), rifaximin, and trigger management.</span><span class="kr">간성뇌증(HE)은 손상된 간이 암모니아를 요소로 전환하지 못해 암모니아가 뇌로 이동하여 발생합니다. 초기에는 성격 변화, 집중력 저하, 수면 역전이 나타납니다. 진행 시 혼돈, asterixis(손 떨림), 지남력 장애, 혼수까지 이릅니다. 흔한 유발 인자는 변비, GI 출혈, 감염, 탈수입니다. 치료는 락툴로스(암모니아를 대변으로 배출), 리팍시민, 유발 인자 관리입니다.</span></td>
+            <td class="focus"><strong>의식 수준을 자주 평가합니다</strong> (GCS 또는 AVPU 척도 사용). 지남력(시간·장소·사람)을 확인합니다. Asterixis(flapping tremor)를 검사합니다 — 환자에게 손목을 뻗어 손을 편 상태로 유지하도록 하여 손이 퍼덕이는지 확인합니다. 성격 변화, 초조, 졸림 정도를 관찰합니다. <strong>안전 관리와 낙상 예방 조치를 합니다</strong> (혼돈 환자는 낙상 고위험). 배변 횟수를 기록합니다 — 락툴로스 투여 목표는 보통 하루 2~3회 무른 변. 락툴로스를 처방대로 투여하고 효과를 확인합니다. 유발 인자(변비, 감염, 탈수, GI 출혈)가 있는지 확인합니다. 암모니아 수치를 확인합니다. 단백질 섭취를 관찰합니다.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Jaundice</span><span class="abbr">Jaundice = Icterus (황달)</span></td>
+            <td><span class="en">Jaundice is yellowing of skin, sclerae, and mucous membranes from bilirubin build-up. Three types exist: pre-hepatic (haemolysis producing excess bilirubin), hepatic (liver damage cannot process bilirubin), and post-hepatic/obstructive (blocked bile ducts from stones or tumour). High bilirubin causes pruritus, dark urine, and pale stool (in obstruction). Untreated causes can lead to liver failure, kidney damage, or cholangitis.</span><span class="kr">황달은 빌리루빈 축적으로 피부·공막·점막이 노랗게 변색되는 것입니다. 세 유형이 있습니다: 간전성(용혈로 과잉 빌리루빈 생성), 간성(간 손상으로 빌리루빈 처리 불능), 간후성/폐쇄성(담석·종양으로 담관 폐색). 높은 빌리루빈은 소양증, 짙은 소변, 창백한 대변(폐쇄 시)을 유발합니다. 원인 미치료 시 간부전, 신장 손상, 담관염으로 이어집니다.</span></td>
+            <td class="focus">피부와 공막(눈 흰자)의 노란빛 정도를 관찰합니다 — 자연광에서 확인하는 것이 정확합니다. 가려움(소양증)의 정도와 긁은 자국을 확인합니다. 피부 통합성(긁어서 생긴 상처, 발적)을 사정합니다. 소변 색을 관찰합니다 (짙은 차색 = 빌리루빈 증가). 대변 색을 관찰합니다 (창백/점토색 = 담관 폐쇄 시사). 빌리루빈 수치(직접/간접)를 확인합니다. LFT(간기능검사) 결과를 확인합니다. 가려움 완화를 위한 중재(보습제, 처방된 항히스타민제, 시원한 환경 유지, 손톱 짧게 유지)를 시행합니다.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Hepatitis</span><span class="abbr">Hepatitis = Liver Inflammation (간염)</span></td>
+            <td><span class="en">Hepatitis is liver inflammation caused by viruses (A through E), alcohol, autoimmune disease, drugs, or fatty liver. Hepatitis A spreads faecal-orally and self-resolves; B spreads via blood/body fluids and can become chronic; C spreads via blood contact and often becomes chronic. Symptoms include fatigue, RUQ pain, jaundice, dark urine, and elevated ALT/AST on LFTs. Chronic hepatitis B/C can progress to cirrhosis and liver cancer. Standard precautions and PPE are essential for care.</span><span class="kr">간염은 바이러스(A~E형), 음주, 자가면역, 약물, 지방간에 의한 간 염증입니다. A형은 분변-경구로 전파되며 자연 회복; B형은 혈액·체액으로 전파되며 만성화 가능; C형은 혈액 접촉으로 전파되며 만성화가 흔합니다. 피로, 우상복부 통증, 황달, 짙은 소변, LFT에서 ALT/AST 상승이 나타납니다. 만성 B형·C형은 간경변과 간암으로 진행될 수 있습니다. 간호 시 표준주의와 PPE가 필수입니다.</span></td>
+            <td class="focus">LFT 결과(ALT, AST, ALP, GGT, 빌리루빈, 알부민)를 확인합니다. 황달 징후(피부·공막 노란빛)를 관찰합니다. 피로 정도와 활동 내성을 사정합니다. 오심·구토·식욕을 관찰합니다. 우상복부 통증·압통을 확인합니다. <strong>감염형 간염(특히 B형, C형)인 경우 표준주의를 철저히 지킵니다</strong> — 장갑·가운 착용, 주사바늘 사고 예방(사용 후 바늘 뚜껑 다시 씌우지 않기, 안전 기구 사용), 혈액·체액 노출 시 즉시 보고. 활력징후를 측정합니다. 의식 수준 변화(급성 간부전 진행 시)를 관찰합니다.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Oesophageal Varices</span><span class="abbr">Oesophageal Varices = Swollen Veins in the Oesophagus (식도정맥류)</span></td>
+            <td><span class="en">Oesophageal varices are swollen, fragile veins in the lower oesophagus caused by portal hypertension (usually from cirrhosis). Blood forced through these thin-walled veins can rupture, causing massive haematemesis and rapid hypovolaemic shock. Variceal rupture is a life-threatening emergency requiring emergency endoscopic banding, IV fluids, blood transfusion, and terlipressin. Prevention includes beta-blockers (propranolol) and prophylactic banding.</span><span class="kr">식도정맥류는 문맥고혈압(주로 간경변)으로 식도 하부에 생기는 부풀고 약해진 정맥입니다. 얇은 벽의 정맥이 파열되면 대량 토혈과 급속한 저혈량성 쇼크가 발생합니다. 정맥류 파열은 생명을 위협하는 응급으로, 응급 내시경 결찰, IV 수액, 수혈, 터리프레신이 필요합니다. 예방으로 베타 차단제(프로프라놀롤)와 예방적 밴딩을 시행합니다.</span></td>
+            <td class="focus"><strong>토혈(haematemesis) 유무를 관찰합니다</strong> — 선홍색 대량 구토는 정맥류 파열을 시사하며 즉시 보고해야 합니다. <strong>흑색변(melaena)을 관찰합니다.</strong> <strong>쇼크 징후(빈맥, 저혈압, 창백, 차갑고 축축한 피부, 의식 변화)를 즉시 인지합니다</strong> = 응급상황. 활력징후를 자주 측정합니다. Hb 수치를 확인합니다. 예방적 베타 차단제(프로프라놀롤 등) 복용 여부를 확인합니다. 내시경 밴딩 시술 전후 간호를 합니다 (시술 후 연하곤란·흉통·재출혈 관찰). 환자에게 구토·흑색변·어지러움이 있으면 즉시 알리도록 교육합니다.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Liver Failure</span><span class="abbr">Liver Failure = Hepatic Failure (간부전)</span></td>
+            <td><span class="en">Liver failure means the liver can no longer sustain life. It can be acute (sudden, from paracetamol overdose, hepatitis, or toxins) or chronic (end-stage cirrhosis). Consequences include hepatic encephalopathy (ammonia toxicity to brain), coagulopathy (easy bleeding), ascites and oedema (low albumin), deep jaundice, hypoglycaemia, impaired immunity, and hepatorenal syndrome. Liver transplant may be the only survival option.</span><span class="kr">간부전은 간이 더 이상 생명을 유지할 수 없는 상태입니다. 급성(파라세타몰 과량, 간염, 독소로 갑자기 발생) 또는 만성(간경변 말기)이 있습니다. 간성뇌증(암모니아 뇌독성), 응고장애(출혈 경향), 복수·부종(저알부민), 심한 황달, 저혈당, 면역 저하, 간신증후군이 발생합니다. 간이식이 유일한 생존 방법일 수 있습니다.</span></td>
+            <td class="focus"><strong>다장기에 영향을 미치므로 전신 관찰이 필요합니다.</strong> 의식 수준을 자주 평가합니다 (간성뇌증 진행 — GCS 사용). 출혈 징후를 전반적으로 관찰합니다 (멍, 잇몸 출혈, 코피, 토혈, 혈변, 흑색변, IV 부위 출혈). INR/PT 수치를 확인합니다. 황달 정도와 가려움을 관찰합니다. 복수(복위·체중)를 사정합니다. 부종(발목·다리·천골)을 확인합니다. 혈당을 자주 측정합니다 (저혈당 위험). 소변량을 측정합니다 (간신증후군 시 소변량 감소). 감염 징후(발열, 염증 수치 상승)를 주의합니다. 활력징후를 자주 측정합니다. LFT, 빌리루빈, 알부민, 암모니아 수치를 확인합니다. <strong>급격한 의식 변화나 대량 출혈 시 즉시 보고합니다.</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ 4. PROCEDURES ============ -->
+  <section id="procedures">
+    <div class="sec-head"><span class="sec-num">04</span><h2>주로 있는 시술 · 수술</h2></div>
+    <p class="sec-desc">이 병동은 '수술'보다 검사·시술·시술 후 관찰이 더 많아요. 목적과 시술 전후 간호 포인트를 같이 봤어요.</p>
+
+    <!-- GASTRO/HEP PROCEDURES -->
+    <div class="sys gastro">
+      <div class="sys-bar"><span class="dot">GASTRO/HEP</span> 소화기 · 간 시술</div>
+      <table>
+        <colgroup><col class="c-term"><col class="c-mid"><col class="c-focus"></colgroup>
+        <thead><tr><th>시술 Procedure</th><th>설명 · 목적 Description / Why</th><th>간호 포인트 Nursing focus</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="term">Gastroscopy</span><span class="abbr">Upper Gastrointestinal Endoscopy (위내시경 / 상부위장관 내시경)</span></td>
+            <td><span class="en">Gastroscopy uses an endoscope inserted through the mouth to examine the oesophagus, stomach, and duodenum. It detects ulcers, gastritis, bleeding, varices, and tumours. The patient is sedated and lies on their left side. Biopsies and bleeding treatment can be done during the procedure.</span><span class="kr">위내시경은 내시경을 입을 통해 삽입하여 식도, 위, 십이지장을 관찰하는 시술입니다. 궤양, 위염, 출혈, 정맥류, 종양을 발견합니다. 환자는 진정제를 투여받고 왼쪽으로 누웁니다. 시술 중 생검과 출혈 치료가 가능합니다.</span></td>
+            <td class="focus"><strong>시술 전 간호:</strong> <strong>NBM (Nil By Mouth, 금식)</strong> — 보통 시술 전 6~8시간 금식 확인. <strong>동의서</strong> 서명 여부 확인. 틀니·안경·귀금속 제거. <strong>알레르기</strong>(특히 진정제) 확인. 기본 <strong>활력징후(V/S)</strong> 측정하여 기준선 확보. IV 라인 확보 여부 확인.<br><strong>시술 후 간호:</strong> <strong>진정 회복 상태</strong> 관찰 — 의식 수준, 호흡, 산소포화도(SpO₂) 모니터링. <strong>연하반사(gag reflex)</strong>가 돌아올 때까지 금식 유지 (보통 1~2시간). 목 통증·복부 팽만감은 정상일 수 있음을 설명. <strong>출혈 징후</strong>(토혈, 흑색변, 활력징후 변화) 관찰. 생검 시행 시 부드러운 식이부터 시작.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Colonoscopy</span><span class="abbr">Colonoscopy — Large Bowel Endoscopy (대장내시경)</span></td>
+            <td><span class="en">Colonoscopy inserts a camera tube through the anus to examine the entire colon lining. It investigates bleeding, diarrhoea, or pain, and screens for colorectal cancer, polyps, IBD, and diverticular disease. The patient is sedated; the bowel is inflated with air or CO₂. Polypectomy and biopsies can be performed during the procedure.</span><span class="kr">대장내시경은 카메라 관을 항문으로 삽입하여 대장 전체 내벽을 관찰합니다. 출혈, 설사, 통증의 원인을 조사하고 대장암, 용종, IBD, 게실 질환을 선별합니다. 환자는 진정제를 투여받으며, 공기나 CO₂로 장을 부풀립니다. 용종절제술과 생검이 동시에 가능합니다.</span></td>
+            <td class="focus"><strong>시술 전 간호:</strong> <strong>장 정결(bowel preparation)</strong> — 처방된 하제(예: 코리텍스/클린프렙) 복용 완료 확인. 대변이 맑은 물처럼 나오는지 확인. <strong>NBM (금식)</strong> 시간 확인. 동의서·알레르기 확인. 기본 활력징후 측정. 항응고제 복용 여부 확인 (의사 지시에 따라 사전 중단 필요할 수 있음).<br><strong>시술 후 간호:</strong> <strong>복부 팽만·복통</strong> 관찰 — 가스 때문에 일시적 불편감은 정상. <strong>출혈 징후</strong>(직장출혈, 활력징후 변화) 관찰. <strong>장 천공 징후</strong>(심한 복통, 복부 경직, 발열) 관찰. 진정 회복 후 식이 재개. 용종 제거 시 며칠간 부드러운 식이 권장.</td>
+          </tr>
+          <tr>
+            <td><span class="term">ERCP</span><span class="abbr">Endoscopic Retrograde Cholangiopancreatography (내시경적 역행성 담췌관 조영술)</span></td>
+            <td><span class="en">ERCP (Endoscopic Retrograde Cholangiopancreatography) combines endoscopy and X-ray to diagnose and treat bile duct and pancreatic duct problems such as stones, strictures, or tumours. The endoscope reaches the ampulla of Vater in the duodenum, contrast dye is injected, and stones can be removed or stents placed.</span><span class="kr">ERCP(내시경적 역행성 담췌관 조영술)는 내시경과 X-ray를 결합하여 담관·췌관의 담석, 협착, 종양 등을 진단·치료하는 시술입니다. 내시경이 십이지장의 바터 팽대부에 도달하여 조영제를 주입하고, 담석 제거나 스텐트 삽입이 가능합니다.</span></td>
+            <td class="focus"><strong>시술 전 간호:</strong> <strong>NBM (금식)</strong> 6~8시간 확인. 동의서 확인. <strong>혈액검사</strong> — 응고검사(INR, PT), 아밀라아제 기준선 확인. 항응고제 중단 여부 확인. 알레르기(조영제·요오드) 확인. IV 라인 확보.<br><strong>시술 후 간호:</strong> <strong>급성 췌장염</strong>이 가장 흔한 합병증 — <strong>심와부(상복부) 통증, 오심·구토, 발열</strong> 관찰. 아밀라아제·리파아제 상승 여부 확인. <strong>출혈 징후</strong>(토혈, 흑색변, 빈맥, 저혈압) 관찰. <strong>담관염 징후</strong>(발열, 황달, 우상복부 통증 = 샤르코 삼징후) 관찰. <strong>장 천공 징후</strong>(심한 복통, 복부 경직) 관찰. 활력징후 15~30분 간격 모니터링.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Paracentesis</span><span class="abbr">Abdominal Paracentesis / Ascitic Tap (복수천자)</span></td>
+            <td><span class="en">Paracentesis drains ascitic fluid from the peritoneal cavity via a needle or catheter through the abdominal wall. It is diagnostic (testing fluid for infection, cancer, protein) or therapeutic (relieving pressure and dyspnoea from large-volume ascites). Ultrasound guidance is used for safe needle placement.</span><span class="kr">복수천자는 바늘이나 카테터로 복벽을 통해 복강의 복수를 배액하는 시술입니다. 진단적(감염, 암, 단백질 검사) 또는 치료적(대량 복수로 인한 압박·호흡곤란 완화) 목적입니다. 초음파 유도로 안전하게 바늘을 삽입합니다.</span></td>
+            <td class="focus"><strong>시술 전 간호:</strong> <strong>방광 비우기</strong> — 시술 전 반드시 배뇨하게 하여 방광 천공 예방. 동의서 확인. <strong>응고검사</strong>(INR, 혈소판) 확인 — 출혈 위험 평가. 기본 활력징후·체중·복부 둘레 측정. 알레르기(국소마취제) 확인.<br><strong>시술 후 간호:</strong> <strong>대량 배액 시 저혈압</strong> 위험 — 활력징후 자주 측정 (15분 간격). 5L 이상 배액 시 <strong>알부민(Albumin) 정맥 투여</strong> 필요할 수 있음 (의사 처방 확인). <strong>천자 부위</strong> — 체액 누출, 출혈, 감염 징후(발적, 부종, 분비물) 관찰. 배액량·색·양상 기록. <strong>복막염 징후</strong>(발열, 복통, 배액 혼탁) 관찰. 시술 후 체중·복부 둘레 재측정.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Liver biopsy</span><span class="abbr">Percutaneous Liver Biopsy (경피적 간생검)</span></td>
+            <td><span class="en">A liver biopsy takes a small tissue sample using an ultrasound-guided needle through the right abdomen. It diagnoses hepatitis, cirrhosis, fatty liver (NAFLD/NASH), unexplained abnormal LFTs, or monitors transplant function. The patient lies supine, holds their breath briefly during needle insertion under local anaesthesia.</span><span class="kr">간생검은 초음파 유도하에 바늘을 우측 복부 피부로 넣어 간 조직 샘플을 채취하는 시술입니다. 간염, 간경변, 지방간(NAFLD/NASH), 원인 불명 LFT 이상 진단, 이식 후 모니터링에 사용됩니다. 환자는 바로 누워 국소마취 후 바늘 삽입 시 잠깐 숨을 참습니다.</span></td>
+            <td class="focus"><strong>시술 전 간호:</strong> <strong>응고검사</strong>(INR, PT, 혈소판) 반드시 확인 — 출혈 위험 높은 시술. INR > 1.5 또는 혈소판 < 60,000이면 의사에게 보고. 동의서 확인. <strong>혈액형·교차시험</strong> 준비 여부 확인 (대량 출혈 대비). 기본 활력징후 측정. 알레르기 확인.<br><strong>시술 후 간호:</strong> <strong>출혈이 가장 큰 위험</strong> — <strong>우측와위(right lateral position)</strong>로 1~2시간 이상 안정 (천자 부위에 압박). 활력징후 15분 간격으로 최소 2시간 모니터링. <strong>통증</strong> — 우측 어깨 방사통(횡격막 자극)은 보고. <strong>복강 내 출혈 징후</strong>(빈맥, 저혈압, 복부 팽만, 어지러움) 즉시 보고. 24시간 침상 안정 유지. 무거운 물건 들기 금지 (보통 1주).</td>
+          </tr>
+          <tr>
+            <td><span class="term">Variceal banding</span><span class="abbr">Endoscopic Variceal Band Ligation — EVL (내시경적 정맥류 결찰술)</span></td>
+            <td><span class="en">Variceal banding (EVL, Endoscopic Variceal Ligation) places elastic bands around oesophageal varices via endoscope to treat or prevent bleeding from portal hypertension. The bands cut off blood supply, causing the varix to shrink and scar over days. The patient is sedated and lies on their left side.</span><span class="kr">정맥류 결찰술(EVL, 내시경적 정맥류 결찰술)은 내시경을 통해 식도정맥류에 탄성 밴드를 씌워 문맥고혈압에 의한 출혈을 치료·예방합니다. 밴드가 혈류를 차단하여 정맥류가 수축·반흔화됩니다. 환자는 진정제 투여 후 왼쪽으로 눕습니다.</span></td>
+            <td class="focus"><strong>시술 전 간호:</strong> <strong>NBM (금식)</strong> 확인. 동의서 확인. <strong>응고검사</strong>(INR, 혈소판) 확인 — 간경변 환자는 응고장애 흔함. 활력징후 기준선 측정. 현재 출혈 여부 확인 (활동성 출혈 시 응급). IV 라인 확보·수혈 준비 여부 확인.<br><strong>시술 후 간호:</strong> <strong>재출혈</strong>이 가장 위험한 합병증 — <strong>토혈(hematemesis), 흑색변(melaena), 빈맥, 저혈압</strong> 관찰. <strong>흉통·연하곤란(삼키기 어려움)</strong> 관찰 — 시술 후 흔한 불편감. <strong>부드러운 식이</strong>부터 시작 (밴드 탈락 방지를 위해 딱딱한 음식 피함). <strong>발열</strong> 관찰 (감염 또는 천공 가능성). 활력징후 자주 측정. 대변 색·양 관찰.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Cholecystectomy</span><span class="abbr">Cholecystectomy — Gallbladder Removal Surgery (담낭절제술)</span></td>
+            <td><span class="en">Cholecystectomy removes the gallbladder, done for symptomatic gallstones causing biliary colic, cholecystitis, bile duct blockage, or gallstone pancreatitis. Usually performed laparoscopically (keyhole with CO₂ inflation); open surgery for complicated cases.</span><span class="kr">담낭절제술은 담석으로 인한 담도성 산통, 담낭염, 담관 폐색, 담석 췌장염 시 담낭을 제거하는 수술입니다. 보통 복강경(CO₂로 복부 팽창, 최소침습)으로 시행하며, 복잡한 경우 개복 수술을 합니다.</span></td>
+            <td class="focus"><strong>시술 전 간호:</strong> <strong>NBM (금식)</strong> 확인. 동의서 확인. 기본 활력징후·혈액검사(FBC, LFT, 응고검사) 확인. <strong>알레르기</strong> 확인. DVT 예방(항색전 스타킹, 헤파린) 처방 확인. 수술 전 교육 — 심호흡·조기 이상(ambulation) 중요성 설명.<br><strong>시술 후 간호:</strong> <strong>통증 관리</strong> — 절개 부위 통증 사정·진통제 투여. <strong>복강경 후 어깨 통증</strong>(CO₂ 가스가 횡격막 자극) 정상일 수 있음을 설명 — 조기 보행이 가스 배출에 도움. <strong>상처 관찰</strong> — 출혈, 발적, 분비물, 열감 확인. <strong>오심·구토</strong> 관찰 (마취 후 흔함). <strong>식이 진행</strong> — 맑은 유동식부터 시작, 지방이 많은 음식은 당분간 피하도록 교육. <strong>담즙 누출 징후</strong>(지속적 복통, 발열) 관찰. <strong>조기 이상</strong> 격려.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Bowel resection</span><span class="abbr">Bowel Resection — Colectomy / Small Bowel Resection (장 절제술)</span></td>
+            <td><span class="en">Bowel resection removes a diseased section of small or large bowel for colorectal cancer, obstruction, refractory IBD, perforation, or ischaemic bowel. The healthy ends are joined (anastomosis) or a stoma is created. It can be laparoscopic or open.</span><span class="kr">장 절제술은 대장직장암, 폐색, 난치성 IBD, 천공, 허혈성 장 등에서 병변 장 부분을 제거합니다. 건강한 양쪽 끝을 문합하거나 장루를 형성합니다. 복강경 또는 개복으로 시행합니다.</span></td>
+            <td class="focus"><strong>시술 전 간호:</strong> <strong>NBM (금식)</strong> 확인. 동의서 확인. <strong>장 정결</strong> 필요 시 처방대로 시행. 기본 활력징후·혈액검사(FBC, U&E, LFT, 응고검사, 혈액형·교차시험) 확인. DVT 예방 조치 확인. 장루 형성 예정 시 <strong>장루 전문간호사</strong> 상담·복부 표시 여부 확인. 수술 전 교육.<br><strong>시술 후 간호:</strong> <strong>장운동 회복</strong> 관찰 — 장음(bowel sounds) 청진, 가스 배출(flatus) 여부, 첫 배변 시기 기록. <strong>문합부 누출 징후</strong>(발열, 빈맥, 심한 복통, 복막자극 징후) 관찰 — 가장 심각한 합병증. <strong>상처 관찰</strong> — 출혈·감염 징후. <strong>통증 관리</strong>. <strong>식이 진행</strong> — 맑은 유동식 → 연식 → 일반식 (의사 지시에 따라). <strong>조기 이상</strong> 격려. <strong>NG (Nasogastric, 비위관) 관</strong> 있으면 배액량·색 기록. <strong>I&O (섭취량·배출량)</strong> 기록.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Stoma formation</span><span class="abbr">Stoma Formation — Colostomy / Ileostomy (장루 형성술 — 결장루 / 회장루)</span></td>
+            <td><span class="en">Stoma formation creates an abdominal opening where bowel is brought to the surface so stool drains into an external bag. Done after bowel resection, for obstruction, or cancer. A colostomy (colon; formed stool) or ileostomy (ileum; liquid stool) can be temporary or permanent.</span><span class="kr">장루 형성술은 장을 복부 표면으로 꺼내 대변이 외부 주머니로 배출되도록 하는 수술입니다. 장 절제 후, 폐색, 암 등에 시행합니다. 결장루(결장; 성형변)와 회장루(회장; 묽은 변)가 있으며, 임시 또는 영구적입니다.</span></td>
+            <td class="focus"><strong>시술 전 간호:</strong> 동의서 확인. <strong>장루 전문간호사</strong>와 상담 — 장루 위치 표시 확인 (환자의 벨트라인, 피부 주름, 시야를 고려). 수술 전 교육 — 장루 관리 방법 소개. <strong>심리적 지지</strong> — 신체상 변화에 대한 불안 경청. 기본 활력징후·혈액검사 확인.<br><strong>시술 후 간호:</strong> <strong>장루 색깔</strong> — <strong>분홍색·촉촉(pink and moist)</strong>이 정상. 창백·청색·검은색이면 혈류 문제 → 즉시 보고. <strong>장루 배출량</strong> 기록 — 양·색·양상. 회장루는 고배출량(high output) 가능 → <strong>탈수·전해질 불균형</strong>(특히 나트륨, 칼륨) 주의. <strong>장루 주위 피부</strong> — 발적·짓무름·미란 관찰, 피부 보호 제품 사용. <strong>장루 기구 교환</strong> 방법 교육. <strong>식이 교육</strong> — 가스 유발 식품, 막힐 수 있는 식품 안내. <strong>심리적 지지</strong> — 신체상 변화·일상생활 적응에 대한 감정 경청·지지 그룹 안내. <strong>I&O 기록</strong>.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- RENAL PROCEDURES -->
+    <div class="sys renal">
+      <div class="sys-bar"><span class="dot">RENAL</span> 신장 시술</div>
+      <table>
+        <colgroup><col class="c-term"><col class="c-mid"><col class="c-focus"></colgroup>
+        <thead><tr><th>시술 Procedure</th><th>설명 · 기전 Description / Mechanism</th><th>간호 포인트 Nursing focus</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="term">Haemodialysis</span><span class="abbr">Haemodialysis — HD (혈액투석)</span></td>
+            <td><span class="en">Haemodialysis (HD) uses a dialyser machine to filter waste, excess fluid, and electrolytes from blood when kidneys fail (ESKD or severe AKI). Blood exits via AV fistula, graft, or central catheter, passes through the dialyser for diffusion and ultrafiltration, then returns clean. Sessions last 3-5 hours, typically 3 times per week.</span><span class="kr">혈액투석(HD)은 신부전(ESKD 또는 심한 AKI) 시 투석기로 혈액의 노폐물, 과잉 수분, 전해질을 걸러내는 시술입니다. 동정맥루, 이식편, 중심정맥 카테터로 혈액을 빼내어 확산·한외여과 후 깨끗한 혈액을 되돌려 보냅니다. 1회 3~5시간, 주 3회 시행합니다.</span></td>
+            <td class="focus"><strong>투석 전 간호:</strong> <strong>체중 측정</strong> — 건체중(dry weight)과 비교하여 제거할 수분량 결정. <strong>혈압</strong> 측정 (투석 전 기준선). <strong>혈관 접근로(fistula/graft) 사정</strong> — <strong>thrill(진동 촉진)</strong>과 <strong>bruit(잡음 청진)</strong> 확인하여 개통성 평가. 접근로 부위 감염 징후(발적·부종·분비물) 관찰. <strong>혈액검사</strong> — 칼륨(K⁺), 요소(urea), 크레아티닌(creatinine) 확인. 투석 전 약물 투여 여부 확인 (일부 약은 투석 후 투여).<br><strong>투석 후 간호:</strong> <strong>체중·혈압</strong> 재측정 — 투석 전과 비교. <strong>저혈압</strong>(가장 흔한 합병증) — 어지러움, 오심, 빈맥 관찰. <strong>투석 불균형 증후군</strong>(두통, 오심, 혼돈) 관찰. 접근 부위 출혈 관찰. <strong>fistula가 있는 팔</strong>에 절대 혈압 측정·채혈·IV 라인 삽입 금지.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Peritoneal dialysis</span><span class="abbr">Peritoneal Dialysis — PD (복막투석)</span></td>
+            <td><span class="en">Peritoneal dialysis (PD) uses the patient's peritoneum as a natural filter. Dialysate is infused via a Tenckhoff catheter into the peritoneal cavity; during dwell time, waste and fluid move into the solution by osmosis and diffusion, then it is drained. Two types exist: CAPD (manual exchanges during the day) and APD (machine-driven at night). Used for ESKD patients choosing home-based dialysis.</span><span class="kr">복막투석(PD)은 환자의 복막을 자연 필터로 사용합니다. 텐코프 카테터로 투석액을 복강에 주입하고, 체류 시간 동안 삼투·확산으로 노폐물과 수분이 투석액으로 이동한 후 배액합니다. CAPD(낮에 수동 교환)와 APD(밤에 기계 교환) 두 유형이 있습니다. 가정 기반 투석을 선택한 ESKD 환자에게 시행합니다.</span></td>
+            <td class="focus"><strong>시술 전/중 간호:</strong> <strong>철저한 무균술(aseptic technique)</strong> — 복막염 예방이 가장 중요. 손위생·마스크 착용 필수. 카테터 출구 부위(exit site) — 발적·부종·분비물·통증 관찰. 투석액 온도 — 체온 정도로 가온 (차가운 투석액은 복통 유발). <strong>체중·혈압</strong> 매일 측정.<br><strong>시술 후/지속 간호:</strong> <strong>배액 양상 관찰</strong>이 핵심 — <strong>배액이 혼탁하면 복막염(peritonitis)</strong> 의심 → 즉시 보고. 정상 배액은 맑고 투명. <strong>복막염 징후</strong> — 복통, 발열, 오한, 혼탁한 배액, 오심·구토. <strong>배액량</strong> 기록 — 주입량과 비교하여 한외여과량(ultrafiltration volume) 계산. 배액이 안 되면(outflow failure) 체위 변경 시도, 변비 여부 확인. <strong>카테터 출구 감염 징후</strong> 관찰. <strong>영양 관리</strong> — PD는 단백질 손실이 있어 고단백 식이 권장. <strong>체중 증가</strong>(수분 저류) 관찰.</td>
+          </tr>
+          <tr>
+            <td><span class="term">AV fistula creation</span><span class="abbr">Arteriovenous Fistula Creation — AVF (동정맥루 조성술)</span></td>
+            <td><span class="en">AV fistula creation (AVF, Arteriovenous Fistula) surgically connects an artery to a vein (forearm or upper arm) to create vascular access for haemodialysis. Arterial blood flow makes the vein enlarge and strengthen (maturation, 6-12 weeks). AVF has the lowest infection risk and longest lifespan of all dialysis access types.</span><span class="kr">동정맥루 조성술(AVF, 동정맥루)은 전완 또는 상완에서 동맥을 정맥에 직접 연결하여 혈액투석용 혈관 접근로를 만드는 수술입니다. 동맥혈 유입으로 정맥이 커지고 강해집니다(성숙, 6~12주 소요). AVF는 모든 투석 접근로 중 감염 위험이 가장 낮고 수명이 가장 깁니다.</span></td>
+            <td class="focus"><strong>시술 전 간호:</strong> 동의서 확인. <strong>해당 팔 보호</strong> — 수술 전부터 해당 팔에 IV 라인·채혈·혈압 측정 금지하여 혈관 보존. 기본 활력징후 측정. 알레르기 확인. 항응고제 복용 여부 확인.<br><strong>시술 후 간호:</strong> <strong>개통성(patency) 확인</strong>이 가장 중요 — <strong>thrill(진동)</strong>: 손가락으로 fistula 부위를 가볍게 촉진 시 진동 느껴져야 정상. <strong>bruit(잡음)</strong>: 청진기로 들으면 '쉬~' 소리가 나야 정상. thrill이나 bruit이 없으면 → <strong>혈전(thrombosis) 의심, 즉시 보고</strong>. <strong>fistula가 있는 팔</strong>: 절대 <strong>혈압 측정 금지, 채혈 금지, IV 라인 금지, 손목시계·팔찌·꽉 끼는 옷 금지</strong>. 그 팔로 무거운 물건 들기 금지. <strong>상처 관찰</strong> — 출혈·혈종(hematoma)·감염 징후. <strong>손 순환</strong> 확인 — 손가락 색깔·온도·감각·맥박. <strong>팔 거상</strong>으로 부종 감소. <strong>환자 교육</strong> — fistula 보호 방법, 매일 thrill 자가 확인법.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Renal biopsy</span><span class="abbr">Percutaneous Renal Biopsy — Kidney Biopsy (경피적 신장생검)</span></td>
+            <td><span class="en">A renal biopsy takes kidney tissue via an ultrasound-guided needle through the lower back. It is done when blood/urine tests cannot clarify the cause of proteinuria, haematuria, rapidly declining kidney function, nephrotic syndrome, or transplant rejection. The patient lies prone and holds their breath briefly during 2-3 needle passes.</span><span class="kr">신장생검은 초음파 유도하에 허리 피부로 바늘을 넣어 신장 조직을 채취하는 시술입니다. 혈액·소변 검사로 원인 불명의 단백뇨, 혈뇨, 급속한 신기능 악화, 신증후군, 이식 후 거부 반응 확인 시 시행합니다. 환자는 복와위로 눕고, 2~3회 바늘 채취 시 잠깐 숨을 참습니다.</span></td>
+            <td class="focus"><strong>시술 전 간호:</strong> <strong>응고검사</strong>(INR, PT, APTT, 혈소판) 반드시 확인 — 신장은 혈류가 매우 풍부한 장기로 출혈 위험 높음. <strong>혈압</strong> 확인 — 조절되지 않는 고혈압은 시술 금기. 동의서 확인. <strong>혈액형·교차시험</strong> 준비 여부 확인 (대량 출혈 대비). 항응고제·항혈소판제 중단 여부 확인. 기본 소변 색·양 기록. 알레르기 확인.<br><strong>시술 후 간호:</strong> <strong>출혈이 가장 큰 위험</strong> — <strong>침상 안정</strong> 최소 6~24시간 (병원 규정에 따라). <strong>천자 부위 압박</strong> — 모래주머니(sand bag) 적용할 수 있음. 활력징후 <strong>15분 간격</strong>으로 최소 2시간, 이후 30분~1시간 간격. <strong>소변 색 관찰</strong> — 첫 소변은 약간 혈뇨가 정상일 수 있으나, <strong>진한 혈뇨(frank haematuria)</strong>가 지속되면 즉시 보고. 매 배뇨 시 소변 색 확인·기록. <strong>후복막 출혈 징후</strong>(요통, 옆구리 통증, 빈맥, 저혈압, 혈색소 감소) 관찰. <strong>Hb (Haemoglobin, 혈색소)</strong> 추적 검사 확인. <strong>통증</strong> 관리 — 생검 부위 통증 사정. 퇴원 교육: 1~2주간 격렬한 운동·무거운 물건 들기 금지.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ 5. KEY PHRASES ============ -->
+  <section id="phrases">
+    <div class="sec-head"><span class="sec-num">05</span><h2>실습장에서 써먹는 문장</h2></div>
+    <p class="sec-desc">통째로 외워서 RN에게 보고하거나 사정 근거를 말할 때 바로 쓰는 문장이에요.</p>
+
+    <div class="phrase renal">
+      <span class="lbl">Renal · 포괄적 사정 보고 문장</span>
+      <div class="en">This patient has a renal condition, which means the kidneys are not filtering waste products, excess fluid, and electrolytes properly. Because of this, I need to closely monitor the patient's urine output (aiming for at least 0.5 mL/kg/hour), daily weight (a sudden increase of more than 1 kg in 24 hours suggests fluid retention), fluid balance chart (total intake versus total output), blood pressure (both hypertension from fluid overload and hypotension from dehydration), peripheral oedema (checking ankles, sacrum, and periorbital area), serum creatinine and urea levels (which rise when kidney function worsens), eGFR (estimated Glomerular Filtration Rate — the main measure of how well the kidneys are filtering), and electrolytes — especially potassium (hyperkalaemia above 5.5 mmol/L is dangerous and can cause cardiac arrhythmias), sodium, phosphate, and calcium levels.</div>
+      <div class="kr">이 환자는 신장 질환이 있어, 신장이 노폐물·과잉 수분·전해질을 제대로 걸러내지 못하고 있습니다. 따라서 소변량(최소 0.5 mL/kg/시간 이상 목표), 매일 체중(24시간 내 1kg 이상 급증은 체액 저류 의심), 수분 균형 기록(총 섭취량 대 총 배출량), 혈압(체액 과부하로 인한 고혈압과 탈수로 인한 저혈압 모두), 말초 부종(발목·천골·눈 주위 확인), 혈청 크레아티닌과 요소 수치(신장 기능 악화 시 상승), eGFR(추정 사구체여과율 — 신장 여과 기능의 주요 지표), 그리고 전해질 — 특히 칼륨(5.5 mmol/L 이상의 고칼륨혈증은 위험하며 심장 부정맥 유발 가능), 나트륨, 인산염, 칼슘 수치를 면밀히 관찰해야 합니다.</div>
+    </div>
+
+    <div class="phrase renal">
+      <span class="lbl">Renal · 투석 환자 보고</span>
+      <div class="en">This patient is on haemodialysis, so before dialysis I checked their weight (which was ___ kg, ___ kg above their dry weight of ___ kg), blood pressure (___/___), and confirmed the AV fistula has a palpable thrill and audible bruit. After dialysis, I need to recheck weight and blood pressure, monitor for hypotension, dizziness, nausea, or muscle cramps, and ensure the fistula site is not bleeding. I will also check their post-dialysis blood results including potassium and urea to confirm adequate dialysis.</div>
+      <div class="kr">이 환자는 혈액투석 중이므로, 투석 전 체중(___kg, 건체중 ___kg 대비 ___kg 증가), 혈압(___/___), 동정맥루의 thrill(진동 촉진)과 bruit(잡음 청진)이 확인됨을 점검했습니다. 투석 후 체중·혈압 재측정, 저혈압·어지러움·오심·근육 경련 관찰, fistula 부위 출혈 여부 확인이 필요합니다. 또한 투석 후 혈액검사(칼륨, 요소)를 확인하여 적절한 투석 여부를 확인하겠습니다.</div>
+    </div>
+
+    <div class="phrase renal">
+      <span class="lbl">Renal · AKI (급성 신손상) 보고</span>
+      <div class="en">I am concerned this patient may be developing AKI (Acute Kidney Injury) because their urine output has dropped to less than 0.5 mL/kg/hour over the past ___ hours, their creatinine has risen from ___ to ___, and they are showing signs of fluid overload including peripheral oedema and elevated blood pressure. I would like to escalate this to the RN and suggest reviewing the fluid balance, holding any nephrotoxic medications, and checking the latest potassium level urgently.</div>
+      <div class="kr">이 환자에게 AKI(급성 신손상)가 발생하고 있을 수 있어 걱정됩니다. 지난 ___시간 동안 소변량이 0.5 mL/kg/시간 미만으로 감소했고, 크레아티닌이 ___에서 ___로 상승했으며, 말초 부종과 혈압 상승 등 체액 과부하 징후를 보이고 있습니다. RN에게 보고하고 수분 균형 검토, 신독성 약물 보류, 칼륨 수치 긴급 확인을 제안하겠습니다.</div>
+    </div>
+
+    <div class="phrase gastro">
+      <span class="lbl">Gastro · 포괄적 사정 보고 문장</span>
+      <div class="en">This patient has a gastrointestinal condition, which means they may be losing blood, fluid, nutrients, and electrolytes through the GI tract via vomiting, diarrhoea, bleeding, or poor absorption. Because of this, I need to closely monitor the patient's pain level (location, severity using a 0-10 scale, character — cramping, sharp, or dull), nausea and vomiting (frequency, amount, presence of blood or bile), bowel motions (frequency, consistency using the Bristol Stool Chart, colour — especially looking for melaena which is black tarry stool indicating upper GI bleeding, or fresh red blood indicating lower GI bleeding), abdominal assessment (distension, tenderness, bowel sounds — present, absent, hyperactive, or hypoactive), hydration status (skin turgor, mucous membranes, urine output, thirst), vital signs (blood pressure for hypotension from dehydration or bleeding, heart rate for tachycardia), and relevant blood results including haemoglobin, haematocrit, electrolytes (sodium, potassium, magnesium), albumin, and CRP (C-Reactive Protein — an inflammation marker).</div>
+      <div class="kr">이 환자는 소화기 질환이 있어, 구토·설사·출혈·흡수 불량을 통해 위장관에서 혈액·수분·영양분·전해질을 잃을 수 있습니다. 따라서 통증(위치, 0-10 척도 중증도, 양상 — 경련성·날카로운·둔한), 오심·구토(빈도, 양, 혈액이나 담즙 유무), 배변(빈도, 브리스톨 대변 차트 기준 경도, 색깔 — 특히 상부 GI 출혈을 나타내는 흑색변(melaena, 검은 끈적한 변)이나 하부 GI 출혈을 나타내는 선홍색 혈변), 복부 사정(팽만, 압통, 장음 — 존재·부재·항진·저하), 수분 상태(피부 긴장도, 점막, 소변량, 갈증), 활력징후(탈수나 출혈로 인한 저혈압, 빈맥), 관련 혈액검사 — 혈색소(Hb), 헤마토크릿(Hct), 전해질(나트륨, 칼륨, 마그네슘), 알부민, CRP(C-반응성 단백질 — 염증 지표)를 면밀히 관찰해야 합니다.</div>
+    </div>
+
+    <div class="phrase gastro">
+      <span class="lbl">Gastro · GI 출혈 환자 보고</span>
+      <div class="en">I am concerned about this patient because they have passed melaena (black, tarry, foul-smelling stool), which suggests upper gastrointestinal bleeding. Their heart rate has increased to ___ bpm, blood pressure has dropped to ___/___ mmHg, and they report feeling dizzy and lightheaded. Their most recent haemoglobin was ___ g/L which is below normal. I would like to escalate this urgently to the RN, ensure IV access is secured, check if a group and screen has been sent, and prepare for possible blood transfusion.</div>
+      <div class="kr">이 환자에게 흑색변(검고, 끈적이며, 악취가 나는 변)이 나타났으며, 이는 상부 위장관 출혈을 시사합니다. 심박수가 ___회/분으로 증가했고, 혈압이 ___/___mmHg로 떨어졌으며, 어지럽고 현기증이 난다고 합니다. 가장 최근 혈색소는 ___g/L로 정상 이하입니다. RN에게 긴급 보고하고, IV 접근로 확보, 혈액형·교차시험(group and screen) 전송 여부 확인, 수혈 준비를 하겠습니다.</div>
+    </div>
+
+    <div class="phrase gastro">
+      <span class="lbl">Gastro · 시술 후 (내시경 후) 보고</span>
+      <div class="en">This patient returned from a gastroscopy/colonoscopy ___ minutes ago. They received sedation and are currently drowsy but rousable. Their oxygen saturation is ___%, respiratory rate is ___, blood pressure is ___/___, and heart rate is ___. Their gag reflex has not yet returned, so they remain nil by mouth. I am monitoring for signs of complications including bleeding (haematemesis or melaena), perforation (sudden severe abdominal pain, rigid abdomen, fever), and ensuring safe recovery from sedation before allowing oral intake.</div>
+      <div class="kr">이 환자는 ___분 전 위내시경/대장내시경을 마치고 돌아왔습니다. 진정제를 투여받았고 현재 졸리지만 자극 시 깨어납니다. 산소포화도 ___%, 호흡수 ___, 혈압 ___/___, 심박수 ___입니다. 연하반사(gag reflex)가 아직 돌아오지 않아 금식(NBM) 유지 중입니다. 출혈(토혈 또는 흑색변), 천공(갑작스러운 심한 복통, 복부 경직, 발열) 등 합병증 징후를 관찰 중이며, 경구 섭취 전 진정에서의 안전한 회복을 확인하고 있습니다.</div>
+    </div>
+
+    <div class="phrase hep">
+      <span class="lbl">Hepatology · 포괄적 사정 보고 문장</span>
+      <div class="en">This patient has a liver condition, which means the liver is not able to carry out its normal functions properly — including processing and removing toxins from the blood, producing clotting factors (which help stop bleeding), making albumin (a protein that keeps fluid inside blood vessels and prevents oedema), metabolising medications, and producing bile for digestion. Because of this, I need to closely monitor for jaundice (yellowing of the skin and sclera — indicating raised bilirubin), ascites (fluid build-up in the abdomen — measuring abdominal girth daily), signs of bleeding or bruising (due to impaired clotting — checking for bruises, gum bleeding, petechiae, and monitoring INR and platelet count), hepatic encephalopathy (confusion, drowsiness, personality changes, asterixis/liver flap — caused by ammonia build-up because the liver cannot clear toxins), peripheral oedema (due to low albumin), and relevant blood results including LFTs (Liver Function Tests — ALT, AST, ALP, GGT), bilirubin (total and direct), albumin, INR/PT, ammonia level, FBC (Full Blood Count), and U&E (Urea and Electrolytes).</div>
+      <div class="kr">이 환자는 간 질환이 있어, 간이 정상 기능을 제대로 수행하지 못하고 있습니다 — 혈액 내 독소 처리·제거, 응고인자 생산(출혈을 멈추는 데 도움), 알부민 생산(혈관 내 체액을 유지하고 부종을 방지하는 단백질), 약물 대사, 소화를 위한 담즙 생산 등. 따라서 황달(피부와 공막의 황변 — 빌리루빈 상승 의미), 복수(복부 내 체액 축적 — 매일 복부 둘레 측정), 출혈·멍 징후(응고 장애 — 멍, 잇몸 출혈, 점상출혈 확인, INR·혈소판 수치 모니터링), 간성 뇌증(혼돈, 졸음, 성격 변화, 간성 진전/liver flap — 간이 독소를 제거하지 못해 암모니아 축적으로 발생), 말초 부종(저알부민혈증으로 인한), 관련 혈액검사 — LFT(간기능검사 — ALT, AST, ALP, GGT), 빌리루빈(총·직접), 알부민, INR/PT, 암모니아 수치, FBC(전혈구검사), U&E(요소·전해질)를 면밀히 관찰해야 합니다.</div>
+    </div>
+
+    <div class="phrase hep">
+      <span class="lbl">Hepatology · 간성 뇌증 보고</span>
+      <div class="en">I am concerned about this patient because they are showing signs of hepatic encephalopathy. They have become confused and disoriented to time and place over the past ___ hours, they are more drowsy than before, and I noticed asterixis (liver flap — involuntary flapping movement of the hands when the wrists are extended). Their latest ammonia level is ___ which is elevated. They have a history of liver cirrhosis. I would like to escalate this to the RN and suggest reviewing whether their lactulose dose is adequate (aiming for 2-3 soft bowel motions per day to help remove ammonia), checking for any precipitating factors such as constipation, infection, GI bleeding, dehydration, or electrolyte imbalance, and considering whether a rifaximin prescription is needed.</div>
+      <div class="kr">이 환자에게 간성 뇌증 징후가 나타나 걱정됩니다. 지난 ___시간 동안 시간과 장소에 대한 혼돈·지남력 장애가 발생했고, 이전보다 더 졸려하며, 간성 진전(asterixis/liver flap — 손목을 폈을 때 손의 불수의적 떨림)이 관찰됩니다. 최근 암모니아 수치가 ___로 상승했습니다. 간경변 병력이 있습니다. RN에게 보고하고 락툴로오스(lactulose) 용량이 적절한지(하루 2-3회 부드러운 배변으로 암모니아 제거 목표), 유발 요인(변비, 감염, GI 출혈, 탈수, 전해질 불균형) 확인, 리팍시민(rifaximin) 처방 필요성 검토를 제안하겠습니다.</div>
+    </div>
+
+    <div class="phrase hep">
+      <span class="lbl">Hepatology · 복수 환자 보고</span>
+      <div class="en">This patient has significant ascites secondary to liver cirrhosis. Their abdominal girth has increased from ___ cm yesterday to ___ cm today, they report increasing abdominal discomfort and shortness of breath when lying flat, and their weight has increased by ___ kg over the past ___ days. Their latest albumin is ___ g/L (low), and they are on a fluid restriction of ___ mL/day and a low-sodium diet. I would like to discuss with the RN whether a therapeutic paracentesis is needed to relieve symptoms, and whether an albumin infusion should be considered if large-volume drainage is planned.</div>
+      <div class="kr">이 환자는 간경변에 의한 심한 복수가 있습니다. 복부 둘레가 어제 ___cm에서 오늘 ___cm로 증가했고, 복부 불편감 증가와 누웠을 때 호흡곤란을 호소하며, 지난 ___일간 체중이 ___kg 증가했습니다. 최근 알부민은 ___g/L로 낮고, 수분 제한(___mL/일)과 저나트륨 식이 중입니다. 증상 완화를 위한 치료적 복수천자(paracentesis) 필요 여부, 대량 배액 시 알부민 주입 고려 여부를 RN과 상의하겠습니다.</div>
+    </div>
+
+    <div class="phrase flag">
+      <span class="lbl">Escalation · RN에게 긴급 보고 (ISBAR 형식)</span>
+      <div class="en"><strong>Identify:</strong> "Hi, I'm [name], the student nurse looking after [patient name] in bed [number]."<br><strong>Situation:</strong> "I'm concerned because the patient has [specific finding — e.g., urine output less than 20 mL/hour for the past 3 hours / passed a large amount of melaena / become acutely confused / blood pressure dropped to 85/50 / new onset of severe abdominal pain]."<br><strong>Background:</strong> "They were admitted with [diagnosis] on [date]. Their relevant history includes [e.g., liver cirrhosis / CKD stage 4 / recent colonoscopy]. Their baseline observations were [BP, HR, etc.]."<br><strong>Assessment:</strong> "I think this could be [e.g., acute kidney injury / GI bleeding / hepatic encephalopathy / post-procedure complication / sepsis]. Their current vital signs are [BP ___/___, HR ___, RR ___, SpO₂ ___, Temp ___]."<br><strong>Recommendation:</strong> "I would like you to review the patient. Would you like me to [e.g., take bloods / insert a catheter for accurate urine measurement / check a blood glucose / prepare for fluid resuscitation]?"</div>
+      <div class="kr"><strong>Identify (확인):</strong> "안녕하세요, 저는 ___번 침대 [환자 이름]을 담당하는 학생간호사 [이름]입니다."<br><strong>Situation (상황):</strong> "___때문에 걱정이 됩니다 — [구체적 소견 — 예: 지난 3시간 동안 소변량이 시간당 20mL 미만 / 대량 흑색변 배출 / 급성 혼돈 발생 / 혈압 85/50으로 하강 / 새로운 심한 복통 발생]."<br><strong>Background (배경):</strong> "[날짜]에 [진단명]으로 입원했습니다. 관련 병력은 [예: 간경변 / CKD 4단계 / 최근 대장내시경] 입니다. 기본 활력징후는 [BP, HR 등]이었습니다."<br><strong>Assessment (사정):</strong> "[예: 급성 신손상 / GI 출혈 / 간성 뇌증 / 시술 후 합병증 / 패혈증]일 수 있다고 생각합니다. 현재 활력징후는 [BP ___/___, HR ___, RR ___, SpO₂ ___, 체온 ___]입니다."<br><strong>Recommendation (제안):</strong> "환자를 봐주셨으면 합니다. [예: 채혈 / 정확한 소변량 측정을 위한 카테터 삽입 / 혈당 확인 / 수액 소생 준비]을 할까요?"</div>
+    </div>
+
+    <div class="phrase flag">
+      <span class="lbl">Escalation · 시술 후 합병증 의심 보고</span>
+      <div class="en">I am concerned about a possible post-procedure complication. This patient had [procedure name — e.g., ERCP / liver biopsy / paracentesis / colonoscopy] ___ hours ago and is now showing [specific signs — e.g., increasing epigastric pain radiating to the back (suggesting post-ERCP pancreatitis) / tachycardia and hypotension with right-sided abdominal pain (suggesting post-biopsy bleeding) / fever of 38.5°C with abdominal rigidity (suggesting perforation or infection) / frank rectal bleeding (suggesting post-polypectomy bleed)]. Their vital signs have changed from baseline: BP was ___/___ and is now ___/___, HR was ___ and is now ___. I would like to escalate this urgently.</div>
+      <div class="kr">시술 후 합병증 가능성이 있어 걱정됩니다. 이 환자는 ___시간 전 [시술명 — 예: ERCP / 간생검 / 복수천자 / 대장내시경]을 받았고, 현재 [구체적 징후 — 예: 등으로 방사되는 심와부 통증 증가(ERCP 후 췌장염 의심) / 빈맥·저혈압과 우측 복통(생검 후 출혈 의심) / 38.5°C 발열과 복부 경직(천공 또는 감염 의심) / 직장 출혈(용종절제 후 출혈 의심)]를 보이고 있습니다. 활력징후가 기준선에서 변했습니다: BP ___/___에서 ___/___으로, HR ___에서 ___으로. 긴급 보고 드립니다.</div>
+    </div>
+
+    <p class="note">💡 보고할 땐 <strong>ISBAR</strong> 틀을 쓰면 깔끔해요 — Identify(나·환자) · Situation(무슨 일) · Background(배경) · Assessment(내 사정) · Recommendation(요청). 위 예시 문장의 빈칸(___) 부분에 실제 수치와 소견을 넣어 사용하세요. 정확한 숫자와 시간을 포함하면 보고의 신뢰성이 높아집니다.</p>
+  </section>
+
+  <!-- ============ 6. AUSTRALIAN HOSPITAL ABBREVIATIONS ============ -->
+  <section id="abbrevs">
+    <div class="sec-head"><span class="sec-num">06</span><h2>호주 병원에서 자주 쓰는 약어</h2></div>
+    <p class="sec-desc">차트, 인수인계, 구두 보고에서 매일 접하는 약어들입니다. 풀네임과 뜻을 알아두면 의사소통이 훨씬 수월해집니다.</p>
+
+    <div class="sys renal">
+      <div class="sys-bar"><span class="dot">VITALS</span> 활력징후 · 사정 관련</div>
+      <table>
+        <colgroup><col class="c-term"><col class="c-mid"><col class="c-focus"></colgroup>
+        <thead><tr><th>약어</th><th>Full Name · 뜻</th><th>설명</th></tr></thead>
+        <tbody>
+          <tr><td><span class="term">V/S</span><span class="abbr">Vital Signs</span></td><td><span class="en">Vital Signs — the basic measurements of body function: blood pressure (BP), heart rate (HR), respiratory rate (RR), temperature (Temp), and oxygen saturation (SpO₂).</span><span class="kr">활력징후 — 혈압(BP), 심박수(HR), 호흡수(RR), 체온(Temp), 산소포화도(SpO₂)의 기본 측정값.</span></td><td class="focus">입원 환자는 최소 매 교대(shift)마다 측정하고, 상태 불안정 시 더 자주 측정합니다.</td></tr>
+          <tr><td><span class="term">BP</span><span class="abbr">Blood Pressure</span></td><td><span class="en">Blood Pressure — the force of blood pushing against the walls of the arteries. Written as systolic/diastolic (e.g., 120/80 mmHg).</span><span class="kr">혈압 — 혈액이 동맥 벽을 미는 힘. 수축기/이완기로 표기 (예: 120/80 mmHg).</span></td><td class="focus">정상: 약 120/80 mmHg. 저혈압(hypotension) &lt;90/60, 고혈압(hypertension) &gt;140/90.</td></tr>
+          <tr><td><span class="term">HR / PR</span><span class="abbr">Heart Rate / Pulse Rate</span></td><td><span class="en">Heart Rate or Pulse Rate — how many times the heart beats per minute (bpm).</span><span class="kr">심박수 또는 맥박수 — 1분당 심장이 뛰는 횟수(bpm).</span></td><td class="focus">정상: 60-100 bpm. 빈맥(tachycardia) &gt;100, 서맥(bradycardia) &lt;60.</td></tr>
+          <tr><td><span class="term">RR</span><span class="abbr">Respiratory Rate</span></td><td><span class="en">Respiratory Rate — the number of breaths per minute.</span><span class="kr">호흡수 — 1분당 호흡 횟수.</span></td><td class="focus">정상: 12-20회/분. 빈호흡(tachypnoea) &gt;20, 서호흡(bradypnoea) &lt;12.</td></tr>
+          <tr><td><span class="term">SpO₂</span><span class="abbr">Peripheral Oxygen Saturation</span></td><td><span class="en">Oxygen saturation measured by a pulse oximeter on the finger — shows how much oxygen the blood is carrying.</span><span class="kr">손가락의 맥박산소측정기로 측정하는 산소포화도 — 혈액이 운반하는 산소량을 보여줌.</span></td><td class="focus">정상: 94-100%. &lt;94%이면 보고. COPD 환자는 목표가 88-92%일 수 있음.</td></tr>
+          <tr><td><span class="term">GCS</span><span class="abbr">Glasgow Coma Scale</span></td><td><span class="en">Glasgow Coma Scale — a scoring system (3-15) that measures consciousness by testing eye opening, verbal response, and motor response.</span><span class="kr">글래스고 혼수 척도 — 눈 뜨기, 언어 반응, 운동 반응을 검사하여 의식 수준을 3-15점으로 측정하는 체계.</span></td><td class="focus">15점 = 완전 의식. 점수 하락은 즉시 보고. 간성 뇌증 환자에서 특히 중요.</td></tr>
+          <tr><td><span class="term">AVPU</span><span class="abbr">Alert Verbal Pain Unresponsive</span></td><td><span class="en">A quick consciousness check: A = Alert (awake and aware), V = responds to Voice, P = responds to Pain only, U = Unresponsive.</span><span class="kr">빠른 의식 확인: A = 명료(깨어있고 인지), V = 음성에 반응, P = 통증에만 반응, U = 무반응.</span></td><td class="focus">GCS보다 빠르게 사용할 수 있어 응급 상황 초기 평가에 유용합니다.</td></tr>
+          <tr><td><span class="term">NEWS / NEWS2</span><span class="abbr">National Early Warning Score</span></td><td><span class="en">A scoring system that uses vital signs (HR, RR, BP, SpO₂, Temp, consciousness) to detect patients who are getting worse early. Higher score = sicker patient.</span><span class="kr">활력징후(HR, RR, BP, SpO₂, 체온, 의식)를 사용하여 악화되는 환자를 조기 발견하는 점수 체계. 점수가 높을수록 상태가 심각.</span></td><td class="focus">점수에 따라 관찰 빈도와 에스컬레이션(escalation) 수준이 결정됩니다.</td></tr>
+          <tr><td><span class="term">BSL / BGL</span><span class="abbr">Blood Sugar Level / Blood Glucose Level</span></td><td><span class="en">Blood sugar (glucose) level — measured by a finger-prick test. Important for diabetic patients and those who are NBM or on insulin.</span><span class="kr">혈당 수치 — 손가락 천자 검사로 측정. 당뇨 환자, NBM 환자, 인슐린 투여 환자에게 중요.</span></td><td class="focus">정상 공복: 4.0-5.4 mmol/L. 저혈당 &lt;4.0, 고혈당 &gt;11.0. 저혈당은 응급.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sys gastro">
+      <div class="sys-bar"><span class="dot">ORDERS</span> 지시 · 처치 · 기록 관련</div>
+      <table>
+        <colgroup><col class="c-term"><col class="c-mid"><col class="c-focus"></colgroup>
+        <thead><tr><th>약어</th><th>Full Name · 뜻</th><th>설명</th></tr></thead>
+        <tbody>
+          <tr><td><span class="term">Mx</span><span class="abbr">Management</span></td><td><span class="en">Management — the overall plan for treating or looking after a patient's condition.</span><span class="kr">관리/치료 — 환자 상태를 치료하거나 돌보기 위한 전체 계획.</span></td><td class="focus">차트에 "Mx plan"이라고 적혀 있으면 치료 계획을 의미합니다.</td></tr>
+          <tr><td><span class="term">Hx</span><span class="abbr">History</span></td><td><span class="en">History — the patient's medical history (past illnesses, surgeries, allergies, medications).</span><span class="kr">병력 — 환자의 과거 질병, 수술, 알레르기, 약물 기록.</span></td><td class="focus">PMHx = Past Medical History (과거 병력), FHx = Family History (가족력), SHx = Social History (사회력).</td></tr>
+          <tr><td><span class="term">Dx</span><span class="abbr">Diagnosis</span></td><td><span class="en">Diagnosis — the medical name for what is wrong with the patient.</span><span class="kr">진단 — 환자의 문제에 대한 의학적 명칭.</span></td><td class="focus">DDx = Differential Diagnosis (감별진단) — 가능한 진단 목록.</td></tr>
+          <tr><td><span class="term">Rx</span><span class="abbr">Prescription / Treatment</span></td><td><span class="en">Prescription or Treatment — the medication or therapy ordered for the patient.</span><span class="kr">처방 또는 치료 — 환자에게 지시된 약물이나 치료.</span></td><td class="focus">차트에서 Rx로 적혀 있으면 처방된 약물/치료를 의미합니다.</td></tr>
+          <tr><td><span class="term">Ix</span><span class="abbr">Investigations</span></td><td><span class="en">Investigations — tests ordered to find out what is wrong (blood tests, imaging, biopsies).</span><span class="kr">검사 — 원인 파악을 위해 지시된 검사(혈액검사, 영상검사, 생검).</span></td><td class="focus">Bloods(혈액검사), USS(초음파), CT, MRI, X-ray 등이 포함됩니다.</td></tr>
+          <tr><td><span class="term">Sx</span><span class="abbr">Symptoms</span></td><td><span class="en">Symptoms — what the patient feels or complains of (pain, nausea, dizziness).</span><span class="kr">증상 — 환자가 느끼거나 호소하는 것(통증, 오심, 어지러움).</span></td><td class="focus">Sx는 환자가 주관적으로 호소하는 것, Signs는 객관적으로 관찰 가능한 징후.</td></tr>
+          <tr><td><span class="term">Cx</span><span class="abbr">Complications</span></td><td><span class="en">Complications — problems that develop as a result of a disease, procedure, or treatment.</span><span class="kr">합병증 — 질병, 시술, 치료의 결과로 발생하는 문제.</span></td><td class="focus">시술 후 Cx(합병증) 관찰은 간호의 핵심입니다.</td></tr>
+          <tr><td><span class="term">I/O</span><span class="abbr">Input and Output</span></td><td><span class="en">Input and Output — everything that goes into the patient (fluids, IV, food) and comes out (urine, vomit, drainage).</span><span class="kr">섭취량과 배출량 — 환자에게 들어가는 모든 것(수분, IV, 음식)과 나오는 모든 것(소변, 구토, 배액).</span></td><td class="focus">신장·간 환자에서 특히 중요. 정확한 mL 기록이 필수입니다.</td></tr>
+          <tr><td><span class="term">Obs</span><span class="abbr">Observations</span></td><td><span class="en">Observations — regular checks of vital signs and patient condition. "Do obs" means measure and record vital signs.</span><span class="kr">관찰/측정 — 활력징후와 환자 상태의 정기적 확인. "Do obs"는 활력징후를 측정하고 기록하라는 뜻.</span></td><td class="focus">호주에서는 V/S 측정을 "doing obs"라고 흔히 말합니다.</td></tr>
+          <tr><td><span class="term">Handover</span><span class="abbr">인수인계</span></td><td><span class="en">Handover — the process of passing patient information from one nurse to the next at shift change, using a structured format like ISBAR.</span><span class="kr">인수인계 — 교대 시 한 간호사에서 다음 간호사에게 환자 정보를 전달하는 과정. ISBAR 같은 구조화된 형식 사용.</span></td><td class="focus">호주에서는 bedside handover(침상 옆 인수인계)를 하는 병원이 많습니다.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sys hep">
+      <div class="sys-bar"><span class="dot">LABS</span> 검사 · 혈액 관련</div>
+      <table>
+        <colgroup><col class="c-term"><col class="c-mid"><col class="c-focus"></colgroup>
+        <thead><tr><th>약어</th><th>Full Name · 뜻</th><th>설명</th></tr></thead>
+        <tbody>
+          <tr><td><span class="term">FBC / FBE</span><span class="abbr">Full Blood Count / Full Blood Examination</span></td><td><span class="en">A blood test that measures red blood cells (Hb), white blood cells (WCC), and platelets. Shows anaemia, infection, or bleeding risk.</span><span class="kr">적혈구(Hb), 백혈구(WCC), 혈소판을 측정하는 혈액검사. 빈혈, 감염, 출혈 위험을 보여줌.</span></td><td class="focus">Hb 낮으면 빈혈, WCC 높으면 감염, 혈소판 낮으면 출혈 위험.</td></tr>
+          <tr><td><span class="term">U&E / UEC</span><span class="abbr">Urea and Electrolytes / Urea, Electrolytes, Creatinine</span></td><td><span class="en">Blood test checking kidney function and electrolytes: urea, creatinine, sodium (Na⁺), potassium (K⁺), eGFR.</span><span class="kr">신장 기능과 전해질을 확인하는 혈액검사: 요소, 크레아티닌, 나트륨, 칼륨, eGFR.</span></td><td class="focus">신장 환자에서 가장 자주 시행하는 검사입니다.</td></tr>
+          <tr><td><span class="term">LFTs</span><span class="abbr">Liver Function Tests</span></td><td><span class="en">Blood tests checking liver health: ALT, AST, ALP, GGT, bilirubin, albumin.</span><span class="kr">간 건강을 확인하는 혈액검사: ALT, AST, ALP, GGT, 빌리루빈, 알부민.</span></td><td class="focus">간세포형(ALT/AST↑) vs 담즙정체형(ALP/GGT↑) 패턴 구분.</td></tr>
+          <tr><td><span class="term">CRP</span><span class="abbr">C-Reactive Protein</span></td><td><span class="en">A blood marker that rises when there is inflammation or infection in the body. Higher CRP = more inflammation.</span><span class="kr">몸에 염증이나 감염이 있을 때 상승하는 혈액 지표. CRP가 높을수록 염증이 심함.</span></td><td class="focus">정상: &lt;5 mg/L. 감염 치료 반응 추적에도 사용됩니다.</td></tr>
+          <tr><td><span class="term">WCC</span><span class="abbr">White Cell Count</span></td><td><span class="en">The number of white blood cells in the blood. High WCC usually means the body is fighting an infection.</span><span class="kr">혈중 백혈구 수. 높으면 보통 몸이 감염과 싸우고 있다는 의미.</span></td><td class="focus">정상: 4-11 ×10⁹/L. 면역억제 환자는 WCC가 낮을 수 있어 감염 징후에 더 주의.</td></tr>
+          <tr><td><span class="term">Hb</span><span class="abbr">Haemoglobin</span></td><td><span class="en">The protein inside red blood cells that carries oxygen. Low Hb = anaemia (not enough oxygen-carrying capacity).</span><span class="kr">적혈구 안에서 산소를 운반하는 단백질. 낮으면 빈혈(산소 운반 능력 부족).</span></td><td class="focus">정상: 남 130-170, 여 120-150 g/L. 출혈 환자에서 Hb 추적이 핵심.</td></tr>
+          <tr><td><span class="term">INR</span><span class="abbr">International Normalised Ratio</span></td><td><span class="en">Measures how long blood takes to clot. Higher INR = blood clots more slowly = higher bleeding risk.</span><span class="kr">혈액 응고에 걸리는 시간 측정. INR이 높을수록 응고가 느려 출혈 위험 증가.</span></td><td class="focus">정상(항응고제 미사용): 0.9-1.2. 간질환 환자에서 특히 중요.</td></tr>
+          <tr><td><span class="term">G&S / X-match</span><span class="abbr">Group and Screen / Cross-match</span></td><td><span class="en">G&S identifies the patient's blood type and screens for antibodies. Cross-match tests if a specific unit of blood is compatible before transfusion.</span><span class="kr">G&S는 환자 혈액형 확인과 항체 선별. Cross-match는 수혈 전 특정 혈액과의 적합성 검사.</span></td><td class="focus">출혈 환자나 수술 전에 반드시 시행. 응급 시 "urgent cross-match" 요청.</td></tr>
+          <tr><td><span class="term">ABG</span><span class="abbr">Arterial Blood Gas</span></td><td><span class="en">A blood sample taken from an artery that measures oxygen, carbon dioxide, pH, and bicarbonate — shows how well the lungs and kidneys are managing acid-base balance.</span><span class="kr">동맥에서 채취한 혈액으로 산소, 이산화탄소, pH, 중탄산을 측정 — 폐와 신장이 산-염기 균형을 얼마나 잘 관리하고 있는지 보여줌.</span></td><td class="focus">신부전 환자에서 대사성 산증(metabolic acidosis) 확인에 사용됩니다.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sys renal">
+      <div class="sys-bar"><span class="dot">ROUTES</span> 투여 경로 · 장비 관련</div>
+      <table>
+        <colgroup><col class="c-term"><col class="c-mid"><col class="c-focus"></colgroup>
+        <thead><tr><th>약어</th><th>Full Name · 뜻</th><th>설명</th></tr></thead>
+        <tbody>
+          <tr><td><span class="term">PO</span><span class="abbr">Per Oral (경구)</span></td><td><span class="en">Per Oral — given by mouth (swallowed as a tablet, capsule, or liquid).</span><span class="kr">경구 — 입으로 복용(정제, 캡슐, 액체로 삼킴).</span></td><td class="focus">NBM 환자는 PO 약물 투여 전 의료팀 확인 필요.</td></tr>
+          <tr><td><span class="term">IV</span><span class="abbr">Intravenous (정맥주사)</span></td><td><span class="en">Intravenous — given directly into a vein through a cannula or central line.</span><span class="kr">정맥주사 — 정맥관(cannula)이나 중심정맥관을 통해 정맥에 직접 투여.</span></td><td class="focus">IV site를 매 교대마다 확인: 발적, 부종, 통증, 삼출(phlebitis 징후).</td></tr>
+          <tr><td><span class="term">IM</span><span class="abbr">Intramuscular (근육주사)</span></td><td><span class="en">Intramuscular — injected into the muscle (e.g., deltoid, vastus lateralis, gluteal).</span><span class="kr">근육주사 — 근육(삼각근, 외측광근, 둔근)에 주사.</span></td><td class="focus">주사 부위 발적, 경결(induration), 통증 관찰.</td></tr>
+          <tr><td><span class="term">SC / subcut</span><span class="abbr">Subcutaneous (피하주사)</span></td><td><span class="en">Subcutaneous — injected under the skin (e.g., insulin, heparin, EPO).</span><span class="kr">피하주사 — 피부 아래에 주사(예: 인슐린, 헤파린, EPO).</span></td><td class="focus">인슐린과 헤파린이 가장 흔한 피하주사 약물.</td></tr>
+          <tr><td><span class="term">PR</span><span class="abbr">Per Rectum (직장)</span></td><td><span class="en">Per Rectum — given through the rectum (e.g., suppositories, enemas).</span><span class="kr">직장 — 직장을 통해 투여(예: 좌약, 관장).</span></td><td class="focus">"PR bleeding"의 PR도 Per Rectum이지만 맥락이 다름 — 출혈 vs 투여 경로.</td></tr>
+          <tr><td><span class="term">NGT / NG tube</span><span class="abbr">Nasogastric Tube (비위관)</span></td><td><span class="en">Nasogastric Tube — a tube inserted through the nose into the stomach, used for feeding, giving medication, or draining stomach contents.</span><span class="kr">비위관 — 코를 통해 위까지 삽입하는 관. 영양 공급, 약물 투여, 또는 위 내용물 배출에 사용.</span></td><td class="focus">삽입 위치 확인(pH 검사 또는 X-ray), 고정 상태, 코 피부 손상 관찰.</td></tr>
+          <tr><td><span class="term">IDC</span><span class="abbr">Indwelling Catheter (유치도뇨관)</span></td><td><span class="en">Indwelling (urinary) Catheter — a tube inserted into the bladder through the urethra to drain urine continuously into a bag. Also called a Foley catheter.</span><span class="kr">유치도뇨관 — 요도를 통해 방광에 삽입하여 소변을 지속적으로 배액하는 관. Foley 카테터라고도 함.</span></td><td class="focus">소변량, 색, 혼탁도 관찰. CAUTI(카테터 관련 요로감염) 예방 — 필요 없으면 가능한 빨리 제거.</td></tr>
+          <tr><td><span class="term">PIVC</span><span class="abbr">Peripheral Intravenous Cannula</span></td><td><span class="en">A small plastic tube inserted into a vein in the hand or arm for giving IV fluids and medications.</span><span class="kr">손이나 팔의 정맥에 삽입하는 작은 플라스틱 관. IV 수액과 약물 투여에 사용.</span></td><td class="focus">72-96시간마다 교체 권장. 매 교대 시 부위 사정(VIP score).</td></tr>
+          <tr><td><span class="term">CVC / CVAD</span><span class="abbr">Central Venous Catheter / Central Venous Access Device</span></td><td><span class="en">A catheter placed in a large central vein (jugular, subclavian, or femoral). Used for long-term IV access, TPN, or when peripheral veins are poor.</span><span class="kr">큰 중심정맥(경정맥, 쇄골하정맥, 대퇴정맥)에 삽입하는 카테터. 장기 IV, TPN, 말초정맥이 어려울 때 사용.</span></td><td class="focus">감염 위험이 높아 무균 드레싱 관리 필수. 삽입 부위 매일 사정.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sys gastro">
+      <div class="sys-bar"><span class="dot">TIMING</span> 시간 · 빈도 · 상태 관련</div>
+      <table>
+        <colgroup><col class="c-term"><col class="c-mid"><col class="c-focus"></colgroup>
+        <thead><tr><th>약어</th><th>Full Name · 뜻</th><th>설명</th></tr></thead>
+        <tbody>
+          <tr><td><span class="term">BD / BID</span><span class="abbr">Bis Die (twice a day)</span></td><td><span class="en">Twice a day — medication given two times in 24 hours (e.g., morning and evening).</span><span class="kr">하루 두 번 — 24시간에 두 번 약물 투여(예: 아침, 저녁).</span></td><td class="focus">호주에서는 BD를 더 자주 사용합니다.</td></tr>
+          <tr><td><span class="term">TDS / TID</span><span class="abbr">Ter Die Sumendus (three times a day)</span></td><td><span class="en">Three times a day — medication given three times in 24 hours.</span><span class="kr">하루 세 번 — 24시간에 세 번 약물 투여.</span></td><td class="focus">보통 아침, 점심, 저녁에 투여합니다.</td></tr>
+          <tr><td><span class="term">QID</span><span class="abbr">Quater In Die (four times a day)</span></td><td><span class="en">Four times a day.</span><span class="kr">하루 네 번.</span></td><td class="focus">보통 6시간 간격으로 투여합니다.</td></tr>
+          <tr><td><span class="term">Nocte</span><span class="abbr">At night (밤에)</span></td><td><span class="en">At night — medication given at bedtime.</span><span class="kr">밤에 — 취침 시 약물 투여.</span></td><td class="focus">수면제, 일부 혈압약 등이 nocte로 처방됩니다.</td></tr>
+          <tr><td><span class="term">PRN</span><span class="abbr">Pro Re Nata (as needed)</span></td><td><span class="en">As needed — medication given only when the patient needs it (e.g., pain relief, anti-nausea).</span><span class="kr">필요 시 — 환자가 필요할 때만 투여(예: 진통제, 항구토제).</span></td><td class="focus">투여 전 사정, 투여 후 효과 평가를 반드시 기록합니다.</td></tr>
+          <tr><td><span class="term">STAT</span><span class="abbr">Statim (immediately)</span></td><td><span class="en">Immediately — give this medication right now, without delay.</span><span class="kr">즉시 — 지체 없이 지금 바로 이 약을 투여하라.</span></td><td class="focus">응급 상황에서 자주 사용. "STAT dose"는 일회 긴급 투여.</td></tr>
+          <tr><td><span class="term">D/C</span><span class="abbr">Discharge / Discontinue</span></td><td><span class="en">Discharge (patient goes home) or Discontinue (stop a medication or treatment). Context matters.</span><span class="kr">퇴원(환자가 집으로 감) 또는 중단(약물이나 치료를 멈춤). 문맥에 따라 구분.</span></td><td class="focus">"D/C furosemide" = furosemide 중단. "D/C home" = 퇴원.</td></tr>
+          <tr><td><span class="term">Mane</span><span class="abbr">In the morning (아침에)</span></td><td><span class="en">In the morning — medication given in the morning.</span><span class="kr">아침에 — 아침에 투여하는 약물.</span></td><td class="focus">공복 투여가 필요한 약물(예: levothyroxine)에 자주 사용.</td></tr>
+          <tr><td><span class="term">c̄ / s̄ / ā</span><span class="abbr">with / without / before</span></td><td><span class="en">c̄ = with (cum), s̄ = without (sine), ā = before (ante). Used in medication orders.</span><span class="kr">c̄ = ~와 함께(cum), s̄ = ~없이(sine), ā = ~전에(ante). 약물 지시에 사용.</span></td><td class="focus">예: "c̄ food" = 음식과 함께, "ā meals" = 식전.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sys hep">
+      <div class="sys-bar"><span class="dot">WARD</span> 병동 일상 · 기타</div>
+      <table>
+        <colgroup><col class="c-term"><col class="c-mid"><col class="c-focus"></colgroup>
+        <thead><tr><th>약어</th><th>Full Name · 뜻</th><th>설명</th></tr></thead>
+        <tbody>
+          <tr><td><span class="term">ADLs</span><span class="abbr">Activities of Daily Living</span></td><td><span class="en">Activities of Daily Living — basic self-care tasks: showering, dressing, eating, toileting, walking (mobility).</span><span class="kr">일상생활 활동 — 기본적인 자기 관리: 샤워, 옷 입기, 식사, 화장실, 보행(이동).</span></td><td class="focus">환자의 ADL 자립도를 사정하여 도움이 필요한 부분을 파악합니다.</td></tr>
+          <tr><td><span class="term">FALLS RISK</span><span class="abbr">낙상 위험</span></td><td><span class="en">A patient at risk of falling — due to dizziness, weakness, medication effects, confusion, mobility problems, or environmental hazards.</span><span class="kr">낙상 위험이 있는 환자 — 어지러움, 쇠약, 약물 효과, 혼돈, 이동 문제, 환경적 위험 때문.</span></td><td class="focus">낙상 위험 평가 도구 사용. 저위 침대, 콜벨 접근, 보행 보조, 환경 정리.</td></tr>
+          <tr><td><span class="term">DVT</span><span class="abbr">Deep Vein Thrombosis (심부정맥혈전증)</span></td><td><span class="en">A blood clot that forms in a deep vein, usually in the leg. Can break off and travel to the lungs (pulmonary embolism — PE), which is life-threatening.</span><span class="kr">주로 다리의 심부정맥에 혈전이 형성되는 것. 떨어져 나가면 폐로 이동하여 폐색전증(PE)을 일으킬 수 있으며, 이는 생명을 위협.</span></td><td class="focus">예방: 항응고제(enoxaparin SC), 압박 스타킹(TED), 조기 보행(early mobilisation).</td></tr>
+          <tr><td><span class="term">MET call</span><span class="abbr">Medical Emergency Team call</span></td><td><span class="en">An urgent call for a team of doctors, nurses, and specialists to come immediately to a patient who is getting much worse — for example, not breathing, unconscious, or having a cardiac arrest.</span><span class="kr">상태가 급격히 악화되는 환자(예: 호흡 정지, 의식 소실, 심정지)에게 의사·간호사·전문가 팀이 즉시 오도록 하는 긴급 호출.</span></td><td class="focus">호주 병원에서 MET criteria(기준)를 충족하면 누구나 MET call을 할 수 있습니다. 학생도 가능.</td></tr>
+          <tr><td><span class="term">RRT</span><span class="abbr">Rapid Response Team</span></td><td><span class="en">Similar to MET — a team that responds quickly when a patient's condition is worsening but not yet in cardiac arrest.</span><span class="kr">MET와 유사 — 환자 상태가 악화되고 있지만 아직 심정지는 아닌 경우 빠르게 대응하는 팀.</span></td><td class="focus">NEWS/EWS 점수 상승 시 RRT 호출 기준을 확인합니다.</td></tr>
+          <tr><td><span class="term">AMA</span><span class="abbr">Against Medical Advice</span></td><td><span class="en">When a patient decides to leave the hospital before the doctors say it is safe to go.</span><span class="kr">의사가 안전하다고 하기 전에 환자가 퇴원을 결정하는 것.</span></td><td class="focus">환자의 결정을 존중하되, 위험을 설명하고 AMA 서류에 서명을 받아야 합니다.</td></tr>
+          <tr><td><span class="term">NOK</span><span class="abbr">Next of Kin</span></td><td><span class="en">Next of Kin — the patient's closest family member or emergency contact person.</span><span class="kr">최근친 — 환자의 가장 가까운 가족 또는 비상 연락 대상.</span></td><td class="focus">입원 시 NOK 정보가 차트에 기록되어 있는지 확인합니다.</td></tr>
+          <tr><td><span class="term">DAMA</span><span class="abbr">Discharge Against Medical Advice</span></td><td><span class="en">Same as AMA — the patient is discharged against medical advice.</span><span class="kr">AMA와 같은 의미 — 의학적 조언에 반하여 퇴원.</span></td><td class="focus">RN/의사에게 반드시 보고하고, 문서화가 필수입니다.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>
+    실습 준비용 학습 노트 · 신장 / 소화기 / 간 병동<br>
+    수치·기준은 일반 성인 참고치이며, 항상 소속 병원의 정책과 차트 정상범위를 따르세요.
+  </footer>
+
+</div>
+
+<script>
+  let krVisible = true;
+  function toggleKR(){
+    krVisible = !krVisible;
+    const btn = document.getElementById('krToggle');
+    document.body.classList.toggle('hide-kr', !krVisible);
+    btn.classList.toggle('on', !krVisible);
+    btn.textContent = krVisible ? '한글 해석 ON' : '한글 해석 OFF (영어만)';
+  }
+</script>
+
+</body>
+</html>
