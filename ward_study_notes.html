@@ -21,6 +21,8 @@
     --hep:#bb851a;        --hep-bg:#fbf2dc;    --hep-line:#ecd9a8;
     --flag:#c0392b;       --flag-bg:#fbeae7;   --flag-line:#f0c4bd;
 
+    --basic:#6c5ce7;      --basic-bg:#f0edfc;  --basic-line:#c8c0f4;
+
     --mono:'JetBrains Mono',ui-monospace,monospace;
   }
 
@@ -111,6 +113,24 @@
   .renal .sys-bar{background:var(--renal)}
   .gastro .sys-bar{background:var(--gastro)}
   .hep .sys-bar{background:var(--hep)}
+  .basic .sys-bar{background:var(--basic)}
+  .basic .abbr{background:var(--basic-bg);color:var(--basic)}
+
+  /* schedule badge */
+  .sch{
+    font-family:var(--mono);font-size:.62rem;font-weight:700;letter-spacing:.04em;
+    padding:2px 7px;border-radius:5px;display:inline-block;margin-left:6px;vertical-align:middle;
+  }
+  .sch.s2{background:#e8f5e9;color:#2e7d32}
+  .sch.s3{background:#e3f2fd;color:#1565c0}
+  .sch.s4{background:#fff3e0;color:#e65100}
+  .sch.s8{background:#fce4ec;color:#c62828}
+
+  /* sub-category header inside basic block */
+  .cat-row td{
+    background:#f7f5ff;font-weight:700;font-size:.82rem;color:var(--basic);
+    letter-spacing:.03em;padding:10px 16px;border-bottom:1px solid var(--basic-line);
+  }
 
   /* ---------- table ---------- */
   table{width:100%;border-collapse:collapse;font-size:.9rem}
@@ -463,7 +483,106 @@
   <!-- ============ 2. MEDICATIONS ============ -->
   <section id="meds">
     <div class="sec-head"><span class="sec-num">02</span><h2>주로 쓰는 약</h2></div>
-    <p class="sec-desc">약 · 작용 · 기전과 함께, 실습에서 챙겨야 할 관찰·주의점을 같이 정리했어요.</p>
+    <p class="sec-desc">약 · 작용 · 기전과 함께, 실습에서 챙겨야 할 관찰·주의점을 같이 정리했어요. 호주 Schedule 분류: <span class="sch s2">S2</span> Pharmacy Medicine (약국 일반) · <span class="sch s3">S3</span> Pharmacist Only (약사 전용) · <span class="sch s4">S4</span> Prescription Only (처방전 필요) · <span class="sch s8">S8</span> Controlled Drug (규제 약물)</p>
+
+    <!-- BASIC / FOUNDATIONAL MEDS -->
+    <div class="sys basic">
+      <div class="sys-bar"><span class="dot">BASIC</span> 기초 필수 약물 — 혈압약 · 당뇨약 · 진통제</div>
+      <table>
+        <colgroup><col class="c-term"><col class="c-mid"><col class="c-focus"></colgroup>
+        <thead><tr><th>약 Drug</th><th>작용 · 기전 Action / Mechanism</th><th>관찰 · 주의 Monitor / Caution</th></tr></thead>
+        <tbody>
+
+          <!-- ===== 혈압약 ANTIHYPERTENSIVES ===== -->
+          <tr class="cat-row"><td colspan="3">■ 혈압약 Antihypertensives</td></tr>
+
+          <tr>
+            <td><span class="term">ACE Inhibitors</span><span class="abbr">안지오텐신 전환효소 억제제</span><span class="sch s4">S4</span><br><small>예: Ramipril, Perindopril, Enalapril</small></td>
+            <td><span class="en">Block the enzyme that converts angiotensin I → angiotensin II. Without angiotensin II, blood vessels relax, blood pressure drops, and the heart's afterload decreases. Also reduce aldosterone, decreasing sodium/water retention. First-line for hypertension, heart failure, and diabetic nephropathy (kidney protection).</span><span class="kr">안지오텐신 I → II 전환 효소를 차단합니다. 안지오텐신 II가 줄면 혈관이 이완되고 혈압이 낮아지며 심장 후부하가 감소합니다. 알도스테론도 줄어 나트륨·수분 저류가 감소합니다. 고혈압, 심부전, 당뇨성 신증(신장 보호) 1차 약제입니다.</span></td>
+            <td class="focus"><strong>마른 기침(dry cough)</strong> — ACEi 특유 부작용, 지속 시 ARB로 변경 고려. <strong>혈압</strong> 투약 전 측정: 수축기 &lt;90mmHg이면 보류하고 보고. <strong>K⁺ 상승</strong> 가능 — 전해질 검사 추적. <strong>첫 용량 저혈압(first-dose hypotension)</strong> 주의 — 특히 이뇨제 병용 시. 임산부 금기.</td>
+          </tr>
+          <tr>
+            <td><span class="term">ARBs</span><span class="abbr">안지오텐신 II 수용체 차단제</span><span class="sch s4">S4</span><br><small>예: Irbesartan, Candesartan, Losartan</small></td>
+            <td><span class="en">Block the angiotensin II receptor directly. Same effect as ACE inhibitors (vasodilation, lower BP, kidney protection) but without the cough side effect. Often prescribed when a patient cannot tolerate ACE inhibitors due to cough. Should NOT be combined with ACE inhibitors.</span><span class="kr">안지오텐신 II 수용체를 직접 차단합니다. ACE 억제제와 같은 효과(혈관 확장, 혈압 강하, 신장 보호)이지만 기침 부작용이 없습니다. ACEi 기침으로 복용 불가 시 대체약으로 처방됩니다. ACEi와 병용 금기입니다.</span></td>
+            <td class="focus">ACEi와 동일하게 <strong>혈압·K⁺·신기능(Cr)</strong> 모니터. 기침 부작용은 거의 없음. <strong>ACEi와 동시 처방 여부</strong> 확인 — 함께 쓰면 고칼륨혈증·신손상 위험 증가. 어지러움·기립성 저혈압 시 낙상 주의.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Beta Blockers</span><span class="abbr">베타 차단제</span><span class="sch s4">S4</span><br><small>예: Metoprolol, Atenolol, Bisoprolol, Propranolol</small></td>
+            <td><span class="en">Block beta-adrenergic receptors on the heart, reducing heart rate, contractility, and cardiac output → lowers blood pressure. Also used for heart failure, angina, arrhythmias, and portal hypertension (varices prevention). Cardio-selective (Metoprolol, Bisoprolol) mainly affect the heart; non-selective (Propranolol) also affect lungs/vessels.</span><span class="kr">심장의 베타-아드레날린 수용체를 차단하여 심박수·수축력·심박출량을 줄이고 혈압을 낮춥니다. 심부전, 협심증, 부정맥, 문맥 고혈압(정맥류 예방)에도 사용됩니다. 심장선택적(Metoprolol, Bisoprolol)은 주로 심장에 작용하고, 비선택적(Propranolol)은 폐·혈관에도 작용합니다.</span></td>
+            <td class="focus"><strong>투약 전 HR·BP 필수 측정</strong>: HR &lt;60 또는 수축기 BP &lt;90이면 보류하고 보고. <strong>서맥(bradycardia)</strong>·어지러움·피로감 관찰. 천식·COPD 환자에게 비선택적 베타차단제는 <strong>기관지 수축</strong> 유발 가능 — 호흡 상태 확인. <strong>갑작스런 중단 금기</strong> — 반동성 빈맥·고혈압·협심증 위험.</td>
+          </tr>
+          <tr>
+            <td><span class="term">CCBs</span><span class="abbr">칼슘 채널 차단제 (Calcium Channel Blockers)</span><span class="sch s4">S4</span><br><small>예: Amlodipine, Nifedipine (혈관형) / Diltiazem, Verapamil (심장형)</small></td>
+            <td><span class="en">Block calcium channels in vascular smooth muscle (dihydropyridines: Amlodipine) → vasodilation → lower BP. Or block calcium channels in the heart (non-dihydropyridines: Diltiazem, Verapamil) → slow heart rate, reduce contractility. Amlodipine is most commonly prescribed for hypertension and is well tolerated.</span><span class="kr">혈관 평활근의 칼슘 채널을 차단(디하이드로피리딘: Amlodipine)하여 혈관 확장 → 혈압 강하. 또는 심장의 칼슘 채널을 차단(비디하이드로피리딘: Diltiazem, Verapamil)하여 심박수 감소·수축력 저하. Amlodipine이 고혈압에 가장 흔히 처방되며 내약성이 좋습니다.</span></td>
+            <td class="focus"><strong>혈압·HR</strong> 모니터 (특히 Diltiazem·Verapamil은 서맥 유발 가능). Amlodipine의 흔한 부작용: <strong>발목 부종(ankle oedema)</strong>, 안면 홍조, 두통 — 환자에게 부종 발생 여부 문의. Verapamil은 <strong>변비</strong> 유발 흔함. 베타차단제와 Verapamil/Diltiazem 병용 시 <strong>심한 서맥·심차단</strong> 위험 — 병용 여부 확인.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Diuretics</span><span class="abbr">이뇨제</span><span class="sch s4">S4</span><br><small>예: Hydrochlorothiazide(HCTZ), Indapamide (Thiazide계)</small></td>
+            <td><span class="en">Thiazide diuretics act on the distal convoluted tubule, blocking sodium reabsorption → more sodium and water excreted → reduced blood volume → lower BP. Often used as first-line or add-on for hypertension. Distinct from loop diuretics (Furosemide) which are stronger and act on the Loop of Henle.</span><span class="kr">Thiazide 이뇨제는 원위세뇨관에서 나트륨 재흡수를 차단하여 나트륨·수분을 배출 → 혈액량 감소 → 혈압 강하. 고혈압 1차 또는 병용 약제로 흔히 사용됩니다. Loop 이뇨제(Furosemide)보다 작용이 약하며 작용 부위가 다릅니다.</span></td>
+            <td class="focus"><strong>전해질 모니터</strong>: 저칼륨혈증(K⁺↓), 저나트륨혈증(Na⁺↓), 저마그네슘혈증 가능. <strong>탈수 징후</strong> 관찰. <strong>요산(uric acid)</strong> 상승 가능 → 통풍 위험. <strong>혈당 상승</strong> 가능 → 당뇨 환자 주의. 기립성 저혈압·어지러움 시 낙상 주의.</td>
+          </tr>
+
+          <!-- ===== 당뇨약 DIABETES MEDICATIONS ===== -->
+          <tr class="cat-row"><td colspan="3">■ 당뇨약 Diabetes Medications</td></tr>
+
+          <tr>
+            <td><span class="term">Metformin</span><span class="abbr">바이구아나이드 (Biguanide)</span><span class="sch s4">S4</span></td>
+            <td><span class="en">First-line oral drug for Type 2 diabetes. Reduces hepatic glucose production and increases insulin sensitivity in peripheral tissues. Does NOT cause hypoglycaemia when used alone (does not stimulate insulin secretion). Must be withheld before contrast dye procedures and when eGFR is low (risk of lactic acidosis). Common side effect: GI upset (nausea, diarrhoea).</span><span class="kr">제2형 당뇨의 1차 경구약입니다. 간의 포도당 생산을 줄이고 말초 조직의 인슐린 감수성을 높입니다. 단독 사용 시 저혈당을 유발하지 않습니다(인슐린 분비를 자극하지 않음). 조영제 시술 전과 eGFR 저하 시 중단해야 합니다(젖산산증 위험). 흔한 부작용: 위장 장애(오심, 설사).</span></td>
+            <td class="focus"><strong>신기능(eGFR) 확인</strong>: eGFR &lt;30이면 금기, 30-45이면 용량 조절. <strong>조영제 검사(CT with contrast) 전후 48시간</strong> 중단 — 차트에서 확인. <strong>젖산산증(lactic acidosis)</strong> 징후: 과호흡, 복통, 근육통, 졸음 — 드물지만 치명적. <strong>위장 부작용</strong>(오심, 설사, 복부 팽만)은 흔함 — 식사와 함께 복용으로 완화. 저혈당은 단독 사용 시 거의 없으나 인슐린·SU와 병용 시 주의.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Sulfonylureas (SU)</span><span class="abbr">설포닐유레아</span><span class="sch s4">S4</span><br><small>예: Gliclazide, Glimepiride, Glipizide</small></td>
+            <td><span class="en">Stimulate pancreatic beta cells to release more insulin, lowering blood glucose. Effective but carry hypoglycaemia risk because they force insulin release regardless of blood sugar level. Also cause weight gain. Often used as second-line after Metformin or in combination. Gliclazide is the most commonly prescribed SU in Australia.</span><span class="kr">췌장 베타세포를 자극하여 인슐린 분비를 촉진하고 혈당을 낮춥니다. 효과적이나 혈당 수준에 관계없이 인슐린을 분비시키므로 저혈당 위험이 있습니다. 체중 증가를 유발합니다. Metformin 이후 2차 약제 또는 병용으로 흔히 사용됩니다. 호주에서는 Gliclazide가 가장 흔합니다.</span></td>
+            <td class="focus"><strong>저혈당(hypoglycaemia) 위험 높음</strong> — 핵심 관찰 사항! 증상: 떨림, 발한, 심계항진, 혼란, 어지러움, 공복감. <strong>BSL(혈당) 정기 측정</strong>: 식전·식후, 증상 있을 때 측정. BSL &lt;4 mmol/L이면 저혈당 프로토콜 시행. <strong>식사를 거르면 안 됨</strong> — 식사 전 복용, 식사 못하면 약도 보류 고려. 고령자·신기능 저하 환자에서 저혈당 위험 증가.</td>
+          </tr>
+          <tr>
+            <td><span class="term">SGLT2 Inhibitors</span><span class="abbr">나트륨-포도당 공동수송체 2 억제제</span><span class="sch s4">S4</span><br><small>예: Dapagliflozin (Forxiga), Empagliflozin (Jardiance)</small></td>
+            <td><span class="en">Block SGLT2 in the proximal tubule of the kidney, preventing glucose reabsorption → glucose excreted in urine → lowers blood sugar. Also provide cardiovascular and renal protective benefits (reduce heart failure hospitalisations, slow CKD progression). Side effects: UTIs, genital thrush (due to glucose in urine), dehydration, rare euglycaemic DKA.</span><span class="kr">신장 근위세뇨관의 SGLT2를 차단하여 포도당 재흡수를 막고 소변으로 포도당을 배출 → 혈당 감소. 심혈관·신장 보호 효과도 있습니다(심부전 입원 감소, CKD 진행 지연). 부작용: 요로감염(UTI), 생식기 진균감염(소변 중 포도당 때문), 탈수, 드물게 정상혈당 DKA.</span></td>
+            <td class="focus"><strong>요로감염(UTI)·생식기 감염</strong> 증상: 빈뇨, 배뇨통, 가려움, 분비물 — 환자에게 위생 교육. <strong>탈수</strong>: 소변량 증가로 탈수 가능 — 수분 섭취 권장, 특히 고령자. <strong>정상혈당 DKA</strong>: 혈당은 정상인데 케톤산증 발생 가능(드물지만 위험) — 오심, 구토, 복통, 과호흡 시 즉시 보고. <strong>수술·금식(sick day) 시 중단</strong> — 차트에서 보류 여부 확인.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Insulin (인슐린)</span><span class="abbr">주사형 혈당 강하제</span><span class="sch s4">S4</span><br><small>속효성: Novorapid, Humalog / 지속형: Lantus, Levemir, Toujeo</small></td>
+            <td><span class="en">Replaces or supplements the body's insulin. Rapid-acting (Novorapid, Humalog): given before meals, peaks 1-2hr, covers mealtime glucose spike. Long-acting (Lantus, Levemir): given once/twice daily, provides steady basal insulin over 24hr. Type 1 diabetes requires insulin; Type 2 may need it when oral drugs are insufficient. Main risk: hypoglycaemia.</span><span class="kr">체내 인슐린을 대체·보충합니다. 속효성(Novorapid, Humalog): 식전 투여, 1-2시간 후 최고 효과, 식후 혈당 상승을 커버. 지속형(Lantus, Levemir): 1일 1-2회 투여, 24시간에 걸쳐 기저 인슐린 제공. 제1형 당뇨는 인슐린 필수, 제2형은 경구약 불충분 시 필요합니다. 주요 위험: 저혈당.</span></td>
+            <td class="focus"><strong>BSL(혈당) 측정 필수</strong>: 속효성은 식전, 지속형은 투여 전 혈당 확인. BSL &lt;4이면 투여 보류·보고. <strong>저혈당 프로토콜 숙지</strong>: 의식 있으면 속효성 탄수화물(주스, 젤리빈) → 15분 후 재측정. 의식 없으면 IV dextrose 또는 Glucagon. <strong>인슐린 종류·용량·시간 확인</strong>: 속효성과 지속형 혼동 금지(치명적 오류). <strong>피하주사(SC) 부위 교대</strong>: 복부, 허벅지, 상완 — 같은 부위 반복 시 지방위축(lipodystrophy). <strong>냉장 보관</strong> 확인 (개봉 후 28일).</td>
+          </tr>
+          <tr>
+            <td><span class="term">DPP-4 Inhibitors</span><span class="abbr">디펩티딜 펩티다아제-4 억제제</span><span class="sch s4">S4</span><br><small>예: Sitagliptin (Januvia), Linagliptin (Trajenta)</small></td>
+            <td><span class="en">Block the DPP-4 enzyme that breaks down incretin hormones (GLP-1, GIP). More incretins → more insulin release after meals and less glucagon → lowers blood glucose. Weight-neutral and low hypoglycaemia risk when used alone. Often combined with Metformin. Well tolerated with few side effects.</span><span class="kr">인크레틴 호르몬(GLP-1, GIP)을 분해하는 DPP-4 효소를 차단합니다. 인크레틴 증가 → 식후 인슐린 분비 촉진·글루카곤 억제 → 혈당 감소. 체중 중립적이고 단독 사용 시 저혈당 위험이 낮습니다. Metformin과 흔히 병용됩니다.</span></td>
+            <td class="focus">비교적 부작용 적음. <strong>신기능에 따른 용량 조절</strong> 필요(Linagliptin 제외 — 간 대사). 드물게 <strong>관절통</strong>, <strong>췌장염(pancreatitis)</strong> — 심한 복통 시 보고. SU·인슐린과 병용 시 <strong>저혈당 위험 증가</strong> — BSL 모니터.</td>
+          </tr>
+
+          <!-- ===== 진통제 ANALGESICS ===== -->
+          <tr class="cat-row"><td colspan="3">■ 진통제 Analgesics — WHO 통증 사다리 (Pain Ladder)</td></tr>
+
+          <tr>
+            <td><span class="term">Paracetamol</span><span class="abbr">비오피오이드 진통·해열제 (Non-Opioid)</span><span class="sch s2">S2</span><br><small>일반명: Acetaminophen (미국)</small></td>
+            <td><span class="en">First-line analgesic and antipyretic. Acts centrally to raise the pain threshold and reduce fever. Safe and effective for mild-moderate pain. Maximum dose: 4g/day (1g every 4-6hr) in healthy adults; reduced to ≤2g/day in liver disease, low body weight, or chronic alcohol use. Overdose causes fatal hepatotoxicity — antidote is N-Acetylcysteine (NAC).</span><span class="kr">1차 진통·해열제입니다. 중추에서 통증 역치를 높이고 해열 작용을 합니다. 경도~중등도 통증에 안전하고 효과적입니다. 최대 용량: 건강한 성인 4g/일(1g을 4-6시간마다). 간 질환·저체중·만성 음주자는 ≤2g/일로 감량. 과량 시 치명적 간독성 유발 — 해독제는 NAC(N-Acetylcysteine).</span></td>
+            <td class="focus"><strong>최대 용량 초과 주의</strong>: 복합제(Codapane = paracetamol + codeine 등)에 포함된 paracetamol까지 합산해야 함. <strong>간 질환 환자</strong>: 감량 처방(≤2g/일) 확인. <strong>투약 간격</strong> 지키기: 최소 4시간. 환자가 자가 복용(PRN)할 때 중복 복용 여부 확인. OTC(처방전 없이 구매 가능)이므로 환자에게 추가 복용 여부 물어보기.</td>
+          </tr>
+          <tr>
+            <td><span class="term">NSAIDs</span><span class="abbr">비스테로이드성 소염진통제</span><span class="sch s2">S2</span> / <span class="sch s4">S4</span><br><small>예: Ibuprofen (S2), Naproxen, Diclofenac, Celecoxib (S4)</small></td>
+            <td><span class="en">Anti-inflammatory, analgesic, and antipyretic. Block COX enzymes → reduce prostaglandin production → less inflammation, pain, and fever. Effective for musculoskeletal pain, post-op pain, and inflammatory conditions. Side effects: GI ulcers/bleeding (prostaglandins protect stomach lining), renal impairment (prostaglandins maintain renal blood flow), cardiovascular risk, and platelet inhibition.</span><span class="kr">소염·진통·해열 작용. COX 효소를 차단 → 프로스타글란딘 생산 감소 → 염증·통증·발열 감소. 근골격계 통증, 수술 후 통증, 염증성 질환에 효과적. 부작용: 위궤양·출혈(프로스타글란딘이 위벽 보호), 신기능 장애(신장 혈류 유지에 프로스타글란딘 필요), 심혈관 위험, 혈소판 억제.</span></td>
+            <td class="focus"><strong>신장 환자에게 금기/주의</strong>: AKI·CKD 환자에서 신기능을 악화시킬 수 있음 — eGFR·Cr 확인. <strong>위장 출혈 위험</strong>: 검은 변(melena), 복통, 구역감 관찰 — PPI 병용 여부 확인. <strong>혈압 상승</strong> 가능: 수분·나트륨 저류 유발. <strong>출혈 위험 증가</strong>: 항응고제(warfarin 등) 병용 시 출혈 위험 ↑. 단기간 사용 권장. 고령자 특히 주의.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Opioids — Weak</span><span class="abbr">약한 오피오이드</span><span class="sch s4">S4</span><br><small>예: Codeine, Tramadol</small></td>
+            <td><span class="en">Used for moderate pain when Paracetamol/NSAIDs are insufficient. Codeine is a prodrug converted to morphine in the liver (CYP2D6 enzyme — variable metabolism between people). Tramadol has opioid and serotonergic/noradrenergic effects. Both carry opioid side effects (constipation, nausea, sedation, respiratory depression) but milder than strong opioids.</span><span class="kr">Paracetamol/NSAIDs로 불충분한 중등도 통증에 사용합니다. Codeine은 간에서 모르핀으로 전환되는 전구약물(CYP2D6 효소 — 개인차 큼). Tramadol은 오피오이드 + 세로토닌/노르아드레날린 작용을 합니다. 오피오이드 부작용(변비, 오심, 진정, 호흡억제)이 있으나 강한 오피오이드보다 경미합니다.</span></td>
+            <td class="focus"><strong>변비</strong>: 배변 기록 확인, 완하제 병용 필수. <strong>오심·구토</strong>: 항구토제 필요 여부 확인. <strong>진정(sedation)</strong> 수준 관찰. Tramadol: <strong>발작(seizure) 위험</strong> — 간질 환자 주의. <strong>세로토닌 증후군</strong> — SSRI·SNRI 등과 병용 시 위험(발열, 흥분, 떨림, 경련). Codeine: <strong>개인별 대사 차이</strong> — ultra-rapid metaboliser는 과다 효과, poor metaboliser는 무효.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Opioids — Strong</span><span class="abbr">강한 오피오이드</span><span class="sch s8">S8</span><br><small>예: Oxycodone, Morphine, Fentanyl, Hydromorphone, Tapentadol</small></td>
+            <td><span class="en">Used for severe pain (post-surgical, cancer, acute injury). Bind to mu-opioid receptors in brain and spinal cord, blocking pain transmission and producing analgesia, euphoria, and sedation. S8 Controlled Drug: requires double-checking (two nurses verify), locked storage, and documented administration. Side effects: respiratory depression (most dangerous), sedation, constipation, nausea, dependence, tolerance.</span><span class="kr">심한 통증(수술 후, 암, 급성 손상)에 사용합니다. 뇌·척수의 mu-오피오이드 수용체에 결합하여 통증 전달을 차단하고 진통·행복감·진정을 유발합니다. S8 규제 약물: 이중 확인(간호사 2인 검증), 잠금 보관, 투여 기록 필수. 부작용: 호흡억제(가장 위험), 진정, 변비, 오심, 의존성, 내성.</span></td>
+            <td class="focus"><strong>S8 규제 약물 프로토콜</strong>: 반드시 간호사 2인이 약물 확인·서명(double-check). <strong>호흡수(RR)</strong>: 분당 8회 미만이면 호흡억제 → 즉시 투여 중단·보고. <strong>진정 수준(sedation score)</strong> 정기 평가. <strong>통증 점수(pain score)</strong> 투약 전후 평가하여 효과 확인. <strong>변비</strong>: 완하제 병용 필수 — 배변 기록 확인. <strong>Naloxone(날록손)</strong> 위치 파악: 오피오이드 과량 해독제. <strong>낙상 위험</strong>: 어지러움·졸음으로 낙상 주의.</td>
+          </tr>
+          <tr>
+            <td><span class="term">Gabapentinoids</span><span class="abbr">신경병성 통증 보조 진통제</span><span class="sch s4">S4</span><br><small>예: Gabapentin (Neurontin), Pregabalin (Lyrica)</small></td>
+            <td><span class="en">Used for neuropathic pain (nerve damage pain: burning, shooting, tingling) — e.g., diabetic neuropathy, post-herpetic neuralgia, spinal cord injury pain. Block calcium channels on nerve endings, reducing excitatory neurotransmitter release. Also used for epilepsy and anxiety. Side effects: drowsiness, dizziness, peripheral oedema, weight gain.</span><span class="kr">신경병성 통증(신경 손상으로 인한 화끈거림, 찌르는 통증, 저림) — 예: 당뇨성 신경병증, 대상포진 후 신경통, 척수 손상 통증에 사용합니다. 신경 말단의 칼슘 채널을 차단하여 흥분성 신경전달물질 방출을 줄입니다. 간질·불안에도 사용됩니다. 부작용: 졸음, 어지러움, 말초 부종, 체중 증가.</span></td>
+            <td class="focus"><strong>졸음·어지러움</strong>: 낙상 위험 — 특히 고령자·오피오이드 병용 시. <strong>신기능에 따른 용량 조절</strong> 필수 — eGFR 확인. <strong>갑작스런 중단 금기</strong>: 점진적 감량 필요(발작 위험). Pregabalin은 남용 가능성이 있어 일부 국가에서 규제 강화 추세. <strong>말초 부종</strong> 관찰 — 심부전 환자에서 악화 가능.</td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
 
     <!-- RENAL MEDS -->
     <div class="sys renal">
