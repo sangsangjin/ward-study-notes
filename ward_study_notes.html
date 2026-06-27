@@ -191,10 +191,18 @@
   .lab .name{font-size:.82rem;color:var(--muted);margin-bottom:3px}
   .lab .val{font-family:var(--mono);font-weight:700;font-size:.96rem;color:var(--ink)}
   .lab .val small{font-weight:500;color:var(--faint);font-size:.74rem}
+  .lab .why{font-size:.72rem;color:var(--faint);margin-top:4px;font-weight:300;line-height:1.4}
   .lab.r{box-shadow:inset 3px 0 0 var(--renal)}
   .lab.h{box-shadow:inset 3px 0 0 var(--hep)}
   .lab.g{box-shadow:inset 3px 0 0 var(--gastro)}
   .lab.n{box-shadow:inset 3px 0 0 var(--faint)}
+  .lab.o{box-shadow:inset 3px 0 0 #e67e22}
+  .lab-section-title{
+    grid-column:1/-1;background:var(--card);padding:10px 16px 4px;
+    font-size:.74rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);
+  }
+  .lab-section-title.obs-title{color:#e67e22}
+  .lab-section-title.blood-title{color:var(--muted)}
 
   /* ---------- key phrases ---------- */
   .phrase{
@@ -274,23 +282,40 @@
     <p class="sec-desc">실습 중 lab 결과 볼 때 기준. ⚠️ 병원마다 reference range가 다르니 차트의 정상범위를 항상 확인하세요. (성인 일반 기준, Australia)</p>
     <div class="labs">
       <div class="lab-grid">
-        <div class="lab r"><div class="name">Creatinine 크레아티닌</div><div class="val">60–110 <small>µmol/L (M)</small></div></div>
-        <div class="lab r"><div class="name">eGFR</div><div class="val">&gt;90 <small>정상 · &lt;60 (3mo)=CKD</small></div></div>
-        <div class="lab r"><div class="name">Urea 요소</div><div class="val">3.0–8.0 <small>mmol/L</small></div></div>
-        <div class="lab r"><div class="name">Potassium K⁺ 칼륨</div><div class="val">3.5–5.2 <small>mmol/L</small></div></div>
-        <div class="lab r"><div class="name">Sodium Na⁺ 나트륨</div><div class="val">135–145 <small>mmol/L</small></div></div>
-        <div class="lab r"><div class="name">Phosphate 인</div><div class="val">0.75–1.5 <small>mmol/L</small></div></div>
-        <div class="lab h"><div class="name">Bilirubin 빌리루빈</div><div class="val">&lt;20 <small>µmol/L</small></div></div>
-        <div class="lab h"><div class="name">Albumin 알부민</div><div class="val">35–50 <small>g/L</small></div></div>
-        <div class="lab h"><div class="name">INR <small>(no anticoag)</small></div><div class="val">0.9–1.2</div></div>
-        <div class="lab h"><div class="name">ALT / AST <small>(LFTs)</small></div><div class="val">~&lt;40 <small>U/L</small></div></div>
-        <div class="lab n"><div class="name">Haemoglobin Hb</div><div class="val">120–170 <small>g/L</small></div></div>
-        <div class="lab g"><div class="name">CRP 염증</div><div class="val">&lt;5 <small>mg/L</small></div></div>
-        <div class="lab g"><div class="name">WCC 백혈구</div><div class="val">4–11 <small>×10⁹/L</small></div></div>
-        <div class="lab n"><div class="name">Urine output 소변량</div><div class="val">≥0.5 <small>mL/kg/hr</small></div></div>
+
+        <!-- ── OBS / VITAL SIGNS ── -->
+        <div class="lab-section-title obs-title">OBS · 활력징후 Vital Signs</div>
+
+        <div class="lab o"><div class="name">BP 혈압 (Blood Pressure)</div><div class="val">120/80 <small>mmHg (목표)</small></div><div class="why">심장이 혈액을 밀어내는 압력 — 고혈압은 장기 손상, 저혈압은 장기 관류 저하</div></div>
+        <div class="lab o"><div class="name">HR 심박수 (Heart Rate)</div><div class="val">60–100 <small>bpm</small></div><div class="why">1분간 심장 박동 수 — 빈맥(&gt;100)은 통증·발열·출혈, 서맥(&lt;60)은 약물·심전도 이상 의심</div></div>
+        <div class="lab o"><div class="name">RR 호흡수 (Respiratory Rate)</div><div class="val">12–20 <small>breaths/min</small></div><div class="why">1분간 호흡 횟수 — &lt;8이면 오피오이드 과량 의심, &gt;20이면 감염·산증·통증 의심</div></div>
+        <div class="lab o"><div class="name">SpO₂ 산소포화도</div><div class="val">94–100 <small>%</small></div><div class="why">혈중 산소 비율 — &lt;94%이면 산소 투여 고려, COPD 환자는 88-92% 목표</div></div>
+        <div class="lab o"><div class="name">Temp 체온 (Temperature)</div><div class="val">36.1–37.2 <small>°C</small></div><div class="why">체내 온도 — &gt;38°C이면 발열(감염 의심), &lt;36°C이면 저체온(패혈증·저체온증)</div></div>
+        <div class="lab o"><div class="name">GCS 의식수준 (Glasgow Coma Scale)</div><div class="val">15 <small>정상 (E4V5M6)</small></div><div class="why">눈·언어·운동 반응 합산 — 15 정상, ≤8이면 의식저하로 기도 확보 필요</div></div>
+        <div class="lab o"><div class="name">Pain Score 통증점수</div><div class="val">0 <small>/ 10 (NRS)</small></div><div class="why">환자 주관적 통증 — 0 무통, 1-3 경도, 4-6 중등도, 7-10 중증</div></div>
+        <div class="lab o"><div class="name">BSL 혈당 (Blood Sugar Level)</div><div class="val">4.0–7.8 <small>mmol/L (식전)</small></div><div class="why">혈중 포도당 — &lt;4 저혈당(떨림·발한·혼란), &gt;11 고혈당(갈증·다뇨·케톤산증 위험)</div></div>
+
+        <!-- ── BLOOD TESTS ── -->
+        <div class="lab-section-title blood-title">BLOODS · 혈액검사 Lab Values</div>
+
+        <div class="lab n"><div class="name">Haemoglobin Hb 헤모글로빈</div><div class="val">120–170 <small>g/L</small></div><div class="why">적혈구의 산소 운반 단백질 — 낮으면 빈혈(피로·창백·숨참), 수혈 고려</div></div>
+        <div class="lab n"><div class="name">Platelets 혈소판</div><div class="val">150–400 <small>×10⁹/L</small></div><div class="why">혈액 응고에 필수 — 낮으면 출혈 위험, 높으면 혈전 위험</div></div>
+        <div class="lab g"><div class="name">WCC 백혈구 (White Cell Count)</div><div class="val">4–11 <small>×10⁹/L</small></div><div class="why">면역세포 수 — 높으면 감염·염증, 낮으면 면역저하(감염 취약)</div></div>
+        <div class="lab g"><div class="name">CRP 염증 (C-Reactive Protein)</div><div class="val">&lt;5 <small>mg/L</small></div><div class="why">급성 염증 표지자 — 감염·수술·조직 손상 시 상승, 치료 반응 평가에 사용</div></div>
+        <div class="lab r"><div class="name">Creatinine 크레아티닌</div><div class="val">60–110 <small>µmol/L (M)</small></div><div class="why">근육 대사 부산물, 신장이 배출 — 상승하면 신기능 저하(AKI·CKD) 의미</div></div>
+        <div class="lab r"><div class="name">eGFR 사구체여과율</div><div class="val">&gt;90 <small>정상 · &lt;60 (3mo)=CKD</small></div><div class="why">신장의 여과 능력 추정치 — 낮을수록 신기능 나쁨, CKD 단계 분류 기준</div></div>
+        <div class="lab r"><div class="name">Urea 요소</div><div class="val">3.0–8.0 <small>mmol/L</small></div><div class="why">단백질 대사 부산물 — 신기능 저하·탈수·GI 출혈 시 상승</div></div>
+        <div class="lab r"><div class="name">Potassium K⁺ 칼륨</div><div class="val">3.5–5.2 <small>mmol/L</small></div><div class="why">심장 전기 활동에 필수 — 너무 높거나 낮으면 부정맥·심정지 위험</div></div>
+        <div class="lab r"><div class="name">Sodium Na⁺ 나트륨</div><div class="val">135–145 <small>mmol/L</small></div><div class="why">체액 균형·신경 기능 조절 — 저나트륨은 혼란·발작, 고나트륨은 탈수 의미</div></div>
+        <div class="lab r"><div class="name">Phosphate 인</div><div class="val">0.75–1.5 <small>mmol/L</small></div><div class="why">뼈·에너지 대사에 필수 — CKD에서 상승하면 혈관 석회화·골질환 유발</div></div>
+        <div class="lab h"><div class="name">Bilirubin 빌리루빈</div><div class="val">&lt;20 <small>µmol/L</small></div><div class="why">적혈구 분해 산물, 간이 처리 — 상승하면 황달(피부·눈 노랗게)</div></div>
+        <div class="lab h"><div class="name">Albumin 알부민</div><div class="val">35–50 <small>g/L</small></div><div class="why">간이 만드는 혈장 단백질 — 낮으면 부종·복수(삼투압 저하), 간기능·영양 상태 반영</div></div>
+        <div class="lab h"><div class="name">INR <small>(no anticoag)</small></div><div class="val">0.9–1.2</div><div class="why">혈액 응고 시간 비율 — 높을수록 응고 지연(출혈 위험), 간부전·warfarin 사용 시 상승</div></div>
+        <div class="lab h"><div class="name">ALT / AST <small>(LFTs)</small></div><div class="val">~&lt;40 <small>U/L</small></div><div class="why">간세포 효소 — 상승하면 간세포 손상(간염·약물·알코올) 의미</div></div>
+        <div class="lab n"><div class="name">Urine output 소변량</div><div class="val">≥0.5 <small>mL/kg/hr</small></div><div class="why">신장 관류의 실시간 지표 — 감소하면 탈수·AKI·쇼크 의심</div></div>
       </div>
     </div>
-    <p class="note">💡 소변량 0.5 mL/kg/hr 미만이 지속되면 AKI를 의심하고 fluid balance · 혈압과 함께 봐야 해요.</p>
+    <p class="note">💡 소변량 0.5 mL/kg/hr 미만이 지속되면 AKI를 의심하고 fluid balance · 혈압과 함께 봐야 해요. Obs는 매 라운드마다 측정하고 변화 추세(trend)를 보는 게 중요합니다.</p>
   </section>
 
   <!-- ============ 1. TERMS ============ -->
