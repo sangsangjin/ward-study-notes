@@ -284,18 +284,22 @@
       <div class="lab-grid">
 
         <!-- ── OBS / VITAL SIGNS — Q-ADDS scoring zone 0 ── -->
-        <div class="lab-section-title obs-title">OBS · 활력징후 — Q-ADDS 정상 범위 (Score 0)</div>
+        <div class="lab-section-title obs-title">OBS · 활력징후 — Q-ADDS 채점 항목 (Score 0 = 정상)</div>
+        <div style="grid-column:1/-1;font-size:.7rem;color:var(--faint);margin:-6px 0 6px;line-height:1.4">Q-ADDS 채점 7항목: RR + SpO₂ + O₂ flow + SBP + HR + Temp + LOC. 총점 ≥7 또는 단일 E zone → MET Call 고려. SBP는 환자 기본(usual) BP 기반 <strong>개인화 테이블</strong>로 채점.</div>
 
-        <div class="lab o"><div class="name">Systolic BP 수축기 혈압</div><div class="val">101–199 <small>mmHg</small></div><div class="why">심장이 수축할 때 동맥 압력 — ≤100이면 Q-ADDS 점수 발생, &lt;90은 쇼크 의심</div></div>
-        <div class="lab o"><div class="name">HR 심박수 (Heart Rate)</div><div class="val">51–100 <small>bpm</small></div><div class="why">1분간 심장 박동 수 — &gt;100 빈맥(통증·발열·출혈), ≤50 서맥(약물·심전도 이상)</div></div>
-        <div class="lab o"><div class="name">RR 호흡수 (Respiratory Rate)</div><div class="val">12–20 <small>breaths/min</small></div><div class="why">1분간 호흡 횟수 — ≤11 또는 ≥21이면 Q-ADDS 점수 발생, &lt;8은 즉시 MET Call</div></div>
+        <div class="lab o"><div class="name">RR 호흡수 (Respiratory Rate)</div><div class="val">10–19 <small>breaths/min</small></div><div class="why">1분간 호흡 횟수 — ≤9 또는 ≥20이면 Q-ADDS 점수 발생, ≤5이면 E zone(MET Call 고려)</div></div>
         <div class="lab o"><div class="name">SpO₂ 산소포화도</div><div class="val">≥95 <small>% (room air)</small></div><div class="why">혈중 산소 비율 — &lt;95%이면 Q-ADDS 점수 발생, COPD 환자는 88-92% 목표</div></div>
+        <div class="lab o"><div class="name">HR 심박수 (Heart Rate)</div><div class="val">50–99 <small>bpm</small></div><div class="why">1분간 심장 박동 수 — ≥100 빈맥(통증·발열·출혈), ≤49 서맥(약물·심전도 이상)</div></div>
+        <div class="lab o"><div class="name">Systolic BP 수축기 혈압</div><div class="val">※ BP Table <small>기본(usual) SBP 기준</small></div><div class="why">Q-ADDS는 환자 평소 SBP 기준 개인화 테이블로 채점 — 평소 120 기준 대략 Score 0 ≈ 100-170 mmHg, &lt;90은 쇼크 의심</div></div>
         <div class="lab o"><div class="name">Temp 체온 (Temperature)</div><div class="val">36.0–37.9 <small>°C</small></div><div class="why">체내 온도 — ≥38°C이면 발열(감염 의심), &lt;36°C이면 저체온(패혈증·쇼크)</div></div>
-        <div class="lab o"><div class="name">LOC 의식수준 (Level of Consciousness)</div><div class="val">Alert <small>= Score 0</small></div><div class="why">Q-ADDS: Alert(정상) → Voice → Pain → Unresponsive 순, 새로운 혼란도 점수 발생</div></div>
-        <div class="lab o"><div class="name">GCS (Glasgow Coma Scale)</div><div class="val">15 <small>(E4 V5 M6)</small></div><div class="why">눈·언어·운동 반응 합산 — 15 정상, ≤8이면 기도 확보 필요, 신경외과 환자 필수</div></div>
+        <div class="lab o"><div class="name">LOC 의식수준 (Level of Consciousness)</div><div class="val">Alert <small>= Score 0</small></div><div class="why">Q-ADDS: Alert(정상) → Voice → Pain → Unresponsive 순, 새로운 혼란(new confusion)도 점수 발생</div></div>
+
+        <div style="grid-column:1/-1;font-size:.72rem;font-weight:600;color:#e67e22;margin:10px 0 4px;border-top:1px dashed #e67e22;padding-top:8px">기타 OBS — Q-ADDS 채점 항목은 아니지만 obs chart에 필수 기록</div>
+
+        <div class="lab o"><div class="name">GCS (Glasgow Coma Scale)</div><div class="val">15 <small>(E4 V5 M6)</small></div><div class="why">눈·언어·운동 반응 합산 — 15 정상, ≤8이면 기도 확보 필요, 신경외과·뇌졸중 환자 필수</div></div>
         <div class="lab o"><div class="name">Pain Score 통증점수</div><div class="val">0 <small>/ 10 (NRS)</small></div><div class="why">환자 주관적 통증 — 0 무통, 1-3 경도, 4-6 중등도, 7-10 중증</div></div>
         <div class="lab o"><div class="name">BSL 혈당 (Blood Sugar Level)</div><div class="val">4.0–10.0 <small>mmol/L (입원 목표)</small></div><div class="why">혈중 포도당 — &lt;4 저혈당(QH hypo protocol 시행), &gt;10 고혈당(인슐린 sliding scale 확인)</div></div>
-        <div class="lab o"><div class="name">Urine output 소변량</div><div class="val">≥0.5 <small>mL/kg/hr</small></div><div class="why">신장 관류의 실시간 지표 — 감소하면 탈수·AKI·쇼크 의심, Q-ADDS 별도 기록</div></div>
+        <div class="lab o"><div class="name">Urine output 소변량</div><div class="val">≥0.5 <small>mL/kg/hr</small></div><div class="why">신장 관류의 실시간 지표 — 감소하면 탈수·AKI·쇼크 의심</div></div>
 
         <!-- ── BLOOD TESTS — Pathology Queensland ── -->
         <div class="lab-section-title blood-title">BLOODS · 혈액검사 — Pathology Queensland Reference Range</div>
