@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>약물 핸드북 · Medication Handbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1b2230;
+    --muted:#5d6675;
+    --faint:#8a93a3;
+    --paper:#eef1f5;
+    --card:#ffffff;
+    --line:#e3e8ef;
+
+    --renal:#1d6fb8;      --renal-bg:#eaf3fb;  --renal-line:#bcdcef;
+    --gastro:#2c8c6a;     --gastro-bg:#e7f4ee; --gastro-line:#bfe3d3;
+    --hep:#bb851a;        --hep-bg:#fbf2dc;    --hep-line:#ecd9a8;
+    --flag:#c0392b;       --flag-bg:#fbeae7;   --flag-line:#f0c4bd;
+    --basic:#6c5ce7;      --basic-bg:#f0edfc;  --basic-line:#c8c0f4;
+
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Noto Sans KR',system-ui,sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.45;
+    font-size:14px;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- layout ---------- */
+  .wrap{max-width:960px;margin:0 auto;padding:0 12px 60px}
+
+  /* ---------- hero ---------- */
+  header.hero{
+    background:
+      radial-gradient(110% 130% at 0% 0%, #1d6fb8 0%, transparent 40%),
+      radial-gradient(110% 130% at 100% 0%, #c0392b 0%, transparent 40%),
+      radial-gradient(130% 150% at 50% 120%, #2c8c6a 0%, transparent 42%),
+      #11161f;
+    color:#fff;
+    padding:36px 16px 30px;
+    margin-bottom:0;
+  }
+  .hero-inner{max-width:960px;margin:0 auto}
+  .hero .eyebrow{
+    font-family:var(--mono);font-size:.65rem;letter-spacing:.28em;
+    text-transform:uppercase;color:#cfe0f2;margin:0 0 8px;
+  }
+  .hero h1{
+    font-weight:900;font-size:clamp(1.4rem,4vw,2.2rem);
+    line-height:1.15;margin:0 0 8px;letter-spacing:-.01em;
+  }
+  .hero p.sub{margin:0;max-width:600px;color:#d7deea;font-size:.85rem;font-weight:300;line-height:1.5}
+  .hero .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px}
+  .hero .tags span{
+    font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.04em;
+    padding:3px 9px;border-radius:999px;background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.22);
+  }
+
+  /* ---------- sticky toolbar ---------- */
+  .toolbar{
+    position:sticky;top:0;z-index:40;
+    background:rgba(255,255,255,.92);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+    margin-bottom:16px;
+  }
+  .toolbar-inner{
+    max-width:960px;margin:0 auto;padding:6px 12px;
+    display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  }
+  .navlinks{display:flex;gap:2px;flex-wrap:wrap;flex:1}
+  .navlinks a{
+    font-size:.68rem;font-weight:500;color:var(--muted);text-decoration:none;
+    padding:4px 7px;border-radius:6px;white-space:nowrap;transition:.15s;
+  }
+  .navlinks a:hover{background:var(--paper);color:var(--ink)}
+  .toggle-btn{
+    font-family:var(--mono);font-size:.65rem;font-weight:700;cursor:pointer;
+    border:1px solid var(--line);background:#fff;color:var(--ink);
+    padding:5px 10px;border-radius:7px;transition:.15s;white-space:nowrap;
+  }
+  .toggle-btn:hover{border-color:var(--ink)}
+  .toggle-btn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+  body.hide-kr .kr{display:none}
+
+  /* ---------- search ---------- */
+  .search-box{
+    display:flex;align-items:center;gap:6px;
+    margin-bottom:16px;padding:0 2px;
+  }
+  .search-box input{
+    flex:1;font-family:'Noto Sans KR',sans-serif;font-size:.82rem;
+    padding:7px 12px;border:1px solid var(--line);border-radius:8px;
+    background:#fff;color:var(--ink);outline:none;transition:.15s;
+  }
+  .search-box input:focus{border-color:var(--renal);box-shadow:0 0 0 2px rgba(29,111,184,.15)}
+  .search-box input::placeholder{color:var(--faint)}
+
+  /* ---------- section ---------- */
+  section.drug-section{margin-bottom:20px;scroll-margin-top:52px}
+
+  .sec-header{
+    display:flex;align-items:center;gap:8px;
+    padding:8px 14px;border-radius:10px 10px 0 0;
+    color:#fff;font-weight:700;font-size:.88rem;
+    position:sticky;top:42px;z-index:30;
+  }
+  .sec-header .sec-num{
+    font-family:var(--mono);font-size:.62rem;font-weight:700;
+    background:rgba(255,255,255,.22);padding:2px 7px;border-radius:5px;letter-spacing:.05em;
+  }
+  .sec-header .sec-kr{font-weight:400;font-size:.78rem;opacity:.85;margin-left:4px}
+
+  /* ---------- drug table ---------- */
+  .drug-table-wrap{
+    border:1px solid var(--line);border-top:none;
+    border-radius:0 0 10px 10px;background:var(--card);
+    overflow-x:auto;margin-bottom:4px;
+  }
+  table.dtable{width:100%;border-collapse:collapse;font-size:.8rem;table-layout:fixed}
+  table.dtable thead th{
+    text-align:left;font-size:.6rem;font-weight:700;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--faint);
+    padding:6px 10px;border-bottom:1px solid var(--line);background:#fafbfc;
+    position:sticky;top:76px;z-index:20;
+  }
+  table.dtable tbody td{
+    padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top;
+    line-height:1.4;
+  }
+  table.dtable tbody tr:last-child td{border-bottom:none}
+  table.dtable tbody tr:hover td{background:#f8f9fb}
+
+  /* column widths */
+  table.dtable col.c-name{width:22%}
+  table.dtable col.c-class{width:12%}
+  table.dtable col.c-use{width:18%}
+  table.dtable col.c-se{width:20%}
+  table.dtable col.c-nsg{width:28%}
+
+  .drug-name{
+    font-family:var(--mono);font-weight:700;font-size:.76rem;
+    color:var(--ink);line-height:1.35;
+  }
+  .drug-name .brand{display:block;font-size:.74rem}
+  .drug-name .generic{display:block;font-size:.66rem;font-weight:500;color:var(--muted)}
+
+  /* classification tag */
+  .tag{
+    display:inline-block;font-size:.58rem;font-weight:700;
+    padding:2px 6px;border-radius:4px;letter-spacing:.03em;
+    line-height:1.3;white-space:nowrap;
+  }
+  .tag.opioid{background:#fce4ec;color:#c62828}
+  .tag.s8{background:#fce4ec;color:#c62828;border:1px solid #f0c4bd}
+  .tag.analgesic{background:#e3f2fd;color:#1565c0}
+  .tag.antiemetic{background:var(--gastro-bg);color:var(--gastro)}
+  .tag.gi{background:var(--gastro-bg);color:var(--gastro)}
+  .tag.laxative{background:var(--hep-bg);color:var(--hep)}
+  .tag.hepato{background:var(--hep-bg);color:var(--hep)}
+  .tag.renal{background:var(--renal-bg);color:var(--renal)}
+  .tag.cv{background:var(--basic-bg);color:var(--basic)}
+  .tag.anticoag{background:var(--flag-bg);color:var(--flag)}
+  .tag.abx{background:var(--basic-bg);color:var(--basic)}
+  .tag.dm{background:var(--gastro-bg);color:var(--gastro)}
+  .tag.iv{background:var(--renal-bg);color:var(--renal)}
+  .tag.steroid{background:var(--hep-bg);color:var(--hep)}
+  .tag.other{background:#f5f5f5;color:var(--muted)}
+
+  /* S8 badge */
+  .s8-badge{
+    font-family:var(--mono);font-size:.55rem;font-weight:700;
+    background:#c62828;color:#fff;padding:1px 5px;border-radius:3px;
+    display:inline-block;margin-top:2px;letter-spacing:.04em;
+  }
+
+  .se-text,.use-text,.nsg-text{font-size:.76rem;color:var(--muted);line-height:1.4}
+  .se-text strong,.use-text strong,.nsg-text strong{color:var(--ink);font-weight:500}
+  .nsg-text{color:var(--ink)}
+  .nsg-text .warn{color:var(--flag);font-weight:700}
+  .kr{color:var(--muted);font-size:.72rem;display:block;margin-top:2px;font-weight:300}
+
+  /* ---------- quick ref callout ---------- */
+  .callout{
+    border-radius:10px;padding:12px 14px;margin:12px 0;
+    font-size:.78rem;line-height:1.5;
+  }
+  .callout.red{border:1px solid var(--flag-line);background:var(--flag-bg);color:var(--flag)}
+  .callout.blue{border:1px solid var(--renal-line);background:var(--renal-bg);color:var(--renal)}
+  .callout .ctitle{font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+  .callout ul{margin:0;padding-left:16px}
+  .callout li{margin:2px 0}
+
+  /* ---------- footer ---------- */
+  footer{text-align:center;color:var(--faint);font-size:.72rem;padding:20px 0;border-top:1px solid var(--line);margin-top:20px}
+
+  /* ---------- mobile ---------- */
+  @media (max-width:680px){
+    body{font-size:13px}
+    .hero{padding:28px 14px 24px}
+    .hero h1{font-size:1.3rem}
+    .sec-header{font-size:.8rem;top:38px;padding:7px 10px}
+    .toolbar-inner{padding:4px 8px}
+    .navlinks a{font-size:.6rem;padding:3px 5px}
+    table.dtable{font-size:.72rem;table-layout:auto}
+    table.dtable thead th{font-size:.55rem;padding:5px 6px;top:68px}
+    table.dtable tbody td{padding:6px 6px}
+    table.dtable col.c-name{width:auto}
+    table.dtable col.c-class{width:auto}
+    table.dtable col.c-use{width:auto}
+    table.dtable col.c-se{width:auto}
+    table.dtable col.c-nsg{width:auto}
+    .drug-name .brand{font-size:.68rem}
+    .drug-name .generic{font-size:.6rem}
+    .tag{font-size:.52rem}
+    .se-text,.use-text,.nsg-text{font-size:.68rem}
+    .kr{font-size:.64rem}
+    .s8-badge{font-size:.5rem}
+  }
+
+  @media (max-width:480px){
+    /* ultra compact: hide classification column on very small screens */
+    table.dtable .hide-xs{display:none}
+    table.dtable tbody td{padding:5px 5px}
+    .drug-name .brand{font-size:.66rem}
+    .drug-name .generic{font-size:.56rem}
+    .se-text,.use-text,.nsg-text{font-size:.64rem}
+  }
+
+  /* ---------- print ---------- */
+  @media print{
+    .toolbar,.search-box{display:none}
+    body{background:#fff;font-size:9pt}
+    body.hide-kr .kr{display:block}
+    .hero{padding:20px 16px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .sec-header{position:static;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    table.dtable thead th{position:static}
+    section.drug-section{break-inside:auto}
+    .drug-table-wrap{break-inside:avoid}
+    table.dtable tbody tr{break-inside:avoid}
+  }
+
+  /* highlight on search */
+  tr.highlight td{background:#fff9c4 !important}
+  tr.dim{opacity:.25;transition:opacity .2s}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">Pocket Reference · Clinical Placement</p>
+    <h1>약물 핸드북<br>Medication Handbook</h1>
+    <p class="sub">Renal · Gastro · Hepatology 병동 실습에서 자주 만나는 약물을 한눈에 정리한 포켓 레퍼런스입니다. 약물명(호주 브랜드 + 성분명), 분류, 용도, 부작용, 간호 포인트를 빠르게 확인하세요.</p>
+    <div class="tags">
+      <span style="background:rgba(29,111,184,.35)">RENAL 신장</span>
+      <span style="background:rgba(44,140,106,.35)">GASTRO 소화기</span>
+      <span style="background:rgba(187,133,26,.4)">HEPATOLOGY 간</span>
+      <span style="background:rgba(192,57,43,.35)">ANTICOAG 항응고</span>
+    </div>
+  </div>
+</header>
+
+<div class="toolbar">
+  <div class="toolbar-inner">
+    <nav class="navlinks">
+      <a href="#analgesics">진통제</a>
+      <a href="#antiemetics">항구토</a>
+      <a href="#gi">위장</a>
+      <a href="#laxatives">완하제</a>
+      <a href="#hepato">간</a>
+      <a href="#renal">신장</a>
+      <a href="#cv">심혈관</a>
+      <a href="#anticoag">항응고</a>
+      <a href="#abx">항생제</a>
+      <a href="#dm">당뇨</a>
+      <a href="#ivf">수액</a>
+      <a href="#other">기타</a>
+    </nav>
+    <button class="toggle-btn" id="krToggle" onclick="toggleKR()">한글 ON</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- search -->
+<div class="search-box">
+  <input type="text" id="drugSearch" placeholder="Search drug name / 약물 검색..." oninput="filterDrugs(this.value)">
+</div>
+
+<!-- ============================================================ -->
+<!--  1. ANALGESICS 진통제                                         -->
+<!-- ============================================================ -->
+<section class="drug-section" id="analgesics">
+  <div class="sec-header" style="background:var(--renal)">
+    <span class="sec-num">01</span> ANALGESICS <span class="sec-kr kr">진통제</span>
+  </div>
+  <div class="drug-table-wrap">
+    <table class="dtable">
+      <colgroup><col class="c-name"><col class="c-class hide-xs"><col class="c-use"><col class="c-se"><col class="c-nsg"></colgroup>
+      <thead><tr>
+        <th>Drug</th><th class="hide-xs">Class</th><th>용도</th><th>부작용</th><th>간호 포인트</th>
+      </tr></thead>
+      <tbody>
+        <tr data-drug="paracetamol panadol">
+          <td><span class="drug-name"><span class="brand">Panadol</span><span class="generic">Paracetamol</span></span></td>
+          <td class="hide-xs"><span class="tag analgesic">Simple analgesic</span></td>
+          <td><span class="use-text">Mild pain, fever<span class="kr">경미한 통증, 해열</span></span></td>
+          <td><span class="se-text">1g QID max (4g/day)<br><strong>Hepatotoxicity</strong> &gt;4g/day<span class="kr">간독성 위험 (과량 시)</span></span></td>
+          <td><span class="nsg-text"><span class="warn">간질환 환자 용량 주의</span><span class="kr">PO/IV 가능, 간기능 저하 시 감량</span></span></td>
+        </tr>
+        <tr data-drug="endone oxycodone">
+          <td><span class="drug-name"><span class="brand">Endone</span><span class="generic">Oxycodone</span></span><span class="s8-badge">S8</span></td>
+          <td class="hide-xs"><span class="tag opioid">Opioid</span></td>
+          <td><span class="use-text">Moderate-severe pain<span class="kr">중등도~심한 통증</span></span></td>
+          <td><span class="se-text">Resp. depression, constipation, N/V, sedation<span class="kr">호흡억제, 변비, 오심, 진정</span></span></td>
+          <td><span class="nsg-text"><span class="warn">Double check 필수</span><span class="kr">Pain score 사정, 호흡수 모니터링</span></span></td>
+        </tr>
+        <tr data-drug="tramadol">
+          <td><span class="drug-name"><span class="brand">Tramadol</span><span class="generic">Tramadol</span></span></td>
+          <td class="hide-xs"><span class="tag opioid">Opioid (weak)</span></td>
+          <td><span class="use-text">Moderate pain<span class="kr">중등도 통증</span></span></td>
+          <td><span class="se-text">Nausea, dizziness, seizure risk<span class="kr">오심, 어지러움, 경련 위험</span></span></td>
+          <td><span class="nsg-text"><span class="kr">Renal impairment 시 용량 조절</span></span></td>
+        </tr>
+        <tr data-drug="morphine">
+          <td><span class="drug-name"><span class="brand">Morphine</span><span class="generic">Morphine sulfate</span></span><span class="s8-badge">S8</span></td>
+          <td class="hide-xs"><span class="tag opioid">Opioid (strong)</span></td>
+          <td><span class="use-text">Severe pain<span class="kr">심한 통증</span></span></td>
+          <td><span class="se-text">Resp. depression, hypotension, constipation<span class="kr">호흡억제, 저혈압, 변비</span></span></td>
+          <td><span class="nsg-text"><span class="warn">호흡수 &lt;10 시 보고</span><span class="kr">Naloxone 준비, double check 필수</span></span></td>
+        </tr>
+        <tr data-drug="fentanyl">
+          <td><span class="drug-name"><span class="brand">Fentanyl</span><span class="generic">Fentanyl</span></span><span class="s8-badge">S8</span></td>
+          <td class="hide-xs"><span class="tag opioid">Opioid (strong)</span></td>
+          <td><span class="use-text">Severe/chronic pain (patch/IV)<span class="kr">심한/만성 통증</span></span></td>
+          <td><span class="se-text">Resp. depression, bradycardia<span class="kr">호흡억제, 서맥</span></span></td>
+          <td><span class="nsg-text"><span class="warn">Patch는 열에 노출 금지</span><span class="kr">핫팩, 전기담요 사용 시 과량흡수 위험</span></span></td>
+        </tr>
+        <tr data-drug="targin oxycodone naloxone">
+          <td><span class="drug-name"><span class="brand">Targin</span><span class="generic">Oxycodone / Naloxone</span></span><span class="s8-badge">S8</span></td>
+          <td class="hide-xs"><span class="tag opioid">Opioid + anti-constip.</span></td>
+          <td><span class="use-text">Pain + constipation prevention<span class="kr">통증 + 변비 예방</span></span></td>
+          <td><span class="se-text">Same as oxycodone<span class="kr">오심, 진정, 호흡억제</span></span></td>
+          <td><span class="nsg-text"><span class="warn">씹거나 부수지 말 것</span><span class="kr">Controlled release - 통째로 삼킬 것</span></span></td>
+        </tr>
+        <tr data-drug="palexia tapentadol">
+          <td><span class="drug-name"><span class="brand">Palexia</span><span class="generic">Tapentadol</span></span><span class="s8-badge">S8</span></td>
+          <td class="hide-xs"><span class="tag opioid">Opioid</span></td>
+          <td><span class="use-text">Moderate-severe pain<span class="kr">중등도~심한 통증</span></span></td>
+          <td><span class="se-text">Less constipation than other opioids<span class="kr">변비 부작용 상대적으로 적음</span></span></td>
+          <td><span class="nsg-text"><span class="kr">S8 - double check 필수</span></span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!--  2. ANTIEMETICS 항구토제                                      -->
+<!-- ============================================================ -->
+<section class="drug-section" id="antiemetics">
+  <div class="sec-header" style="background:var(--gastro)">
+    <span class="sec-num">02</span> ANTIEMETICS <span class="sec-kr kr">항구토제</span>
+  </div>
+  <div class="drug-table-wrap">
+    <table class="dtable">
+      <colgroup><col class="c-name"><col class="c-class hide-xs"><col class="c-use"><col class="c-se"><col class="c-nsg"></colgroup>
+      <thead><tr>
+        <th>Drug</th><th class="hide-xs">Class</th><th>용도</th><th>부작용</th><th>간호 포인트</th>
+      </tr></thead>
+      <tbody>
+        <tr data-drug="ondansetron zofran">
+          <td><span class="drug-name"><span class="brand">Zofran</span><span class="generic">Ondansetron</span></span></td>
+          <td class="hide-xs"><span class="tag antiemetic">5-HT3 antagonist</span></td>
+          <td><span class="use-text">Nausea / vomiting<span class="kr">오심, 구토</span></span></td>
+          <td><span class="se-text">Headache, constipation<span class="kr">두통, 변비</span></span></td>
+          <td><span class="nsg-text">PO / IV / wafer 가능<span class="kr">웨이퍼는 혀 위에 올려 녹여서 복용</span></span></td>
+        </tr>
+        <tr data-drug="metoclopramide maxolon">
+          <td><span class="drug-name"><span class="brand">Maxolon</span><span class="generic">Metoclopramide</span></span></td>
+          <td class="hide-xs"><span class="tag antiemetic">Prokinetic</span></td>
+          <td><span class="use-text">Nausea, gastroparesis<span class="kr">오심, 위마비</span></span></td>
+          <td><span class="se-text"><strong>EPS</strong> (extrapyramidal symptoms), drowsiness<span class="kr">추체외로 증상, 졸림</span></span></td>
+          <td><span class="nsg-text"><span class="warn">Young patients에서 EPS 위험 높음</span><span class="kr">안면 경련, 근긴장 이상 관찰</span></span></td>
+        </tr>
+        <tr data-drug="cyclizine">
+          <td><span class="drug-name"><span class="brand">Cyclizine</span><span class="generic">Cyclizine</span></span></td>
+          <td class="hide-xs"><span class="tag antiemetic">Antihistamine</span></td>
+          <td><span class="use-text">Nausea / vomiting<span class="kr">오심, 구토</span></span></td>
+          <td><span class="se-text">Drowsiness, dry mouth<span class="kr">졸림, 구강건조</span></span></td>
+          <td><span class="nsg-text"><span class="kr">진정 효과 관찰, 낙상 주의</span></span></td>
+        </tr>
+        <tr data-drug="prochlorperazine stemetil">
+          <td><span class="drug-name"><span class="brand">Stemetil</span><span class="generic">Prochlorperazine</span></span></td>
+          <td class="hide-xs"><span class="tag antiemetic">Phenothiazine</span></td>
+          <td><span class="use-text">Nausea, vertigo<span class="kr">오심, 현기증</span></span></td>
+          <td><span class="se-text">EPS, sedation<span class="kr">추체외로 증상, 진정</span></span></td>
+          <td><span class="nsg-text"><span class="kr">EPS 증상 모니터링</span></span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!--  3. GI MEDICATIONS 위장약                                     -->
+<!-- ============================================================ -->
+<section class="drug-section" id="gi">
+  <div class="sec-header" style="background:var(--gastro)">
+    <span class="sec-num">03</span> GI MEDICATIONS <span class="sec-kr kr">위장약</span>
+  </div>
+  <div class="drug-table-wrap">
+    <table class="dtable">
+      <colgroup><col class="c-name"><col class="c-class hide-xs"><col class="c-use"><col class="c-se"><col class="c-nsg"></colgroup>
+      <thead><tr>
+        <th>Drug</th><th class="hide-xs">Class</th><th>용도</th><th>부작용</th><th>간호 포인트</th>
+      </tr></thead>
+      <tbody>
+        <tr data-drug="pantoprazole somac">
+          <td><span class="drug-name"><span class="brand">Somac</span><span class="generic">Pantoprazole</span></span></td>
+          <td class="hide-xs"><span class="tag gi">PPI</span></td>
+          <td><span class="use-text">GORD, ulcer, GI bleed<span class="kr">위식도역류, 궤양, 위장출혈</span></span></td>
+          <td><span class="se-text">Headache; long-term: Mg&darr;, bone fracture<span class="kr">두통; 장기: 저마그네슘, 골절 위험</span></span></td>
+          <td><span class="nsg-text"><span class="warn">식전 30분 투여</span><span class="kr">PO/IV 가능</span></span></td>
+        </tr>
+        <tr data-drug="esomeprazole nexium">
+          <td><span class="drug-name"><span class="brand">Nexium</span><span class="generic">Esomeprazole</span></span></td>
+          <td class="hide-xs"><span class="tag gi">PPI</span></td>
+          <td><span class="use-text">GORD, ulcer, GI bleed<span class="kr">위식도역류, 궤양, 위장출혈</span></span></td>
+          <td><span class="se-text">Same as pantoprazole<span class="kr">위와 동일</span></span></td>
+          <td><span class="nsg-text"><span class="warn">식전 30분 투여</span></span></td>
+        </tr>
+        <tr data-drug="omeprazole losec">
+          <td><span class="drug-name"><span class="brand">Losec</span><span class="generic">Omeprazole</span></span></td>
+          <td class="hide-xs"><span class="tag gi">PPI</span></td>
+          <td><span class="use-text">GORD, ulcer<span class="kr">위식도역류, 궤양</span></span></td>
+          <td><span class="se-text">Same as pantoprazole<span class="kr">위와 동일</span></span></td>
+          <td><span class="nsg-text"><span class="warn">식전 30분 투여</span></span></td>
+        </tr>
+        <tr data-drug="sucralfate carafate">
+          <td><span class="drug-name"><span class="brand">Carafate</span><span class="generic">Sucralfate</span></span></td>
+          <td class="hide-xs"><span class="tag gi">Mucosal protectant</span></td>
+          <td><span class="use-text">Ulcer protection<span class="kr">궤양 보호</span></span></td>
+          <td><span class="se-text">Constipation<span class="kr">변비</span></span></td>
+          <td><span class="nsg-text"><span class="warn">다른 약과 2시간 간격</span><span class="kr">다른 약물 흡수를 방해할 수 있음</span></span></td>
+        </tr>
+        <tr data-drug="buscopan hyoscine butylbromide">
+          <td><span class="drug-name"><span class="brand">Buscopan</span><span class="generic">Hyoscine butylbromide</span></span></td>
+          <td class="hide-xs"><span class="tag gi">Antispasmodic</span></td>
+          <td><span class="use-text">Abdominal cramps, colic<span class="kr">복통, 산통</span></span></td>
+          <td><span class="se-text">Dry mouth, tachycardia<span class="kr">구강건조, 빈맥</span></span></td>
+          <td><span class="nsg-text"><span class="kr">HR 모니터링, anticholinergic 효과 관찰</span></span></td>
+        </tr>
+        <tr data-drug="loperamide imodium">
+          <td><span class="drug-name"><span class="brand">Imodium</span><span class="generic">Loperamide</span></span></td>
+          <td class="hide-xs"><span class="tag gi">Antidiarrhoeal</span></td>
+          <td><span class="use-text">Diarrhoea<span class="kr">설사</span></span></td>
+          <td><span class="se-text">Constipation, abdominal cramps<span class="kr">변비, 복통</span></span></td>
+          <td><span class="nsg-text"><span class="warn">C.diff 의심 시 사용 금지</span><span class="kr">감염성 설사 배제 후 사용</span></span></td>
+        </tr>
+        <tr data-drug="gaviscon">
+          <td><span class="drug-name"><span class="brand">Gaviscon</span><span class="generic">Alginate / Antacid</span></span></td>
+          <td class="hide-xs"><span class="tag gi">Antacid</span></td>
+          <td><span class="use-text">GORD, heartburn<span class="kr">위식도역류, 속쓰림</span></span></td>
+          <td><span class="se-text">Minimal<span class="kr">경미</span></span></td>
+          <td><span class="nsg-text"><span class="kr">식후 복용, 다른 약과 간격 두기</span></span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!--  4. LAXATIVES 완하제                                          -->
+<!-- ============================================================ -->
+<section class="drug-section" id="laxatives">
+  <div class="sec-header" style="background:var(--hep)">
+    <span class="sec-num">04</span> LAXATIVES <span class="sec-kr kr">완하제</span>
+  </div>
+  <div class="drug-table-wrap">
+    <table class="dtable">
+      <colgroup><col class="c-name"><col class="c-class hide-xs"><col class="c-use"><col class="c-se"><col class="c-nsg"></colgroup>
+      <thead><tr>
+        <th>Drug</th><th class="hide-xs">Class</th><th>용도</th><th>부작용</th><th>간호 포인트</th>
+      </tr></thead>
+      <tbody>
+        <tr data-drug="lactulose">
+          <td><span class="drug-name"><span class="brand">Lactulose</span><span class="generic">Lactulose</span></span></td>
+          <td class="hide-xs"><span class="tag laxative">Osmotic laxative</span></td>
+          <td><span class="use-text">Constipation + hepatic encephalopathy<span class="kr">변비 + 간성뇌증 치료</span></span></td>
+          <td><span class="se-text">Bloating, flatulence<span class="kr">복부팽만, 가스</span></span></td>
+          <td><span class="nsg-text"><span class="warn">간성뇌증 시 하루 2-3회 soft stool 목표</span><span class="kr">배변 횟수 및 양상 기록</span></span></td>
+        </tr>
+        <tr data-drug="movicol macrogol">
+          <td><span class="drug-name"><span class="brand">Movicol</span><span class="generic">Macrogol</span></span></td>
+          <td class="hide-xs"><span class="tag laxative">Osmotic laxative</span></td>
+          <td><span class="use-text">Constipation<span class="kr">변비</span></span></td>
+          <td><span class="se-text">Abdominal discomfort<span class="kr">복부 불편감</span></span></td>
+          <td><span class="nsg-text"><span class="kr">충분한 수분과 함께 복용</span></span></td>
+        </tr>
+        <tr data-drug="coloxyl senna">
+          <td><span class="drug-name"><span class="brand">Coloxyl + Senna</span><span class="generic">Docusate + Sennoside</span></span></td>
+          <td class="hide-xs"><span class="tag laxative">Stimulant + softener</span></td>
+          <td><span class="use-text">Constipation<span class="kr">변비</span></span></td>
+          <td><span class="se-text">Abdominal cramps<span class="kr">복통</span></span></td>
+          <td><span class="nsg-text"><span class="kr">Opioid 사용 환자에게 예방적 처방 흔함</span></span></td>
+        </tr>
+        <tr data-drug="bisacodyl dulcolax">
+          <td><span class="drug-name"><span class="brand">Dulcolax</span><span class="generic">Bisacodyl</span></span></td>
+          <td class="hide-xs"><span class="tag laxative">Stimulant laxative</span></td>
+          <td><span class="use-text">Constipation<span class="kr">변비</span></span></td>
+          <td><span class="se-text">Abdominal cramps<span class="kr">복통</span></span></td>
+          <td><span class="nsg-text">PO or PR (suppository)<span class="kr">경구 또는 좌약</span></span></td>
+        </tr>
+        <tr data-drug="microlax">
+          <td><span class="drug-name"><span class="brand">Microlax</span><span class="generic">Micro-enema</span></span></td>
+          <td class="hide-xs"><span class="tag laxative">Micro-enema</span></td>
+          <td><span class="use-text">Quick constipation relief<span class="kr">빠른 변비 해소</span></span></td>
+          <td><span class="se-text">Local irritation<span class="kr">국소 자극</span></span></td>
+          <td><span class="nsg-text"><span class="kr">직장 투여, 5-15분 내 효과</span></span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!--  5. HEPATOLOGY 간 관련 약물                                    -->
+<!-- ============================================================ -->
+<section class="drug-section" id="hepato">
+  <div class="sec-header" style="background:var(--hep)">
+    <span class="sec-num">05</span> HEPATOLOGY <span class="sec-kr kr">간 관련 약물</span>
+  </div>
+  <div class="drug-table-wrap">
+    <table class="dtable">
+      <colgroup><col class="c-name"><col class="c-class hide-xs"><col class="c-use"><col class="c-se"><col class="c-nsg"></colgroup>
+      <thead><tr>
+        <th>Drug</th><th class="hide-xs">Class</th><th>용도</th><th>부작용</th><th>간호 포인트</th>
+      </tr></thead>
+      <tbody>
+        <tr data-drug="lactulose hepatic encephalopathy">
+          <td><span class="drug-name"><span class="brand">Lactulose</span><span class="generic">(간성뇌증 용도)</span></span></td>
+          <td class="hide-xs"><span class="tag hepato">Osmotic / HE Tx</span></td>
+          <td><span class="use-text">Hepatic encephalopathy<span class="kr">간성뇌증 치료 및 예방</span></span></td>
+          <td><span class="se-text">Bloating, diarrhoea<span class="kr">복부팽만, 설사</span></span></td>
+          <td><span class="nsg-text"><span class="warn">2-3회/일 soft stool 목표</span><span class="kr">의식수준 변화 관찰, NH3 level 확인</span></span></td>
+        </tr>
+        <tr data-drug="rifaximin xifaxan">
+          <td><span class="drug-name"><span class="brand">Xifaxan</span><span class="generic">Rifaximin</span></span></td>
+          <td class="hide-xs"><span class="tag hepato">Non-absorbable ABx</span></td>
+          <td><span class="use-text">Hepatic encephalopathy prevention<span class="kr">간성뇌증 예방</span></span></td>
+          <td><span class="se-text">Minimal systemic effects<span class="kr">전신 부작용 적음</span></span></td>
+          <td><span class="nsg-text"><span class="kr">Lactulose와 병용 투여</span></span></td>
+        </tr>
+        <tr data-drug="spironolactone aldactone ascites">
+          <td><span class="drug-name"><span class="brand">Aldactone</span><span class="generic">Spironolactone</span></span></td>
+          <td class="hide-xs"><span class="tag hepato">K-sparing diuretic</span></td>
+          <td><span class="use-text">Ascites management<span class="kr">복수 관리</span></span></td>
+          <td><span class="se-text">Hyperkalemia, gynecomastia<span class="kr">고칼륨혈증, 여성형 유방</span></span></td>
+          <td><span class="nsg-text"><span class="warn">K+ 모니터링</span><span class="kr">체중 및 복위 매일 측정</span></span></td>
+        </tr>
+        <tr data-drug="ursodeoxycholic acid ursofalk urso">
+          <td><span class="drug-name"><span class="brand">Ursofalk</span><span class="generic">Ursodeoxycholic acid</span></span></td>
+          <td class="hide-xs"><span class="tag hepato">Bile acid</span></td>
+          <td><span class="use-text">Cholestatic liver disease, PBC<span class="kr">담즙정체성 간질환, 원발성 담즙성 담관염</span></span></td>
+          <td><span class="se-text">Diarrhoea<span class="kr">설사</span></span></td>
+          <td><span class="nsg-text"><span class="kr">LFT 모니터링</span></span></td>
+        </tr>
+        <tr data-drug="vitamin k phytomenadione konakion">
+          <td><span class="drug-name"><span class="brand">Konakion</span><span class="generic">Vitamin K (Phytomenadione)</span></span></td>
+          <td class="hide-xs"><span class="tag hepato">Coagulation</span></td>
+          <td><span class="use-text">Elevated INR in liver disease<span class="kr">간질환으로 인한 INR 상승</span></span></td>
+          <td><span class="se-text">Rare: anaphylaxis (IV)<span class="kr">드물게: 아나필락시스 (IV)</span></span></td>
+          <td><span class="nsg-text">PO / IV / IM 가능<span class="kr">INR 모니터링, IV 시 천천히 주입</span></span></td>
+        </tr>
+        <tr data-drug="cholestyramine questran">
+          <td><span class="drug-name"><span class="brand">Questran</span><span class="generic">Cholestyramine</span></span></td>
+          <td class="hide-xs"><span class="tag hepato">Bile acid sequestrant</span></td>
+          <td><span class="use-text">Pruritus in cholestasis<span class="kr">담즙정체 소양증</span></span></td>
+          <td><span class="se-text">Constipation, bloating<span class="kr">변비, 복부팽만</span></span></td>
+          <td><span class="nsg-text"><span class="warn">다른 약과 4시간 간격</span><span class="kr">약물 흡수 방해 - 반드시 간격 유지</span></span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!--  6. RENAL 신장 관련 약물                                       -->
+<!-- ============================================================ -->
+<section class="drug-section" id="renal">
+  <div class="sec-header" style="background:var(--renal)">
+    <span class="sec-num">06</span> RENAL <span class="sec-kr kr">신장 관련 약물</span>
+  </div>
+  <div class="drug-table-wrap">
+    <table class="dtable">
+      <colgroup><col class="c-name"><col class="c-class hide-xs"><col class="c-use"><col class="c-se"><col class="c-nsg"></colgroup>
+      <thead><tr>
+        <th>Drug</th><th class="hide-xs">Class</th><th>용도</th><th>부작용</th><th>간호 포인트</th>
+      </tr></thead>
+      <tbody>
+        <tr data-drug="furosemide lasix frusemide">
+          <td><span class="drug-name"><span class="brand">Lasix</span><span class="generic">Furosemide</span></span></td>
+          <td class="hide-xs"><span class="tag renal">Loop diuretic</span></td>
+          <td><span class="use-text">Fluid overload, oedema<span class="kr">체액과부하, 부종</span></span></td>
+          <td><span class="se-text">Hypokalemia, hypotension, dehydration<span class="kr">저칼륨, 저혈압, 탈수</span></span></td>
+          <td><span class="nsg-text"><span class="warn">I/O 기록, K+ 모니터</span><span class="kr">아침 투여 권장 (야간 배뇨 방지)</span></span></td>
+        </tr>
+        <tr data-drug="spironolactone aldactone renal">
+          <td><span class="drug-name"><span class="brand">Aldactone</span><span class="generic">Spironolactone</span></span></td>
+          <td class="hide-xs"><span class="tag renal">K-sparing diuretic</span></td>
+          <td><span class="use-text">Fluid management, often with furosemide<span class="kr">체액 관리, furosemide와 병용</span></span></td>
+          <td><span class="se-text">Hyperkalemia<span class="kr">고칼륨혈증</span></span></td>
+          <td><span class="nsg-text"><span class="warn">K+ 모니터링</span><span class="kr">Furosemide와 K+ 균형 맞춤 사용</span></span></td>
+        </tr>
+        <tr data-drug="epo erythropoietin aranesp eprex darbepoetin">
+          <td><span class="drug-name"><span class="brand">Aranesp / Eprex</span><span class="generic">EPO (Erythropoietin)</span></span></td>
+          <td class="hide-xs"><span class="tag renal">ESA</span></td>
+          <td><span class="use-text">Anaemia of CKD<span class="kr">만성신장병 빈혈</span></span></td>
+          <td><span class="se-text">Hypertension, thrombosis<span class="kr">고혈압, 혈전</span></span></td>
+          <td><span class="nsg-text">SC injection<span class="kr">Hb 모니터 (target 100-115 g/L)</span></span></td>
+        </tr>
+        <tr data-drug="resonium sodium polystyrene sulfonate">
+          <td><span class="drug-name"><span class="brand">Resonium</span><span class="generic">Na polystyrene sulfonate</span></span></td>
+          <td class="hide-xs"><span class="tag renal">K+ binder</span></td>
+          <td><span class="use-text">Hyperkalemia<span class="kr">고칼륨혈증</span></span></td>
+          <td><span class="se-text">Constipation, nausea<span class="kr">변비, 오심</span></span></td>
+          <td><span class="nsg-text"><span class="warn">K+ 모니터링</span><span class="kr">맛이 불쾌 - 차가운 음료에 섞어 복용</span></span></td>
+        </tr>
+        <tr data-drug="calcium carbonate caltrate phosphate binder">
+          <td><span class="drug-name"><span class="brand">Caltrate</span><span class="generic">Calcium carbonate</span></span></td>
+          <td class="hide-xs"><span class="tag renal">Phosphate binder</span></td>
+          <td><span class="use-text">CKD hyperphosphataemia<span class="kr">만성신장병 고인산혈증</span></span></td>
+          <td><span class="se-text">Constipation, hypercalcaemia<span class="kr">변비, 고칼슘혈증</span></span></td>
+          <td><span class="nsg-text"><span class="warn">식사와 함께 복용</span><span class="kr">음식의 인(phosphate)과 결합하도록</span></span></td>
+        </tr>
+        <tr data-drug="sevelamer renvela">
+          <td><span class="drug-name"><span class="brand">Renvela</span><span class="generic">Sevelamer</span></span></td>
+          <td class="hide-xs"><span class="tag renal">Phosphate binder</span></td>
+          <td><span class="use-text">CKD hyperphosphataemia<span class="kr">만성신장병 고인산혈증</span></span></td>
+          <td><span class="se-text">GI upset<span class="kr">위장장애</span></span></td>
+          <td><span class="nsg-text"><span class="warn">식사와 함께, 씹어서 복용</span><span class="kr">통째로 삼키지 않도록 안내</span></span></td>
+        </tr>
+        <tr data-drug="calcitriol rocaltrol vitamin d">
+          <td><span class="drug-name"><span class="brand">Rocaltrol</span><span class="generic">Calcitriol</span></span></td>
+          <td class="hide-xs"><span class="tag renal">Active Vit D</span></td>
+          <td><span class="use-text">CKD - Vitamin D deficiency<span class="kr">만성신장병 비타민 D 보충</span></span></td>
+          <td><span class="se-text">Hypercalcaemia<span class="kr">고칼슘혈증</span></span></td>
+          <td><span class="nsg-text"><span class="warn">Ca2+ 모니터링</span><span class="kr">칼슘, 인산 수치 정기 확인</span></span></td>
+        </tr>
+        <tr data-drug="sodium bicarbonate">
+          <td><span class="drug-name"><span class="brand">Sodium Bicarbonate</span><span class="generic">NaHCO3</span></span></td>
+          <td class="hide-xs"><span class="tag renal">Alkali</span></td>
+          <td><span class="use-text">Metabolic acidosis in CKD<span class="kr">만성신장병 대사성 산증</span></span></td>
+          <td><span class="se-text">Bloating, metabolic alkalosis<span class="kr">복부팽만, 대사성 알칼리증</span></span></td>
+          <td><span class="nsg-text">PO<span class="kr">Bicarb level 모니터링</span></span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!--  7. CARDIOVASCULAR 심혈관                                      -->
+<!-- ============================================================ -->
+<section class="drug-section" id="cv">
+  <div class="sec-header" style="background:var(--basic)">
+    <span class="sec-num">07</span> CARDIOVASCULAR <span class="sec-kr kr">심혈관</span>
+  </div>
+  <div class="drug-table-wrap">
+    <table class="dtable">
+      <colgroup><col class="c-name"><col class="c-class hide-xs"><col class="c-use"><col class="c-se"><col class="c-nsg"></colgroup>
+      <thead><tr>
+        <th>Drug</th><th class="hide-xs">Class</th><th>용도</th><th>부작용</th><th>간호 포인트</th>
+      </tr></thead>
+      <tbody>
+        <tr data-drug="amlodipine norvasc">
+          <td><span class="drug-name"><span class="brand">Norvasc</span><span class="generic">Amlodipine</span></span></td>
+          <td class="hide-xs"><span class="tag cv">CCB</span></td>
+          <td><span class="use-text">Hypertension<span class="kr">고혈압</span></span></td>
+          <td><span class="se-text">Ankle oedema, headache, flushing<span class="kr">발목부종, 두통, 안면홍조</span></span></td>
+          <td><span class="nsg-text"><span class="kr">BP 모니터링, 부종 관찰</span></span></td>
+        </tr>
+        <tr data-drug="perindopril ramipril ace inhibitor acei">
+          <td><span class="drug-name"><span class="brand">Perindopril / Ramipril</span><span class="generic">ACE inhibitor</span></span></td>
+          <td class="hide-xs"><span class="tag cv">ACEi</span></td>
+          <td><span class="use-text">HTN, heart failure, renal protection<span class="kr">고혈압, 심부전, 신장 보호</span></span></td>
+          <td><span class="se-text">Dry cough, hyperkalemia, hypotension<span class="kr">마른기침, 고칼륨, 저혈압</span></span></td>
+          <td><span class="nsg-text"><span class="warn">Renal function &amp; K+ 모니터</span><span class="kr">임산부 금기, 첫 투여 시 저혈압 주의</span></span></td>
+        </tr>
+        <tr data-drug="irbesartan losartan arb">
+          <td><span class="drug-name"><span class="brand">Irbesartan / Losartan</span><span class="generic">ARB</span></span></td>
+          <td class="hide-xs"><span class="tag cv">ARB</span></td>
+          <td><span class="use-text">HTN (ACEi alternative - no cough)<span class="kr">고혈압 (ACEi 대안 - 기침 없음)</span></span></td>
+          <td><span class="se-text">Hyperkalemia, hypotension<span class="kr">고칼륨, 저혈압</span></span></td>
+          <td><span class="nsg-text"><span class="warn">K+ 모니터링</span><span class="kr">임산부 금기</span></span></td>
+        </tr>
+        <tr data-drug="metoprolol atenolol beta blocker">
+          <td><span class="drug-name"><span class="brand">Metoprolol / Atenolol</span><span class="generic">Beta blocker</span></span></td>
+          <td class="hide-xs"><span class="tag cv">Beta blocker</span></td>
+          <td><span class="use-text">HTN, tachycardia<span class="kr">고혈압, 빈맥</span></span></td>
+          <td><span class="se-text">Bradycardia, hypotension, fatigue<span class="kr">서맥, 저혈압, 피로</span></span></td>
+          <td><span class="nsg-text"><span class="warn">HR &lt;60 시 보류 &amp; 보고</span><span class="kr">투여 전 맥박 확인 필수</span></span></td>
+        </tr>
+        <tr data-drug="gtn glyceryl trinitrate nitrate angina">
+          <td><span class="drug-name"><span class="brand">GTN</span><span class="generic">Glyceryl trinitrate</span></span></td>
+          <td class="hide-xs"><span class="tag cv">Nitrate</span></td>
+          <td><span class="use-text">Angina, chest pain (sublingual)<span class="kr">협심증, 흉통 (설하 투여)</span></span></td>
+          <td><span class="se-text">Headache, hypotension<span class="kr">두통, 저혈압</span></span></td>
+          <td><span class="nsg-text"><span class="warn">BP 확인 후 투여</span><span class="kr">SBP &lt;90 시 투여 금지, 앉은 자세에서 투여</span></span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!--  8. ANTICOAGULANTS 항응고제                                    -->
+<!-- ============================================================ -->
+<section class="drug-section" id="anticoag">
+  <div class="sec-header" style="background:var(--flag)">
+    <span class="sec-num">08</span> ANTICOAGULANTS <span class="sec-kr kr">항응고제</span>
+  </div>
+
+  <div class="callout red">
+    <div class="ctitle">! HIGH-ALERT MEDICATIONS 고위험 약물</div>
+    <ul>
+      <li>All anticoagulants carry <strong>bleeding risk</strong> - 출혈 징후 관찰 필수</li>
+      <li>Check for <strong>active bleeding, bruising, blood in urine/stool</strong> before administration</li>
+    </ul>
+  </div>
+
+  <div class="drug-table-wrap">
+    <table class="dtable">
+      <colgroup><col class="c-name"><col class="c-class hide-xs"><col class="c-use"><col class="c-se"><col class="c-nsg"></colgroup>
+      <thead><tr>
+        <th>Drug</th><th class="hide-xs">Class</th><th>용도</th><th>부작용</th><th>간호 포인트</th>
+      </tr></thead>
+      <tbody>
+        <tr data-drug="enoxaparin clexane lmwh">
+          <td><span class="drug-name"><span class="brand">Clexane</span><span class="generic">Enoxaparin</span></span></td>
+          <td class="hide-xs"><span class="tag anticoag">LMWH</span></td>
+          <td><span class="use-text">DVT prophylaxis / treatment<span class="kr">심부정맥혈전 예방/치료</span></span></td>
+          <td><span class="se-text">Bleeding, bruising at injection site<span class="kr">출혈, 주사부위 멍</span></span></td>
+          <td><span class="nsg-text"><span class="warn">SC injection technique</span><span class="kr">복부 SC, 주사부위 문지르지 않기, renal impairment 시 anti-Xa monitoring</span></span></td>
+        </tr>
+        <tr data-drug="heparin">
+          <td><span class="drug-name"><span class="brand">Heparin</span><span class="generic">Unfractionated heparin</span></span></td>
+          <td class="hide-xs"><span class="tag anticoag">UFH</span></td>
+          <td><span class="use-text">Anticoagulation (IV infusion)<span class="kr">항응고 (정맥주입)</span></span></td>
+          <td><span class="se-text">Bleeding, HIT (heparin-induced thrombocytopenia)<span class="kr">출혈, 헤파린유발 혈소판감소증</span></span></td>
+          <td><span class="nsg-text"><span class="warn">APTT monitoring</span><span class="kr">정기적 APTT 확인, platelet count 모니터</span></span></td>
+        </tr>
+        <tr data-drug="warfarin coumadin marevan">
+          <td><span class="drug-name"><span class="brand">Marevan</span><span class="generic">Warfarin</span></span></td>
+          <td class="hide-xs"><span class="tag anticoag">Oral anticoag.</span></td>
+          <td><span class="use-text">AF, DVT, PE<span class="kr">심방세동, 심부정맥혈전, 폐색전</span></span></td>
+          <td><span class="se-text">Bleeding<span class="kr">출혈</span></span></td>
+          <td><span class="nsg-text"><span class="warn">INR monitoring (target 2-3)</span><span class="kr">약물/음식 상호작용 많음 (Vit K 식품 주의), 일정 시간에 복용</span></span></td>
+        </tr>
+        <tr data-drug="rivaroxaban xarelto doac">
+          <td><span class="drug-name"><span class="brand">Xarelto</span><span class="generic">Rivaroxaban</span></span></td>
+          <td class="hide-xs"><span class="tag anticoag">DOAC</span></td>
+          <td><span class="use-text">AF, DVT, PE<span class="kr">심방세동, 심부정맥혈전, 폐색전</span></span></td>
+          <td><span class="se-text">Bleeding<span class="kr">출혈</span></span></td>
+          <td><span class="nsg-text">No routine monitoring<span class="kr">정기 모니터링 불필요, renal function 확인</span></span></td>
+        </tr>
+        <tr data-drug="apixaban eliquis doac">
+          <td><span class="drug-name"><span class="brand">Eliquis</span><span class="generic">Apixaban</span></span></td>
+          <td class="hide-xs"><span class="tag anticoag">DOAC</span></td>
+          <td><span class="use-text">AF, DVT, PE<span class="kr">심방세동, 심부정맥혈전, 폐색전</span></span></td>
+          <td><span class="se-text">Bleeding<span class="kr">출혈</span></span></td>
+          <td><span class="nsg-text"><span class="kr">Renal dose adjustment 필요, BID 복용</span></span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!--  9. ANTIBIOTICS 항생제                                        -->
+<!-- ============================================================ -->
+<section class="drug-section" id="abx">
+  <div class="sec-header" style="background:var(--basic)">
+    <span class="sec-num">09</span> ANTIBIOTICS <span class="sec-kr kr">항생제</span>
+  </div>
+
+  <div class="callout blue">
+    <div class="ctitle">Allergy Check 알러지 확인</div>
+    <ul>
+      <li>Always check <strong>allergy status</strong> before administering any antibiotic</li>
+      <li><span class="kr">항생제 투여 전 반드시 알러지 확인 (특히 penicillin allergy)</span></li>
+    </ul>
+  </div>
+
+  <div class="drug-table-wrap">
+    <table class="dtable">
+      <colgroup><col class="c-name"><col class="c-class hide-xs"><col class="c-use"><col class="c-se"><col class="c-nsg"></colgroup>
+      <thead><tr>
+        <th>Drug</th><th class="hide-xs">Class</th><th>용도</th><th>부작용</th><th>간호 포인트</th>
+      </tr></thead>
+      <tbody>
+        <tr data-drug="amoxicillin penicillin">
+          <td><span class="drug-name"><span class="brand">Amoxicillin</span><span class="generic">Amoxicillin</span></span></td>
+          <td class="hide-xs"><span class="tag abx">Penicillin</span></td>
+          <td><span class="use-text">Broad-spectrum infections<span class="kr">광범위 감염</span></span></td>
+          <td><span class="se-text">Rash, diarrhoea, allergy<span class="kr">발진, 설사, 알러지</span></span></td>
+          <td><span class="nsg-text"><span class="warn">Penicillin allergy 확인</span></span></td>
+        </tr>
+        <tr data-drug="augmentin amoxicillin clavulanate">
+          <td><span class="drug-name"><span class="brand">Augmentin</span><span class="generic">Amoxicillin / Clavulanate</span></span></td>
+          <td class="hide-xs"><span class="tag abx">Penicillin + BLI</span></td>
+          <td><span class="use-text">Wider coverage infections<span class="kr">더 넓은 범위 감염</span></span></td>
+          <td><span class="se-text">Diarrhoea, rash, hepatitis (rare)<span class="kr">설사, 발진, 간염 (드묾)</span></span></td>
+          <td><span class="nsg-text"><span class="warn">Penicillin allergy 확인</span></span></td>
+        </tr>
+        <tr data-drug="cephalexin keflex cephalosporin">
+          <td><span class="drug-name"><span class="brand">Keflex</span><span class="generic">Cephalexin</span></span></td>
+          <td class="hide-xs"><span class="tag abx">1st gen ceph.</span></td>
+          <td><span class="use-text">Skin infections, UTI<span class="kr">피부감염, 요로감염</span></span></td>
+          <td><span class="se-text">GI upset, rash<span class="kr">위장장애, 발진</span></span></td>
+          <td><span class="nsg-text"><span class="kr">Penicillin allergy 시 교차 반응 가능</span></span></td>
+        </tr>
+        <tr data-drug="ceftriaxone cephalosporin iv">
+          <td><span class="drug-name"><span class="brand">Ceftriaxone</span><span class="generic">3rd gen cephalosporin</span></span></td>
+          <td class="hide-xs"><span class="tag abx">3rd gen ceph.</span></td>
+          <td><span class="use-text">Serious infections (IV)<span class="kr">심각한 감염 (IV)</span></span></td>
+          <td><span class="se-text">Diarrhoea, rash<span class="kr">설사, 발진</span></span></td>
+          <td><span class="nsg-text"><span class="warn">IV로 주로 투여</span><span class="kr">IV line 관리, 투여 속도 확인</span></span></td>
+        </tr>
+        <tr data-drug="tazocin piperacillin tazobactam">
+          <td><span class="drug-name"><span class="brand">Tazocin</span><span class="generic">Piperacillin / Tazobactam</span></span></td>
+          <td class="hide-xs"><span class="tag abx">Broad IV</span></td>
+          <td><span class="use-text">Serious infections (IV)<span class="kr">심각한 감염 (IV)</span></span></td>
+          <td><span class="se-text">Diarrhoea, rash, thrombophlebitis<span class="kr">설사, 발진, 정맥염</span></span></td>
+          <td><span class="nsg-text"><span class="warn">Renal dose adjustment</span><span class="kr">신기능에 따라 용량 조절</span></span></td>
+        </tr>
+        <tr data-drug="metronidazole flagyl">
+          <td><span class="drug-name"><span class="brand">Flagyl</span><span class="generic">Metronidazole</span></span></td>
+          <td class="hide-xs"><span class="tag abx">Nitroimidazole</span></td>
+          <td><span class="use-text">Anaerobes, C.diff, H.pylori<span class="kr">혐기성균, C.diff, 헬리코박터</span></span></td>
+          <td><span class="se-text">Nausea, metallic taste<span class="kr">오심, 금속 맛</span></span></td>
+          <td><span class="nsg-text"><span class="warn">알코올 금지</span><span class="kr">복용 중 + 복용 후 48시간 금주</span></span></td>
+        </tr>
+        <tr data-drug="ciprofloxacin fluoroquinolone">
+          <td><span class="drug-name"><span class="brand">Ciprofloxacin</span><span class="generic">Ciprofloxacin</span></span></td>
+          <td class="hide-xs"><span class="tag abx">Fluoroquinolone</span></td>
+          <td><span class="use-text">UTI, GI infections<span class="kr">요로감염, 위장감염</span></span></td>
+          <td><span class="se-text">Tendon rupture risk, GI upset<span class="kr">건 파열 위험, 위장장애</span></span></td>
+          <td><span class="nsg-text"><span class="warn">유제품과 동시 복용 금지</span><span class="kr">2시간 간격 두기, 건통증 시 중단</span></span></td>
+        </tr>
+        <tr data-drug="vancomycin">
+          <td><span class="drug-name"><span class="brand">Vancomycin</span><span class="generic">Vancomycin</span></span></td>
+          <td class="hide-xs"><span class="tag abx">Glycopeptide</span></td>
+          <td><span class="use-text">MRSA, C.diff (PO)<span class="kr">MRSA, C.diff (경구)</span></span></td>
+          <td><span class="se-text"><strong>Red man syndrome</strong>, nephrotoxicity<span class="kr">레드맨 증후군, 신독성</span></span></td>
+          <td><span class="nsg-text"><span class="warn">Trough levels 모니터, 천천히 주입 (&gt;1hr)</span><span class="kr">빠른 주입 시 레드맨 증후군 발생</span></span></td>
+        </tr>
+        <tr data-drug="gentamicin aminoglycoside">
+          <td><span class="drug-name"><span class="brand">Gentamicin</span><span class="generic">Gentamicin</span></span></td>
+          <td class="hide-xs"><span class="tag abx">Aminoglycoside</span></td>
+          <td><span class="use-text">Gram-negative infections (IV)<span class="kr">그람음성균 감염 (IV)</span></span></td>
+          <td><span class="se-text"><strong>Nephrotoxicity, ototoxicity</strong><span class="kr">신독성, 이독성</span></span></td>
+          <td><span class="nsg-text"><span class="warn">Trough levels, renal function 모니터</span><span class="kr">청력 변화, 소변량 관찰</span></span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!--  10. DIABETES 당뇨                                            -->
+<!-- ============================================================ -->
+<section class="drug-section" id="dm">
+  <div class="sec-header" style="background:var(--gastro)">
+    <span class="sec-num">10</span> DIABETES <span class="sec-kr kr">당뇨</span>
+  </div>
+
+  <div class="callout red">
+    <div class="ctitle">! Hypoglycaemia Signs 저혈당 징후</div>
+    <ul>
+      <li>Tremor, sweating, confusion, pallor, tachycardia &rarr; <strong>BSL &lt; 4 mmol/L = treat immediately</strong></li>
+      <li><span class="kr">떨림, 발한, 혼돈, 창백, 빈맥 &rarr; BSL &lt; 4 즉시 치료</span></li>
+    </ul>
+  </div>
+
+  <div class="drug-table-wrap">
+    <table class="dtable">
+      <colgroup><col class="c-name"><col class="c-class hide-xs"><col class="c-use"><col class="c-se"><col class="c-nsg"></colgroup>
+      <thead><tr>
+        <th>Drug</th><th class="hide-xs">Class</th><th>용도</th><th>부작용</th><th>간호 포인트</th>
+      </tr></thead>
+      <tbody>
+        <tr data-drug="novorapid insulin aspart rapid">
+          <td><span class="drug-name"><span class="brand">NovoRapid</span><span class="generic">Insulin Aspart</span></span></td>
+          <td class="hide-xs"><span class="tag dm">Rapid-acting insulin</span></td>
+          <td><span class="use-text">Pre-meal insulin<span class="kr">식전 투여</span></span></td>
+          <td><span class="se-text">Hypoglycaemia<span class="kr">저혈당</span></span></td>
+          <td><span class="nsg-text"><span class="warn">BSL 확인 후 투여</span><span class="kr">Hypo signs 관찰, 식사 직전 투여</span></span></td>
+        </tr>
+        <tr data-drug="lantus insulin glargine long acting">
+          <td><span class="drug-name"><span class="brand">Lantus</span><span class="generic">Insulin Glargine</span></span></td>
+          <td class="hide-xs"><span class="tag dm">Long-acting insulin</span></td>
+          <td><span class="use-text">Basal insulin, 1일 1회<span class="kr">기저 인슐린, 1일 1회</span></span></td>
+          <td><span class="se-text">Hypoglycaemia<span class="kr">저혈당</span></span></td>
+          <td><span class="nsg-text"><span class="warn">흔들지 말 것, 투명한지 확인</span><span class="kr">다른 인슐린과 혼합 금지</span></span></td>
+        </tr>
+        <tr data-drug="actrapid insulin short acting sliding scale">
+          <td><span class="drug-name"><span class="brand">Actrapid</span><span class="generic">Insulin (neutral)</span></span></td>
+          <td class="hide-xs"><span class="tag dm">Short-acting insulin</span></td>
+          <td><span class="use-text">Sliding scale, acute BSL management<span class="kr">슬라이딩 스케일, 급성 혈당 관리</span></span></td>
+          <td><span class="se-text">Hypoglycaemia<span class="kr">저혈당</span></span></td>
+          <td><span class="nsg-text"><span class="kr">BSL에 따라 용량 결정, IV 가능</span></span></td>
+        </tr>
+        <tr data-drug="metformin glucophage biguanide">
+          <td><span class="drug-name"><span class="brand">Glucophage</span><span class="generic">Metformin</span></span></td>
+          <td class="hide-xs"><span class="tag dm">Biguanide</span></td>
+          <td><span class="use-text">T2DM 1st line<span class="kr">제2형 당뇨 1차 약물</span></span></td>
+          <td><span class="se-text">GI upset, lactic acidosis (rare)<span class="kr">위장장애, 젖산산증 (드묾)</span></span></td>
+          <td><span class="nsg-text"><span class="warn">Renal function 확인</span><span class="kr">Contrast 검사 전 중단, eGFR 확인</span></span></td>
+        </tr>
+        <tr data-drug="gliclazide diamicron sulfonylurea">
+          <td><span class="drug-name"><span class="brand">Diamicron</span><span class="generic">Gliclazide</span></span></td>
+          <td class="hide-xs"><span class="tag dm">Sulfonylurea</span></td>
+          <td><span class="use-text">T2DM<span class="kr">제2형 당뇨</span></span></td>
+          <td><span class="se-text">Hypoglycaemia, weight gain<span class="kr">저혈당, 체중 증가</span></span></td>
+          <td><span class="nsg-text"><span class="warn">BSL 모니터링</span><span class="kr">식사와 함께 복용, hypo 위험 교육</span></span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!--  11. ELECTROLYTES & IV FLUIDS 전해질·수액                      -->
+<!-- ============================================================ -->
+<section class="drug-section" id="ivf">
+  <div class="sec-header" style="background:var(--renal)">
+    <span class="sec-num">11</span> ELECTROLYTES &amp; IV FLUIDS <span class="sec-kr kr">전해질 &middot; 수액</span>
+  </div>
+
+  <div class="callout red">
+    <div class="ctitle">! IV Potassium Safety IV 칼륨 안전</div>
+    <ul>
+      <li><strong>NEVER IV PUSH KCl</strong> - always dilute and infuse at controlled rate</li>
+      <li><span class="kr">KCl 절대 IV push 금지 - 반드시 희석 후 조절된 속도로 주입</span></li>
+    </ul>
+  </div>
+
+  <div class="drug-table-wrap">
+    <table class="dtable">
+      <colgroup><col class="c-name"><col class="c-class hide-xs"><col class="c-use"><col class="c-se"><col class="c-nsg"></colgroup>
+      <thead><tr>
+        <th>Drug</th><th class="hide-xs">Class</th><th>용도</th><th>부작용</th><th>간호 포인트</th>
+      </tr></thead>
+      <tbody>
+        <tr data-drug="normal saline nacl 0.9">
+          <td><span class="drug-name"><span class="brand">Normal Saline</span><span class="generic">0.9% NaCl</span></span></td>
+          <td class="hide-xs"><span class="tag iv">Isotonic</span></td>
+          <td><span class="use-text">Fluid resuscitation, maintenance<span class="kr">수액 소생, 유지</span></span></td>
+          <td><span class="se-text">Fluid overload, hypernatraemia<span class="kr">체액과부하, 고나트륨혈증</span></span></td>
+          <td><span class="nsg-text"><span class="kr">I/O 기록, fluid balance 확인</span></span></td>
+        </tr>
+        <tr data-drug="hartmanns compound sodium lactate csl">
+          <td><span class="drug-name"><span class="brand">Hartmann's</span><span class="generic">Compound Na Lactate</span></span></td>
+          <td class="hide-xs"><span class="tag iv">Isotonic</span></td>
+          <td><span class="use-text">Fluid resuscitation<span class="kr">수액 소생</span></span></td>
+          <td><span class="se-text">Fluid overload<span class="kr">체액과부하</span></span></td>
+          <td><span class="nsg-text"><span class="warn">Renal impairment 시 K+ 주의</span><span class="kr">소량의 K+ 포함</span></span></td>
+        </tr>
+        <tr data-drug="dextrose glucose 5%">
+          <td><span class="drug-name"><span class="brand">5% Dextrose</span><span class="generic">Glucose</span></span></td>
+          <td class="hide-xs"><span class="tag iv">Hypotonic</span></td>
+          <td><span class="use-text">Hypoglycaemia, maintenance<span class="kr">저혈당, 유지 수액</span></span></td>
+          <td><span class="se-text">Hyperglycaemia<span class="kr">고혈당</span></span></td>
+          <td><span class="nsg-text"><span class="warn">당뇨 환자 BSL 모니터</span></span></td>
+        </tr>
+        <tr data-drug="kcl potassium chloride">
+          <td><span class="drug-name"><span class="brand">KCl</span><span class="generic">Potassium Chloride</span></span></td>
+          <td class="hide-xs"><span class="tag iv">Electrolyte</span></td>
+          <td><span class="use-text">Hypokalemia<span class="kr">저칼륨혈증</span></span></td>
+          <td><span class="se-text">Cardiac arrhythmia if too fast<span class="kr">과속 주입 시 부정맥</span></span></td>
+          <td><span class="nsg-text"><span class="warn">NEVER IV push, max rate 주의</span><span class="kr">Cardiac monitoring if rapid infusion, K+ level 확인</span></span></td>
+        </tr>
+        <tr data-drug="calcium gluconate">
+          <td><span class="drug-name"><span class="brand">Calcium Gluconate</span><span class="generic">Calcium gluconate</span></span></td>
+          <td class="hide-xs"><span class="tag iv">Electrolyte</span></td>
+          <td><span class="use-text">Hypocalcaemia, hyperkalemia emergency<span class="kr">저칼슘, 고칼륨 응급</span></span></td>
+          <td><span class="se-text">Bradycardia, tissue necrosis (extravasation)<span class="kr">서맥, 혈관외유출 시 조직괴사</span></span></td>
+          <td><span class="nsg-text"><span class="warn">천천히 주입, cardiac monitoring</span><span class="kr">IV site 관찰, extravasation 주의</span></span></td>
+        </tr>
+        <tr data-drug="magnesium sulfate mgso4">
+          <td><span class="drug-name"><span class="brand">MgSO4</span><span class="generic">Magnesium Sulfate</span></span></td>
+          <td class="hide-xs"><span class="tag iv">Electrolyte</span></td>
+          <td><span class="use-text">Hypomagnesaemia<span class="kr">저마그네슘혈증</span></span></td>
+          <td><span class="se-text">Flushing, hypotension<span class="kr">홍조, 저혈압</span></span></td>
+          <td><span class="nsg-text"><span class="warn">천천히 주입</span><span class="kr">DTR (심부건반사) &amp; RR 모니터링</span></span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!--  12. STEROIDS & OTHER 스테로이드·기타                           -->
+<!-- ============================================================ -->
+<section class="drug-section" id="other">
+  <div class="sec-header" style="background:var(--hep)">
+    <span class="sec-num">12</span> STEROIDS &amp; OTHER <span class="sec-kr kr">스테로이드 &middot; 기타</span>
+  </div>
+  <div class="drug-table-wrap">
+    <table class="dtable">
+      <colgroup><col class="c-name"><col class="c-class hide-xs"><col class="c-use"><col class="c-se"><col class="c-nsg"></colgroup>
+      <thead><tr>
+        <th>Drug</th><th class="hide-xs">Class</th><th>용도</th><th>부작용</th><th>간호 포인트</th>
+      </tr></thead>
+      <tbody>
+        <tr data-drug="prednisolone corticosteroid steroid">
+          <td><span class="drug-name"><span class="brand">Prednisolone</span><span class="generic">Prednisolone</span></span></td>
+          <td class="hide-xs"><span class="tag steroid">Corticosteroid PO</span></td>
+          <td><span class="use-text">Inflammation, autoimmune<span class="kr">염증, 자가면역</span></span></td>
+          <td><span class="se-text">BSL&uarr;, immunosuppression, GI upset, moon face<span class="kr">혈당상승, 면역억제, 위장장애, 쿠싱 증후군</span></span></td>
+          <td><span class="nsg-text"><span class="warn">BSL 모니터, 갑자기 중단 금지</span><span class="kr">식후 복용, taper 필요</span></span></td>
+        </tr>
+        <tr data-drug="dexamethasone steroid">
+          <td><span class="drug-name"><span class="brand">Dexamethasone</span><span class="generic">Dexamethasone</span></span></td>
+          <td class="hide-xs"><span class="tag steroid">Corticosteroid</span></td>
+          <td><span class="use-text">Inflammation, nausea, cerebral oedema<span class="kr">염증, 오심, 뇌부종</span></span></td>
+          <td><span class="se-text">BSL&uarr;, insomnia, immunosuppression<span class="kr">혈당상승, 불면, 면역억제</span></span></td>
+          <td><span class="nsg-text"><span class="warn">BSL 모니터</span><span class="kr">아침 투여 권장 (불면 방지)</span></span></td>
+        </tr>
+        <tr data-drug="hydrocortisone steroid iv">
+          <td><span class="drug-name"><span class="brand">Hydrocortisone</span><span class="generic">Hydrocortisone</span></span></td>
+          <td class="hide-xs"><span class="tag steroid">Corticosteroid IV/PO</span></td>
+          <td><span class="use-text">Acute inflammation, adrenal crisis<span class="kr">급성 염증, 부신위기</span></span></td>
+          <td><span class="se-text">BSL&uarr;, fluid retention<span class="kr">혈당상승, 체액저류</span></span></td>
+          <td><span class="nsg-text"><span class="kr">Stress dose 확인, BSL 모니터</span></span></td>
+        </tr>
+        <tr data-drug="salbutamol ventolin bronchodilator">
+          <td><span class="drug-name"><span class="brand">Ventolin</span><span class="generic">Salbutamol</span></span></td>
+          <td class="hide-xs"><span class="tag other">Bronchodilator</span></td>
+          <td><span class="use-text">Asthma, COPD, hyperkalemia<span class="kr">천식, COPD, 고칼륨혈증</span></span></td>
+          <td><span class="se-text">Tachycardia, tremor<span class="kr">빈맥, 떨림</span></span></td>
+          <td><span class="nsg-text"><span class="kr">HR 모니터링, nebuliser/MDI 사용법 확인</span></span></td>
+        </tr>
+        <tr data-drug="naloxone narcan opioid reversal">
+          <td><span class="drug-name"><span class="brand">Narcan</span><span class="generic">Naloxone</span></span></td>
+          <td class="hide-xs"><span class="tag other">Opioid reversal</span></td>
+          <td><span class="use-text">Opioid-induced respiratory depression<span class="kr">오피오이드에 의한 호흡억제</span></span></td>
+          <td><span class="se-text">Acute withdrawal symptoms<span class="kr">급성 금단 증상</span></span></td>
+          <td><span class="nsg-text"><span class="warn">반감기가 짧아 재투여 필요할 수 있음</span><span class="kr">지속적 호흡 모니터링</span></span></td>
+        </tr>
+        <tr data-drug="flumazenil benzodiazepine reversal">
+          <td><span class="drug-name"><span class="brand">Flumazenil</span><span class="generic">Flumazenil</span></span></td>
+          <td class="hide-xs"><span class="tag other">Benzo reversal</span></td>
+          <td><span class="use-text">Benzodiazepine reversal<span class="kr">벤조디아제핀 역전</span></span></td>
+          <td><span class="se-text">Seizures (in chronic benzo users)<span class="kr">경련 (만성 벤조 사용자)</span></span></td>
+          <td><span class="nsg-text"><span class="kr">의식수준, 호흡 모니터링</span></span></td>
+        </tr>
+        <tr data-drug="levothyroxine eltroxin thyroid">
+          <td><span class="drug-name"><span class="brand">Eltroxin</span><span class="generic">Levothyroxine</span></span></td>
+          <td class="hide-xs"><span class="tag other">Thyroid hormone</span></td>
+          <td><span class="use-text">Hypothyroidism<span class="kr">갑상선기능저하증</span></span></td>
+          <td><span class="se-text">Palpitations, weight loss (if excess)<span class="kr">심계항진, 체중감소 (과량 시)</span></span></td>
+          <td><span class="nsg-text"><span class="warn">아침 공복 투여 (mane)</span><span class="kr">다른 약과 4시간 간격, TSH 모니터</span></span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!--  FOOTER                                                       -->
+<!-- ============================================================ -->
+<footer>
+  <p>약물 핸드북 &middot; Medication Handbook &mdash; Renal / Gastro / Hepatology Clinical Placement</p>
+  <p>For educational reference only. Always verify with current prescribing information and hospital guidelines.</p>
+  <p style="margin-top:4px;font-size:.66rem">학습용 참고자료. 실제 처방 정보 및 병원 가이드라인을 반드시 확인하세요.</p>
+</footer>
+
+</div><!-- .wrap -->
+
+<script>
+// Korean toggle
+function toggleKR(){
+  document.body.classList.toggle('hide-kr');
+  const btn=document.getElementById('krToggle');
+  const on=!document.body.classList.contains('hide-kr');
+  btn.textContent=on?'한글 ON':'한글 OFF';
+  btn.classList.toggle('on',!on);
+}
+
+// Drug search / filter
+function filterDrugs(q){
+  q=q.toLowerCase().trim();
+  const rows=document.querySelectorAll('table.dtable tbody tr');
+  if(!q){
+    rows.forEach(r=>{r.classList.remove('highlight','dim')});
+    return;
+  }
+  rows.forEach(r=>{
+    const text=(r.getAttribute('data-drug')||'')+' '+r.textContent.toLowerCase();
+    if(text.includes(q)){
+      r.classList.add('highlight');
+      r.classList.remove('dim');
+    }else{
+      r.classList.remove('highlight');
+      r.classList.add('dim');
+    }
+  });
+}
+
+// Smooth scroll offset for sticky header
+document.querySelectorAll('.navlinks a').forEach(a=>{
+  a.addEventListener('click',function(e){
+    const href=this.getAttribute('href');
+    if(href&&href.startsWith('#')){
+      e.preventDefault();
+      const target=document.querySelector(href);
+      if(target){
+        const y=target.getBoundingClientRect().top+window.pageYOffset-48;
+        window.scrollTo({top:y,behavior:'smooth'});
+      }
+    }
+  });
+});
+</script>
+
+</body>
+</html>
