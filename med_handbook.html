@@ -361,6 +361,77 @@
     .stem-focus{font-size:.68rem}
     .stem-examples{font-size:.66rem}
   }
+
+  /* ---------- vitals check section ---------- */
+  .vitals-grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;
+    padding:14px;
+  }
+  .vital-card{
+    background:var(--card);border:1px solid var(--line);border-radius:10px;
+    padding:16px;position:relative;overflow:hidden;
+  }
+  .vital-card::before{
+    content:"";position:absolute;left:0;top:0;bottom:0;width:4px;
+  }
+  .vital-card.vc-hr::before{background:var(--flag)}
+  .vital-card.vc-bp::before{background:var(--basic)}
+  .vital-card.vc-bsl::before{background:var(--gastro)}
+  .vital-card.vc-rr::before{background:var(--hep)}
+
+  .vital-card .vc-header{
+    display:flex;align-items:center;gap:8px;margin-bottom:10px;
+  }
+  .vital-card .vc-icon{
+    width:38px;height:38px;border-radius:10px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.1rem;flex-shrink:0;
+  }
+  .vc-hr .vc-icon{background:var(--flag-bg);color:var(--flag)}
+  .vc-bp .vc-icon{background:var(--basic-bg);color:var(--basic)}
+  .vc-bsl .vc-icon{background:var(--gastro-bg);color:var(--gastro)}
+  .vc-rr .vc-icon{background:var(--hep-bg);color:var(--hep)}
+
+  .vital-card .vc-vital{
+    font-family:var(--mono);font-weight:900;font-size:.9rem;color:var(--ink);
+  }
+  .vital-card .vc-vital-sub{
+    font-size:.68rem;color:var(--muted);font-weight:400;
+  }
+  .vital-card .vc-threshold{
+    font-family:var(--mono);font-size:.82rem;font-weight:700;
+    padding:6px 10px;border-radius:7px;margin-bottom:10px;
+    display:inline-block;
+  }
+  .vc-hr .vc-threshold{background:var(--flag-bg);color:var(--flag)}
+  .vc-bp .vc-threshold{background:var(--basic-bg);color:var(--basic)}
+  .vc-bsl .vc-threshold{background:var(--gastro-bg);color:var(--gastro)}
+  .vc-rr .vc-threshold{background:var(--hep-bg);color:var(--hep)}
+
+  .vital-card .vc-label{
+    font-family:var(--mono);font-size:.58rem;font-weight:700;
+    letter-spacing:.08em;text-transform:uppercase;color:var(--faint);
+    margin:8px 0 4px;
+  }
+  .vital-card .vc-drugs{
+    font-size:.76rem;color:var(--ink);line-height:1.5;
+  }
+  .vital-card .vc-drugs code{
+    font-family:var(--mono);font-size:.72rem;font-weight:700;
+    background:#f5f5f5;padding:1px 5px;border-radius:3px;
+  }
+  .vital-card .vc-action{
+    font-size:.74rem;font-weight:600;color:var(--flag);
+    margin-top:8px;
+  }
+
+  @media(max-width:480px){
+    .vitals-grid{grid-template-columns:1fr;gap:10px;padding:10px}
+    .vital-card{padding:12px}
+    .vital-card .vc-vital{font-size:.82rem}
+    .vital-card .vc-threshold{font-size:.74rem}
+    .vital-card .vc-drugs{font-size:.7rem}
+  }
 </style>
 </head>
 <body>
@@ -395,6 +466,7 @@
       <a href="#dm">당뇨</a>
       <a href="#ivf">수액</a>
       <a href="#other">기타</a>
+      <a href="#vitals-check">투약확인</a>
       <a href="#stems">이름패턴</a>
       <a href="#schedule">S1-S8</a>
     </nav>
@@ -1188,6 +1260,125 @@
         </tr>
       </tbody>
     </table>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!--  SAFE. PRE-ADMIN VITAL SIGN CHECKS 투약 전 확인사항              -->
+<!-- ============================================================ -->
+<section class="drug-section" id="vitals-check">
+  <div class="sec-header" style="background:var(--flag)">
+    <span class="sec-num">SAFE</span> PRE-ADMINISTRATION CHECKS <span class="sec-kr kr">투약 전 활력징후 확인</span>
+  </div>
+
+  <div class="drug-table-wrap" style="border-radius:0 0 10px 10px">
+    <div class="callout blue" style="margin:12px 14px 4px">
+      <div class="ctitle">Why check vitals before giving meds?</div>
+      특정 약물은 투약 전 반드시 활력징후를 확인해야 합니다. 기준치 미달 시 <strong>투약을 보류(Hold)</strong>하고 RN/의사에게 보고하세요.
+      <span class="kr">Some medications require vital sign checks before administration. If below threshold → Hold the dose and notify.</span>
+    </div>
+
+    <div class="vitals-grid">
+
+      <!-- HR Card -->
+      <div class="vital-card vc-hr">
+        <div class="vc-header">
+          <div class="vc-icon">&#x1f493;</div>
+          <div>
+            <div class="vc-vital">HR <span class="vc-vital-sub">Heart Rate<span class="kr"> 심박수</span></span></div>
+          </div>
+        </div>
+        <div class="vc-threshold">HR &lt; 60 bpm → HOLD</div>
+        <div class="vc-label">AFFECTED DRUGS <span class="kr">해당 약물</span></div>
+        <div class="vc-drugs">
+          <code>-olol</code> Beta Blockers<span class="kr"> 베타차단제</span><br>
+          (Metoprolol, Atenolol, Bisoprolol)<br>
+          <code>Digoxin</code><span class="kr"> 디곡신</span>
+        </div>
+        <div class="vc-label">RATIONALE <span class="kr">근거</span></div>
+        <div class="vc-drugs" style="color:var(--muted)">
+          These drugs slow heart rate. Giving them when HR is already low can cause dangerous bradycardia.
+          <span class="kr">심박수를 낮추는 약물 → 이미 낮은 HR에 투여 시 서맥 위험</span>
+        </div>
+        <div class="vc-action">&#x26a0; Hold &amp; Notify RN <span class="kr">투약 보류 &amp; RN 보고</span></div>
+      </div>
+
+      <!-- BP Card -->
+      <div class="vital-card vc-bp">
+        <div class="vc-header">
+          <div class="vc-icon">&#x1fa78;</div>
+          <div>
+            <div class="vc-vital">BP <span class="vc-vital-sub">Blood Pressure<span class="kr"> 혈압</span></span></div>
+          </div>
+        </div>
+        <div class="vc-threshold">SBP &lt; 90 mmHg → HOLD</div>
+        <div class="vc-label">AFFECTED DRUGS <span class="kr">해당 약물</span></div>
+        <div class="vc-drugs">
+          <code>-pril</code> ACE Inhibitors<span class="kr"> ACE 억제제</span><br>
+          <code>-sartan</code> ARBs<span class="kr"> 안지오텐신 수용체 차단제</span><br>
+          <code>-dipine</code> CCBs<span class="kr"> 칼슘 채널 차단제</span><br>
+          <code>GTN</code> Glyceryl Trinitrate<span class="kr"> 니트로글리세린</span>
+        </div>
+        <div class="vc-label">RATIONALE <span class="kr">근거</span></div>
+        <div class="vc-drugs" style="color:var(--muted)">
+          Antihypertensives lower BP further. Administering when SBP is already low risks hypotension and syncope.
+          <span class="kr">혈압 강하제 → 이미 낮은 BP에 투여 시 저혈압·실신 위험</span>
+        </div>
+        <div class="vc-action">&#x26a0; Hold &amp; Notify RN <span class="kr">투약 보류 &amp; RN 보고</span></div>
+      </div>
+
+      <!-- BSL Card -->
+      <div class="vital-card vc-bsl">
+        <div class="vc-header">
+          <div class="vc-icon">&#x1f4c9;</div>
+          <div>
+            <div class="vc-vital">BSL <span class="vc-vital-sub">Blood Sugar Level<span class="kr"> 혈당</span></span></div>
+          </div>
+        </div>
+        <div class="vc-threshold">BSL &lt; 4.0 mmol/L or Missed Meal → HOLD</div>
+        <div class="vc-label">AFFECTED DRUGS <span class="kr">해당 약물</span></div>
+        <div class="vc-drugs">
+          <code>Insulin</code><span class="kr"> 인슐린</span> (all types)<br>
+          <code>Gliclazide</code><span class="kr"> 글리클라지드</span> (Sulfonylurea)
+        </div>
+        <div class="vc-label">RATIONALE <span class="kr">근거</span></div>
+        <div class="vc-drugs" style="color:var(--muted)">
+          Hypoglycaemic agents will drop BSL further. If already low or patient hasn't eaten → severe hypoglycaemia risk.
+          <span class="kr">혈당 강하제 → 이미 낮은 혈당이나 식사 거른 경우 저혈당 위험</span>
+        </div>
+        <div class="vc-action">&#x26a0; Hold &amp; Notify RN <span class="kr">투약 보류 &amp; RN 보고</span></div>
+      </div>
+
+      <!-- RR Card -->
+      <div class="vital-card vc-rr">
+        <div class="vc-header">
+          <div class="vc-icon">&#x1fab7;</div>
+          <div>
+            <div class="vc-vital">RR <span class="vc-vital-sub">Respiratory Rate<span class="kr"> 호흡수</span></span></div>
+          </div>
+        </div>
+        <div class="vc-threshold">RR &lt; 10-12 breaths/min → HOLD</div>
+        <div class="vc-label">AFFECTED DRUGS <span class="kr">해당 약물</span></div>
+        <div class="vc-drugs">
+          <code>Opioids</code><span class="kr"> 오피오이드 계열</span><br>
+          Endone (Oxycodone), Morphine, Fentanyl, Tramadol
+        </div>
+        <div class="vc-label">RATIONALE <span class="kr">근거</span></div>
+        <div class="vc-drugs" style="color:var(--muted)">
+          Opioids depress the respiratory centre. Low RR indicates existing depression → further dosing is dangerous.
+          <span class="kr">오피오이드는 호흡중추 억제 → 이미 낮은 호흡수에 투여 시 호흡정지 위험</span>
+        </div>
+        <div class="vc-action">&#x26a0; Hold &amp; Notify RN <span class="kr">투약 보류 &amp; RN 보고</span></div>
+      </div>
+
+    </div><!-- .vitals-grid -->
+
+    <div class="callout red" style="margin:4px 14px 14px">
+      <div class="ctitle">Golden Rule <span class="kr">투약 전 황금 규칙</span></div>
+      <strong>확인 → 기준 미달 → Hold → RN 보고</strong><br>
+      Check vitals → Below threshold → Hold the dose → Notify RN/Doctor
+      <span class="kr">활력징후 확인 후 기준에 미달하면 투약을 보류하고 반드시 보고하세요.</span>
+    </div>
   </div>
 </section>
 

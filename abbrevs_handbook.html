@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>호주 병원 약어 핸드북 · Australian Hospital Abbreviations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1b2230;
+    --muted:#5d6675;
+    --faint:#8a93a3;
+    --paper:#eef1f5;
+    --card:#ffffff;
+    --line:#e3e8ef;
+
+    --renal:#1d6fb8;      --renal-bg:#eaf3fb;  --renal-line:#bcdcef;
+    --gastro:#2c8c6a;     --gastro-bg:#e7f4ee; --gastro-line:#bfe3d3;
+    --hep:#bb851a;        --hep-bg:#fbf2dc;    --hep-line:#ecd9a8;
+    --flag:#c0392b;       --flag-bg:#fbeae7;   --flag-line:#f0c4bd;
+    --basic:#6c5ce7;      --basic-bg:#f0edfc;  --basic-line:#c8c0f4;
+
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Noto Sans KR',system-ui,sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px 90px}
+
+  /* ---------- hero ---------- */
+  header.hero{
+    background:
+      radial-gradient(120% 140% at 0% 0%, #1d6fb8 0%, transparent 42%),
+      radial-gradient(120% 140% at 100% 0%, #6c5ce7 0%, transparent 42%),
+      radial-gradient(140% 160% at 50% 120%, #2c8c6a 0%, transparent 45%),
+      #11161f;
+    color:#fff;
+    padding:54px 22px 46px;
+    margin-bottom:0;
+  }
+  .hero-inner{max-width:1080px;margin:0 auto}
+  .hero .eyebrow{
+    font-family:var(--mono);font-size:.72rem;letter-spacing:.28em;
+    text-transform:uppercase;color:#cfe0f2;margin:0 0 14px;
+  }
+  .hero h1{
+    font-weight:900;font-size:clamp(1.8rem,4.6vw,2.9rem);
+    line-height:1.12;margin:0 0 14px;letter-spacing:-.01em;
+  }
+  .hero p.sub{margin:0;max-width:640px;color:#d7deea;font-size:1.02rem;font-weight:300}
+  .hero .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}
+  .hero .tags span{
+    font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.04em;
+    padding:5px 11px;border-radius:999px;background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.22);
+  }
+
+  /* ---------- sticky toolbar ---------- */
+  .toolbar{
+    position:sticky;top:0;z-index:40;
+    background:rgba(255,255,255,.86);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+    margin-bottom:30px;
+  }
+  .toolbar-inner{
+    max-width:1080px;margin:0 auto;padding:10px 22px;
+    display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  }
+  .navlinks{display:flex;gap:4px;flex-wrap:wrap;flex:1}
+  .navlinks a{
+    font-size:.8rem;font-weight:500;color:var(--muted);text-decoration:none;
+    padding:6px 11px;border-radius:8px;white-space:nowrap;transition:.15s;
+  }
+  .navlinks a:hover{background:var(--paper);color:var(--ink)}
+  .toggle-btn{
+    font-family:var(--mono);font-size:.74rem;font-weight:700;cursor:pointer;
+    border:1px solid var(--line);background:#fff;color:var(--ink);
+    padding:7px 13px;border-radius:9px;transition:.15s;white-space:nowrap;
+  }
+  .toggle-btn:hover{border-color:var(--ink)}
+  .toggle-btn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+  body.hide-kr .kr{display:none}
+
+  /* ---------- search ---------- */
+  .search-box{
+    display:flex;align-items:center;gap:6px;
+    margin-bottom:20px;padding:0 2px;
+  }
+  .search-box input{
+    flex:1;font-family:'Noto Sans KR',sans-serif;font-size:.88rem;
+    padding:9px 14px;border:1px solid var(--line);border-radius:8px;
+    background:#fff;color:var(--ink);outline:none;transition:.15s;
+  }
+  .search-box input:focus{border-color:var(--renal);box-shadow:0 0 0 2px rgba(29,111,184,.15)}
+  .search-box input::placeholder{color:var(--faint)}
+
+  /* ---------- system block ---------- */
+  .sys{margin-bottom:26px;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--card)}
+  .sys-bar{
+    display:flex;align-items:center;gap:10px;
+    padding:11px 18px;font-weight:700;font-size:.98rem;color:#fff;
+  }
+  .sys-bar .dot{font-family:var(--mono);font-size:.7rem;font-weight:700;
+    background:rgba(255,255,255,.22);padding:3px 8px;border-radius:6px;letter-spacing:.05em}
+  .renal .sys-bar{background:var(--renal)}
+  .gastro .sys-bar{background:var(--gastro)}
+  .hep .sys-bar{background:var(--hep)}
+
+  /* ---------- table ---------- */
+  table{width:100%;border-collapse:collapse;font-size:.9rem}
+  thead th{
+    text-align:left;font-size:.7rem;font-weight:700;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--faint);
+    padding:10px 16px;border-bottom:1px solid var(--line);background:#fafbfc;
+  }
+  tbody td{padding:13px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:hover td{background:#fcfcfd}
+
+  .term{font-weight:700;color:var(--ink);display:block;margin-bottom:3px}
+  .abbr{
+    font-family:var(--mono);font-size:.72rem;font-weight:700;
+    padding:2px 7px;border-radius:5px;display:inline-block;
+  }
+  .renal .abbr{background:var(--renal-bg);color:var(--renal)}
+  .gastro .abbr{background:var(--gastro-bg);color:var(--gastro)}
+  .hep .abbr{background:var(--hep-bg);color:var(--hep)}
+
+  .en{color:var(--ink)}
+  .kr{color:var(--muted);font-size:.84rem;display:block;margin-top:4px;font-weight:300}
+  .focus{font-size:.82rem;color:var(--muted)}
+  .focus strong{color:var(--ink);font-weight:500}
+
+  col.c-term{width:20%}
+  col.c-mid{width:42%}
+  col.c-focus{width:38%}
+
+  footer{text-align:center;color:var(--faint);font-size:.8rem;padding-top:30px;border-top:1px solid var(--line)}
+
+  /* highlight on search */
+  tr.highlight td{background:#fff9c4 !important}
+  tr.dim{opacity:.25;transition:opacity .2s}
+
+  @media (max-width:680px){
+    col.c-term,col.c-mid,col.c-focus{width:auto}
+    .navlinks{order:2;width:100%}
+    table{font-size:.84rem}
+    tbody td{padding:11px 12px}
+    thead th{padding:9px 12px}
+  }
+
+  @media print{
+    .toolbar,.search-box{display:none}
+    body{background:#fff}
+    body.hide-kr .kr{display:block}
+    .sys{break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">Pocket Reference · Clinical Placement</p>
+    <h1>호주 병원 약어 핸드북<br>Australian Hospital Abbreviations</h1>
+    <p class="sub">차트, 인수인계, 구두 보고에서 매일 접하는 약어들입니다. 풀네임과 뜻을 알아두면 의사소통이 훨씬 수월해집니다.</p>
+    <div class="tags">
+      <span style="background:rgba(29,111,184,.35)">VITALS</span>
+      <span style="background:rgba(44,140,106,.35)">ORDERS</span>
+      <span style="background:rgba(187,133,26,.4)">LABS</span>
+      <span style="background:rgba(108,92,231,.35)">WARD</span>
+    </div>
+  </div>
+</header>
+
+<div class="toolbar">
+  <div class="toolbar-inner">
+    <a href="index.html" style="font-family:var(--mono);font-size:.78rem;font-weight:700;color:var(--ink);text-decoration:none;padding:6px 11px;border-radius:8px;border:1px solid var(--line);white-space:nowrap;transition:.15s;background:#fff" onmouseover="this.style.background='var(--paper)'" onmouseout="this.style.background='#fff'">HOME</a>
+    <nav class="navlinks">
+      <a href="#vitals">활력징후</a>
+      <a href="#orders">지시·처치</a>
+      <a href="#labs">검사·혈액</a>
+      <a href="#routes">투여경로</a>
+      <a href="#timing">시간·빈도</a>
+      <a href="#ward">병동일상</a>
+    </nav>
+    <button class="toggle-btn" id="krToggle" onclick="toggleKR()">한글 해석 ON</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- search -->
+<div class="search-box">
+  <input type="text" id="abbrSearch" placeholder="Search abbreviation / 약어 검색..." oninput="filterRows(this.value)">
+</div>
+
+<!-- VITALS -->
+<div class="sys renal" id="vitals">
+  <div class="sys-bar"><span class="dot">VITALS</span> 활력징후 · 사정 관련</div>
+  <table>
+    <colgroup><col class="c-term"><col class="c-mid"><col class="c-focus"></colgroup>
+    <thead><tr><th>약어</th><th>Full Name · 뜻</th><th>설명</th></tr></thead>
+    <tbody>
+      <tr data-abbr="v/s vital signs"><td><span class="term">V/S</span><span class="abbr">Vital Signs</span></td><td><span class="en">Vital Signs — the basic measurements of body function: blood pressure (BP), heart rate (HR), respiratory rate (RR), temperature (Temp), and oxygen saturation (SpO₂).</span><span class="kr">활력징후 — 혈압(BP), 심박수(HR), 호흡수(RR), 체온(Temp), 산소포화도(SpO₂)의 기본 측정값.</span></td><td class="focus">입원 환자는 최소 매 교대(shift)마다 측정하고, 상태 불안정 시 더 자주 측정합니다.</td></tr>
+      <tr data-abbr="bp blood pressure"><td><span class="term">BP</span><span class="abbr">Blood Pressure</span></td><td><span class="en">Blood Pressure — the force of blood pushing against the walls of the arteries. Written as systolic/diastolic (e.g., 120/80 mmHg).</span><span class="kr">혈압 — 혈액이 동맥 벽을 미는 힘. 수축기/이완기로 표기 (예: 120/80 mmHg).</span></td><td class="focus">정상: 약 120/80 mmHg. 저혈압(hypotension) &lt;90/60, 고혈압(hypertension) &gt;140/90.</td></tr>
+      <tr data-abbr="hr pr heart rate pulse rate"><td><span class="term">HR / PR</span><span class="abbr">Heart Rate / Pulse Rate</span></td><td><span class="en">Heart Rate or Pulse Rate — how many times the heart beats per minute (bpm).</span><span class="kr">심박수 또는 맥박수 — 1분당 심장이 뛰는 횟수(bpm).</span></td><td class="focus">정상: 60-100 bpm. 빈맥(tachycardia) &gt;100, 서맥(bradycardia) &lt;60.</td></tr>
+      <tr data-abbr="rr respiratory rate"><td><span class="term">RR</span><span class="abbr">Respiratory Rate</span></td><td><span class="en">Respiratory Rate — the number of breaths per minute.</span><span class="kr">호흡수 — 1분당 호흡 횟수.</span></td><td class="focus">정상: 12-20회/분. 빈호흡(tachypnoea) &gt;20, 서호흡(bradypnoea) &lt;12.</td></tr>
+      <tr data-abbr="spo2 oxygen saturation"><td><span class="term">SpO₂</span><span class="abbr">Peripheral Oxygen Saturation</span></td><td><span class="en">Oxygen saturation measured by a pulse oximeter on the finger — shows how much oxygen the blood is carrying.</span><span class="kr">손가락의 맥박산소측정기로 측정하는 산소포화도 — 혈액이 운반하는 산소량을 보여줌.</span></td><td class="focus">정상: 94-100%. &lt;94%이면 보고. COPD 환자는 목표가 88-92%일 수 있음.</td></tr>
+      <tr data-abbr="gcs glasgow coma scale"><td><span class="term">GCS</span><span class="abbr">Glasgow Coma Scale</span></td><td><span class="en">Glasgow Coma Scale — a scoring system (3-15) that measures consciousness by testing eye opening, verbal response, and motor response.</span><span class="kr">글래스고 혼수 척도 — 눈 뜨기, 언어 반응, 운동 반응을 검사하여 의식 수준을 3-15점으로 측정하는 체계.</span></td><td class="focus">15점 = 완전 의식. 점수 하락은 즉시 보고. 간성 뇌증 환자에서 특히 중요.</td></tr>
+      <tr data-abbr="avpu alert verbal pain unresponsive"><td><span class="term">AVPU</span><span class="abbr">Alert Verbal Pain Unresponsive</span></td><td><span class="en">A quick consciousness check: A = Alert (awake and aware), V = responds to Voice, P = responds to Pain only, U = Unresponsive.</span><span class="kr">빠른 의식 확인: A = 명료(깨어있고 인지), V = 음성에 반응, P = 통증에만 반응, U = 무반응.</span></td><td class="focus">GCS보다 빠르게 사용할 수 있어 응급 상황 초기 평가에 유용합니다.</td></tr>
+      <tr data-abbr="news news2 national early warning score"><td><span class="term">NEWS / NEWS2</span><span class="abbr">National Early Warning Score</span></td><td><span class="en">A scoring system that uses vital signs (HR, RR, BP, SpO₂, Temp, consciousness) to detect patients who are getting worse early. Higher score = sicker patient.</span><span class="kr">활력징후(HR, RR, BP, SpO₂, 체온, 의식)를 사용하여 악화되는 환자를 조기 발견하는 점수 체계. 점수가 높을수록 상태가 심각.</span></td><td class="focus">점수에 따라 관찰 빈도와 에스컬레이션(escalation) 수준이 결정됩니다.</td></tr>
+      <tr data-abbr="bsl bgl blood sugar glucose level"><td><span class="term">BSL / BGL</span><span class="abbr">Blood Sugar Level / Blood Glucose Level</span></td><td><span class="en">Blood sugar (glucose) level — measured by a finger-prick test. Important for diabetic patients and those who are NBM or on insulin.</span><span class="kr">혈당 수치 — 손가락 천자 검사로 측정. 당뇨 환자, NBM 환자, 인슐린 투여 환자에게 중요.</span></td><td class="focus">정상 공복: 4.0-5.4 mmol/L. 저혈당 &lt;4.0, 고혈당 &gt;11.0. 저혈당은 응급.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ORDERS -->
+<div class="sys gastro" id="orders">
+  <div class="sys-bar"><span class="dot">ORDERS</span> 지시 · 처치 · 기록 관련</div>
+  <table>
+    <colgroup><col class="c-term"><col class="c-mid"><col class="c-focus"></colgroup>
+    <thead><tr><th>약어</th><th>Full Name · 뜻</th><th>설명</th></tr></thead>
+    <tbody>
+      <tr data-abbr="mx management"><td><span class="term">Mx</span><span class="abbr">Management</span></td><td><span class="en">Management — the overall plan for treating or looking after a patient's condition.</span><span class="kr">관리/치료 — 환자 상태를 치료하거나 돌보기 위한 전체 계획.</span></td><td class="focus">차트에 "Mx plan"이라고 적혀 있으면 치료 계획을 의미합니다.</td></tr>
+      <tr data-abbr="hx history"><td><span class="term">Hx</span><span class="abbr">History</span></td><td><span class="en">History — the patient's medical history (past illnesses, surgeries, allergies, medications).</span><span class="kr">병력 — 환자의 과거 질병, 수술, 알레르기, 약물 기록.</span></td><td class="focus">PMHx = Past Medical History (과거 병력), FHx = Family History (가족력), SHx = Social History (사회력).</td></tr>
+      <tr data-abbr="dx diagnosis"><td><span class="term">Dx</span><span class="abbr">Diagnosis</span></td><td><span class="en">Diagnosis — the medical name for what is wrong with the patient.</span><span class="kr">진단 — 환자의 문제에 대한 의학적 명칭.</span></td><td class="focus">DDx = Differential Diagnosis (감별진단) — 가능한 진단 목록.</td></tr>
+      <tr data-abbr="rx prescription treatment"><td><span class="term">Rx</span><span class="abbr">Prescription / Treatment</span></td><td><span class="en">Prescription or Treatment — the medication or therapy ordered for the patient.</span><span class="kr">처방 또는 치료 — 환자에게 지시된 약물이나 치료.</span></td><td class="focus">차트에서 Rx로 적혀 있으면 처방된 약물/치료를 의미합니다.</td></tr>
+      <tr data-abbr="ix investigations"><td><span class="term">Ix</span><span class="abbr">Investigations</span></td><td><span class="en">Investigations — tests ordered to find out what is wrong (blood tests, imaging, biopsies).</span><span class="kr">검사 — 원인 파악을 위해 지시된 검사(혈액검사, 영상검사, 생검).</span></td><td class="focus">Bloods(혈액검사), USS(초음파), CT, MRI, X-ray 등이 포함됩니다.</td></tr>
+      <tr data-abbr="sx symptoms"><td><span class="term">Sx</span><span class="abbr">Symptoms</span></td><td><span class="en">Symptoms — what the patient feels or complains of (pain, nausea, dizziness).</span><span class="kr">증상 — 환자가 느끼거나 호소하는 것(통증, 오심, 어지러움).</span></td><td class="focus">Sx는 환자가 주관적으로 호소하는 것, Signs는 객관적으로 관찰 가능한 징후.</td></tr>
+      <tr data-abbr="cx complications"><td><span class="term">Cx</span><span class="abbr">Complications</span></td><td><span class="en">Complications — problems that develop as a result of a disease, procedure, or treatment.</span><span class="kr">합병증 — 질병, 시술, 치료의 결과로 발생하는 문제.</span></td><td class="focus">시술 후 Cx(합병증) 관찰은 간호의 핵심입니다.</td></tr>
+      <tr data-abbr="i/o input output"><td><span class="term">I/O</span><span class="abbr">Input and Output</span></td><td><span class="en">Input and Output — everything that goes into the patient (fluids, IV, food) and comes out (urine, vomit, drainage).</span><span class="kr">섭취량과 배출량 — 환자에게 들어가는 모든 것(수분, IV, 음식)과 나오는 모든 것(소변, 구토, 배액).</span></td><td class="focus">신장·간 환자에서 특히 중요. 정확한 mL 기록이 필수입니다.</td></tr>
+      <tr data-abbr="obs observations"><td><span class="term">Obs</span><span class="abbr">Observations</span></td><td><span class="en">Observations — regular checks of vital signs and patient condition. "Do obs" means measure and record vital signs.</span><span class="kr">관찰/측정 — 활력징후와 환자 상태의 정기적 확인. "Do obs"는 활력징후를 측정하고 기록하라는 뜻.</span></td><td class="focus">호주에서는 V/S 측정을 "doing obs"라고 흔히 말합니다.</td></tr>
+      <tr data-abbr="handover"><td><span class="term">Handover</span><span class="abbr">인수인계</span></td><td><span class="en">Handover — the process of passing patient information from one nurse to the next at shift change, using a structured format like ISBAR.</span><span class="kr">인수인계 — 교대 시 한 간호사에서 다음 간호사에게 환자 정보를 전달하는 과정. ISBAR 같은 구조화된 형식 사용.</span></td><td class="focus">호주에서는 bedside handover(침상 옆 인수인계)를 하는 병원이 많습니다.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- LABS -->
+<div class="sys hep" id="labs">
+  <div class="sys-bar"><span class="dot">LABS</span> 검사 · 혈액 관련</div>
+  <table>
+    <colgroup><col class="c-term"><col class="c-mid"><col class="c-focus"></colgroup>
+    <thead><tr><th>약어</th><th>Full Name · 뜻</th><th>설명</th></tr></thead>
+    <tbody>
+      <tr data-abbr="fbc fbe full blood count examination"><td><span class="term">FBC / FBE</span><span class="abbr">Full Blood Count / Full Blood Examination</span></td><td><span class="en">A blood test that measures red blood cells (Hb), white blood cells (WCC), and platelets. Shows anaemia, infection, or bleeding risk.</span><span class="kr">적혈구(Hb), 백혈구(WCC), 혈소판을 측정하는 혈액검사. 빈혈, 감염, 출혈 위험을 보여줌.</span></td><td class="focus">Hb 낮으면 빈혈, WCC 높으면 감염, 혈소판 낮으면 출혈 위험.</td></tr>
+      <tr data-abbr="u&e uec urea electrolytes creatinine"><td><span class="term">U&amp;E / UEC</span><span class="abbr">Urea and Electrolytes / Urea, Electrolytes, Creatinine</span></td><td><span class="en">Blood test checking kidney function and electrolytes: urea, creatinine, sodium (Na⁺), potassium (K⁺), eGFR.</span><span class="kr">신장 기능과 전해질을 확인하는 혈액검사: 요소, 크레아티닌, 나트륨, 칼륨, eGFR.</span></td><td class="focus">신장 환자에서 가장 자주 시행하는 검사입니다.</td></tr>
+      <tr data-abbr="lfts liver function tests"><td><span class="term">LFTs</span><span class="abbr">Liver Function Tests</span></td><td><span class="en">Blood tests checking liver health: ALT, AST, ALP, GGT, bilirubin, albumin.</span><span class="kr">간 건강을 확인하는 혈액검사: ALT, AST, ALP, GGT, 빌리루빈, 알부민.</span></td><td class="focus">간세포형(ALT/AST↑) vs 담즙정체형(ALP/GGT↑) 패턴 구분.</td></tr>
+      <tr data-abbr="crp c-reactive protein"><td><span class="term">CRP</span><span class="abbr">C-Reactive Protein</span></td><td><span class="en">A blood marker that rises when there is inflammation or infection in the body. Higher CRP = more inflammation.</span><span class="kr">몸에 염증이나 감염이 있을 때 상승하는 혈액 지표. CRP가 높을수록 염증이 심함.</span></td><td class="focus">정상: &lt;5 mg/L. 감염 치료 반응 추적에도 사용됩니다.</td></tr>
+      <tr data-abbr="wcc white cell count"><td><span class="term">WCC</span><span class="abbr">White Cell Count</span></td><td><span class="en">The number of white blood cells in the blood. High WCC usually means the body is fighting an infection.</span><span class="kr">혈중 백혈구 수. 높으면 보통 몸이 감염과 싸우고 있다는 의미.</span></td><td class="focus">정상: 4-11 ×10⁹/L. 면역억제 환자는 WCC가 낮을 수 있어 감염 징후에 더 주의.</td></tr>
+      <tr data-abbr="hb haemoglobin"><td><span class="term">Hb</span><span class="abbr">Haemoglobin</span></td><td><span class="en">The protein inside red blood cells that carries oxygen. Low Hb = anaemia (not enough oxygen-carrying capacity).</span><span class="kr">적혈구 안에서 산소를 운반하는 단백질. 낮으면 빈혈(산소 운반 능력 부족).</span></td><td class="focus">정상: 남 130-170, 여 120-150 g/L. 출혈 환자에서 Hb 추적이 핵심.</td></tr>
+      <tr data-abbr="inr international normalised ratio"><td><span class="term">INR</span><span class="abbr">International Normalised Ratio</span></td><td><span class="en">Measures how long blood takes to clot. Higher INR = blood clots more slowly = higher bleeding risk.</span><span class="kr">혈액 응고에 걸리는 시간 측정. INR이 높을수록 응고가 느려 출혈 위험 증가.</span></td><td class="focus">정상(항응고제 미사용): 0.9-1.2. 간질환 환자에서 특히 중요.</td></tr>
+      <tr data-abbr="g&s x-match group screen cross-match"><td><span class="term">G&amp;S / X-match</span><span class="abbr">Group and Screen / Cross-match</span></td><td><span class="en">G&amp;S identifies the patient's blood type and screens for antibodies. Cross-match tests if a specific unit of blood is compatible before transfusion.</span><span class="kr">G&amp;S는 환자 혈액형 확인과 항체 선별. Cross-match는 수혈 전 특정 혈액과의 적합성 검사.</span></td><td class="focus">출혈 환자나 수술 전에 반드시 시행. 응급 시 "urgent cross-match" 요청.</td></tr>
+      <tr data-abbr="abg arterial blood gas"><td><span class="term">ABG</span><span class="abbr">Arterial Blood Gas</span></td><td><span class="en">A blood sample taken from an artery that measures oxygen, carbon dioxide, pH, and bicarbonate — shows how well the lungs and kidneys are managing acid-base balance.</span><span class="kr">동맥에서 채취한 혈액으로 산소, 이산화탄소, pH, 중탄산을 측정 — 폐와 신장이 산-염기 균형을 얼마나 잘 관리하고 있는지 보여줌.</span></td><td class="focus">신부전 환자에서 대사성 산증(metabolic acidosis) 확인에 사용됩니다.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ROUTES -->
+<div class="sys renal" id="routes">
+  <div class="sys-bar"><span class="dot">ROUTES</span> 투여 경로 · 장비 관련</div>
+  <table>
+    <colgroup><col class="c-term"><col class="c-mid"><col class="c-focus"></colgroup>
+    <thead><tr><th>약어</th><th>Full Name · 뜻</th><th>설명</th></tr></thead>
+    <tbody>
+      <tr data-abbr="po per oral"><td><span class="term">PO</span><span class="abbr">Per Oral (경구)</span></td><td><span class="en">Per Oral — given by mouth (swallowed as a tablet, capsule, or liquid).</span><span class="kr">경구 — 입으로 복용(정제, 캡슐, 액체로 삼킴).</span></td><td class="focus">NBM 환자는 PO 약물 투여 전 의료팀 확인 필요.</td></tr>
+      <tr data-abbr="iv intravenous"><td><span class="term">IV</span><span class="abbr">Intravenous (정맥주사)</span></td><td><span class="en">Intravenous — given directly into a vein through a cannula or central line.</span><span class="kr">정맥주사 — 정맥관(cannula)이나 중심정맥관을 통해 정맥에 직접 투여.</span></td><td class="focus">IV site를 매 교대마다 확인: 발적, 부종, 통증, 삼출(phlebitis 징후).</td></tr>
+      <tr data-abbr="im intramuscular"><td><span class="term">IM</span><span class="abbr">Intramuscular (근육주사)</span></td><td><span class="en">Intramuscular — injected into the muscle (e.g., deltoid, vastus lateralis, gluteal).</span><span class="kr">근육주사 — 근육(삼각근, 외측광근, 둔근)에 주사.</span></td><td class="focus">주사 부위 발적, 경결(induration), 통증 관찰.</td></tr>
+      <tr data-abbr="sc subcut subcutaneous"><td><span class="term">SC / subcut</span><span class="abbr">Subcutaneous (피하주사)</span></td><td><span class="en">Subcutaneous — injected under the skin (e.g., insulin, heparin, EPO).</span><span class="kr">피하주사 — 피부 아래에 주사(예: 인슐린, 헤파린, EPO).</span></td><td class="focus">인슐린과 헤파린이 가장 흔한 피하주사 약물.</td></tr>
+      <tr data-abbr="pr per rectum"><td><span class="term">PR</span><span class="abbr">Per Rectum (직장)</span></td><td><span class="en">Per Rectum — given through the rectum (e.g., suppositories, enemas).</span><span class="kr">직장 — 직장을 통해 투여(예: 좌약, 관장).</span></td><td class="focus">"PR bleeding"의 PR도 Per Rectum이지만 맥락이 다름 — 출혈 vs 투여 경로.</td></tr>
+      <tr data-abbr="ngt ng tube nasogastric"><td><span class="term">NGT / NG tube</span><span class="abbr">Nasogastric Tube (비위관)</span></td><td><span class="en">Nasogastric Tube — a tube inserted through the nose into the stomach, used for feeding, giving medication, or draining stomach contents.</span><span class="kr">비위관 — 코를 통해 위까지 삽입하는 관. 영양 공급, 약물 투여, 또는 위 내용물 배출에 사용.</span></td><td class="focus">삽입 위치 확인(pH 검사 또는 X-ray), 고정 상태, 코 피부 손상 관찰.</td></tr>
+      <tr data-abbr="idc indwelling catheter foley"><td><span class="term">IDC</span><span class="abbr">Indwelling Catheter (유치도뇨관)</span></td><td><span class="en">Indwelling (urinary) Catheter — a tube inserted into the bladder through the urethra to drain urine continuously into a bag. Also called a Foley catheter.</span><span class="kr">유치도뇨관 — 요도를 통해 방광에 삽입하여 소변을 지속적으로 배액하는 관. Foley 카테터라고도 함.</span></td><td class="focus">소변량, 색, 혼탁도 관찰. CAUTI(카테터 관련 요로감염) 예방 — 필요 없으면 가능한 빨리 제거.</td></tr>
+      <tr data-abbr="pivc peripheral intravenous cannula"><td><span class="term">PIVC</span><span class="abbr">Peripheral Intravenous Cannula</span></td><td><span class="en">A small plastic tube inserted into a vein in the hand or arm for giving IV fluids and medications.</span><span class="kr">손이나 팔의 정맥에 삽입하는 작은 플라스틱 관. IV 수액과 약물 투여에 사용.</span></td><td class="focus">72-96시간마다 교체 권장. 매 교대 시 부위 사정(VIP score).</td></tr>
+      <tr data-abbr="cvc cvad central venous catheter"><td><span class="term">CVC / CVAD</span><span class="abbr">Central Venous Catheter / Central Venous Access Device</span></td><td><span class="en">A catheter placed in a large central vein (jugular, subclavian, or femoral). Used for long-term IV access, TPN, or when peripheral veins are poor.</span><span class="kr">큰 중심정맥(경정맥, 쇄골하정맥, 대퇴정맥)에 삽입하는 카테터. 장기 IV, TPN, 말초정맥이 어려울 때 사용.</span></td><td class="focus">감염 위험이 높아 무균 드레싱 관리 필수. 삽입 부위 매일 사정.</td></tr>
+      <tr data-abbr="ivc intravenous cannula"><td><span class="term">IVC</span><span class="abbr">Intravenous Cannula (정맥 캐뉼라)</span></td><td><span class="en">Intravenous Cannula — a short plastic tube inserted into a peripheral vein (usually hand or arm) for IV fluid and medication administration. Same as PIVC; "IVC" is the shorter form commonly used in verbal communication on the ward.</span><span class="kr">정맥 캐뉼라 — 말초정맥(보통 손이나 팔)에 삽입하는 짧은 플라스틱 관. IV 수액과 약물 투여에 사용. PIVC와 같은 뜻으로, 병동에서 구어로 "IVC"로 줄여 말하기도 합니다.</span></td><td class="focus">삽입 부위를 매 교대마다 확인: 발적, 부종, 통증, 경결(phlebitis 징후). 72-96시간마다 교체 권장.</td></tr>
+      <tr data-abbr="cf cubital fossa"><td><span class="term">CF</span><span class="abbr">Cubital Fossa (팔오금 / 팔꿈치 안쪽 오목)</span></td><td><span class="en">Cubital Fossa — the shallow depression on the anterior (inner) side of the elbow, opposite the "pointy" part. It contains major veins (median cubital, cephalic, basilic) used for blood draws (venepuncture) and IV cannulation, as well as the brachial artery used for blood pressure measurement.</span><span class="kr">팔오금(주와) — 팔꿈치 안쪽(팔꿈치 반대쪽)의 얕은 오목한 부위. 채혈(정맥천자)과 IV 캐뉼라 삽입에 사용되는 주요 정맥(정중주정맥, 두정맥, 척측피정맥)이 있으며, 혈압 측정에 사용되는 상완동맥도 위치합니다.</span></td><td class="focus">채혈 시 가장 흔히 사용하는 부위입니다. "CF bloods" = 팔꿈치 안쪽에서 채혈.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- TIMING -->
+<div class="sys gastro" id="timing">
+  <div class="sys-bar"><span class="dot">TIMING</span> 시간 · 빈도 · 상태 관련</div>
+  <table>
+    <colgroup><col class="c-term"><col class="c-mid"><col class="c-focus"></colgroup>
+    <thead><tr><th>약어</th><th>Full Name · 뜻</th><th>설명</th></tr></thead>
+    <tbody>
+      <tr data-abbr="bd bid twice a day"><td><span class="term">BD / BID</span><span class="abbr">Bis Die (twice a day)</span></td><td><span class="en">Twice a day — medication given two times in 24 hours (e.g., morning and evening).</span><span class="kr">하루 두 번 — 24시간에 두 번 약물 투여(예: 아침, 저녁).</span></td><td class="focus">호주에서는 BD를 더 자주 사용합니다.</td></tr>
+      <tr data-abbr="tds tid three times a day"><td><span class="term">TDS / TID</span><span class="abbr">Ter Die Sumendus (three times a day)</span></td><td><span class="en">Three times a day — medication given three times in 24 hours.</span><span class="kr">하루 세 번 — 24시간에 세 번 약물 투여.</span></td><td class="focus">보통 아침, 점심, 저녁에 투여합니다.</td></tr>
+      <tr data-abbr="qid four times a day"><td><span class="term">QID</span><span class="abbr">Quater In Die (four times a day)</span></td><td><span class="en">Four times a day.</span><span class="kr">하루 네 번.</span></td><td class="focus">보통 6시간 간격으로 투여합니다.</td></tr>
+      <tr data-abbr="nocte night"><td><span class="term">Nocte</span><span class="abbr">At night (밤에)</span></td><td><span class="en">At night — medication given at bedtime.</span><span class="kr">밤에 — 취침 시 약물 투여.</span></td><td class="focus">수면제, 일부 혈압약 등이 nocte로 처방됩니다.</td></tr>
+      <tr data-abbr="prn pro re nata as needed"><td><span class="term">PRN</span><span class="abbr">Pro Re Nata (as needed)</span></td><td><span class="en">As needed — medication given only when the patient needs it (e.g., pain relief, anti-nausea).</span><span class="kr">필요 시 — 환자가 필요할 때만 투여(예: 진통제, 항구토제).</span></td><td class="focus">투여 전 사정, 투여 후 효과 평가를 반드시 기록합니다.</td></tr>
+      <tr data-abbr="stat statim immediately"><td><span class="term">STAT</span><span class="abbr">Statim (immediately)</span></td><td><span class="en">Immediately — give this medication right now, without delay.</span><span class="kr">즉시 — 지체 없이 지금 바로 이 약을 투여하라.</span></td><td class="focus">응급 상황에서 자주 사용. "STAT dose"는 일회 긴급 투여.</td></tr>
+      <tr data-abbr="d/c discharge discontinue"><td><span class="term">D/C</span><span class="abbr">Discharge / Discontinue</span></td><td><span class="en">Discharge (patient goes home) or Discontinue (stop a medication or treatment). Context matters.</span><span class="kr">퇴원(환자가 집으로 감) 또는 중단(약물이나 치료를 멈춤). 문맥에 따라 구분.</span></td><td class="focus">"D/C furosemide" = furosemide 중단. "D/C home" = 퇴원.</td></tr>
+      <tr data-abbr="nbm nil by mouth"><td><span class="term">NBM</span><span class="abbr">Nil By Mouth (금식)</span></td><td><span class="en">Nil By Mouth — the patient must not eat or drink anything. Ordered before procedures requiring sedation or anaesthesia (gastroscopy, colonoscopy, surgery) to prevent aspiration, or when the GI tract needs to rest (bowel obstruction, acute pancreatitis, post-operative ileus).</span><span class="kr">금식 — 환자가 아무것도 먹거나 마시면 안 됩니다. 진정·마취가 필요한 시술(위내시경, 대장내시경, 수술) 전 흡인 예방을 위해, 또는 위장관 휴식이 필요할 때(장폐색, 급성 췌장염, 수술 후 장마비) 지시됩니다.</span></td><td class="focus">NBM 시작 시간을 확인하고 환자에게 교육합니다. 침상 머리맡에 NBM 표지판을 부착합니다. PO 약물 투여 전 반드시 NBM 여부를 확인합니다 — 필요시 의료팀에 대체 경로(IV) 확인. 구강 건조 시 구강 간호를 시행합니다. IV 수액이 처방되어 있는지 확인합니다.</td></tr>
+      <tr data-abbr="mane morning"><td><span class="term">Mane</span><span class="abbr">In the morning (아침에)</span></td><td><span class="en">In the morning — medication given in the morning.</span><span class="kr">아침에 — 아침에 투여하는 약물.</span></td><td class="focus">공복 투여가 필요한 약물(예: levothyroxine)에 자주 사용.</td></tr>
+      <tr data-abbr="c s a with without before"><td><span class="term">c&#772; / s&#772; / &#257;</span><span class="abbr">with / without / before</span></td><td><span class="en">c&#772; = with (cum), s&#772; = without (sine), &#257; = before (ante). Used in medication orders.</span><span class="kr">c&#772; = ~와 함께(cum), s&#772; = ~없이(sine), &#257; = ~전에(ante). 약물 지시에 사용.</span></td><td class="focus">예: "c&#772; food" = 음식과 함께, "&#257; meals" = 식전.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- WARD -->
+<div class="sys hep" id="ward">
+  <div class="sys-bar"><span class="dot">WARD</span> 병동 일상 · 기타</div>
+  <table>
+    <colgroup><col class="c-term"><col class="c-mid"><col class="c-focus"></colgroup>
+    <thead><tr><th>약어</th><th>Full Name · 뜻</th><th>설명</th></tr></thead>
+    <tbody>
+      <tr data-abbr="adls activities daily living"><td><span class="term">ADLs</span><span class="abbr">Activities of Daily Living</span></td><td><span class="en">Activities of Daily Living — basic self-care tasks: showering, dressing, eating, toileting, walking (mobility).</span><span class="kr">일상생활 활동 — 기본적인 자기 관리: 샤워, 옷 입기, 식사, 화장실, 보행(이동).</span></td><td class="focus">환자의 ADL 자립도를 사정하여 도움이 필요한 부분을 파악합니다.</td></tr>
+      <tr data-abbr="falls risk"><td><span class="term">FALLS RISK</span><span class="abbr">낙상 위험</span></td><td><span class="en">A patient at risk of falling — due to dizziness, weakness, medication effects, confusion, mobility problems, or environmental hazards.</span><span class="kr">낙상 위험이 있는 환자 — 어지러움, 쇠약, 약물 효과, 혼돈, 이동 문제, 환경적 위험 때문.</span></td><td class="focus">낙상 위험 평가 도구 사용. 저위 침대, 콜벨 접근, 보행 보조, 환경 정리.</td></tr>
+      <tr data-abbr="dvt deep vein thrombosis"><td><span class="term">DVT</span><span class="abbr">Deep Vein Thrombosis (심부정맥혈전증)</span></td><td><span class="en">A blood clot that forms in a deep vein, usually in the leg. Can break off and travel to the lungs (pulmonary embolism — PE), which is life-threatening.</span><span class="kr">주로 다리의 심부정맥에 혈전이 형성되는 것. 떨어져 나가면 폐로 이동하여 폐색전증(PE)을 일으킬 수 있으며, 이는 생명을 위협.</span></td><td class="focus">예방: 항응고제(enoxaparin SC), 압박 스타킹(TED), 조기 보행(early mobilisation).</td></tr>
+      <tr data-abbr="teds thrombo-embolic deterrent stockings"><td><span class="term">TEDs</span><span class="abbr">Thrombo-Embolic Deterrent Stockings (혈전색전 예방 압박스타킹)</span></td><td><span class="en">Anti-embolism compression stockings worn on the legs to prevent DVT. They apply graduated pressure — tightest at the ankle, decreasing up the leg — to help blood flow back to the heart and prevent clot formation. Used for patients on bed rest, post-surgery, or with reduced mobility.</span><span class="kr">DVT 예방을 위해 다리에 착용하는 항색전 압박스타킹. 발목이 가장 조이고 위로 갈수록 느슨한 단계적 압박을 가해, 혈액이 심장으로 돌아가는 것을 돕고 혈전 형성을 예방합니다. 침상 안정, 수술 후, 이동 제한 환자에게 사용.</span></td><td class="focus">올바른 사이즈를 측정하여 적용합니다(종아리 둘레 기준). 매일 최소 1회 벗겨서 피부 상태(발적, 수포, 압박 손상)를 확인합니다. 발가락을 관찰하여 말초 순환 상태(색깔, 온도, 감각)를 점검합니다. 주름지지 않게 매끄럽게 착용합니다 — 주름은 국소 압박을 유발합니다.</td></tr>
+      <tr data-abbr="scds scuds sequential compression devices"><td><span class="term">SCDs / SCUDs</span><span class="abbr">Sequential Compression Devices (간헐적 공기압박장치)</span></td><td><span class="en">Inflatable cuffs wrapped around the legs that rhythmically squeeze and release, mimicking the pumping action of walking. Used for DVT prevention when patients cannot mobilise (post-surgery, critically ill). Often used together with TEDs and/or anticoagulants for optimal prevention.</span><span class="kr">다리에 감는 공기주입식 커프로 리드미컬하게 압박·이완을 반복하며 보행의 펌프 작용을 모방합니다. 환자가 움직일 수 없을 때(수술 후, 중환자) DVT 예방에 사용. TEDs 및/또는 항응고제와 함께 사용하면 최적의 예방 효과.</span></td><td class="focus">환자가 침상에 있을 때 지속적으로 착용하도록 합니다 — 보행 시에만 제거합니다. 피부 상태를 정기적으로 확인합니다. 장치가 제대로 작동하는지(공기 순환) 확인합니다. 개방성 상처, 심한 말초혈관질환, 심부정맥혈전이 이미 있는 다리에는 금기입니다.</td></tr>
+      <tr data-abbr="fwd full ward diet"><td><span class="term">FWD</span><span class="abbr">Full Ward Diet (일반식)</span></td><td><span class="en">Full Ward Diet — a normal, unrestricted hospital diet with no special modifications. The patient can eat regular meals without dietary restrictions (unlike NBM, clear fluids, soft diet, or specific therapeutic diets such as low sodium or renal diet).</span><span class="kr">일반식 — 특별한 제한 없이 정상적인 병원 식사. 금식(NBM), 맑은 유동식, 연식, 또는 저염식·신장식 등 치료식과 달리 제한 없는 일반 식사.</span></td><td class="focus">시술 후 식이 재개 시 "FWD"로 변경되었는지 확인합니다. 식이 변경은 반드시 처방에 따르며, 알레르기·종교적 제한도 확인합니다. 환자의 실제 섭취량을 관찰·기록합니다.</td></tr>
+      <tr data-abbr="met call medical emergency team"><td><span class="term">MET call</span><span class="abbr">Medical Emergency Team call</span></td><td><span class="en">An urgent call for a team of doctors, nurses, and specialists to come immediately to a patient who is getting much worse — for example, not breathing, unconscious, or having a cardiac arrest.</span><span class="kr">상태가 급격히 악화되는 환자(예: 호흡 정지, 의식 소실, 심정지)에게 의사·간호사·전문가 팀이 즉시 오도록 하는 긴급 호출.</span></td><td class="focus">호주 병원에서 MET criteria(기준)를 충족하면 누구나 MET call을 할 수 있습니다. 학생도 가능.</td></tr>
+      <tr data-abbr="rrt rapid response team"><td><span class="term">RRT</span><span class="abbr">Rapid Response Team</span></td><td><span class="en">Similar to MET — a team that responds quickly when a patient's condition is worsening but not yet in cardiac arrest.</span><span class="kr">MET와 유사 — 환자 상태가 악화되고 있지만 아직 심정지는 아닌 경우 빠르게 대응하는 팀.</span></td><td class="focus">NEWS/EWS 점수 상승 시 RRT 호출 기준을 확인합니다.</td></tr>
+      <tr data-abbr="ama against medical advice"><td><span class="term">AMA</span><span class="abbr">Against Medical Advice</span></td><td><span class="en">When a patient decides to leave the hospital before the doctors say it is safe to go.</span><span class="kr">의사가 안전하다고 하기 전에 환자가 퇴원을 결정하는 것.</span></td><td class="focus">환자의 결정을 존중하되, 위험을 설명하고 AMA 서류에 서명을 받아야 합니다.</td></tr>
+      <tr data-abbr="nok next of kin"><td><span class="term">NOK</span><span class="abbr">Next of Kin</span></td><td><span class="en">Next of Kin — the patient's closest family member or emergency contact person.</span><span class="kr">최근친 — 환자의 가장 가까운 가족 또는 비상 연락 대상.</span></td><td class="focus">입원 시 NOK 정보가 차트에 기록되어 있는지 확인합니다.</td></tr>
+      <tr data-abbr="dama discharge against medical advice"><td><span class="term">DAMA</span><span class="abbr">Discharge Against Medical Advice</span></td><td><span class="en">Same as AMA — the patient is discharged against medical advice.</span><span class="kr">AMA와 같은 의미 — 의학적 조언에 반하여 퇴원.</span></td><td class="focus">RN/의사에게 반드시 보고하고, 문서화가 필수입니다.</td></tr>
+      <tr data-abbr="epoa enduring power of attorney"><td><span class="term">EPOA</span><span class="abbr">Enduring Power of Attorney (지속적 위임장)</span></td><td><span class="en">Enduring Power of Attorney — a legal document that gives a trusted person the authority to make decisions (financial, health, or personal) on behalf of the patient if they lose capacity to decide for themselves. In Queensland, health-related EPOA allows the appointed person to consent to or refuse medical treatment when the patient cannot.</span><span class="kr">지속적 위임장 — 환자가 스스로 결정할 능력을 상실했을 때, 신뢰하는 사람에게 대신 결정(재정, 건강, 개인)할 권한을 부여하는 법적 문서. 퀸즐랜드에서 건강 관련 EPOA는 환자가 결정 불가 시 지정인이 치료에 동의하거나 거부할 수 있게 합니다.</span></td><td class="focus">입원 시 EPOA 지정 여부를 확인합니다. 간성뇌증 등으로 의식이 저하된 환자에서 특히 중요합니다. EPOA 문서가 차트에 있는지 확인하세요.</td></tr>
+      <tr data-abbr="ahd advance health directive"><td><span class="term">AHD</span><span class="abbr">Advance Health Directive (사전건강지시서)</span></td><td><span class="en">Advance Health Directive — a legal document written by the patient while they still have capacity, stating their wishes for future medical treatment if they become unable to communicate or make decisions. It may include preferences about life-sustaining treatment, CPR, ventilation, and palliative care. Works alongside EPOA — AHD records the patient's own wishes, while EPOA appoints a person to make decisions on their behalf.</span><span class="kr">사전건강지시서 — 환자가 아직 의사결정 능력이 있을 때 작성하는 법적 문서로, 향후 의사소통이나 결정이 불가능해질 경우 원하는 치료 방향을 명시합니다. 연명치료, CPR, 인공호흡, 완화의료에 대한 선호가 포함될 수 있습니다. EPOA와 함께 사용 — AHD는 환자 본인의 의사를 기록하고, EPOA는 대신 결정할 대변인을 지정합니다.</span></td><td class="focus">입원 시 AHD 존재 여부를 확인합니다. AHD가 있으면 차트에 비치하고 의료팀에 알립니다. 응급 상황 시 AHD에 기록된 환자의 의사를 존중해야 합니다.</td></tr>
+      <tr data-abbr="ent ear nose throat"><td><span class="term">ENT</span><span class="abbr">Ear, Nose and Throat (이비인후과)</span></td><td><span class="en">Ear, Nose and Throat — the medical specialty dealing with conditions of the ear, nose, and throat (also called Otolaryngology). ENT referrals or consultations may be needed for patients with swallowing difficulties, airway concerns, or head and neck issues.</span><span class="kr">이비인후과 — 귀, 코, 목의 질환을 다루는 진료과(이비인후과학). 연하 곤란, 기도 문제, 두경부 문제가 있는 환자에게 ENT 의뢰·협진이 필요할 수 있습니다.</span></td><td class="focus">차트에 "ENT review" 또는 "ENT consult"로 적혀 있으면 이비인후과 진료/협진을 의미합니다.</td></tr>
+      <tr data-abbr="ot operating theatre"><td><span class="term">OT</span><span class="abbr">Operating Theatre (수술실)</span></td><td><span class="en">Operating Theatre — the hospital room where surgical procedures are performed under sterile conditions. In Australia "OT" or "theatre" is used instead of the American term "OR" (Operating Room). Patients are transferred to OT for surgery and returned to the ward for post-operative recovery.</span><span class="kr">수술실 — 무균 환경에서 수술이 시행되는 병원 공간. 호주에서는 미국식 "OR"(Operating Room) 대신 "OT" 또는 "theatre"를 사용합니다. 환자는 수술을 위해 OT로 이송되고, 수술 후 병동으로 돌아와 회복합니다.</span></td><td class="focus">"Patient going to OT" = 환자가 수술실로 갑니다. 시술 전 체크리스트(금식·동의서·ID밴드·알레르기 밴드) 확인.</td></tr>
+      <tr data-abbr="gord gerd gastro-oesophageal reflux disease"><td><span class="term">GORD</span><span class="abbr">Gastro-Oesophageal Reflux Disease (위식도역류질환)</span></td><td><span class="en">Gastro-Oesophageal Reflux Disease — a condition where stomach acid frequently flows back into the oesophagus, causing heartburn, regurgitation, and potential oesophageal damage. In the US it is called GERD. Common in gastro patients; managed with PPIs (e.g., pantoprazole, esomeprazole), lifestyle modifications, and positioning (head of bed elevation).</span><span class="kr">위식도역류질환 — 위산이 식도로 자주 역류하여 가슴쓰림, 역류, 식도 손상을 일으키는 질환. 미국에서는 GERD라 부릅니다. 소화기 환자에게 흔하며, PPI(판토프라졸, 에소메프라졸), 생활습관 교정, 체위(침상 머리 거상)로 관리합니다.</span></td><td class="focus">식사 후 최소 30분간 상체 거상 자세를 유지합니다. 증상(가슴쓰림, 역류, 연하통)을 관찰·기록합니다. PPI 투여 시간을 확인합니다 — 보통 식전 30분 투여.</td></tr>
+      <tr data-abbr="endone oxycodone"><td><span class="term">Endone</span><span class="abbr">Oxycodone (옥시코돈)</span></td><td><span class="en">Endone — an Australian brand name for oxycodone, a strong opioid pain-relief medication. Used for moderate to severe pain (e.g., post-surgical, cancer pain). Available as immediate-release tablets (5 mg, 10 mg). Schedule 8 (S8) controlled drug requiring strict documentation.</span><span class="kr">엔돈 — 옥시코돈의 호주 브랜드명. 중등도~중증 통증(수술 후, 암성 통증 등)에 사용되는 강한 오피오이드 진통제. 속방형 정제(5 mg, 10 mg) 형태. Schedule 8(S8) 규제약물로 엄격한 문서화 필요.</span></td><td class="focus">S8 약물 — 이중 확인(double check)과 약물 대장(drug register) 기록 필수. 투여 전후 통증 점수 사정. 부작용 관찰: 호흡 억제, 오심, 변비, 진정.</td></tr>
+      <tr data-abbr="pmhx past medical history"><td><span class="term">PMHx</span><span class="abbr">Past Medical History (과거 병력)</span></td><td><span class="en">Past Medical History — a record of all the patient's previous illnesses, surgeries, hospitalisations, and chronic conditions. Essential for understanding the patient's overall health background and potential risks.</span><span class="kr">과거 병력 — 환자의 이전 모든 질병, 수술, 입원, 만성 질환 기록. 환자의 전반적인 건강 배경과 잠재적 위험을 이해하는 데 필수적.</span></td><td class="focus">입원 시 PMHx를 확인하여 현재 상태와 관련된 과거 질환을 파악합니다. FHx(가족력), SHx(사회력)과 함께 사정합니다.</td></tr>
+      <tr data-abbr="thc tetrahydrocannabinol cannabis"><td><span class="term">THC</span><span class="abbr">Tetrahydrocannabinol (테트라하이드로칸나비놀)</span></td><td><span class="en">Tetrahydrocannabinol — the main psychoactive compound in cannabis (marijuana). Appears in patient social history (SHx) or drug screening results. Relevant for anaesthesia planning, pain management, and understanding potential drug interactions.</span><span class="kr">테트라하이드로칸나비놀 — 대마초(마리화나)의 주요 향정신성 화합물. 환자 사회력(SHx)이나 약물 스크리닝 결과에 나타남. 마취 계획, 통증 관리, 약물 상호작용 파악에 관련.</span></td><td class="focus">SHx 기록 시 "THC use" 여부를 확인합니다. 수술 전 약물 스크리닝에서 양성으로 나올 수 있습니다.</td></tr>
+      <tr data-abbr="pv per vagina"><td><span class="term">PV</span><span class="abbr">Per Vagina (질을 통해)</span></td><td><span class="en">Per Vagina — relating to or through the vagina. "PV bleeding" means vaginal bleeding — bleeding from the vagina that is not part of normal menstruation, which may indicate a gynaecological concern.</span><span class="kr">질을 통해 — 질과 관련되거나 질을 통한. "PV bleeding"은 질출혈 — 정상 월경이 아닌 질에서의 출혈로, 부인과적 문제를 시사할 수 있습니다.</span></td><td class="focus">PV bleeding 발견 시: 양, 색깔, 패드 교체 빈도를 기록하고 RN에게 보고합니다. 활력징후를 확인합니다.</td></tr>
+      <tr data-abbr="puit patient urinating in toilet"><td><span class="term">PUIT</span><span class="abbr">Patient Urinating In Toilet (환자 화장실 배뇨)</span></td><td><span class="en">Patient Urinating In Toilet — a charting abbreviation used to document that the patient is independently urinating in the toilet rather than using a bedpan, urinal, or catheter. Indicates good mobility and bladder function.</span><span class="kr">환자 화장실 배뇨 — 환자가 변기, 소변기, 카테터 대신 독립적으로 화장실에서 소변을 보고 있음을 기록하는 차트 약어. 양호한 이동성과 방광 기능을 나타냄.</span></td><td class="focus">I/O(섭취량/배출량) 차트에 기록. 정확한 소변량 측정이 필요한 경우 소변 수집이 필요할 수 있습니다.</td></tr>
+      <tr data-abbr="mob mobilise"><td><span class="term">MOB</span><span class="abbr">Mobilise (보행/이동)</span></td><td><span class="en">Mobilise — to get the patient up and moving (walking, standing, transferring). Early mobilisation after surgery or illness is important for preventing DVT, pneumonia, pressure injuries, and deconditioning.</span><span class="kr">보행/이동 — 환자를 일으켜 움직이게 하는 것(걷기, 서기, 이동). 수술이나 질병 후 조기 보행은 DVT, 폐렴, 욕창, 체력 저하 예방에 중요합니다.</span></td><td class="focus">"MOB c&#772; assist" = 도움을 받아 보행. 보행 전 기립성 저혈압 확인. 낙상 위험 사정 후 적절한 보행 보조 제공.</td></tr>
+      <tr data-abbr="sba stand by assist"><td><span class="term">SBA</span><span class="abbr">Stand By Assist (대기 보조)</span></td><td><span class="en">Stand By Assist — a level of assistance where the nurse or carer stays close to the patient during an activity (walking, showering, toileting) to help if needed, but the patient performs most of the task independently.</span><span class="kr">대기 보조 — 활동(보행, 샤워, 화장실) 중 간호사나 보호자가 환자 가까이에서 필요 시 도울 준비를 하지만, 환자가 대부분 독립적으로 수행하는 보조 수준.</span></td><td class="focus">보행 차트에 보조 수준을 기록합니다: Independent(독립), SBA(대기 보조), Min A(최소 보조), Mod A(중등 보조), Max A(최대 보조), Dependent(완전 보조).</td></tr>
+      <tr data-abbr="aps acute pain service"><td><span class="term">APS</span><span class="abbr">Acute Pain Service (급성통증서비스)</span></td><td><span class="en">Acute Pain Service — a specialised hospital team (usually anaesthetists and pain nurses) that manages complex pain, especially post-operative pain. They oversee patient-controlled analgesia (PCA), epidurals, nerve blocks, and multimodal pain plans.</span><span class="kr">급성통증서비스 — 복잡한 통증, 특히 수술 후 통증을 관리하는 전문 병원 팀(보통 마취과 의사와 통증 전담 간호사). PCA(자가조절진통), 경막외마취, 신경차단, 다중모드 통증 계획을 관리합니다.</span></td><td class="focus">APS 관리 환자는 매일 APS 팀이 회진합니다. 통증 점수를 정기적으로 사정하고 기록합니다. PCA 사용량, 부작용(오심, 진정, 호흡억제)을 관찰합니다.</td></tr>
+      <tr data-abbr="c/o complains of"><td><span class="term">C/O</span><span class="abbr">Complains Of (호소)</span></td><td><span class="en">Complains Of — used in charting to document what the patient is reporting or feeling. For example, "Pt C/O nausea" means the patient complains of nausea.</span><span class="kr">호소 — 환자가 보고하거나 느끼는 것을 차트에 기록할 때 사용. 예: "Pt C/O nausea" = 환자가 오심을 호소함.</span></td><td class="focus">C/O 뒤에 환자의 주관적 증상을 기록합니다. 인수인계와 간호 기록에서 자주 사용됩니다.</td></tr>
+      <tr data-abbr="biopsy"><td><span class="term">Biopsy</span><span class="abbr">조직검사</span></td><td><span class="en">Biopsy — a medical procedure where a small sample of tissue is removed from the body and examined under a microscope to check for disease (e.g., cancer, inflammation, infection). Types include needle biopsy, punch biopsy, excisional biopsy, and endoscopic biopsy. In renal patients, a kidney biopsy helps diagnose glomerulonephritis; in gastro/hepatology, liver biopsy helps diagnose cirrhosis or hepatitis.</span><span class="kr">조직검사 — 몸에서 소량의 조직 표본을 채취하여 현미경으로 질병(암, 염증, 감염 등)을 확인하는 의료 시술. 바늘 생검, 펀치 생검, 절제 생검, 내시경 생검 등이 있음. 신장 환자에서는 사구체신염 진단에, 소화기/간 환자에서는 간경변이나 간염 진단에 사용.</span></td><td class="focus">시술 전: 동의서 확인, 응고 수치(INR, 혈소판) 확인, NBM 여부 확인. 시술 후: 출혈 징후(활력징후, 부위 압박, 혈뇨/혈변) 관찰. 신장 생검 후에는 수 시간 침상 안정이 필요합니다.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<footer>
+  호주 병원 약어 핸드북 · Australian Hospital Abbreviations<br>
+  학습용 참고자료. 항상 소속 병원의 정책과 가이드라인을 따르세요.
+</footer>
+
+</div>
+
+<script>
+  let krVisible = true;
+  function toggleKR(){
+    krVisible = !krVisible;
+    const btn = document.getElementById('krToggle');
+    document.body.classList.toggle('hide-kr', !krVisible);
+    btn.classList.toggle('on', !krVisible);
+    btn.textContent = krVisible ? '한글 해석 ON' : '한글 해석 OFF (영어만)';
+  }
+
+  function filterRows(q){
+    q = q.toLowerCase().trim();
+    const rows = document.querySelectorAll('tbody tr');
+    if(!q){
+      rows.forEach(r => { r.classList.remove('highlight','dim') });
+      return;
+    }
+    rows.forEach(r => {
+      const text = (r.getAttribute('data-abbr') || '') + ' ' + r.textContent.toLowerCase();
+      if(text.includes(q)){
+        r.classList.add('highlight');
+        r.classList.remove('dim');
+      } else {
+        r.classList.remove('highlight');
+        r.classList.add('dim');
+      }
+    });
+  }
+
+  document.querySelectorAll('.navlinks a').forEach(a => {
+    a.addEventListener('click', function(e){
+      const href = this.getAttribute('href');
+      if(href && href.startsWith('#')){
+        e.preventDefault();
+        const target = document.querySelector(href);
+        if(target){
+          const y = target.getBoundingClientRect().top + window.pageYOffset - 60;
+          window.scrollTo({top: y, behavior: 'smooth'});
+        }
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

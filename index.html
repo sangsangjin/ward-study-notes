@@ -118,6 +118,9 @@
   .card-banner.med{
     background:linear-gradient(90deg, var(--flag), var(--basic), var(--renal));
   }
+  .card-banner.ref{
+    background:linear-gradient(90deg, var(--basic), var(--gastro), var(--hep));
+  }
 
   .card-body{
     padding:28px 26px 24px;
@@ -131,6 +134,7 @@
   }
   .card-icon.ward{background:var(--renal-bg);color:var(--renal)}
   .card-icon.med{background:var(--flag-bg);color:var(--flag)}
+  .card-icon.ref{background:var(--basic-bg);color:var(--basic)}
 
   .card h2{
     font-size:1.25rem;font-weight:800;margin:0 0 6px;
@@ -234,14 +238,13 @@
         <p class="card-sub">Ward Study Notes</p>
         <h2>병동 실습 노트</h2>
         <p class="card-desc">
-          용어, 약어, 질환, 시술, 장비 관리, 실습 문장, 신체 부위 등
-          병동에서 필요한 모든 기본 지식을 정리한 메인 노트.
+          용어, 질환, 시술, 장비 관리 등
+          병동에서 필요한 핵심 기본 지식을 정리한 메인 노트.
         </p>
         <div class="card-tags">
-          <span class="tag-renal">용어·약어</span>
+          <span class="tag-renal">용어</span>
           <span class="tag-gastro">질환·시술</span>
-          <span class="tag-hep">장비·문장</span>
-          <span class="tag-basic">신체부위</span>
+          <span class="tag-hep">장비</span>
         </div>
       </div>
       <span class="card-arrow">&rarr;</span>
@@ -268,26 +271,66 @@
       <span class="card-arrow">&rarr;</span>
     </a>
 
+    <!-- Card 3: Abbreviations Handbook -->
+    <a class="card" href="abbrevs_handbook.html">
+      <div class="card-banner ref"></div>
+      <div class="card-body">
+        <div class="card-icon ref">&#x1f4cb;</div>
+        <p class="card-sub">Abbreviations Handbook</p>
+        <h2>호주 병원 약어</h2>
+        <p class="card-desc">
+          차트, 인수인계, 구두 보고에서 매일 접하는 호주 병원 약어를
+          6개 카테고리로 분류. 풀네임과 한국어 설명 포함.
+        </p>
+        <div class="card-tags">
+          <span class="tag-renal">활력징후·경로</span>
+          <span class="tag-gastro">지시·시간</span>
+          <span class="tag-hep">검사·병동</span>
+        </div>
+      </div>
+      <span class="card-arrow">&rarr;</span>
+    </a>
+
+    <!-- Card 4: Body Parts Reference -->
+    <a class="card" href="bodyparts_handbook.html">
+      <div class="card-banner ref"></div>
+      <div class="card-body">
+        <div class="card-icon ref">&#x1f9cd;</div>
+        <p class="card-sub">Body Parts Reference</p>
+        <h2>신체 부위 용어</h2>
+        <p class="card-desc">
+          환자 사정·보고·기록 시 필요한 신체 부위 영어 용어.
+          의료용(formal)과 쉬운 말(plain English) 모두 수록.
+        </p>
+        <div class="card-tags">
+          <span class="tag-renal">머리·팔</span>
+          <span class="tag-gastro">몸통·다리</span>
+          <span class="tag-hep">골반·표현</span>
+        </div>
+      </div>
+      <span class="card-arrow">&rarr;</span>
+    </a>
+
   </div>
 
   <p class="section-label">OVERVIEW</p>
 
   <div class="stats">
     <div class="stat">
-      <div class="stat-num c-renal">8</div>
-      <div class="stat-label">실습 노트 섹션</div>
+      <div class="stat-num c-renal">4</div>
+      <div class="stat-label">핸드북 페이지</div>
     </div>
     <div class="stat">
       <div class="stat-num c-gastro">74</div>
       <div class="stat-label">약물 수록</div>
     </div>
     <div class="stat">
-      <div class="stat-num c-hep">12</div>
-      <div class="stat-label">약물 카테고리</div>
+      <div class="stat-num c-hep">50+</div>
+      <div class="stat-label">병원 약어</div>
     </div>
     <div class="stat">
-      <div class="stat-num c-basic">100+</div>
-      <div class="stat-label">약어 · 용어</div>
+      <div class="stat-num c-basic">70+</div>
+      <div class="stat-label">신체 부위 용어</div>
     </div>
   </div>
 

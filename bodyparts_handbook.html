@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>신체 부위 핸드북 · Body Parts Reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1b2230;
+    --muted:#5d6675;
+    --faint:#8a93a3;
+    --paper:#eef1f5;
+    --card:#ffffff;
+    --line:#e3e8ef;
+
+    --renal:#1d6fb8;      --renal-bg:#eaf3fb;  --renal-line:#bcdcef;
+    --gastro:#2c8c6a;     --gastro-bg:#e7f4ee; --gastro-line:#bfe3d3;
+    --hep:#bb851a;        --hep-bg:#fbf2dc;    --hep-line:#ecd9a8;
+    --flag:#c0392b;       --flag-bg:#fbeae7;   --flag-line:#f0c4bd;
+    --basic:#6c5ce7;      --basic-bg:#f0edfc;  --basic-line:#c8c0f4;
+
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Noto Sans KR',system-ui,sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px 90px}
+
+  /* ---------- hero ---------- */
+  header.hero{
+    background:
+      radial-gradient(120% 140% at 0% 0%, #2c8c6a 0%, transparent 42%),
+      radial-gradient(120% 140% at 100% 0%, #1d6fb8 0%, transparent 42%),
+      radial-gradient(140% 160% at 50% 120%, #bb851a 0%, transparent 45%),
+      #11161f;
+    color:#fff;
+    padding:54px 22px 46px;
+    margin-bottom:0;
+  }
+  .hero-inner{max-width:1080px;margin:0 auto}
+  .hero .eyebrow{
+    font-family:var(--mono);font-size:.72rem;letter-spacing:.28em;
+    text-transform:uppercase;color:#cfe0f2;margin:0 0 14px;
+  }
+  .hero h1{
+    font-weight:900;font-size:clamp(1.8rem,4.6vw,2.9rem);
+    line-height:1.12;margin:0 0 14px;letter-spacing:-.01em;
+  }
+  .hero p.sub{margin:0;max-width:640px;color:#d7deea;font-size:1.02rem;font-weight:300}
+  .hero .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}
+  .hero .tags span{
+    font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.04em;
+    padding:5px 11px;border-radius:999px;background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.22);
+  }
+
+  /* ---------- sticky toolbar ---------- */
+  .toolbar{
+    position:sticky;top:0;z-index:40;
+    background:rgba(255,255,255,.86);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+    margin-bottom:30px;
+  }
+  .toolbar-inner{
+    max-width:1080px;margin:0 auto;padding:10px 22px;
+    display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  }
+  .navlinks{display:flex;gap:4px;flex-wrap:wrap;flex:1}
+  .navlinks a{
+    font-size:.8rem;font-weight:500;color:var(--muted);text-decoration:none;
+    padding:6px 11px;border-radius:8px;white-space:nowrap;transition:.15s;
+  }
+  .navlinks a:hover{background:var(--paper);color:var(--ink)}
+  .toggle-btn{
+    font-family:var(--mono);font-size:.74rem;font-weight:700;cursor:pointer;
+    border:1px solid var(--line);background:#fff;color:var(--ink);
+    padding:7px 13px;border-radius:9px;transition:.15s;white-space:nowrap;
+  }
+  .toggle-btn:hover{border-color:var(--ink)}
+  .toggle-btn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+  body.hide-kr .kr{display:none}
+
+  /* ---------- search ---------- */
+  .search-box{
+    display:flex;align-items:center;gap:6px;
+    margin-bottom:20px;padding:0 2px;
+  }
+  .search-box input{
+    flex:1;font-family:'Noto Sans KR',sans-serif;font-size:.88rem;
+    padding:9px 14px;border:1px solid var(--line);border-radius:8px;
+    background:#fff;color:var(--ink);outline:none;transition:.15s;
+  }
+  .search-box input:focus{border-color:var(--gastro);box-shadow:0 0 0 2px rgba(44,140,106,.15)}
+  .search-box input::placeholder{color:var(--faint)}
+
+  /* ---------- system block ---------- */
+  .sys{margin-bottom:26px;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--card)}
+  .sys-bar{
+    display:flex;align-items:center;gap:10px;
+    padding:11px 18px;font-weight:700;font-size:.98rem;color:#fff;
+  }
+  .sys-bar .dot{font-family:var(--mono);font-size:.7rem;font-weight:700;
+    background:rgba(255,255,255,.22);padding:3px 8px;border-radius:6px;letter-spacing:.05em}
+  .renal .sys-bar{background:var(--renal)}
+  .gastro .sys-bar{background:var(--gastro)}
+  .hep .sys-bar{background:var(--hep)}
+
+  /* ---------- table ---------- */
+  table{width:100%;border-collapse:collapse;font-size:.9rem}
+  thead th{
+    text-align:left;font-size:.7rem;font-weight:700;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--faint);
+    padding:10px 16px;border-bottom:1px solid var(--line);background:#fafbfc;
+  }
+  tbody td{padding:13px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:hover td{background:#fcfcfd}
+
+  .term{font-weight:700;color:var(--ink);display:block;margin-bottom:3px}
+  .focus{font-size:.82rem;color:var(--muted)}
+  .focus strong{color:var(--ink);font-weight:500}
+  .kr{color:var(--muted);font-size:.84rem;display:block;margin-top:4px;font-weight:300}
+
+  col.c-term{width:28%}
+  col.c-mid{width:22%}
+  col.c-focus{width:50%}
+
+  footer{text-align:center;color:var(--faint);font-size:.8rem;padding-top:30px;border-top:1px solid var(--line)}
+
+  /* highlight on search */
+  tr.highlight td{background:#fff9c4 !important}
+  tr.dim{opacity:.25;transition:opacity .2s}
+
+  @media (max-width:680px){
+    col.c-term,col.c-mid,col.c-focus{width:auto}
+    .navlinks{order:2;width:100%}
+    table{font-size:.84rem}
+    tbody td{padding:11px 12px}
+    thead th{padding:9px 12px}
+  }
+
+  @media print{
+    .toolbar,.search-box{display:none}
+    body{background:#fff}
+    body.hide-kr .kr{display:block}
+    .sys{break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">Pocket Reference · Clinical Placement</p>
+    <h1>신체 부위 핸드북<br>Body Parts Reference</h1>
+    <p class="sub">환자 사정·보고·기록 시 정확한 부위를 영어로 말할 수 있어야 해요. 의료용(formal)과 쉬운 말(plain English) 둘 다 알아두세요.</p>
+    <div class="tags">
+      <span style="background:rgba(29,111,184,.35)">HEAD/NECK</span>
+      <span style="background:rgba(44,140,106,.35)">TRUNK</span>
+      <span style="background:rgba(187,133,26,.4)">PELVIC</span>
+      <span style="background:rgba(108,92,231,.35)">LIMBS</span>
+    </div>
+  </div>
+</header>
+
+<div class="toolbar">
+  <div class="toolbar-inner">
+    <a href="index.html" style="font-family:var(--mono);font-size:.78rem;font-weight:700;color:var(--ink);text-decoration:none;padding:6px 11px;border-radius:8px;border:1px solid var(--line);white-space:nowrap;transition:.15s;background:#fff" onmouseover="this.style.background='var(--paper)'" onmouseout="this.style.background='#fff'">HOME</a>
+    <nav class="navlinks">
+      <a href="#head">얼굴·목</a>
+      <a href="#trunk">몸통</a>
+      <a href="#pelvic">골반부</a>
+      <a href="#arm">팔·손</a>
+      <a href="#leg">다리·발</a>
+      <a href="#expression">병동표현</a>
+    </nav>
+    <button class="toggle-btn" id="krToggle" onclick="toggleKR()">한글 ON</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- search -->
+<div class="search-box">
+  <input type="text" id="bodySearch" placeholder="Search body part / 신체 부위 검색..." oninput="filterRows(this.value)">
+</div>
+
+<!-- HEAD / NECK -->
+<div class="sys renal" id="head">
+  <div class="sys-bar"><span class="dot">HEAD/NECK</span> 얼굴 · 목</div>
+  <table>
+    <colgroup><col class="c-term"><col class="c-mid"><col class="c-focus"></colgroup>
+    <thead><tr><th>영어</th><th>한국어</th><th>쉽게 / 병동 예시</th></tr></thead>
+    <tbody>
+      <tr data-body="forehead"><td><span class="term">forehead</span></td><td>이마</td><td class="focus">forehead temp — 이마 체온 측정</td></tr>
+      <tr data-body="temple"><td><span class="term">temple</span></td><td>관자놀이</td><td class="focus">머리 옆쪽</td></tr>
+      <tr data-body="jaw"><td><span class="term">jaw</span></td><td>턱뼈 / 턱 라인</td><td class="focus">jaw pain</td></tr>
+      <tr data-body="chin"><td><span class="term">chin</span></td><td>턱끝</td><td class="focus">턱 아래 끝</td></tr>
+      <tr data-body="gum"><td><span class="term">gum</span></td><td>잇몸</td><td class="focus">bleeding gums — 간질환 환자 응고장애 시 관찰</td></tr>
+      <tr data-body="palate"><td><span class="term">palate</span></td><td>입천장</td><td class="focus">hard palate / soft palate</td></tr>
+      <tr data-body="nostril"><td><span class="term">nostril</span></td><td>콧구멍</td><td class="focus">each nostril — NGT 삽입 쪽 확인</td></tr>
+      <tr data-body="nape"><td><span class="term">nape</span></td><td>목덜미</td><td class="focus">목 뒤쪽</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- TRUNK -->
+<div class="sys gastro" id="trunk">
+  <div class="sys-bar"><span class="dot">TRUNK</span> 몸통</div>
+  <table>
+    <colgroup><col class="c-term"><col class="c-mid"><col class="c-focus"></colgroup>
+    <thead><tr><th>영어</th><th>한국어</th><th>쉽게 / 병동 예시</th></tr></thead>
+    <tbody>
+      <tr data-body="chest"><td><span class="term">chest</span></td><td>가슴</td><td class="focus">chest pain</td></tr>
+      <tr data-body="sternum"><td><span class="term">sternum</span></td><td>흉골</td><td class="focus">가슴 중앙 뼈</td></tr>
+      <tr data-body="rib"><td><span class="term">rib</span></td><td>갈비뼈</td><td class="focus">rib pain</td></tr>
+      <tr data-body="abdomen tummy"><td><span class="term">abdomen / tummy</span></td><td>복부 / 배</td><td class="focus">abdomen은 의료용, tummy는 환자 대화용</td></tr>
+      <tr data-body="belly button umbilicus"><td><span class="term">belly button / umbilicus</span></td><td>배꼽</td><td class="focus">umbilicus가 의료용 — 복위 측정 기준점</td></tr>
+      <tr data-body="flank"><td><span class="term">flank</span></td><td>옆구리</td><td class="focus">kidney pain 쪽 — 신장 환자 통증 부위</td></tr>
+      <tr data-body="back"><td><span class="term">back</span></td><td>등</td><td class="focus">back pain</td></tr>
+      <tr data-body="lower back"><td><span class="term">lower back</span></td><td>허리 아래쪽</td><td class="focus">low back pain</td></tr>
+      <tr data-body="spine"><td><span class="term">spine</span></td><td>척추</td><td class="focus">spine precautions</td></tr>
+      <tr data-body="shoulder blade scapula"><td><span class="term">shoulder blade / scapula</span></td><td>날개뼈 / 견갑골</td><td class="focus">등 위쪽 납작한 뼈</td></tr>
+      <tr data-body="buttocks"><td><span class="term">buttocks</span></td><td>엉덩이</td><td class="focus">buttock pain</td></tr>
+      <tr data-body="sacrum"><td><span class="term">sacrum</span></td><td>천골</td><td class="focus">엉덩이 위, 꼬리뼈 근처 — 욕창 호발 부위</td></tr>
+      <tr data-body="tailbone coccyx"><td><span class="term">tailbone / coccyx</span></td><td>꼬리뼈</td><td class="focus">fall 후 아픈 곳</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- PELVIC -->
+<div class="sys hep" id="pelvic">
+  <div class="sys-bar"><span class="dot">PELVIC</span> 민감한 부위 · 병동에서 자주 나옴</div>
+  <table>
+    <colgroup><col class="c-term"><col class="c-mid"><col class="c-focus"></colgroup>
+    <thead><tr><th>영어</th><th>한국어</th><th>쉽게 / 병동 예시</th></tr></thead>
+    <tbody>
+      <tr data-body="groin"><td><span class="term">groin</span></td><td>사타구니</td><td class="focus">inguinal area — 카테터 삽입 부위</td></tr>
+      <tr data-body="genitals"><td><span class="term">genitals</span></td><td>생식기</td><td class="focus">private area</td></tr>
+      <tr data-body="perineum"><td><span class="term">perineum</span></td><td>회음부</td><td class="focus">생식기와 항문 사이 — IDC 위생 관련</td></tr>
+      <tr data-body="anus"><td><span class="term">anus</span></td><td>항문</td><td class="focus">rectal area랑 구분</td></tr>
+      <tr data-body="rectum"><td><span class="term">rectum</span></td><td>직장</td><td class="focus">항문 안쪽 — PR(Per Rectum) 투여 부위</td></tr>
+      <tr data-body="pubic area"><td><span class="term">pubic area</span></td><td>치골 / 음부 주변</td><td class="focus">pubic hair 쪽</td></tr>
+      <tr data-body="penis"><td><span class="term">penis</span></td><td>음경</td><td class="focus">남성 생식기 — IDC 삽입 관련</td></tr>
+      <tr data-body="scrotum"><td><span class="term">scrotum</span></td><td>음낭</td><td class="focus">고환 주머니</td></tr>
+      <tr data-body="testicle testes"><td><span class="term">testicle / testes</span></td><td>고환</td><td class="focus">testicular pain</td></tr>
+      <tr data-body="vulva"><td><span class="term">vulva</span></td><td>외음부</td><td class="focus">여성 바깥 생식기</td></tr>
+      <tr data-body="vagina"><td><span class="term">vagina</span></td><td>질</td><td class="focus">안쪽 통로</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ARM / HAND -->
+<div class="sys renal" id="arm">
+  <div class="sys-bar"><span class="dot">ARM/HAND</span> 팔 · 손</div>
+  <table>
+    <colgroup><col class="c-term"><col class="c-mid"><col class="c-focus"></colgroup>
+    <thead><tr><th>영어</th><th>한국어</th><th>쉽게 / 병동 예시</th></tr></thead>
+    <tbody>
+      <tr data-body="armpit axilla"><td><span class="term">armpit / axilla</span></td><td>겨드랑이</td><td class="focus">axilla가 의료용 — axilla temp</td></tr>
+      <tr data-body="upper arm"><td><span class="term">upper arm</span></td><td>위팔</td><td class="focus">어깨~팔꿈치 — BP 측정 부위</td></tr>
+      <tr data-body="forearm"><td><span class="term">forearm</span></td><td>전완 / 아래팔</td><td class="focus">팔꿈치~손목</td></tr>
+      <tr data-body="elbow"><td><span class="term">elbow</span></td><td>팔꿈치</td><td class="focus">elbow pain</td></tr>
+      <tr data-body="elbow crease"><td><span class="term">elbow crease</span></td><td>팔 접히는 안쪽</td><td class="focus">IV / cannula 자주 넣는 곳</td></tr>
+      <tr data-body="wrist"><td><span class="term">wrist</span></td><td>손목</td><td class="focus">wrist pain — ID 밴드 위치</td></tr>
+      <tr data-body="palm"><td><span class="term">palm</span></td><td>손바닥</td><td class="focus">palm up</td></tr>
+      <tr data-body="back of hand"><td><span class="term">back of hand</span></td><td>손등</td><td class="focus">cannula site — PIVC 삽입 부위</td></tr>
+      <tr data-body="knuckle"><td><span class="term">knuckle</span></td><td>손가락 마디</td><td class="focus">손등 쪽 튀어나온 마디</td></tr>
+      <tr data-body="fingertip"><td><span class="term">fingertip</span></td><td>손끝</td><td class="focus">BGL finger prick 부위</td></tr>
+      <tr data-body="thumb"><td><span class="term">thumb</span></td><td>엄지</td><td class="focus">thumb</td></tr>
+      <tr data-body="index finger"><td><span class="term">index finger</span></td><td>검지</td><td class="focus">pointing finger</td></tr>
+      <tr data-body="middle finger"><td><span class="term">middle finger</span></td><td>중지</td><td class="focus"></td></tr>
+      <tr data-body="ring finger"><td><span class="term">ring finger</span></td><td>약지</td><td class="focus"></td></tr>
+      <tr data-body="little finger pinky"><td><span class="term">little finger / pinky</span></td><td>새끼손가락</td><td class="focus"></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- LEG / FOOT -->
+<div class="sys gastro" id="leg">
+  <div class="sys-bar"><span class="dot">LEG/FOOT</span> 다리 · 발</div>
+  <table>
+    <colgroup><col class="c-term"><col class="c-mid"><col class="c-focus"></colgroup>
+    <thead><tr><th>영어</th><th>한국어</th><th>쉽게 / 병동 예시</th></tr></thead>
+    <tbody>
+      <tr data-body="hip"><td><span class="term">hip</span></td><td>고관절 / 엉덩관절</td><td class="focus">hip replacement</td></tr>
+      <tr data-body="pelvis"><td><span class="term">pelvis</span></td><td>골반</td><td class="focus">pelvic pain</td></tr>
+      <tr data-body="thigh"><td><span class="term">thigh</span></td><td>허벅지</td><td class="focus">upper leg — SC 주사 부위</td></tr>
+      <tr data-body="knee"><td><span class="term">knee</span></td><td>무릎</td><td class="focus">knee pain</td></tr>
+      <tr data-body="back of knee"><td><span class="term">back of knee</span></td><td>오금</td><td class="focus">무릎 뒤쪽</td></tr>
+      <tr data-body="shin"><td><span class="term">shin</span></td><td>정강이</td><td class="focus">앞쪽 — 부종 사정 시 pressing</td></tr>
+      <tr data-body="tibia"><td><span class="term">tibia</span></td><td>경골 / 정강이뼈</td><td class="focus">큰 정강이뼈</td></tr>
+      <tr data-body="fibula"><td><span class="term">fibula</span></td><td>비골</td><td class="focus">바깥쪽 얇은 뼈</td></tr>
+      <tr data-body="calf"><td><span class="term">calf</span></td><td>종아리</td><td class="focus">calf pain — DVT 의심 시 확인</td></tr>
+      <tr data-body="ankle"><td><span class="term">ankle</span></td><td>발목</td><td class="focus">ankle swelling — 부종 사정 부위</td></tr>
+      <tr data-body="heel"><td><span class="term">heel</span></td><td>발뒤꿈치</td><td class="focus">heel pain — 욕창 호발 부위</td></tr>
+      <tr data-body="sole"><td><span class="term">sole</span></td><td>발바닥</td><td class="focus">sole of foot</td></tr>
+      <tr data-body="arch"><td><span class="term">arch</span></td><td>발바닥 아치</td><td class="focus">arch pain</td></tr>
+      <tr data-body="top of foot dorsum"><td><span class="term">top of foot / dorsum</span></td><td>발등</td><td class="focus">dorsal surface — 부종 확인</td></tr>
+      <tr data-body="toe"><td><span class="term">toe</span></td><td>발가락</td><td class="focus">toe pain</td></tr>
+      <tr data-body="big toe great toe"><td><span class="term">big toe</span></td><td>엄지발가락</td><td class="focus">great toe라고도 함</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- WARD EXPRESSIONS -->
+<div class="sys hep" id="expression">
+  <div class="sys-bar"><span class="dot">EXPRESSION</span> 병동에서 많이 듣는 부위 표현</div>
+  <table>
+    <colgroup><col class="c-term"><col class="c-mid"><col class="c-focus"></colgroup>
+    <thead><tr><th>영어 표현</th><th>뜻</th><th>사용 예시</th></tr></thead>
+    <tbody>
+      <tr data-body="groin area"><td><span class="term">groin area</span></td><td>사타구니 쪽</td><td class="focus">femoral catheter 부위 사정</td></tr>
+      <tr data-body="lower abdomen"><td><span class="term">lower abdomen</span></td><td>아랫배</td><td class="focus">IDC 환자 suprapubic pain 사정</td></tr>
+      <tr data-body="upper abdomen"><td><span class="term">upper abdomen</span></td><td>윗배</td><td class="focus">epigastric pain — 위 관련 통증</td></tr>
+      <tr data-body="left right flank"><td><span class="term">left / right flank</span></td><td>왼쪽 / 오른쪽 옆구리</td><td class="focus">신장 통증 사정 시</td></tr>
+      <tr data-body="around wound site"><td><span class="term">around the wound site</span></td><td>상처 주변</td><td class="focus">wound assessment 시</td></tr>
+      <tr data-body="under breast"><td><span class="term">under the breast</span></td><td>가슴 아래</td><td class="focus">피부 발적·곰팡이 감염 호발 부위</td></tr>
+      <tr data-body="between toes"><td><span class="term">between the toes</span></td><td>발가락 사이</td><td class="focus">피부 사정 — 곰팡이 감염 확인</td></tr>
+      <tr data-body="behind knee popliteal"><td><span class="term">behind the knee</span></td><td>무릎 뒤쪽</td><td class="focus">popliteal area</td></tr>
+      <tr data-body="over shin"><td><span class="term">over the shin</span></td><td>정강이 위쪽</td><td class="focus">pitting oedema 사정 부위</td></tr>
+      <tr data-body="palm side palmar"><td><span class="term">on the palm side</span></td><td>손바닥 쪽</td><td class="focus">palmar surface</td></tr>
+      <tr data-body="back of hand dorsal"><td><span class="term">on the back of the hand</span></td><td>손등 쪽</td><td class="focus">PIVC 삽입 부위 사정</td></tr>
+      <tr data-body="around sacrum pressure injury"><td><span class="term">around the sacrum</span></td><td>천골 / 엉덩이 위쪽 주변</td><td class="focus">pressure injury 호발 부위 — 매 교대 확인</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<footer>
+  신체 부위 핸드북 · Body Parts Reference<br>
+  학습용 참고자료. 항상 소속 병원의 정책과 가이드라인을 따르세요.
+</footer>
+
+</div>
+
+<script>
+  function toggleKR(){
+    document.body.classList.toggle('hide-kr');
+    const btn = document.getElementById('krToggle');
+    const on = !document.body.classList.contains('hide-kr');
+    btn.textContent = on ? '한글 ON' : '한글 OFF';
+    btn.classList.toggle('on', !on);
+  }
+
+  function filterRows(q){
+    q = q.toLowerCase().trim();
+    const rows = document.querySelectorAll('tbody tr');
+    if(!q){
+      rows.forEach(r => { r.classList.remove('highlight','dim') });
+      return;
+    }
+    rows.forEach(r => {
+      const text = (r.getAttribute('data-body') || '') + ' ' + r.textContent.toLowerCase();
+      if(text.includes(q)){
+        r.classList.add('highlight');
+        r.classList.remove('dim');
+      } else {
+        r.classList.remove('highlight');
+        r.classList.add('dim');
+      }
+    });
+  }
+
+  document.querySelectorAll('.navlinks a').forEach(a => {
+    a.addEventListener('click', function(e){
+      const href = this.getAttribute('href');
+      if(href && href.startsWith('#')){
+        e.preventDefault();
+        const target = document.querySelector(href);
+        if(target){
+          const y = target.getBoundingClientRect().top + window.pageYOffset - 60;
+          window.scrollTo({top: y, behavior: 'smooth'});
+        }
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
