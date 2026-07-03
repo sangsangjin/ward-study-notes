@@ -254,6 +254,71 @@
   /* highlight on search */
   tr.highlight td{background:#fff9c4 !important}
   tr.dim{opacity:.25;transition:opacity .2s}
+
+  /* ---------- stems section ---------- */
+  .stems-table{width:100%;border-collapse:collapse;font-size:.8rem;table-layout:fixed}
+  .stems-table col.c-stem{width:22%}
+  .stems-table col.c-ex{width:36%}
+  .stems-table col.c-desc{width:42%}
+  .stems-table thead th{
+    text-align:left;font-size:.6rem;font-weight:700;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--faint);
+    padding:6px 10px;border-bottom:1px solid var(--line);background:#fafbfc;
+    position:sticky;top:76px;z-index:20;
+  }
+  .stems-table tbody td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.4}
+  .stems-table tbody tr:last-child td{border-bottom:none}
+  .stems-table tbody tr:hover td{background:#f8f9fb}
+  .stems-table .cat-row td{
+    background:#f7f5ff;font-weight:700;font-size:.76rem;color:var(--basic);
+    letter-spacing:.03em;padding:8px 10px;border-bottom:1px solid var(--basic-line);
+  }
+  .stems-table .pri td{background:#fafcff}
+  .stem-name{font-family:var(--mono);font-weight:700;font-size:.78rem;color:var(--ink);display:block;margin-bottom:2px}
+  .stem-class{
+    font-family:var(--mono);font-size:.6rem;font-weight:700;
+    padding:1px 5px;border-radius:4px;display:inline-block;
+    background:var(--basic-bg);color:var(--basic);
+  }
+  .stem-focus{font-size:.76rem;color:var(--muted)}
+  .stem-examples{font-size:.74rem;color:var(--muted)}
+  .stem-examples small{color:var(--faint)}
+
+  /* stems callouts */
+  .stem-callout{
+    border-radius:10px;padding:12px 14px;margin:10px 0;
+    font-size:.78rem;line-height:1.55;
+    border:1px solid var(--flag-line);background:var(--flag-bg);color:var(--ink);
+  }
+  .stem-callout .sc-title{font-weight:700;color:var(--flag);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+  .stem-callout ul{margin:0;padding-left:16px}
+  .stem-callout li{margin:2px 0}
+  .stem-phrase{
+    border-radius:10px;border:1px solid var(--line);background:var(--card);
+    padding:14px 16px;margin:10px 0;position:relative;overflow:hidden;
+  }
+  .stem-phrase::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--basic)}
+  .stem-phrase .sp-label{
+    font-family:var(--mono);font-size:.62rem;font-weight:700;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--basic);margin-bottom:6px;display:block;
+  }
+  .stem-phrase .sp-en{font-size:.78rem;font-weight:500;line-height:1.6;color:var(--ink)}
+  .stem-phrase .sp-kr{font-size:.72rem;margin-top:6px;color:var(--muted);font-weight:300}
+  .stem-phrase code{
+    font-family:var(--mono);font-size:.74rem;font-weight:700;
+    background:var(--basic-bg);color:var(--basic);padding:1px 5px;border-radius:3px;
+  }
+
+  @media(max-width:680px){
+    .stems-table{font-size:.72rem;table-layout:auto}
+    .stems-table col.c-stem,.stems-table col.c-ex,.stems-table col.c-desc{width:auto}
+    .stems-table thead th{font-size:.55rem;padding:5px 6px;top:68px}
+    .stems-table tbody td{padding:6px 6px}
+    .stem-name{font-size:.7rem}
+    .stem-class{font-size:.54rem}
+    .stem-focus{font-size:.68rem}
+    .stem-examples{font-size:.66rem}
+  }
 </style>
 </head>
 <body>
@@ -287,6 +352,7 @@
       <a href="#dm">당뇨</a>
       <a href="#ivf">수액</a>
       <a href="#other">기타</a>
+      <a href="#stems">이름패턴</a>
       <a href="#schedule">S1-S8</a>
     </nav>
     <button class="toggle-btn" id="krToggle" onclick="toggleKR()">한글 ON</button>
@@ -1083,7 +1149,126 @@
 </section>
 
 <!-- ============================================================ -->
-<!--  13. AUSTRALIAN DRUG SCHEDULES S1–S8                          -->
+<!--  13. DRUG NAME STEMS 약 이름 패턴                              -->
+<!-- ============================================================ -->
+<section class="drug-section" id="stems">
+  <div class="sec-header" style="background:var(--basic)">
+    <span class="sec-num">STEM</span> DRUG NAME STEMS <span class="sec-kr kr">약 이름 패턴</span>
+  </div>
+
+  <div class="callout" style="border-left:3px solid var(--basic);background:var(--basic-bg)">
+    약 이름의 끝(suffix)이나 앞(prefix)을 보면 어떤 계열인지 감 잡을 수 있어요.
+    WHO INN(국제일반명) stem 기반. 호주에서는 brand name보다 <strong>generic name(active ingredient)</strong>이 중요합니다.
+    <strong style="color:#e67e22">★ = 우선 암기</strong>
+  </div>
+
+  <div class="drug-table-wrap">
+    <table class="stems-table">
+      <colgroup><col class="c-stem"><col class="c-ex"><col class="c-desc"></colgroup>
+      <thead><tr><th>이름 패턴 Stem</th><th>예시 Examples</th><th>쉽게 말하면</th></tr></thead>
+      <tbody>
+
+        <tr class="cat-row"><td colspan="3">■ 심장 · 혈압 · 신장 — Cardiovascular / Renal</td></tr>
+        <tr class="pri"><td><span class="stem-name">-pril ★</span><span class="stem-class">ACE Inhibitor</span></td><td class="stem-examples">perindopril, ramipril, enalapril</td><td class="stem-focus">혈압 ↓, heart failure · renal protection 1차 약</td></tr>
+        <tr class="pri"><td><span class="stem-name">-sartan ★</span><span class="stem-class">ARB</span></td><td class="stem-examples">candesartan, irbesartan, telmisartan, valsartan</td><td class="stem-focus">ACEi와 비슷, 기침 부작용 적음</td></tr>
+        <tr class="pri"><td><span class="stem-name">-olol ★</span><span class="stem-class">Beta Blocker</span></td><td class="stem-examples">metoprolol, bisoprolol, atenolol</td><td class="stem-focus">HR ↓ · BP ↓ — 투약 전 HR · BP 확인</td></tr>
+        <tr class="pri"><td><span class="stem-name">-dipine ★</span><span class="stem-class">CCB</span></td><td class="stem-examples">amlodipine, nifedipine</td><td class="stem-focus">혈관 이완 → BP ↓</td></tr>
+        <tr class="pri"><td><span class="stem-name">-statin ★</span><span class="stem-class">Statin</span></td><td class="stem-examples">atorvastatin, rosuvastatin, simvastatin</td><td class="stem-focus">cholesterol ↓</td></tr>
+        <tr class="pri"><td><span class="stem-name">-semide ★</span><span class="stem-class">Loop Diuretic</span></td><td class="stem-examples">furosemide / frusemide</td><td class="stem-focus">강력 이뇨 → fluid overload 줄임</td></tr>
+        <tr><td><span class="stem-name">-thiazide</span><span class="stem-class">Thiazide Diuretic</span></td><td class="stem-examples">hydrochlorothiazide <small>(indapamide는 예외)</small></td><td class="stem-focus">혈압 · 부종 조절</td></tr>
+        <tr><td><span class="stem-name">nitr- / -nitrate</span><span class="stem-class">Nitrate</span></td><td class="stem-examples">glyceryl trinitrate (GTN), isosorbide mononitrate</td><td class="stem-focus">chest pain · angina → 혈관 확장</td></tr>
+
+        <tr class="cat-row"><td colspan="3">■ 항응고제 — Anticoagulants</td></tr>
+        <tr class="pri"><td><span class="stem-name">-parin ★</span><span class="stem-class">Heparin 계열</span></td><td class="stem-examples">heparin, enoxaparin, dalteparin</td><td class="stem-focus">DVT · PE 예방/치료 — bleeding risk 확인</td></tr>
+        <tr class="pri"><td><span class="stem-name">-xaban ★</span><span class="stem-class">Factor Xa (DOAC)</span></td><td class="stem-examples">apixaban, rivaroxaban</td><td class="stem-focus">oral anticoagulant — bleeding risk 확인</td></tr>
+        <tr><td><span class="stem-name">-gatran</span><span class="stem-class">Direct Thrombin Inh.</span></td><td class="stem-examples">dabigatran</td><td class="stem-focus">oral anticoagulant</td></tr>
+        <tr><td><span class="stem-name">warfarin</span><span class="stem-class">Vit K Antagonist</span></td><td class="stem-examples">warfarin</td><td class="stem-focus">INR 모니터 필수 — 패턴 없이 그냥 외우기</td></tr>
+
+        <tr class="cat-row"><td colspan="3">■ 항생제 · 감염 — Antibiotics / Anti-Infectives</td></tr>
+        <tr class="pri"><td><span class="stem-name">-cillin ★</span><span class="stem-class">Penicillin</span></td><td class="stem-examples">amoxicillin, flucloxacillin, piperacillin</td><td class="stem-focus">항생제 — penicillin allergy 반드시 확인</td></tr>
+        <tr><td><span class="stem-name">cef- / ceph-</span><span class="stem-class">Cephalosporin</span></td><td class="stem-examples">cefazolin, ceftriaxone, cefepime</td><td class="stem-focus">항생제 — IV 많이 봄, penicillin 교차알레르기 가능</td></tr>
+        <tr class="pri"><td><span class="stem-name">-floxacin ★</span><span class="stem-class">Fluoroquinolone</span></td><td class="stem-examples">ciprofloxacin, moxifloxacin</td><td class="stem-focus">항생제</td></tr>
+        <tr><td><span class="stem-name">-cycline</span><span class="stem-class">Tetracycline</span></td><td class="stem-examples">doxycycline</td><td class="stem-focus">항생제</td></tr>
+        <tr><td><span class="stem-name">-mycin</span><span class="stem-class">여러 계열 (주의!)</span></td><td class="stem-examples">azithromycin <small>(macrolide)</small>, gentamicin <small>(aminoglycoside)</small>, vancomycin <small>(glycopeptide)</small></td><td class="stem-focus">"항생제?" 하고 감 잡기 — 단, 계열은 제각각!</td></tr>
+        <tr><td><span class="stem-name">-penem</span><span class="stem-class">Carbapenem</span></td><td class="stem-examples">meropenem, ertapenem</td><td class="stem-focus">broad-spectrum IV 항생제 (중증 감염)</td></tr>
+        <tr class="pri"><td><span class="stem-name">-azole ★</span><span class="stem-class">Antifungal / Antimicrobial</span></td><td class="stem-examples">fluconazole <small>(항진균)</small>, metronidazole <small>(혐기성균)</small></td><td class="stem-focus">fluconazole = fungal, metronidazole = anaerobe</td></tr>
+
+        <tr class="cat-row"><td colspan="3">■ 위장약 · 구토 — GI / Antiemetics</td></tr>
+        <tr class="pri"><td><span class="stem-name">-prazole ★</span><span class="stem-class">PPI</span></td><td class="stem-examples">pantoprazole, omeprazole, esomeprazole</td><td class="stem-focus">stomach acid ↓ — 궤양 · GERD · GI bleed</td></tr>
+        <tr><td><span class="stem-name">-tidine</span><span class="stem-class">H2 Blocker</span></td><td class="stem-examples">famotidine</td><td class="stem-focus">stomach acid ↓ (PPI보다 약함)</td></tr>
+        <tr class="pri"><td><span class="stem-name">-setron ★</span><span class="stem-class">5-HT3 Antiemetic</span></td><td class="stem-examples">ondansetron</td><td class="stem-focus">nausea · vomiting ↓</td></tr>
+        <tr><td><span class="stem-name">-pramide</span><span class="stem-class">Prokinetic</span></td><td class="stem-examples">metoclopramide</td><td class="stem-focus">nausea ↓ + gastric emptying ↑</td></tr>
+        <tr><td><span class="stem-name">-lax / lact- / macrogol</span><span class="stem-class">Laxative</span></td><td class="stem-examples">lactulose, macrogol</td><td class="stem-focus">constipation 관리</td></tr>
+
+        <tr class="cat-row"><td colspan="3">■ 통증 · 마취 · 진정 — Pain / Anaesthesia / Sedation</td></tr>
+        <tr class="pri"><td><span class="stem-name">-caine ★</span><span class="stem-class">Local Anaesthetic</span></td><td class="stem-examples">lignocaine / lidocaine, bupivacaine</td><td class="stem-focus">국소마취</td></tr>
+        <tr><td><span class="stem-name">-codone</span><span class="stem-class">Opioid</span></td><td class="stem-examples">oxycodone</td><td class="stem-focus">strong pain relief — RR · sedation 관찰</td></tr>
+        <tr><td><span class="stem-name">morph-</span><span class="stem-class">Opioid</span></td><td class="stem-examples">morphine</td><td class="stem-focus">strong opioid — S8 규제약물</td></tr>
+        <tr><td><span class="stem-name">fenta-</span><span class="stem-class">Opioid</span></td><td class="stem-examples">fentanyl</td><td class="stem-focus">very strong opioid — S8</td></tr>
+        <tr class="pri"><td><span class="stem-name">-pam / -lam ★</span><span class="stem-class">Benzodiazepine</span></td><td class="stem-examples">diazepam, midazolam, lorazepam</td><td class="stem-focus">sedation · anxiety · seizure — resp. depression · falls risk</td></tr>
+        <tr><td><span class="stem-name">-fenac</span><span class="stem-class">NSAID</span></td><td class="stem-examples">diclofenac</td><td class="stem-focus">anti-inflammatory pain relief</td></tr>
+        <tr><td><span class="stem-name">-coxib</span><span class="stem-class">COX-2 NSAID</span></td><td class="stem-examples">celecoxib, parecoxib</td><td class="stem-focus">anti-inflammatory (위장 부작용 상대적 ↓)</td></tr>
+
+        <tr class="cat-row"><td colspan="3">■ 호흡기 — Respiratory</td></tr>
+        <tr><td><span class="stem-name">-terol</span><span class="stem-class">Beta-2 Agonist</span></td><td class="stem-examples">salbutamol, salmeterol, formoterol</td><td class="stem-focus">기관지 확장</td></tr>
+        <tr><td><span class="stem-name">-tropium</span><span class="stem-class">Anticholinergic</span></td><td class="stem-examples">ipratropium, tiotropium</td><td class="stem-focus">기관지 확장 (inhaler)</td></tr>
+        <tr><td><span class="stem-name">-sonide / -asone</span><span class="stem-class">Inhaled Corticosteroid</span></td><td class="stem-examples">budesonide, fluticasone</td><td class="stem-focus">inflammation ↓ (흡입 스테로이드)</td></tr>
+
+        <tr class="cat-row"><td colspan="3">■ 당뇨 — Diabetes</td></tr>
+        <tr class="pri"><td><span class="stem-name">-gliflozin ★</span><span class="stem-class">SGLT2 Inhibitor</span></td><td class="stem-examples">empagliflozin, dapagliflozin</td><td class="stem-focus">소변으로 glucose 배출 — UTI · 탈수 · 정상혈당 DKA 주의</td></tr>
+        <tr class="pri"><td><span class="stem-name">-gliptin ★</span><span class="stem-class">DPP-4 Inhibitor</span></td><td class="stem-examples">sitagliptin, linagliptin</td><td class="stem-focus">인크레틴 분해 ↓ → 혈당 ↓</td></tr>
+        <tr><td><span class="stem-name">-tide</span><span class="stem-class">GLP-1 RA</span></td><td class="stem-examples">semaglutide, dulaglutide</td><td class="stem-focus">혈당 ↓ · 체중 ↓</td></tr>
+        <tr><td><span class="stem-name">insulin</span><span class="stem-class">Insulin</span></td><td class="stem-examples">insulin aspart, insulin glargine</td><td class="stem-focus">혈당 ↓ — 종류(속효/지속) 반드시 확인</td></tr>
+
+        <tr class="cat-row"><td colspan="3">■ 스테로이드 · 면역 — Steroids / Immune</td></tr>
+        <tr class="pri"><td><span class="stem-name">-sone / -solone ★</span><span class="stem-class">Corticosteroid</span></td><td class="stem-examples">prednisone, dexamethasone, prednisolone</td><td class="stem-focus">inflammation · immune ↓ — BSL ↑ 주의</td></tr>
+        <tr class="pri"><td><span class="stem-name">-mab ★</span><span class="stem-class">Monoclonal Ab</span></td><td class="stem-examples">rituximab, pembrolizumab, infliximab</td><td class="stem-focus">면역 · 암 · 염증질환 표적 치료</td></tr>
+        <tr class="pri"><td><span class="stem-name">-nib ★</span><span class="stem-class">Kinase Inhibitor</span></td><td class="stem-examples">imatinib, osimertinib</td><td class="stem-focus">cancer · targeted therapy</td></tr>
+
+        <tr class="cat-row"><td colspan="3">■ 정신과 · 신경계 — Psychiatry / Neurology</td></tr>
+        <tr><td><span class="stem-name">-oxetine</span><span class="stem-class">SSRI / SNRI</span></td><td class="stem-examples">fluoxetine, paroxetine, duloxetine</td><td class="stem-focus">depression · anxiety · pain</td></tr>
+        <tr><td><span class="stem-name">-pram</span><span class="stem-class">SSRI</span></td><td class="stem-examples">citalopram, escitalopram</td><td class="stem-focus">depression · anxiety</td></tr>
+        <tr><td><span class="stem-name">-apine</span><span class="stem-class">Antipsychotic</span></td><td class="stem-examples">olanzapine, quetiapine, clozapine</td><td class="stem-focus">psychosis · mood · sedation</td></tr>
+        <tr><td><span class="stem-name">-zepine</span><span class="stem-class">Anticonvulsant</span></td><td class="stem-examples">carbamazepine, oxcarbazepine</td><td class="stem-focus">seizure · mood stabiliser</td></tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <div class="stem-callout">
+    <div class="sc-title">주의: 이름 패턴 ≠ 100% 확정</div>
+    <ul>
+      <li><strong>-pine</strong>은 헷갈림: aml<em>odipine</em> = 혈압약(CCB), qu<em>etiapine</em> = 항정신병약. 끝부분만 믿으면 안 됨.</li>
+      <li><strong>-mycin</strong>은 다 같은 계열이 아님: azithromycin(macrolide) ≠ gentamicin(aminoglycoside) ≠ vancomycin(glycopeptide).</li>
+      <li>패턴은 <strong>힌트</strong>일 뿐 — 최종 확인은 medication chart · MIMS/AMH · RN/pharmacist.</li>
+    </ul>
+  </div>
+
+  <div class="stem-phrase">
+    <span class="sp-label">THINKING PROCESS — 약 이름 들었을 때 생각 순서</span>
+    <div class="sp-en">
+      <strong>bisoprolol</strong> → <code>-olol</code> → Beta blocker → HR · BP 확인 → bradycardia · hypotension 주의<br>
+      <strong>pantoprazole</strong> → <code>-prazole</code> → PPI → 위산 줄이는 약 → GERD · ulcer · GI bleed?<br>
+      <strong>ceftriaxone</strong> → <code>cef-</code> → Cephalosporin 항생제 → allergy 확인 → IV line · compatibility<br>
+      <strong>enoxaparin</strong> → <code>-parin</code> → Anticoagulant → bleeding risk · bruising · platelet · renal function<br>
+      <strong>empagliflozin</strong> → <code>-gliflozin</code> → SGLT2 inhibitor → UTI · dehydration · ketone 주의
+    </div>
+  </div>
+
+  <div class="stem-phrase">
+    <span class="sp-label">이렇게 말하면 좋아요 — Example Sentences</span>
+    <div class="sp-en">"I think this is a <strong>beta blocker</strong> because it ends in <strong>-olol</strong>. Should I check the patient's heart rate and blood pressure before giving it?"</div>
+    <div class="sp-kr">이 약은 -olol로 끝나서 beta blocker 같은데, 투약 전에 심박수랑 혈압 확인하면 될까요?</div>
+    <div class="sp-en" style="margin-top:8px">"This looks like an <strong>anticoagulant</strong> because it ends in <strong>-xaban</strong>. Should I check for bleeding risk?"</div>
+    <div class="sp-kr">이 약은 -xaban으로 끝나서 항응고제 같은데, bleeding risk 확인하면 될까요?</div>
+    <div class="sp-en" style="margin-top:8px">"Can I double-check what this medication is for before I give it?"</div>
+    <div class="sp-kr">투약하기 전에 이 약이 왜 처방됐는지 확인해도 될까요?</div>
+  </div>
+
+</section>
+
+<!-- ============================================================ -->
+<!--  14. AUSTRALIAN DRUG SCHEDULES S1–S8                          -->
 <!-- ============================================================ -->
 <section class="drug-section" id="schedule">
   <div class="sec-header" style="background:var(--ink)">
