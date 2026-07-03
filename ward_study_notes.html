@@ -231,6 +231,20 @@
   .phrase.stem::before{background:var(--stem)}
   .phrase.stem .lbl{color:var(--stem)}
   .phrase code{font-family:var(--mono);background:#f0f0f0;padding:1px 5px;border-radius:3px;font-size:.88em;font-weight:700}
+
+  /* ---------- conditions drug column ---------- */
+  [id^="drug-"]{scroll-margin-top:60px}
+  .cond-drugs{padding:10px 10px !important;vertical-align:top}
+  .drug-link{
+    display:inline-block;font-family:var(--mono);font-size:.64rem;font-weight:700;
+    padding:3px 7px;border-radius:6px;text-decoration:none;
+    margin:2px 1px;transition:.15s;line-height:1.5;
+    background:var(--paper);color:var(--muted);border:1px solid var(--line);
+  }
+  .drug-link:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .drug-link.warn{background:var(--flag-bg);color:var(--flag);border-color:var(--flag-line)}
+  .drug-link.warn:hover{background:var(--flag);color:#fff}
+  .drug-link.nolink{pointer-events:none;opacity:.65;font-style:italic;border-style:dashed}
 </style>
 </head>
 <body>
@@ -635,7 +649,7 @@
             <td><span class="en">중추에서 통증 역치 ↑ + 해열. 경도~중등도 통증 1차 약. Max 4g/일 (간질환 시 ≤2g/일). 과량 → 간독성(치명적), 해독제 = NAC.</span><span class="kr">뇌에서 통증 문턱을 높이고 열을 내림. 안전하지만 과량 시 간이 망가짐. 복합제 속 숨은 paracetamol 합산 주의.</span></td>
             <td class="focus"><strong>최대 용량 초과 주의</strong>: 복합제(Codapane = paracetamol + codeine 등)에 포함된 paracetamol까지 합산해야 함. <strong>간 질환 환자</strong>: 감량 처방(≤2g/일) 확인. <strong>투약 간격</strong> 지키기: 최소 4시간. 환자가 자가 복용(PRN)할 때 중복 복용 여부 확인. OTC(처방전 없이 구매 가능)이므로 환자에게 추가 복용 여부 물어보기.</td>
           </tr>
-          <tr>
+          <tr id="drug-nsaids">
             <td><span class="term">NSAIDs</span><span class="abbr">비스테로이드성 소염진통제</span><span class="sch s2">S2</span> / <span class="sch s4">S4</span><br><small>예: Ibuprofen (S2), Naproxen, Diclofenac, Celecoxib (S4)</small></td>
             <td><span class="en">COX 차단 → prostaglandin ↓ → 염증·통증·발열 ↓. 근골격·수술 후 통증에 효과적. 부작용: 위 보호막 ↓(궤양·출혈), 신장 혈류 ↓(AKI), 혈소판 억제.</span><span class="kr">염증을 일으키는 프로스타글란딘을 줄여서 통증·부기·열을 잡음. 대신 위벽 보호·신장 혈류도 같이 줄어 부작용 주의.</span></td>
             <td class="focus"><strong>신장 환자에게 금기/주의</strong>: AKI·CKD 환자에서 신기능을 악화시킬 수 있음 — eGFR·Cr 확인. <strong>위장 출혈 위험</strong>: 검은 변(melena), 복통, 구역감 관찰 — PPI 병용 여부 확인. <strong>혈압 상승</strong> 가능: 수분·나트륨 저류 유발. <strong>출혈 위험 증가</strong>: 항응고제(warfarin 등) 병용 시 출혈 위험 ↑. 단기간 사용 권장. 고령자 특히 주의.</td>
@@ -667,37 +681,37 @@
         <colgroup><col class="c-term"><col class="c-mid"><col class="c-focus"></colgroup>
         <thead><tr><th>약 Drug</th><th>작용 · 기전 Action / Mechanism</th><th>관찰 · 주의 Monitor / Caution</th></tr></thead>
         <tbody>
-          <tr>
+          <tr id="drug-furosemide">
             <td><span class="term">Furosemide / Frusemide</span><span class="abbr">Loop Diuretic (루프 이뇨제)</span></td>
             <td><span class="en">Loop of Henle에서 Na⁺·수분 재흡수 차단 → 강력한 이뇨 → 부종·폐울혈 해소. 부작용: BP ↓, K⁺ ↓, 탈수.</span><span class="kr">신장 헨레고리에서 물·나트륨을 강하게 빼내는 강력한 이뇨제. 부종·폐에 물 찼을 때 핵심 약.</span></td>
             <td class="focus"><strong>저혈압(hypotension)</strong> 확인: 투약 전후 혈압 측정 필수. <strong>저칼륨혈증(hypokalaemia)</strong>: 혈중 칼륨(K⁺) 수치 정기적으로 확인 — 칼륨이 너무 낮으면 부정맥(심장 리듬 이상) 위험. <strong>탈수 징후</strong>: 소변량, 피부 탄력, 구갈(갈증) 관찰. <strong>매일 체중 측정</strong>과 <strong>fluid balance(수분 섭취·배출량 기록)</strong>로 약 효과 평가. 어지러움·기립성 저혈압 시 낙상 주의.</td>
           </tr>
-          <tr>
+          <tr id="drug-spironolactone">
             <td><span class="term">Spironolactone</span><span class="abbr">Potassium-Sparing Diuretic (칼륨 보존 이뇨제)</span></td>
             <td><span class="en">Aldosterone 차단 → Na⁺·수분 배출 but K⁺ 보존. Furosemide(K⁺ ↓)와 병용해 균형 맞춤. 주요 위험: K⁺ ↑ → 부정맥.</span><span class="kr">알도스테론을 막아 물·나트륨은 빼되 칼륨은 지킴. Furosemide가 칼륨을 빼니까 같이 써서 균형 맞춤.</span></td>
             <td class="focus"><strong>고칼륨혈증(hyperkalaemia)</strong>: 혈중 칼륨(K⁺) 수치 정기적으로 확인 — Furosemide는 칼륨을 낮추고 Spironolactone은 칼륨을 높이므로 반대 방향임을 기억. <strong>신장 기능(renal function)</strong>: 크레아티닌(creatinine)과 전해질(electrolytes) 혈액검사 모니터. 고칼륨 증상: 근육 약화, 심장 두근거림, 부정맥 — 이상 시 즉시 보고. 복수 환자의 경우 <strong>복위(복부 둘레)</strong> 측정으로 효과 평가.</td>
           </tr>
-          <tr>
+          <tr id="drug-acei-arb">
             <td><span class="term">ACE Inhibitors / ARBs</span><span class="abbr">Angiotensin-Converting Enzyme Inhibitors (안지오텐신 전환효소 억제제) / Angiotensin II Receptor Blockers (안지오텐신 II 수용체 차단제) — 예: Perindopril, Ramipril, Irbesartan</span></td>
             <td><span class="en">Angiotensin 경로 차단 → 사구체 내 압력 ↓ → 신장 보호 + BP ↓. CKD 진행 지연의 핵심 약. 부작용: K⁺ ↑, Cr ↑, 기침(ACEi).</span><span class="kr">사구체 압력을 낮춰 신장 손상을 늦추는 게 핵심 목적. 혈압 강하 + 신장 보호를 동시에 함.</span></td>
             <td class="focus"><strong>칼륨(K⁺)과 크레아티닌(creatinine) 상승</strong> 가능: 혈액검사 정기적으로 확인. <strong>AKI(Acute Kidney Injury, 급성 신장 손상)</strong>이나 <strong>sick day(환자가 구토·설사·발열 등으로 아플 때)</strong>에는 일시적으로 약을 보류(중단)하기도 함 — 의사에게 확인. ACE 억제제는 <strong>마른 기침</strong>을 유발할 수 있음 — 환자에게 기침 발생 여부 물어보기. <strong>혈압</strong> 모니터: 특히 첫 복용 시 또는 용량 변경 시 저혈압(어지러움, 실신) 주의.</td>
           </tr>
-          <tr>
+          <tr id="drug-phosphate-binders">
             <td><span class="term">Phosphate Binders</span><span class="abbr">인산 결합제 — 예: Calcium Carbonate (탄산칼슘), Sevelamer (세벨라머)</span></td>
             <td><span class="en">CKD → 신장이 인(PO₄³⁻) 배출 못함 → 고인산혈증. 식사와 함께 복용 → 장에서 음식 속 인산과 결합 → 대변으로 배출. 반드시 식사와 함께!</span><span class="kr">못 나가는 인을 장에서 붙잡아 대변으로 빼냄. 음식 속 인과 결합해야 하므로 반드시 밥 먹을 때 같이 복용.</span></td>
             <td class="focus"><strong>반드시 식사와 함께 복용</strong>해야 효과가 있음 — 식간이나 공복에 먹으면 결합할 인산이 없어 효과 없음. 환자 교육 시 이 점 강조. <strong>혈중 인산(phosphate)과 칼슘(calcium) 수치</strong> 정기적으로 확인. Calcium carbonate 사용 시 <strong>고칼슘혈증(hypercalcaemia)</strong> 가능 — 구역감, 변비, 혼란 등의 증상 관찰. CKD 환자에게 매우 흔히 처방되는 약물.</td>
           </tr>
-          <tr>
+          <tr id="drug-epo">
             <td><span class="term">EPO / Darbepoetin</span><span class="abbr">Erythropoietin (에리스로포이에틴, 적혈구 생성 촉진 호르몬)</span></td>
             <td><span class="en">CKD → 신장 EPO 생산 ↓ → 적혈구 ↓ → 빈혈. EPO/Darbepoetin 투여 → 골수에서 적혈구 생산 ↑ → Hb ↑.</span><span class="kr">망가진 신장이 EPO를 못 만들어 빈혈이 옴. 부족한 EPO를 주사로 보충해 적혈구를 다시 만들게 함.</span></td>
             <td class="focus">보통 <strong>피하주사(subcutaneous injection)</strong>로 투여 — 주사 부위 확인 및 교대 투여. <strong>헤모글로빈(Hb) 수치</strong> 정기적으로 모니터: 목표 범위 초과 시 혈전 위험 증가. <strong>혈압(BP) 상승</strong> 가능: EPO가 적혈구를 늘리면 혈액 점도가 올라가 혈압이 상승할 수 있음 — 투약 전후 혈압 확인. 두통, 관절통 등의 부작용 관찰.</td>
           </tr>
-          <tr>
+          <tr id="drug-iron">
             <td><span class="term">Iron (철분 보충제)</span><span class="abbr">Iron Supplement (철분 보충제) — 경구(Oral) 또는 정맥주사(IV, Intravenous)</span></td>
             <td><span class="en">철분 = Hb 원료. 부족하면 빈혈 악화. 경구 or IV 투여. EPO가 적혈구를 만들려면 철분이 있어야 함 → EPO와 함께 보충.</span><span class="kr">헤모글로빈을 만드는 재료인 철분을 보충. EPO로 적혈구 생산을 늘려도 철분이 없으면 소용없으므로 같이 줌.</span></td>
             <td class="focus">경구 철분: <strong>변이 검게</strong> 변할 수 있음 — 환자에게 미리 설명. 위장 장애(구역감, 변비) 가능. <strong>IV 철분 투여 시</strong>: 과민반응(anaphylaxis) 위험이 있으므로 <strong>활력징후(vital signs) 밀착 관찰</strong> 필수 — 특히 투여 시작 후 15분간. 두드러기, 호흡곤란, 저혈압, 흉통 발생 시 즉시 투여 중단하고 보고. 철분 수치(ferritin, transferrin saturation) 혈액검사 추적.</td>
           </tr>
-          <tr>
+          <tr id="drug-k-lowering">
             <td><span class="term">K⁺-Lowering Treatment (칼륨 저하 치료)</span><span class="abbr">Insulin with Dextrose (인슐린/포도당), Calcium Gluconate (글루콘산칼슘), Potassium Binders (칼륨 결합제)</span></td>
             <td><span class="en">K⁺ ↑↑ 응급 치료 3단계: ① Ca²⁺ Gluconate IV = 심장 보호(K⁺ 안 낮춤) ② Insulin + Dextrose IV = K⁺를 세포 안으로 밀어넣음 ③ K⁺ Binder = 장에서 K⁺ 흡착 → 대변 배출.</span><span class="kr">칼륨이 너무 높으면 심장 멈출 수 있어서 응급. 1단계: 심장 보호, 2단계: 칼륨을 세포 안으로, 3단계: 장으로 배출.</span></td>
             <td class="focus"><strong>인슐린 투여 시 저혈당(hypoglycaemia) 위험</strong>: 투여 후 최소 4~6시간 동안 <strong>혈당(BSL, Blood Sugar Level) 반복 측정</strong> 필수. 저혈당 증상(떨림, 발한, 혼란, 무력감) 관찰. <strong>심전도(ECG) 모니터링</strong>: 고칼륨 시 심전도 변화(뾰족한 T파, QRS 확장) 확인. <strong>혈중 칼륨(K⁺) 재검사</strong>: 치료 후 1~2시간 뒤 칼륨 수치 재확인하여 효과 평가. Calcium Gluconate는 반드시 <strong>심전도 모니터 하에</strong> 천천히 IV 투여.</td>
@@ -713,17 +727,17 @@
         <colgroup><col class="c-term"><col class="c-mid"><col class="c-focus"></colgroup>
         <thead><tr><th>약 Drug</th><th>작용 · 기전 Action / Mechanism</th><th>관찰 · 주의 Monitor / Caution</th></tr></thead>
         <tbody>
-          <tr>
+          <tr id="drug-ppi">
             <td><span class="term">PPI</span><span class="abbr">Proton Pump Inhibitor (양성자 펌프 억제제) — 예: Pantoprazole (판토프라졸), Esomeprazole (에소메프라졸), Omeprazole (오메프라졸)</span></td>
             <td><span class="en">벽세포 proton pump 차단 → 위산 분비 크게 ↓. 궤양 치유 촉진, GI 출혈 시 IV 투여. 장기 부작용: Mg²⁺ ↓, 골절 위험, C. diff.</span><span class="kr">위산을 만드는 펌프를 막아서 산 분비를 확 줄임. 궤양·역류·위장 출혈에 핵심 약.</span></td>
             <td class="focus"><strong>GI 출혈(위장관 출혈) 시 IV로 투여</strong>하는 경우가 많음 — 주입 속도 및 용량 확인. 출혈 환자: <strong>대변 색깔</strong>(검은색=흑색변 melena, 빨간색=혈변 haematochezia), <strong>구토물에 혈액</strong>(토혈 haematemesis) 여부, <strong>활력징후(vital signs)</strong> 밀착 관찰. 장기 복용 환자: <strong>저마그네슘혈증(hypomagnesaemia)</strong> — 근육 경련, 떨림 관찰. <strong>골밀도 감소</strong> 및 <strong>C. difficile 감염</strong>(항생제 관련 설사) 위험 인지.</td>
           </tr>
-          <tr>
+          <tr id="drug-antiemetics">
             <td><span class="term">Antiemetics (항구토제)</span><span class="abbr">Antiemetic Drugs (구토 방지 약물) — 예: Ondansetron (온단세트론), Metoclopramide (메토클로프라마이드)</span></td>
             <td><span class="en">Ondansetron: 5-HT3 차단 → 구토 중추 억제. Metoclopramide: 도파민 차단 → 오심 ↓ + 위 배출 촉진. Metoclopramide 부작용: EPS(얼굴 경련·경직).</span><span class="kr">구토 신호를 뇌에서 차단하는 약. Ondansetron = 세로토닌 차단, Metoclopramide = 도파민 차단 + 위 운동 촉진.</span></td>
             <td class="focus"><strong>Metoclopramide 투여 시 추체외로 증상(EPS)</strong> 관찰 필수: 얼굴·목·혀의 비자발적 움직임, 근육 경직, 안절부절 — 증상 발견 시 즉시 보고하고 약 중단 고려. <strong>탈수 징후</strong> 관찰: 소변량, 구갈, 피부 탄력. 구토 횟수·양 기록하여 약 효과 평가. Ondansetron은 <strong>변비</strong>와 <strong>두통</strong>을 유발할 수 있음 — 배변 상태 확인. 구토가 지속되면 <strong>경구 약물 흡수 불가</strong>할 수 있으므로 투여 경로(IV, IM) 변경 필요 여부 확인.</td>
           </tr>
-          <tr>
+          <tr id="drug-laxatives">
             <td><span class="term">Laxatives / Aperients (완하제 / 배변 촉진제)</span><span class="abbr">Laxative Drugs (완하제) — 예: Movicol (모비콜, 삼투성), Lactulose (락툴로오스, 삼투성), Senna (센나, 자극성), Docusate (도쿠세이트, 변 연화제)</span></td>
             <td><span class="en">① 삼투성(Movicol, Lactulose) = 장에 물 끌어들임 ② 자극성(Senna) = 장 근육 수축 ③ 연화제(Docusate) = 변에 수분 추가. 오피오이드 사용 시 반드시 병용.</span><span class="kr">물을 끌어오거나(삼투성), 장을 자극하거나(자극성), 변을 부드럽게(연화제) 해서 배변 유도. 오피오이드 쓰면 거의 필수.</span></td>
             <td class="focus"><strong>배변 기록(bowel chart)</strong> 작성: 마지막 배변 날짜, 횟수, 대변의 양상(Bristol Stool Chart 기준) 기록. <strong>오피오이드 사용 환자</strong>에게는 변비 예방을 위해 완하제가 반드시 병용되고 있는지 확인. <strong>복부 팽만</strong>, 통증, 구역감 관찰 — 장폐색(bowel obstruction) 가능성 배제. 삼투성 완하제 사용 시 충분한 <strong>수분 섭취</strong> 권장. 과도한 사용 시 <strong>설사·탈수·전해질 불균형</strong> 주의.</td>
@@ -733,12 +747,12 @@
             <td><span class="en">대장내시경 전 장 비우기. 삼투 효과 → 장에 물 유입 → 물설사로 대변 전부 배출. 수 리터 음용. 위험: 탈수, BP ↓, K⁺ ↓, Na⁺ ↓.</span><span class="kr">내시경 전에 장을 깨끗이 비우는 용액. 대량 수분 손실 → 탈수·저혈압·전해질 불균형 주의.</span></td>
             <td class="focus"><strong>수분 섭취량과 배출량</strong> 기록(fluid balance). <strong>어지러움·실신·기립성 저혈압</strong> 관찰 — <strong>낙상 예방</strong>을 위해 화장실 이동 시 도움 제공, 호출벨 가까이 두기. <strong>전해질(electrolytes)</strong> 모니터: 특히 칼륨(K⁺)과 나트륨(Na⁺). 고령 환자, 신장 질환 환자, 심장 질환 환자에게는 위험이 더 높으므로 <strong>활력징후 자주 측정</strong>. 환자가 용액을 다 마시지 못하는 경우 의료팀에 보고.</td>
           </tr>
-          <tr>
+          <tr id="drug-antibiotics">
             <td><span class="term">Antibiotics (항생제)</span><span class="abbr">Antibiotic Drugs (항생제) — 예: Ceftriaxone (세프트리악손, 3세대 세팔로스포린), Metronidazole (메트로니다졸, 혐기성 세균용), Piperacillin/Tazobactam (피페라실린/타조박탐, 광범위 항생제, 줄여서 Pip/Taz)</span></td>
             <td><span class="en">세균 감염 치료. Ceftriaxone = 세포벽 파괴. Metronidazole = 혐기성 세균 타겟. Pip/Taz = 중증 광범위. 부작용: 알레르기, 설사, C. diff.</span><span class="kr">세균을 죽이거나 증식을 막음. 약마다 타겟이 다름. 투여 전 알레르기력 확인 필수(특히 페니실린).</span></td>
             <td class="focus"><strong>알레르기력 반드시 확인</strong>: 투여 전 환자에게 항생제 알레르기 병력 질문 — 특히 페니실린(penicillin) 알레르기가 있으면 세팔로스포린 교차반응 가능. <strong>알레르기 반응 징후</strong>: 발진, 두드러기, 호흡곤란, 저혈압 — 아나필락시스(anaphylaxis) 시 즉시 투여 중단 및 응급 대응. <strong>설사</strong> 발생 시 C. difficile 감염 가능성 고려 — 대변 검체 채취 필요 여부 확인. <strong>체온(temperature)·WCC·CRP</strong> 추적하여 항생제 효과 평가. IV 항생제 투여 시 <strong>정맥 접근 부위(IV site)</strong> 감염 징후(발적, 부종, 통증) 관찰.</td>
           </tr>
-          <tr>
+          <tr id="drug-analgesia">
             <td><span class="term">Analgesia (진통제)</span><span class="abbr">Analgesic Drugs (진통 약물) — 예: Paracetamol (파라세타몰, 비오피오이드), Oxycodone (옥시코돈, 오피오이드), Morphine (모르핀, 오피오이드)</span></td>
             <td><span class="en">Paracetamol = 비오피오이드, 통증 역치 ↑. Oxycodone/Morphine = 오피오이드, 통증 신호 차단. 간질환 시 Paracetamol ≤2g/일. 오피오이드 핵심 위험: 호흡억제.</span><span class="kr">가벼운 통증은 Paracetamol, 심한 통증은 오피오이드. 간 환자는 Paracetamol 감량, 오피오이드는 호흡 확인 필수.</span></td>
             <td class="focus"><strong>오피오이드 투여 시 핵심 관찰 사항</strong>: (1) <strong>진정 수준(sedation level)</strong> — 환자가 지나치게 졸리거나 깨우기 어려우면 즉시 보고. (2) <strong>호흡수(respiratory rate)</strong> — 분당 8회 미만이면 호흡 억제로 위험, 즉시 보고. (3) <strong>변비</strong> — 배변 기록 확인, 완하제 병용 여부 확인. (4) <strong>오심·구토</strong> — 항구토제 필요 여부 확인. <strong>통증 점수(pain score)</strong> 정기적으로 평가하여 약 효과 확인. <strong>간 질환 환자</strong>: Paracetamol 1일 최대 용량이 줄어듦(보통 2g/일 이하) — 처방 용량 확인 필수. 오피오이드 과량 시 <strong>Naloxone(날록손, 오피오이드 해독제)</strong> 위치 파악해 두기.</td>
@@ -754,32 +768,32 @@
         <colgroup><col class="c-term"><col class="c-mid"><col class="c-focus"></colgroup>
         <thead><tr><th>약 Drug</th><th>작용 · 기전 Action / Mechanism</th><th>관찰 · 주의 Monitor / Caution</th></tr></thead>
         <tbody>
-          <tr>
+          <tr id="drug-lactulose">
             <td><span class="term">Lactulose (락툴로오스)</span><span class="abbr">Osmotic Laxative (삼투성 완하제) — 간성뇌증 치료 목적으로 사용</span></td>
             <td><span class="en">간성뇌증(HE) 치료. ① 배변 ↑ → 암모니아 빠르게 배출 ② 장 산성화 → NH3 → NH4⁺(비흡수성) 전환. 목표: 하루 2-3회 무른 변.</span><span class="kr">간이 못 치우는 암모니아를 장으로 빼내는 약. 배변을 늘리고 암모니아를 흡수 안 되는 형태로 바꿈. 변 횟수가 효과 지표.</span></td>
             <td class="focus"><strong>배변 횟수와 양상 기록</strong>: 목표는 하루 2~3회 무른 변 — 너무 적으면 용량 증가 필요, 너무 많으면(물설사) 탈수 위험. <strong>의식 수준(consciousness level) 평가</strong>: GCS(Glasgow Coma Scale) 또는 간성뇌증 등급(Grade 1~4) 추적 — 혼란, 졸음, 행동 변화, 손떨림(asterixis/flapping tremor) 관찰. 의식 수준 호전 여부로 약 효과 평가. <strong>탈수 징후</strong> 관찰: 과도한 설사 시 수분·전해질 불균형 가능. 환자가 약 복용을 거부하면 <strong>관장(enema)</strong>으로 투여할 수도 있음 — 의료팀과 상의.</td>
           </tr>
-          <tr>
+          <tr id="drug-rifaximin">
             <td><span class="term">Rifaximin (리팍시민)</span><span class="abbr">Non-Absorbable Gut Antibiotic (비흡수성 장내 항생제)</span></td>
             <td><span class="en">장에서만 작용하는 항생제(혈액 흡수 안 됨) → 암모니아 생성 세균 ↓ → HE 예방. Lactulose와 거의 항상 병용. 부작용 적음.</span><span class="kr">장 안의 암모니아 만드는 세균을 줄이는 항생제. 혈액으로 안 들어가서 부작용 적음. Lactulose와 세트로 사용.</span></td>
             <td class="focus">보통 <strong>Lactulose와 반드시 병용</strong>하여 처방됨 — 두 약이 모두 처방되어 있는지 확인. <strong>의식 수준 변화</strong> 지속적으로 관찰하여 뇌증 재발 여부 평가. 드물지만 <strong>복부 팽만, 복통, 설사</strong> 등의 위장관 부작용 관찰. 환자가 경구 복용이 가능한지 확인 — 의식이 저하된 환자는 삼킴 장애(dysphagia)로 약을 못 삼킬 수 있으므로 대체 경로 고려. <strong>간 기능 검사(LFTs, Liver Function Tests)</strong> 추적.</td>
           </tr>
-          <tr>
+          <tr id="drug-albumin">
             <td><span class="term">Albumin Infusion (알부민 주입)</span><span class="abbr">Human Albumin Solution (사람 알부민 용액) — 혈장 단백질 보충</span></td>
             <td><span class="en">간이 albumin 못 만듦 → 혈관 삼투압 ↓ → 수분이 조직으로 새어나감(부종·복수). IV albumin → 삼투압 ↑ → 수분을 혈관으로 복귀. LVP 후 필수.</span><span class="kr">간이 알부민을 못 만들어 물이 혈관 밖으로 빠짐(복수·부종). 알부민을 수액으로 넣어 물을 혈관 안으로 되돌림.</span></td>
             <td class="focus"><strong>수혈과 유사하게 활력징후(vital signs) 관찰</strong>: 주입 시작 전, 주입 중 15분 간격, 주입 완료 후 혈압·맥박·체온·호흡수 측정. <strong>과민반응(알레르기 반응)</strong> 징후: 발열, 오한, 두드러기, 호흡곤란, 저혈압 — 발생 시 즉시 주입 중단하고 보고. <strong>체액 과부하(fluid overload)</strong> 징후: 호흡곤란, 폐 수포음(crackles), 산소포화도(SpO2) 저하 — 특히 심장 질환이 있는 환자에서 주의. LVP 후에는 보통 <strong>배액 1L당 알부민 6~8g</strong> 비율로 투여 — 처방 용량 확인.</td>
           </tr>
-          <tr>
+          <tr id="drug-vitk">
             <td><span class="term">Vitamin K (비타민 K)</span><span class="abbr">Phytomenadione (피토메나디온) — Coagulation Factor Cofactor (응고인자 보조인자)</span></td>
             <td><span class="en">간이 응고인자(II, VII, IX, X)를 만들 때 Vit K 필요. Vit K 보충 → 응고인자 합성 ↑ → 출혈 위험 ↓. 간부전이 심하면 효과 제한. INR로 평가.</span><span class="kr">간이 피를 굳히는 인자를 만들려면 비타민 K가 필요. 부족하면 출혈 위험 ↑. INR이 안 떨어지면 간 자체가 너무 망가진 것.</span></td>
             <td class="focus"><strong>INR(International Normalised Ratio) 추적</strong>: 비타민 K 투여 전후로 INR 혈액검사를 통해 응고 상태 평가 — INR이 개선되지 않으면 간 기능 저하가 심한 것. <strong>출혈 징후 관찰</strong>: 잇몸 출혈, 코피, 멍이 쉽게 드는 것, 혈뇨(소변에 피), 혈변(대변에 피), 토혈(구토물에 피), 주사 부위 지혈 지연. <strong>투여 경로</strong>: 경구(PO), 정맥주사(IV), 또는 피하주사(SC)로 투여 가능 — IV 투여 시 <strong>아나필락시스 위험</strong>이 있으므로 천천히 투여하고 반응 관찰. 침습적 시술(채혈, 카테터 삽입 등) 전 <strong>응고 상태 확인</strong> 필수.</td>
           </tr>
-          <tr>
+          <tr id="drug-thiamine">
             <td><span class="term">Thiamine (티아민) / Vitamin B1 (비타민 B1)</span><span class="abbr">Thiamine Hydrochloride (티아민 염산염) — Water-Soluble B Vitamin (수용성 비타민 B)</span></td>
             <td><span class="en">알코올 환자 Vit B1 결핍 예방. 부족 → Wernicke's 뇌증(혼란·실조·안근마비) → Korsakoff's(영구 기억상실). 핵심: glucose 수액 전 반드시 thiamine 먼저!</span><span class="kr">술꾼은 B1이 부족 → 뇌증 위험. 포도당 전에 반드시 먼저 줘야 함(순서 틀리면 뇌증 유발). Wernicke → Korsakoff는 비가역적.</span></td>
             <td class="focus"><strong>알코올성 간 질환·알코올 금단(alcohol withdrawal) 환자</strong>에게 흔히 처방됨 — 처방 여부 확인. <strong>반드시 포도당(glucose) 수액 투여 전에 티아민을 먼저 투여</strong>해야 함 — 순서 중요! 포도당을 먼저 주면 베르니케 뇌증 유발 가능. IV 투여 시 드물게 <strong>아나필락시스(anaphylaxis)</strong> 가능 — 투여 중 과민반응 징후(발진, 호흡곤란, 저혈압) 관찰. <strong>신경학적 상태</strong> 평가: 혼란, 보행 불안정, 안구 운동 이상이 있으면 즉시 보고 — 베르니케 뇌증 의심. 알코올 금단 증상(떨림, 발한, 불안, 발작) 동반 관찰.</td>
           </tr>
-          <tr>
+          <tr id="drug-bb-hep">
             <td><span class="term">Beta Blockers (베타 차단제)</span><span class="abbr">Beta-Adrenergic Blocking Agents (베타-아드레날린 수용체 차단제) — 예: Propranolol (프로프라놀롤), Carvedilol (카르베딜롤)</span></td>
             <td><span class="en">간경변 → 문맥 고혈압 → 정맥류(varices) 형성. β-blocker → HR ↓, cardiac output ↓ → 문맥압 ↓ → 정맥류 파열 예방. 1차·2차 예방 모두 사용.</span><span class="kr">간경변으로 문맥 압력이 높아져 생긴 정맥류가 터지는 걸 막기 위해 사용. 심박출량을 줄여 문맥 압력을 낮춤.</span></td>
             <td class="focus"><strong>심박수(heart rate, HR)</strong> 모니터: 투약 전후 맥박 측정 — 목표 안정시 심박수는 보통 55~60회/분. 심박수가 50회/분 미만이면 <strong>서맥(bradycardia)</strong>으로 위험하므로 투여 보류하고 보고. <strong>혈압(blood pressure, BP)</strong> 모니터: 저혈압(수축기 90mmHg 미만) 시 투여 보류하고 보고. <strong>어지러움·실신·피로감</strong> 관찰 — 특히 기립 시(기립성 저혈압). 간경변 환자는 기저 혈압이 낮을 수 있으므로 <strong>베이스라인(기본) 활력징후</strong>를 파악해 두기. 환자가 약을 잘 복용하고 있는지 <strong>복약 순응도</strong> 확인 — 갑자기 중단하면 반동성 빈맥·고혈압 위험.</td>
@@ -798,36 +812,42 @@
     <div class="sys renal">
       <div class="sys-bar"><span class="dot">RENAL</span> 신장 질환</div>
       <table>
-        <colgroup><col class="c-term"><col class="c-mid"><col class="c-focus"></colgroup>
-        <thead><tr><th>병명 Condition</th><th>설명 · 기전 Description / Mechanism</th><th>관찰 포인트 Watch</th></tr></thead>
+        <colgroup><col style="width:14%"><col style="width:11%"><col style="width:42%"><col style="width:33%"></colgroup>
+        <thead><tr><th>병명</th><th>주요 약물</th><th>설명 · 기전</th><th>관찰 포인트</th></tr></thead>
         <tbody>
           <tr>
             <td><span class="term">AKI</span><span class="abbr">Acute Kidney Injury (급성 신손상)</span></td>
+            <td class="cond-drugs"><a href="#drug-furosemide" class="drug-link">Furosemide</a> <a href="#drug-acei-arb" class="drug-link">ACEi/ARBs</a> <a href="#drug-nsaids" class="drug-link warn">NSAIDs ⚠</a></td>
             <td><span class="en">The kidneys suddenly lose filtering ability over hours to days. Waste products (creatinine, urea) and potassium build up in the blood, while extra fluid causes oedema and possible pulmonary oedema. Oliguria or anuria develops. Common causes: dehydration, sepsis, hypotension, nephrotoxic drugs. Untreated AKI can lead to cardiac arrest from hyperkalaemia, fluid overload, or metabolic acidosis. May be reversible if caught early.</span><span class="kr">수 시간~수일 내에 신장 여과 기능이 갑자기 저하됩니다. 노폐물(크레아티닌, 요소)과 칼륨이 혈중에 쌓이고, 과잉 수분으로 부종과 폐부종이 발생합니다. 핍뇨 또는 무뇨가 나타납니다. 주요 원인: 탈수, 패혈증, 저혈압, 신독성 약물. 치료하지 않으면 고칼륨혈증 → 심정지, 체액 과부하, 대사성 산증이 올 수 있습니다. 조기 치료 시 회복 가능합니다.</span></td>
             <td class="focus"><strong>소변량(Urine Output)</strong> 매 시간 측정·기록 — 목표 ≥0.5 mL/kg/hr, 이하 시 즉시 보고. Cr, urea, K⁺ 수치 확인. 수분 섭취량·배출량(fluid balance) 기록. 부종(다리·발목·눈 주위) 사정. 매일 같은 시간 체중 측정 — 24h 내 1kg↑ 시 체액 저류 의심. 신독성 약물(NSAIDs, aminoglycosides, ACEi/ARB, 조영제) 처방 여부 확인 → RN 보고.</td>
           </tr>
           <tr>
             <td><span class="term">Hyperkalaemia</span><span class="abbr">고칼륨혈증 (AKI/CKD 합병증)</span></td>
+            <td class="cond-drugs"><a href="#drug-k-lowering" class="drug-link">K⁺-Lowering</a></td>
             <td><span class="en">Dangerously elevated potassium (K⁺ &gt;5.5 mmol/L) in the blood, most commonly caused by AKI or CKD. The kidneys cannot excrete enough potassium, causing it to accumulate. High K⁺ disrupts cardiac electrical conduction and can cause fatal arrhythmias or cardiac arrest. May be asymptomatic or present with muscle weakness, paraesthesia, and palpitations. K⁺ &gt;6.0 is a medical emergency.</span><span class="kr">혈중 칼륨이 위험하게 상승(K⁺ &gt;5.5 mmol/L)한 상태로, AKI나 CKD에서 가장 흔합니다. 신장이 칼륨을 충분히 배출하지 못해 축적됩니다. 높은 K⁺는 심장 전기 전도를 방해하여 치명적 부정맥이나 심정지를 유발할 수 있습니다. 무증상이거나 근육 약화, 저림, 두근거림이 나타납니다. K⁺ &gt;6.0은 응급입니다.</span></td>
             <td class="focus">K⁺ &gt;5.5이면 위험, &gt;6.0이면 <strong>응급</strong>. ECG 변화 확인 — 높은 T파(peaked T), 넓은 QRS. 증상: 근육 약화, 저림, 두근거림 — 무증상일 수도 있어 혈액 검사가 핵심. <strong>응급 치료 3단계:</strong> ① Ca²⁺ gluconate IV (심장 보호) ② Insulin + Dextrose IV (K⁺를 세포 안으로 이동) ③ K⁺ binder (장에서 K⁺ 배출). 고칼륨 식품(바나나, 오렌지, 토마토, 감자) 제한 여부 확인.</td>
           </tr>
           <tr>
             <td><span class="term">Fluid Overload</span><span class="abbr">체액과다 (AKI/CKD 합병증)</span></td>
+            <td class="cond-drugs"><a href="#drug-furosemide" class="drug-link">Furosemide</a></td>
             <td><span class="en">Excess fluid accumulates in the body when the kidneys cannot excrete enough water and sodium. Common in AKI and advanced CKD. Fluid backs up into the lungs (pulmonary oedema) causing dyspnoea, and into peripheral tissues causing peripheral oedema. Severe cases lead to respiratory failure. Treatment: fluid restriction, diuretics, and in severe cases dialysis/ultrafiltration.</span><span class="kr">신장이 충분한 수분과 나트륨을 배출하지 못해 체내에 과잉 수분이 축적됩니다. AKI와 진행된 CKD에서 흔합니다. 수분이 폐로 역류하면 폐부종(호흡곤란), 말초 조직으로 가면 말초 부종이 발생합니다. 심하면 호흡 부전. 치료: 수분 제한, 이뇨제, 심한 경우 투석/초여과.</span></td>
             <td class="focus">호흡곤란·호흡수 증가·SpO₂ 저하 관찰. 폐 청진 시 <strong>수포음(crackles)</strong> 확인. <strong>기좌호흡(orthopnoea)</strong> — 앉아야 숨쉬기 편한지 관찰. 말초 부종(양쪽 다리·발목·천골) 사정. 매일 체중 측정 — 급격한 증가는 체액 축적. 수분 섭취·배출량(I&O) 정확히 기록. 이뇨제 투여 후 소변량 반응 확인.</td>
           </tr>
           <tr>
             <td><span class="term">CKD</span><span class="abbr">Chronic Kidney Disease (만성 신장 질환)</span></td>
+            <td class="cond-drugs"><a href="#drug-acei-arb" class="drug-link">ACEi/ARBs</a> <a href="#drug-phosphate-binders" class="drug-link">PO₄ Binders</a></td>
             <td><span class="en">Kidneys are damaged over months to years, with GFR gradually declining. Staged 1–5 by GFR. Waste products accumulate and electrolyte balance is impaired. Complications: hypertension, anaemia (low EPO), bone disease (Ca²⁺/PO₄³⁻ imbalance), oedema. Early stages may be asymptomatic; later stages cause fatigue, nausea, ankle swelling. Progresses to ESKD (stage 5, GFR &lt;15) requiring dialysis or transplant.</span><span class="kr">수개월~수년에 걸쳐 신장이 손상되어 GFR이 점차 감소합니다. GFR에 따라 1~5단계로 분류. 노폐물 축적, 전해질 균형 이상. 합병증: 고혈압, 빈혈(EPO↓), 골질환(Ca²⁺/PO₄³⁻ 불균형), 부종. 초기 무증상이나, 진행 시 피로, 오심, 발목 부종. ESKD(5기, GFR &lt;15)로 진행 시 투석·이식 필요.</span></td>
             <td class="focus"><strong>혈압</strong> 정기 측정 (목표 범위 확인). 혈액 검사: Cr, urea, eGFR, 전해질(K⁺, Ca²⁺, PO₄³⁻), Hb. 매일 체중·부종(발목·다리) 확인. 식이 제한(저염·저칼륨·저인산) 준수 관찰. 수분 제한 시 섭취량 정확히 기록. 소변량 변화 기록.</td>
           </tr>
           <tr>
             <td><span class="term">Renal Anaemia</span><span class="abbr">신성 빈혈 (CKD 합병증)</span></td>
+            <td class="cond-drugs"><a href="#drug-epo" class="drug-link">EPO</a> <a href="#drug-iron" class="drug-link">Iron</a></td>
             <td><span class="en">The kidneys produce erythropoietin (EPO), which stimulates red blood cell production. In CKD, damaged kidneys produce insufficient EPO, leading to progressive anaemia. Patients develop fatigue, pallor, exertional dyspnoea, and tachycardia. Treatment: EPO-stimulating agents (epoetin alfa, darbepoetin) and iron supplementation. Target Hb is usually 100–120 g/L (not normalised to avoid thrombotic risk).</span><span class="kr">신장은 적혈구 생산을 촉진하는 에리스로포이에틴(EPO)을 생산합니다. CKD에서 손상된 신장은 EPO를 충분히 만들지 못해 빈혈이 진행됩니다. 피로, 창백, 활동 시 호흡곤란, 빈맥이 나타납니다. 치료: EPO 자극제(epoetin alfa, darbepoetin)와 철분 보충. 목표 Hb 보통 100~120 g/L (혈전 위험으로 정상화하지 않음).</span></td>
             <td class="focus">빈혈 증상 관찰 — 피로, 창백, 어지러움, 활동 시 호흡곤란, 빈맥. EPO 주사(epoetin alfa, darbepoetin) 투여 일정과 반응 확인. 철분 보충제 투여 후 반응 관찰 — <strong>IV iron 시 과민 반응 주의</strong>. Hb 수치 확인 (목표 100–120 g/L). 기립성 저혈압 시 <strong>낙상 주의</strong>.</td>
           </tr>
           <tr>
             <td><span class="term">ESKD · Dialysis</span><span class="abbr">말기 신부전 · 투석 환자 관리 (CKD 5기)</span></td>
+            <td class="cond-drugs"><a href="#drug-furosemide" class="drug-link">Furosemide</a> <a href="#drug-acei-arb" class="drug-link">ACEi/ARBs</a> <a href="#drug-epo" class="drug-link">EPO</a> <a href="#drug-iron" class="drug-link">Iron</a> <a href="#drug-phosphate-binders" class="drug-link">PO₄ Binders</a></td>
             <td><span class="en">End-Stage Kidney Disease (ESKD) is CKD stage 5 (GFR &lt;15 mL/min). The kidneys can no longer sustain life without renal replacement therapy — haemodialysis (HD), peritoneal dialysis (PD), or transplant. HD uses a machine to filter blood via an AV fistula, graft, or central venous catheter. Dialysis patients require strict fluid and dietary restrictions. Key complications: hypotension during/after dialysis, infection at access sites, and electrolyte shifts.</span><span class="kr">말기 신부전(ESKD)은 CKD 5기(GFR &lt;15)로, 신대체요법 없이는 생존 불가합니다 — 혈액투석(HD), 복막투석(PD), 이식. HD는 AV fistula, 이식편, 중심정맥 카테터를 통해 기계로 혈액을 여과합니다. 투석 환자는 엄격한 수분·식이 제한이 필요합니다. 주요 합병증: 투석 중/후 저혈압, 접근로 감염, 전해질 변동.</span></td>
             <td class="focus">투석 스케줄 확인. <strong>AV fistula가 있는 팔</strong>에서 혈압 측정·채혈·IV를 절대 하지 않습니다. Fistula에서 <strong>thrill(진동 촉지)</strong>과 <strong>bruit(청진 시 잡음)</strong> 확인 — 없으면 혈전 의심 → 즉시 보고. 투석 전후 체중·혈압 측정. 투석 후 <strong>저혈압·어지러움·오심</strong> 관찰 (가장 흔한 합병증). 투석 카테터 부위 감염 징후(발적, 부종, 분비물, 열) 관찰. 수분·식이 제한(저염·저칼륨·저인산) 준수 확인.</td>
           </tr>
@@ -839,21 +859,24 @@
     <div class="sys gastro">
       <div class="sys-bar"><span class="dot">GASTRO</span> 소화기 질환</div>
       <table>
-        <colgroup><col class="c-term"><col class="c-mid"><col class="c-focus"></colgroup>
-        <thead><tr><th>병명 Condition</th><th>설명 · 기전 Description / Mechanism</th><th>관찰 포인트 Watch</th></tr></thead>
+        <colgroup><col style="width:14%"><col style="width:11%"><col style="width:42%"><col style="width:33%"></colgroup>
+        <thead><tr><th>병명</th><th>주요 약물</th><th>설명 · 기전</th><th>관찰 포인트</th></tr></thead>
         <tbody>
           <tr>
             <td><span class="term">GORD</span><span class="abbr">Gastro-Oesophageal Reflux Disease (위식도 역류질환)</span></td>
+            <td class="cond-drugs"><a href="#drug-ppi" class="drug-link">PPI</a></td>
             <td><span class="en">Stomach acid repeatedly flows back into the oesophagus because the lower oesophageal sphincter (LOS) relaxes inappropriately or is weakened. The acid irritates and inflames the oesophageal mucosa. Symptoms: heartburn (retrosternal burning), acid regurgitation, dysphagia, chronic cough, sore throat. Complications: oesophagitis, stricture, Barrett's oesophagus (pre-malignant metaplasia), and increased oesophageal cancer risk. Risk factors: obesity, hiatal hernia, smoking, certain foods/medications. Treatment: lifestyle modification, PPI (first-line), H2 receptor antagonists; surgery (fundoplication) for refractory cases.</span><span class="kr">하부식도괄약근(LOS)이 부적절하게 이완되거나 약화되어 위산이 반복적으로 식도로 역류합니다. 위산이 식도 점막을 자극·염증시킵니다. 증상: 속쓰림(흉골 뒤 작열감), 산 역류, 연하곤란, 만성 기침, 인후통. 합병증: 식도염, 협착, 바렛식도(전암성 화생), 식도암 위험 증가. 위험 요인: 비만, 열공탈장, 흡연, 특정 음식/약물. 치료: 생활습관 교정, PPI(1차), H2 수용체 길항제; 불응성이면 수술(위저부주름술).</span></td>
             <td class="focus">속쓰림·산 역류 빈도·강도·악화 요인(식후, 눕기, 특정 음식) 사정. PPI 복용 시간 확인 — <strong>식전 30분</strong>에 복용해야 효과적. 연하곤란(삼킴 어려움) 유무·정도 관찰 — 악화 시 협착 의심. 야간 증상 관찰 — 수면 시 침대 머리 30° 거상 여부 확인. 체중 관리·금연·음주 제한 등 생활습관 교정 이행 확인. 만성 GORD 환자는 Barrett's oesophagus 검진 이력 확인.</td>
           </tr>
           <tr>
             <td><span class="term">Crohn's Disease</span><span class="abbr">크론병 (IBD)</span></td>
+            <td class="cond-drugs"><span class="drug-link nolink">면역억제제</span> <span class="drug-link nolink">Biologics</span> <a href="#drug-antibiotics" class="drug-link">Antibiotics</a></td>
             <td><span class="en">A chronic inflammatory bowel disease (IBD) that can affect any part of the GI tract from mouth to anus, but most commonly the terminal ileum and colon. Inflammation is transmural (full-thickness), patchy ("skip lesions"), and can cause strictures, fistulas, and abscesses. Symptoms: abdominal pain (often RLQ), diarrhoea (usually non-bloody), weight loss, fatigue, malabsorption. Alternates between flare-ups and remission. Treatment: immunosuppressants (azathioprine, methotrexate), biologics (infliximab, adalimumab), corticosteroids for flares.</span><span class="kr">만성 염증성 장질환(IBD)으로, 구강부터 항문까지 GI관 어디든 발생하지만 회장 말단과 대장에 가장 흔합니다. 염증이 전층(transmural)이고 불연속적("skip lesions")이며, 협착·누공·농양을 유발할 수 있습니다. 증상: 복통(주로 우하복부), 설사(보통 비혈성), 체중 감소, 피로, 흡수 장애. 악화기와 관해기 반복. 치료: 면역억제제(azathioprine, methotrexate), 생물학적 제제(infliximab, adalimumab), 악화 시 코르티코스테로이드.</span></td>
             <td class="focus">배변 횟수·양·양상(수양성, 점액 유무) 매번 기록. 복통 위치·강도·양상 사정 — 특히 RLQ 통증 주의. 체중 정기 측정. 영양 상태 평가(식이 섭취량, 알부민). 면역억제제 복용 중 → <strong>감염 징후</strong>(발열, 인후통, 기침, 배뇨통) 주의. 탈수 징후 관찰. 누공·농양 징후(피부 개구부 분비물, 항문 주위 통증) 관찰. 심리·정서적 상태 사정(만성 질환 → 우울·불안).</td>
           </tr>
           <tr>
             <td><span class="term">Ulcerative Colitis</span><span class="abbr">궤양성 대장염 (IBD)</span></td>
+            <td class="cond-drugs"><span class="drug-link nolink">5-ASA</span> <span class="drug-link nolink">면역억제제</span></td>
             <td><span class="en">A chronic inflammatory bowel disease (IBD) limited to the colon and rectum. Inflammation is continuous (starts at rectum, extends proximally) and superficial (mucosal only). Key symptom: bloody diarrhoea with mucus. Also causes urgency, tenesmus, abdominal cramping, and fatigue. Severe flares can cause toxic megacolon (medical emergency). Long-standing UC increases colorectal cancer risk. Treatment: 5-ASA (mesalazine) for maintenance, corticosteroids for flares, immunosuppressants, biologics. Severe refractory cases may need colectomy.</span><span class="kr">만성 염증성 장질환(IBD)으로, 대장과 직장에만 국한됩니다. 염증이 연속적(직장에서 시작, 근위부로 확장)이고 표층(점막)에만 있습니다. 핵심 증상: 점액 섞인 혈성 설사. 긴급변의, 후중감(tenesmus), 복부 경련, 피로도 동반. 심한 악화 시 독성 거대결장(toxic megacolon, 응급). 장기 UC는 대장암 위험 증가. 치료: 유지에 5-ASA(mesalazine), 악화 시 코르티코스테로이드, 면역억제제, 생물학적 제제. 불응성이면 대장절제술.</span></td>
             <td class="focus"><strong>혈성 설사</strong> 횟수·양·혈액량을 매번 기록 — 악화 정도의 핵심 지표. 복부 경련·긴급변의·후중감 사정. 탈수 징후(빈맥, 저혈압, 피부 긴장도↓, 소변량↓) 관찰. <strong>독성 거대결장(Toxic megacolon) 징후:</strong> 고열, 빈맥, 복부 팽만·압통, 설사 갑자기 멈춤 → 응급, 즉시 보고. 면역억제제 복용 시 감염 징후 주의. 대장암 검진 이력 확인(장기 UC 환자). 심리·정서적 상태 사정.</td>
           </tr>
@@ -865,36 +888,42 @@
     <div class="sys hep">
       <div class="sys-bar"><span class="dot">HEPATO</span> 간 질환</div>
       <table>
-        <colgroup><col class="c-term"><col class="c-mid"><col class="c-focus"></colgroup>
-        <thead><tr><th>병명 Condition</th><th>설명 · 기전 Description / Mechanism</th><th>관찰 포인트 Watch</th></tr></thead>
+        <colgroup><col style="width:14%"><col style="width:11%"><col style="width:42%"><col style="width:33%"></colgroup>
+        <thead><tr><th>병명</th><th>주요 약물</th><th>설명 · 기전</th><th>관찰 포인트</th></tr></thead>
         <tbody>
           <tr>
             <td><span class="term">Liver Cirrhosis</span><span class="abbr">간경변 (비대상성 간질환)</span></td>
+            <td class="cond-drugs"><span class="drug-link nolink">아래 참고</span></td>
             <td><span class="en">Cirrhosis is progressive, irreversible scarring (fibrosis) of the liver caused by chronic alcohol use, hepatitis B/C, or fatty liver disease. The scarred liver cannot adequately detoxify blood, produce clotting factors, or synthesise albumin. When the liver's compensatory capacity is exceeded, "decompensation" occurs — manifesting as ascites, hepatic encephalopathy, jaundice, coagulopathy, and variceal bleeding (each detailed separately below).</span><span class="kr">간경변은 만성 알코올 사용, B·C형 간염, 지방간에 의한 비가역적 간 섬유화(흉터)입니다. 흉터가 생긴 간은 해독, 응고인자 생산, 알부민 합성을 적절히 수행할 수 없습니다. 간의 보상 능력이 넘어서면 "비대상(decompensation)"이 발생하여 복수, 간성뇌증, 황달, 응고장애, 정맥류 출혈로 나타납니다 (각각 아래에 별도 정리).</span></td>
             <td class="focus">LFT(AST, ALT, ALP, GGT), 빌리루빈, 알부민, INR 정기 확인. 영양 상태 사정 — 간질환 환자는 영양 불량이 흔합니다. 감염 징후 주의 — 면역 기능 저하로 취약. 수분·나트륨 제한 이행 확인. 아래 5가지 합병증 각각의 관찰 포인트 숙지.</td>
           </tr>
           <tr>
             <td><span class="term">Ascites</span><span class="abbr">복수 (간경변 합병증)</span></td>
+            <td class="cond-drugs"><a href="#drug-spironolactone" class="drug-link">Spironolactone</a> <a href="#drug-furosemide" class="drug-link">Furosemide</a> <a href="#drug-albumin" class="drug-link">Albumin</a></td>
             <td><span class="en">Fluid accumulation in the peritoneal cavity. Caused by portal hypertension (increased pressure in the portal vein from liver scarring) and low albumin (reduced oncotic pressure). Presents with abdominal distension, discomfort, and dyspnoea. Risk of spontaneous bacterial peritonitis (SBP) — infection of ascitic fluid without an obvious source. Treatment: sodium restriction, diuretics (spironolactone + furosemide), paracentesis (drainage) for tense ascites.</span><span class="kr">복강에 체액이 축적됩니다. 문맥고혈압(간 흉터로 문맥 내 압력 증가)과 저알부민(삼투압 저하)이 원인. 복부 팽만, 불편감, 호흡곤란이 나타납니다. 자발성 세균성 복막염(SBP) — 복수액 자체 감염 — 위험. 치료: 나트륨 제한, 이뇨제(spironolactone+furosemide), 긴장성 복수에 복수천자(paracentesis).</span></td>
             <td class="focus">매일 <strong>복위(abdominal girth)</strong> 같은 위치(배꼽 높이)에서 측정·기록. <strong>매일 체중</strong> 측정 — 급격한 증가는 체액 축적. 복부 팽만·불편감·호흡곤란 사정. 이뇨제 반응 모니터 — 소변량·전해질(Na⁺, K⁺) 확인. <strong>SBP 징후:</strong> 발열, 복통, 복부 압통, 의식 변화 → 즉시 보고. 복수천자 시행 시 시술 후 혈압·맥박 면밀히 관찰, 배액량·양상 기록.</td>
           </tr>
           <tr>
             <td><span class="term">Hepatic Encephalopathy</span><span class="abbr">간성뇌증 (HE)</span></td>
+            <td class="cond-drugs"><a href="#drug-lactulose" class="drug-link">Lactulose</a> <a href="#drug-rifaximin" class="drug-link">Rifaximin</a></td>
             <td><span class="en">The damaged liver cannot clear ammonia (NH₃) from the blood. Ammonia crosses the blood-brain barrier and is toxic to the brain, causing a spectrum from mild confusion to coma. Graded by West Haven criteria: Grade 1 (mild confusion, sleep disturbance) → Grade 4 (coma). Asterixis (flapping tremor of the hands) is a characteristic sign. Triggers: constipation, infection, GI bleeding, electrolyte imbalance, excess protein, sedatives. Treatment: lactulose (traps ammonia in gut as NH₄⁺), rifaximin (reduces ammonia-producing gut bacteria).</span><span class="kr">손상된 간이 혈중 암모니아(NH₃)를 제거하지 못합니다. 암모니아가 혈뇌장벽을 통과해 뇌에 독성을 미치며, 경미한 혼돈에서 혼수까지 스펙트럼으로 나타납니다. West Haven 등급: Grade 1(경미한 혼돈·수면 장애) → Grade 4(혼수). Asterixis(손떨림)가 특징적 징후. 유발 요인: 변비, 감염, GI 출혈, 전해질 이상, 과도한 단백질, 진정제. 치료: lactulose(장에서 NH₄⁺로 포획), rifaximin(암모니아 생성 장내 세균 감소).</span></td>
             <td class="focus"><strong>의식 수준</strong> 정기적 사정 — GCS 또는 West Haven 등급 기록. <strong>Asterixis(flapping tremor)</strong> 확인 — 손목을 신전시키고 떨림 유무 관찰. 성격·행동 변화 관찰 (초기 징후). <strong>Lactulose</strong> 투여 효과 모니터 — 목표 배변 2~3회/일, 부드러운 변. 유발 요인 확인: 변비, 감염, GI 출혈, 전해질 이상, 과도한 단백질 섭취, 진정제 사용. 암모니아(NH₃) 수치 추적.</td>
           </tr>
           <tr>
             <td><span class="term">Jaundice</span><span class="abbr">황달 (간경변 합병증)</span></td>
+            <td class="cond-drugs"><span class="drug-link nolink">대증 치료</span></td>
             <td><span class="en">Yellowing of the skin and sclera caused by elevated bilirubin in the blood. The damaged liver cannot conjugate and excrete bilirubin properly. Also causes dark urine (conjugated bilirubin in urine), pale stools (no bilirubin reaching the gut), and pruritus (bile salt deposition in skin). Bilirubin level correlates with severity of liver dysfunction.</span><span class="kr">혈중 빌리루빈 상승으로 피부와 공막이 황변합니다. 손상된 간이 빌리루빈을 적절히 포합·배출하지 못합니다. 짙은 소변(소변 내 포합 빌리루빈), 회백색 대변(빌리루빈이 장에 도달하지 못함), 소양증(피부 내 담즙산 축적)도 동반됩니다. 빌리루빈 수치는 간기능 장애의 중증도와 비례합니다.</span></td>
             <td class="focus">피부·공막의 황변 정도를 매일 사정. <strong>소양증(pruritus)</strong> 정도와 피부 손상(긁은 상처) 여부 확인. 소변 색(짙은 갈색)과 대변 색(회백색 = 담즙 배출 장애) 관찰·기록. 빌리루빈 수치 추적. 소양증 완화 조치(보습제, 시원한 환경, 항히스타민제 처방 확인).</td>
           </tr>
           <tr>
             <td><span class="term">Coagulopathy</span><span class="abbr">응고장애 (간경변 합병증)</span></td>
+            <td class="cond-drugs"><a href="#drug-vitk" class="drug-link">Vitamin K</a></td>
             <td><span class="en">The liver produces most clotting factors (I, II, V, VII, IX, X). In cirrhosis, impaired synthesis leads to prolonged clotting times (elevated INR/PT). Patients bruise easily and bleed from minor trauma. Combined with thrombocytopaenia (low platelets from portal hypertension/splenomegaly), the bleeding risk is significant. Any invasive procedure requires coagulation status check first.</span><span class="kr">간은 대부분의 응고인자(I, II, V, VII, IX, X)를 생산합니다. 간경변에서 합성 장애로 응고 시간이 연장(INR/PT 상승)됩니다. 쉽게 멍이 들고 경미한 외상에도 출혈. 혈소판감소증(문맥고혈압/비장비대로 혈소판↓)과 결합되어 출혈 위험이 큽니다. 모든 침습적 시술 전 응고 상태를 반드시 확인해야 합니다.</span></td>
             <td class="focus"><strong>출혈 징후</strong> 관찰 — 멍, 잇몸 출혈, 코피, 주사 부위 지속 출혈, 토혈(haematemesis), 흑색변(melaena), 혈변. <strong>INR/PT</strong> 수치 확인 — 상승 시 출혈 위험 증가. 침습적 시술 전 응고 수치 <strong>반드시</strong> 확인. 혈소판(platelet) 수치도 함께 확인. 낙상·외상 예방 조치.</td>
           </tr>
           <tr>
             <td><span class="term">Variceal Bleeding</span><span class="abbr">정맥류 출혈 (간경변 합병증)</span></td>
+            <td class="cond-drugs"><a href="#drug-bb-hep" class="drug-link">β-Blockers</a> <a href="#drug-ppi" class="drug-link">PPI</a></td>
             <td><span class="en">Portal hypertension (high pressure in the portal vein) forces blood through collateral vessels, forming varices — dilated, fragile veins — in the oesophagus and stomach. These varices can rupture, causing massive, life-threatening upper GI haemorrhage (haematemesis and/or melaena). Mortality is high without rapid intervention. Prevention: non-selective beta-blockers (propranolol) or endoscopic variceal band ligation. Treatment of active bleed: resuscitation, octreotide IV, urgent endoscopy with banding.</span><span class="kr">문맥고혈압(문맥 내 높은 압력)으로 혈액이 곁순환 혈관을 통해 흐르며, 식도와 위에 정맥류(확장되고 취약한 정맥)가 형성됩니다. 이 정맥류가 파열되면 대량의 생명 위협적 상부 GI 출혈(토혈 및/또는 흑색변)이 발생합니다. 신속한 중재 없이는 사망률이 높습니다. 예방: 비선택적 베타차단제(propranolol) 또는 내시경 밴드결찰. 활동성 출혈 치료: 소생술, octreotide IV, 긴급 내시경 밴드결찰.</span></td>
             <td class="focus"><strong>토혈(haematemesis)</strong> 또는 대량 흑색변 발생 시 <strong>응급</strong> — 즉시 보고. 활력징후 면밀히 관찰 — 빈맥, 저혈압은 활동성 출혈 시사. Hb 수치 변화 추적. Beta-blocker(propranolol) 복용 중이면 심박수·혈압 모니터 (HR &lt;60 또는 SBP &lt;90 시 보류 고려). 대변 색·양상(흑색변, 혈변) 매번 기록. IV access 확보 여부 확인.</td>
           </tr>
