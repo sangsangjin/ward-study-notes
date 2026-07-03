@@ -295,10 +295,14 @@
   }
 
   /* ---------- stems section ---------- */
-  .stems-table{width:100%;border-collapse:collapse;font-size:.8rem;table-layout:fixed}
-  .stems-table col.c-stem{width:22%}
+  .stems-wrap{
+    border:1px solid var(--line);border-radius:10px;background:var(--card);
+    overflow-x:auto;margin-bottom:4px;
+  }
+  .stems-table{width:100%;border-collapse:collapse;font-size:.8rem;table-layout:auto}
+  .stems-table col.c-stem{width:24%}
   .stems-table col.c-ex{width:36%}
-  .stems-table col.c-desc{width:42%}
+  .stems-table col.c-desc{width:40%}
   .stems-table thead th{
     text-align:left;font-size:.6rem;font-weight:700;letter-spacing:.06em;
     text-transform:uppercase;color:var(--faint);
@@ -349,10 +353,10 @@
   }
 
   @media(max-width:680px){
-    .stems-table{font-size:.72rem;table-layout:auto}
+    .stems-table{font-size:.72rem}
     .stems-table col.c-stem,.stems-table col.c-ex,.stems-table col.c-desc{width:auto}
-    .stems-table thead th{font-size:.55rem;padding:5px 6px;top:68px}
-    .stems-table tbody td{padding:6px 6px}
+    .stems-table thead th{font-size:.55rem;padding:5px 6px}
+    .stems-table tbody td{padding:6px 6px;word-break:break-word}
     .stem-name{font-size:.7rem}
     .stem-class{font-size:.54rem}
     .stem-focus{font-size:.68rem}
@@ -1202,7 +1206,7 @@
     <strong style="color:#e67e22">★ = 우선 암기</strong>
   </div>
 
-  <div class="drug-table-wrap">
+  <div class="stems-wrap">
     <table class="stems-table">
       <colgroup><col class="c-stem"><col class="c-ex"><col class="c-desc"></colgroup>
       <thead><tr><th>이름 패턴 Stem</th><th>예시 Examples</th><th>쉽게 말하면</th></tr></thead>
