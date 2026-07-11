@@ -121,6 +121,9 @@
   .card-banner.ref{
     background:linear-gradient(90deg, var(--basic), var(--gastro), var(--hep));
   }
+  .card-banner.vitals{
+    background:linear-gradient(90deg, #e67e22, #c0392b, #1d6fb8);
+  }
 
   .card-body{
     padding:28px 26px 24px;
@@ -135,6 +138,7 @@
   .card-icon.ward{background:var(--renal-bg);color:var(--renal)}
   .card-icon.med{background:var(--flag-bg);color:var(--flag)}
   .card-icon.ref{background:var(--basic-bg);color:var(--basic)}
+  .card-icon.vitals{background:#fef5ec;color:#e67e22}
 
   .card h2{
     font-size:1.25rem;font-weight:800;margin:0 0 6px;
@@ -311,13 +315,33 @@
       <span class="card-arrow">&rarr;</span>
     </a>
 
+    <!-- Card 5: Vital Signs Handbook -->
+    <a class="card" href="vitals_handbook.html">
+      <div class="card-banner vitals"></div>
+      <div class="card-body">
+        <div class="card-icon vitals">&#x1fa7a;</div>
+        <p class="card-sub">Vital Signs Guide</p>
+        <h2>바이탈사인 핸드북</h2>
+        <p class="card-desc">
+          활력징후(TEMP·HR·RR·BP·SpO₂·LOC·BGL)가 비정상일 때
+          원인 추론, 관련 약물, 간호 대응을 정리한 임상 추론 가이드.
+        </p>
+        <div class="card-tags">
+          <span class="tag-flag">HIGH·LOW 해석</span>
+          <span class="tag-renal">Q-ADDS</span>
+          <span class="tag-hep">약물·간호</span>
+        </div>
+      </div>
+      <span class="card-arrow">&rarr;</span>
+    </a>
+
   </div>
 
   <p class="section-label">OVERVIEW</p>
 
   <div class="stats">
     <div class="stat">
-      <div class="stat-num c-renal">4</div>
+      <div class="stat-num c-renal">5</div>
       <div class="stat-label">핸드북 페이지</div>
     </div>
     <div class="stat">

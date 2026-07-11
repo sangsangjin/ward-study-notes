@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>바이탈사인 핸드북 · Vital Signs Interpretation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1b2230;
+    --muted:#5d6675;
+    --faint:#8a93a3;
+    --paper:#eef1f5;
+    --card:#ffffff;
+    --line:#e3e8ef;
+
+    --renal:#1d6fb8;      --renal-bg:#eaf3fb;  --renal-line:#bcdcef;
+    --gastro:#2c8c6a;     --gastro-bg:#e7f4ee; --gastro-line:#bfe3d3;
+    --hep:#bb851a;        --hep-bg:#fbf2dc;    --hep-line:#ecd9a8;
+    --flag:#c0392b;       --flag-bg:#fbeae7;   --flag-line:#f0c4bd;
+    --basic:#6c5ce7;      --basic-bg:#f0edfc;  --basic-line:#c8c0f4;
+
+    --vitals:#e67e22;     --vitals-bg:#fef5ec; --vitals-line:#f5d5a8;
+
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Noto Sans KR',system-ui,sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px 90px}
+
+  /* ---------- hero ---------- */
+  header.hero{
+    background:
+      radial-gradient(120% 140% at 0% 0%, #e67e22 0%, transparent 42%),
+      radial-gradient(120% 140% at 100% 0%, #c0392b 0%, transparent 42%),
+      radial-gradient(140% 160% at 50% 120%, #1d6fb8 0%, transparent 45%),
+      #11161f;
+    color:#fff;
+    padding:54px 22px 46px;
+    margin-bottom:0;
+  }
+  .hero-inner{max-width:1080px;margin:0 auto}
+  .hero .eyebrow{
+    font-family:var(--mono);font-size:.72rem;letter-spacing:.28em;
+    text-transform:uppercase;color:#f5d5a8;margin:0 0 14px;
+  }
+  .hero h1{
+    font-weight:900;font-size:clamp(1.8rem,4.6vw,2.9rem);
+    line-height:1.12;margin:0 0 14px;letter-spacing:-.01em;
+  }
+  .hero p.sub{margin:0;max-width:640px;color:#d7deea;font-size:1.02rem;font-weight:300}
+  .hero .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}
+  .hero .tags span{
+    font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.04em;
+    padding:5px 11px;border-radius:999px;background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.22);
+  }
+
+  /* ---------- sticky toolbar ---------- */
+  .toolbar{
+    position:sticky;top:0;z-index:40;
+    background:rgba(255,255,255,.86);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+    margin-bottom:30px;
+  }
+  .toolbar-inner{
+    max-width:1080px;margin:0 auto;padding:10px 22px;
+    display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  }
+  .navlinks{display:flex;gap:4px;flex-wrap:wrap;flex:1}
+  .navlinks a{
+    font-size:.8rem;font-weight:500;color:var(--muted);text-decoration:none;
+    padding:6px 11px;border-radius:8px;white-space:nowrap;transition:.15s;
+  }
+  .navlinks a:hover{background:var(--paper);color:var(--ink)}
+
+  /* ---------- section ---------- */
+  section{margin-bottom:54px;scroll-margin-top:64px}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin:0 0 6px}
+  .sec-num{font-family:var(--mono);font-size:.9rem;font-weight:700;color:var(--faint)}
+  .sec-head h2{font-size:1.5rem;font-weight:900;margin:0;letter-spacing:-.01em}
+  .sec-desc{color:var(--muted);font-size:.92rem;margin:0 0 22px;padding-left:34px}
+
+  /* ---------- system block ---------- */
+  .sys{margin-bottom:26px;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--card)}
+  .sys-bar{
+    display:flex;align-items:center;gap:10px;
+    padding:11px 18px;font-weight:700;font-size:.98rem;color:#fff;
+  }
+  .sys-bar .dot{font-family:var(--mono);font-size:.7rem;font-weight:700;
+    background:rgba(255,255,255,.22);padding:3px 8px;border-radius:6px;letter-spacing:.05em}
+
+  /* ---------- table ---------- */
+  table{width:100%;border-collapse:collapse;font-size:.9rem}
+  thead th{
+    text-align:left;font-size:.7rem;font-weight:700;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--faint);
+    padding:10px 16px;border-bottom:1px solid var(--line);background:#fafbfc;
+  }
+  tbody td{padding:13px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:hover td{background:#fcfcfd}
+
+  .term{font-weight:700;color:var(--ink);display:block;margin-bottom:3px}
+
+  /* ---------- callout / red flag ---------- */
+  .flag{
+    border:1px solid var(--flag-line);background:var(--flag-bg);
+    border-radius:12px;padding:16px 18px;margin:18px 0;
+  }
+  .flag .ttl{
+    display:flex;align-items:center;gap:9px;font-weight:700;color:var(--flag);
+    font-size:.92rem;margin-bottom:8px;
+  }
+  .flag .ttl::before{content:"!";font-family:var(--mono);font-weight:700;
+    background:var(--flag);color:#fff;width:20px;height:20px;border-radius:6px;
+    display:grid;place-items:center;font-size:.8rem}
+  .flag ul{margin:0;padding-left:18px;font-size:.88rem}
+  .flag li{margin:3px 0}
+
+  /* ---------- vitals specific ---------- */
+  .vitals .sys-bar{background:var(--vitals)}
+  .hi-tag,.lo-tag{
+    font-family:var(--mono);font-size:.68rem;font-weight:700;
+    padding:3px 8px;border-radius:6px;display:inline-block;margin-bottom:4px;letter-spacing:.03em;
+  }
+  .hi-tag{background:#fbeae7;color:#c0392b}
+  .lo-tag{background:#eaf3fb;color:#1d6fb8}
+  .vitals td ul{margin:4px 0 2px;padding-left:16px;font-size:.86rem;line-height:1.55}
+  .vitals td li{margin:2px 0}
+  .vitals-ref{
+    border:1px solid var(--vitals-line);border-radius:12px;background:var(--vitals-bg);
+    padding:16px 18px;margin:0 0 22px;overflow-x:auto;
+  }
+  .vitals-ref .ttl{font-weight:700;color:var(--vitals);font-size:.92rem;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+  .vitals-ref table{font-size:.84rem;width:100%;border-collapse:collapse}
+  .vitals-ref th{text-align:left;font-size:.68rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);padding:6px 12px;border-bottom:1px solid var(--vitals-line)}
+  .vitals-ref td{padding:7px 12px;border-bottom:1px solid rgba(245,213,168,.4)}
+  .vitals-ref tr:last-child td{border-bottom:none}
+  .vitals-note{font-size:.82rem;color:var(--muted);margin:6px 0 0;line-height:1.5}
+  col.c-scenario{width:14%}
+  col.c-cause{width:43%}
+  col.c-tx{width:43%}
+
+  footer{text-align:center;color:var(--faint);font-size:.8rem;padding-top:30px;border-top:1px solid var(--line)}
+
+  @media (max-width:680px){
+    col.c-scenario,col.c-cause,col.c-tx{width:auto}
+    .navlinks{order:2;width:100%}
+    table{font-size:.84rem}
+    tbody td{padding:11px 12px}
+    thead th{padding:9px 12px}
+  }
+
+  @media print{
+    .toolbar{display:none}
+    body{background:#fff}
+    section{page-break-inside:auto}
+    .sys,.flag{break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">Clinical Placement · Vital Signs Guide</p>
+    <h1>바이탈사인 핸드북<br>Vital Signs Interpretation</h1>
+    <p class="sub">활력징후가 정상 범위를 벗어났을 때 유추할 수 있는 원인, 관련 약물, 치료 예시를 정리한 임상 추론 가이드입니다. Q-ADDS score 0 범위를 기준으로 하되, 병동의 최신 차트 · 환자별 modified calling criteria · COPD 산소 목표가 항상 우선합니다.</p>
+    <div class="tags">
+      <span>TEMP</span>
+      <span>HR</span>
+      <span>RR</span>
+      <span>BP</span>
+      <span>SpO2</span>
+      <span>LOC</span>
+      <span>BGL</span>
+    </div>
+  </div>
+</header>
+
+<div class="toolbar">
+  <div class="toolbar-inner">
+    <a href="index.html" style="font-family:var(--mono);font-size:.78rem;font-weight:700;color:var(--ink);text-decoration:none;padding:6px 11px;border-radius:8px;border:1px solid var(--line);white-space:nowrap;transition:.15s;background:#fff" onmouseover="this.style.background='var(--paper)'" onmouseout="this.style.background='#fff'">HOME</a>
+    <nav class="navlinks">
+      <a href="#ref">정상범위</a>
+      <a href="#temp">TEMP</a>
+      <a href="#hr">HR</a>
+      <a href="#rr">RR</a>
+      <a href="#bp">BP</a>
+      <a href="#spo2">SpO2</a>
+      <a href="#loc">LOC</a>
+      <a href="#bgl">BGL</a>
+    </nav>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ============ Q-ADDS Reference ============ -->
+  <section id="ref">
+    <div class="sec-head"><span class="sec-num">REF</span><h2>Q-ADDS Score 0 참고 범위</h2></div>
+
+    <div class="vitals-ref">
+      <div class="ttl">Q-ADDS Score 0 참고 범위</div>
+      <table>
+        <thead><tr><th>Observation</th><th>참고 범위</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Temperature</strong> (체온, oral)</td><td>36.1 – 37.9 °C</td></tr>
+          <tr><td><strong>Heart rate / Pulse</strong> (맥박)</td><td>50 – 99 bpm</td></tr>
+          <tr><td><strong>Respiratory rate</strong> (호흡수)</td><td>13 – 20 /min</td></tr>
+          <tr><td><strong>Systolic BP</strong> (수축기 혈압)</td><td>110 – 159 mmHg</td></tr>
+          <tr><td><strong>SpO₂</strong> (산소포화도)</td><td>≥ 95 %</td></tr>
+          <tr><td><strong>BGL</strong> (혈당, 검사 대상일 때)</td><td>보통 병원 목표 4 – 10 mmol/L (개인별 조정)</td></tr>
+        </tbody>
+      </table>
+      <p class="vitals-note">이 범위는 '완벽하게 건강한 수치'가 아니라 Q-ADDS에서 score 0인 범위입니다. 병동의 최신 차트, 환자별 modified calling criteria, COPD 산소 목표가 우선합니다.</p>
+    </div>
+  </section>
+
+  <!-- ============ Temperature ============ -->
+  <section id="temp">
+    <div class="sec-head"><span class="sec-num">01</span><h2>Temperature — 체온</h2></div>
+
+    <div class="sys vitals">
+      <div class="sys-bar"><span class="dot">TEMP</span> Temperature — 체온</div>
+      <table>
+        <colgroup><col class="c-scenario"><col class="c-cause"><col class="c-tx"></colgroup>
+        <thead><tr><th>상태</th><th>원인 · 관련 약물</th><th>치료 · 간호 예시</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="hi-tag">HIGH</span><br><span class="term">고체온</span></td>
+            <td>
+              <strong>유추할 수 있는 원인</strong>
+              <ul>
+                <li>Infection / sepsis (감염 · 패혈증)</li>
+                <li>Post-operative inflammatory response (수술 후 염증반응)</li>
+                <li>Dehydration or overheating (탈수 · 과열)</li>
+                <li>Transfusion or medication reaction (수혈 · 약물반응)</li>
+                <li>Wound, urinary or respiratory infection (상처 · 요로 · 호흡기 감염)</li>
+              </ul>
+              <strong>관련 약물</strong>
+              <ul>
+                <li>최근 새 약을 시작했다면 <strong>drug fever</strong> 가능성 — MAR와 투약 시간 확인</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li><strong>Paracetamol</strong> — 열과 불편감을 낮추지만 감염 원인 자체를 치료하지는 않음</li>
+                <li><strong>Antibiotics</strong> — 세균 감염이 의심되고 처방됐을 때</li>
+                <li><strong>IV / oral fluids</strong> — 탈수 또는 순환량 부족이 있을 때</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="lo-tag">LOW</span><br><span class="term">저체온</span></td>
+            <td>
+              <strong>유추할 수 있는 원인</strong>
+              <ul>
+                <li>Cold exposure (추운 환경)</li>
+                <li>Severe infection / sepsis (심한 감염에서 저체온 가능)</li>
+                <li>Hypoglycaemia (저혈당)</li>
+                <li>Post-anaesthetic state (마취 후)</li>
+                <li>Endocrine problem — hypothyroidism 등 (갑상선기능저하)</li>
+              </ul>
+              <strong>관련 약물</strong>
+              <ul>
+                <li>Anaesthetic 또는 sedating medicines가 영향을 줄 수 있음</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li><strong>Warming blanket</strong> (보온)</li>
+                <li><strong>BGL 확인</strong> — 저혈당이면 glucose treatment</li>
+                <li>패혈증 의심 시 fluids, antibiotics 등 원인 치료</li>
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ Heart Rate ============ -->
+  <section id="hr">
+    <div class="sec-head"><span class="sec-num">02</span><h2>Heart Rate / Pulse — 맥박</h2></div>
+
+    <div class="sys vitals">
+      <div class="sys-bar"><span class="dot">HR</span> Heart Rate / Pulse — 맥박</div>
+      <table>
+        <colgroup><col class="c-scenario"><col class="c-cause"><col class="c-tx"></colgroup>
+        <thead><tr><th>상태</th><th>원인 · 관련 약물</th><th>치료 · 간호 예시</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="hi-tag">HIGH</span><br><span class="term">Tachycardia<br>빈맥 ≥100</span></td>
+            <td>
+              <strong>유추할 수 있는 원인</strong>
+              <ul>
+                <li>Pain (통증)</li>
+                <li>Fever or infection (발열 · 감염)</li>
+                <li>Dehydration (탈수)</li>
+                <li>Bleeding / hypovolaemia (출혈 · 혈액량 부족)</li>
+                <li>Anxiety (불안)</li>
+                <li>Hypoxia (저산소증)</li>
+                <li>Sepsis</li>
+                <li>Pulmonary embolism (폐색전증)</li>
+                <li>Arrhythmia (부정맥)</li>
+              </ul>
+              <strong>맥박을 올릴 수 있는 약</strong>
+              <ul>
+                <li><strong>Salbutamol / Ventolin</strong> — 빠른 맥박과 palpitations 유발 가능</li>
+                <li><strong>Adrenaline</strong>, 일부 stimulant medication</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>통증 → <strong>analgesia</strong></li>
+                <li>탈수 · 출혈 → <strong>IV fluids</strong> 또는 blood products</li>
+                <li>감염 → <strong>antipyretic / antibiotics</strong></li>
+                <li>저산소증 → 처방된 목표에 맞춘 <strong>oxygen</strong></li>
+                <li>특정 부정맥 → <strong>beta blocker</strong> 또는 antiarrhythmic (처방 시)</li>
+              </ul>
+              <div class="flag" style="margin:10px 0 0;padding:10px 14px">
+                <div class="ttl" style="font-size:.82rem;margin-bottom:4px">보상성 빈맥 주의</div>
+                <p style="font-size:.82rem;margin:0;color:var(--muted)">출혈 · 패혈증으로 보상적으로 맥박이 빨라진 환자에게 단순히 맥박만 낮추는 약을 주면 위험 — <strong>원인을 먼저 확인</strong></p>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="lo-tag">LOW</span><br><span class="term">Bradycardia<br>서맥</span></td>
+            <td>
+              <strong>유추할 수 있는 원인</strong>
+              <ul>
+                <li>Sleeping or athletic baseline (수면 중 · 운동선수 평소 맥박)</li>
+                <li>Vagal response (미주신경 반응)</li>
+                <li>Heart block or conduction problem (심장 전도장애)</li>
+                <li>Hypothermia (저체온)</li>
+                <li>Cardiac ischaemia (심장 허혈)</li>
+              </ul>
+              <strong>맥박을 낮출 수 있는 약</strong>
+              <ul>
+                <li><strong>Beta blockers</strong> — 심박수와 혈압을 낮춤</li>
+                <li>일부 rate-limiting cardiac medicines</li>
+                <li><strong>Opioid</strong>나 <strong>sedative</strong>가 호흡 · 의식과 함께 맥박을 낮출 수 있음</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>증상 없고 평소 수치 → 관찰</li>
+                <li><strong>Dizziness, hypotension, chest pain, confusion</strong> 있으면 → <strong>urgent review</strong></li>
+                <li>불안정한 symptomatic bradycardia → 훈련된 의료진이 <strong>atropine</strong>, adrenaline 또는 pacing 사용 가능</li>
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ Respiratory Rate ============ -->
+  <section id="rr">
+    <div class="sec-head"><span class="sec-num">03</span><h2>Respiratory Rate — 호흡수</h2></div>
+
+    <div class="sys vitals">
+      <div class="sys-bar"><span class="dot">RR</span> Respiratory Rate — 호흡수</div>
+      <table>
+        <colgroup><col class="c-scenario"><col class="c-cause"><col class="c-tx"></colgroup>
+        <thead><tr><th>상태</th><th>원인 · 관련 약물</th><th>치료 · 간호 예시</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="hi-tag">HIGH</span><br><span class="term">Tachypnoea<br>빠른 호흡</span></td>
+            <td>
+              <strong>유추할 수 있는 원인</strong>
+              <ul>
+                <li>Pain or anxiety (통증 · 불안)</li>
+                <li>Fever / sepsis (발열 · 패혈증)</li>
+                <li>Hypoxia (저산소증)</li>
+                <li>Pneumonia, asthma / COPD exacerbation</li>
+                <li>Pulmonary oedema (폐부종)</li>
+                <li>Pulmonary embolism (폐색전증)</li>
+                <li>Metabolic acidosis / DKA — 산을 배출하려고 빠르고 깊게 호흡</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>Hypoxaemia → <strong>oxygen</strong></li>
+                <li>Wheeze / bronchospasm → <strong>salbutamol</strong> 등 bronchodilator</li>
+                <li>Infection → <strong>antibiotics</strong></li>
+                <li>Pulmonary oedema → <strong>diuretic</strong></li>
+                <li>DKA → <strong>IV fluids + insulin</strong></li>
+                <li>Pain → appropriate <strong>analgesia</strong></li>
+              </ul>
+              <p class="vitals-note" style="margin-top:8px">RR이 빠르다고 무조건 산소를 주는 게 아님 — <strong>SpO₂, work of breathing, prescribed oxygen target</strong>을 함께 봐야 합니다.</p>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="lo-tag">LOW</span><br><span class="term">Bradypnoea<br>느린 호흡</span></td>
+            <td>
+              <strong>유추할 수 있는 원인</strong>
+              <ul>
+                <li>Opioid effect (opioid 부작용 · 과량)</li>
+                <li>Benzodiazepines or sedatives</li>
+                <li>Recent anaesthetic</li>
+                <li>Head injury or neurological deterioration</li>
+                <li>Severe fatigue or respiratory failure</li>
+              </ul>
+              <strong>관련 약물</strong>
+              <ul>
+                <li><strong>Oxycodone, morphine, fentanyl, tapentadol</strong> 등 opioids</li>
+                <li><strong>Benzodiazepines</strong> 및 기타 sedatives</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>환자를 깨우고 <strong>airway와 breathing</strong> 즉시 확인</li>
+                <li><strong>Oxygen</strong> 및 ventilation support</li>
+                <li>Opioid 영향 의심 → 의료진이 <strong>naloxone</strong> 사용 가능</li>
+              </ul>
+              <div class="flag" style="margin:10px 0 0;padding:10px 14px">
+                <div class="ttl" style="font-size:.82rem;margin-bottom:4px">Opioid 투여 후 모니터링</div>
+                <p style="font-size:.82rem;margin:0;color:var(--muted)">RR뿐 아니라 <strong>sedation score와 LOC</strong>도 같이 확인해야 합니다.</p>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ Blood Pressure ============ -->
+  <section id="bp">
+    <div class="sec-head"><span class="sec-num">04</span><h2>Blood Pressure — 혈압</h2></div>
+
+    <div class="sys vitals">
+      <div class="sys-bar"><span class="dot">BP</span> Blood Pressure — 혈압</div>
+      <table>
+        <colgroup><col class="c-scenario"><col class="c-cause"><col class="c-tx"></colgroup>
+        <thead><tr><th>상태</th><th>원인 · 관련 약물</th><th>치료 · 간호 예시</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="hi-tag">HIGH</span><br><span class="term">Hypertension<br>고혈압</span></td>
+            <td>
+              <strong>유추할 수 있는 원인</strong>
+              <ul>
+                <li>Pain or anxiety (통증 · 불안)</li>
+                <li>Chronic hypertension</li>
+                <li>Fluid overload (수분 과부하)</li>
+                <li>Kidney disease (신장 질환)</li>
+                <li>Medication or substance withdrawal</li>
+                <li>Incorrect cuff size 또는 환자가 말하거나 움직인 경우</li>
+              </ul>
+              <strong>혈압을 올릴 수 있는 약</strong>
+              <ul>
+                <li><strong>NSAIDs</strong> — fluid retention과 hypertension 유발 가능</li>
+                <li><strong>Corticosteroids</strong></li>
+                <li>일부 <strong>nasal decongestants</strong></li>
+                <li>Stimulants</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>먼저 조용히 쉬게 하고 <strong>올바른 cuff로 재측정</strong></li>
+                <li>통증 있으면 <strong>analgesia</strong></li>
+                <li>지속적 · 심한 고혈압 → <strong>medical review</strong></li>
+                <li>처방에 따라 <strong>ACE inhibitor, ARB, CCB, beta blocker, diuretic</strong> 등 사용 가능</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="lo-tag">LOW</span><br><span class="term">Hypotension<br>저혈압</span></td>
+            <td>
+              <strong>유추할 수 있는 원인</strong>
+              <ul>
+                <li>Dehydration (탈수)</li>
+                <li>Bleeding / hypovolaemia (출혈 · 혈액량 부족)</li>
+                <li>Sepsis (패혈증)</li>
+                <li>Vasovagal episode</li>
+                <li>Postural hypotension (기립성 저혈압)</li>
+                <li>Anaphylaxis (아나필락시스)</li>
+                <li>Cardiac problem (심장 문제)</li>
+              </ul>
+              <strong>혈압을 낮출 수 있는 약</strong>
+              <ul>
+                <li><strong>Antihypertensives</strong>, <strong>diuretics</strong></li>
+                <li><strong>Beta blockers</strong></li>
+                <li><strong>Opioids</strong>나 sedatives</li>
+                <li>Vasodilators</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>Dehydration / sepsis → <strong>IV fluids</strong></li>
+                <li>Bleeding → fluids, <strong>blood transfusion</strong>, bleeding control</li>
+                <li>Sepsis → <strong>antibiotics</strong>, fluids, 필요 시 vasopressor</li>
+                <li>Anaphylaxis → <strong>adrenaline</strong></li>
+                <li>약물 영향 → 의사가 투약 review하거나 hold 가능</li>
+              </ul>
+              <div class="flag" style="margin:10px 0 0;padding:10px 14px">
+                <div class="ttl" style="font-size:.82rem;margin-bottom:4px">학생 주의사항</div>
+                <p style="font-size:.82rem;margin:0;color:var(--muted)">BP가 낮다고 임의로 약을 hold하지 마세요. 수치 · 증상 · 투약 예정 약을 <strong>RN에게 바로 보고</strong>합니다.</p>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ SpO₂ ============ -->
+  <section id="spo2">
+    <div class="sec-head"><span class="sec-num">05</span><h2>SpO₂ — 산소포화도</h2></div>
+
+    <div class="sys vitals">
+      <div class="sys-bar"><span class="dot">SpO₂</span> Oxygen Saturation — 산소포화도</div>
+      <table>
+        <colgroup><col class="c-scenario"><col class="c-cause"><col class="c-tx"></colgroup>
+        <thead><tr><th>상태</th><th>원인 · 먼저 확인할 것</th><th>치료 · 간호 예시</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="lo-tag">LOW</span><br><span class="term">저산소포화도</span></td>
+            <td>
+              <strong>먼저 확인</strong>
+              <ul>
+                <li>Probe가 빠지거나 잘못 부착됐는지</li>
+                <li>손이 차갑거나 말초순환이 좋지 않은지</li>
+                <li>Nail polish 또는 움직임</li>
+                <li>Oxygen tubing 연결 여부</li>
+                <li>환자의 평소 목표치와 COPD 여부</li>
+              </ul>
+              <strong>유추할 수 있는 원인</strong>
+              <ul>
+                <li>Airway obstruction</li>
+                <li>Atelectasis, 특히 수술 후</li>
+                <li>Pneumonia</li>
+                <li>Pulmonary oedema (폐부종)</li>
+                <li>Pulmonary embolism (폐색전증)</li>
+                <li>Asthma / COPD exacerbation</li>
+                <li>Opioid-induced hypoventilation</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>환자를 <strong>upright position</strong>으로 세우기</li>
+                <li><strong>Airway와 breathing</strong> 확인</li>
+                <li>처방된 목표에 맞춰 <strong>oxygen</strong></li>
+                <li>원인별: <strong>bronchodilator</strong>, antibiotics, diuretic, naloxone 등</li>
+              </ul>
+              <div class="vitals-ref" style="margin:10px 0 0;padding:10px 14px">
+                <div class="ttl" style="font-size:.82rem;margin-bottom:6px">Queensland 산소 목표</div>
+                <table style="margin:0">
+                  <tbody>
+                    <tr><td>일반 급성 저산소증</td><td><strong>92 – 96 %</strong></td></tr>
+                    <tr><td>COPD (hypercapnia 위험)</td><td><strong>88 – 92 %</strong></td></tr>
+                  </tbody>
+                </table>
+                <p class="vitals-note" style="margin-top:6px">반드시 환자의 <strong>prescribed target</strong>을 확인하세요.</p>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="hi-tag">HIGH</span><br><span class="term">99–100%</span></td>
+            <td>
+              <ul>
+                <li>Room air에서 99–100%라면 대개 문제 아님</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li><strong>산소치료 중</strong>이라면 필요 이상으로 oxygen을 받고 있지 않은지 확인</li>
+                <li>특히 COPD 환자의 목표가 <strong>88–92%</strong>인지 확인</li>
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ LOC ============ -->
+  <section id="loc">
+    <div class="sec-head"><span class="sec-num">06</span><h2>LOC — 의식 · 진정</h2></div>
+
+    <div class="sys vitals">
+      <div class="sys-bar"><span class="dot">LOC</span> Level of Consciousness / Sedation — 의식 · 진정</div>
+      <table>
+        <colgroup><col class="c-scenario"><col class="c-cause"><col class="c-tx"></colgroup>
+        <thead><tr><th>상태</th><th>원인 · 관련 약물</th><th>치료 · 간호 예시</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="lo-tag">LOW</span><br><span class="term">의식 저하</span><br><span style="font-size:.76rem;color:var(--faint)">정상: Alert, GCS 15</span></td>
+            <td>
+              <strong>유추할 수 있는 원인</strong>
+              <ul>
+                <li>Hypoxia (저산소증)</li>
+                <li>Hypoglycaemia (저혈당)</li>
+                <li>Sepsis or delirium (패혈증 · 섬망)</li>
+                <li>Stroke or neurological deterioration</li>
+                <li>Opioid / sedative effect</li>
+                <li>Head injury (두부 손상)</li>
+                <li>Electrolyte disturbance (전해질 이상)</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>Opioid 관련 → <strong>naloxone</strong> 가능</li>
+                <li>Hypoglycaemia → <strong>oral glucose, IV glucose</strong> 또는 glucagon</li>
+                <li>Hypoxia → prescribed <strong>oxygen</strong>와 airway support</li>
+                <li>Sepsis → <strong>antibiotics, fluids</strong> 등</li>
+              </ul>
+              <div class="flag" style="margin:10px 0 0;padding:10px 14px">
+                <div class="ttl" style="font-size:.82rem;margin-bottom:4px">절대 넘기지 마세요</div>
+                <p style="font-size:.82rem;margin:0;color:var(--muted)">새롭게 졸리거나 말을 제대로 못하거나 깨우기 어려우면 단순히 "피곤한 것"으로 넘기지 말고 즉시 RN에게 보고 — <strong>BGL, RR, SpO₂</strong>를 바로 확인하세요.</p>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ BGL ============ -->
+  <section id="bgl">
+    <div class="sec-head"><span class="sec-num">07</span><h2>BGL — 혈당</h2></div>
+
+    <div class="sys vitals">
+      <div class="sys-bar"><span class="dot">BGL</span> Blood Glucose Level — 혈당</div>
+      <table>
+        <colgroup><col class="c-scenario"><col class="c-cause"><col class="c-tx"></colgroup>
+        <thead><tr><th>상태</th><th>원인 · 관련 약물</th><th>치료 · 간호 예시</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="hi-tag">HIGH</span><br><span class="term">Hyperglycaemia<br>고혈당</span></td>
+            <td>
+              <strong>유추할 수 있는 원인</strong>
+              <ul>
+                <li>Diabetes</li>
+                <li>Infection or acute illness (감염 · 급성 질환)</li>
+                <li>Surgery, pain or physiological stress</li>
+                <li>Missed or insufficient insulin</li>
+                <li>TPN 또는 높은 carbohydrate intake</li>
+              </ul>
+              <strong>혈당을 올릴 수 있는 약</strong>
+              <ul>
+                <li><strong>Corticosteroids</strong> — prednisolone, dexamethasone, hydrocortisone</li>
+                <li>일부 <strong>antipsychotics</strong></li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li><strong>Insulin</strong> as charted</li>
+                <li><strong>IV / oral fluids</strong></li>
+                <li>Infection → 원인 치료</li>
+                <li>고혈당이 심하면 <strong>ketone</strong> 확인</li>
+              </ul>
+              <p class="vitals-note" style="margin-top:8px">Routine inpatient glucose target: 보통 <strong>4–10 mmol/L</strong> (노인 · 저혈당 위험 환자는 조정 가능). Steroid 환자에서 BGL &gt;16.1 mmol/L이면 <strong>ketone 검사</strong> 고려.</p>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="lo-tag">LOW</span><br><span class="term">Hypoglycaemia<br>저혈당<br>&lt; 4.0 mmol/L</span></td>
+            <td>
+              <strong>유추할 수 있는 원인</strong>
+              <ul>
+                <li>Too much insulin (인슐린 과량)</li>
+                <li>Sulfonylurea 등 glucose-lowering medicine</li>
+                <li>Missed meal / NBM (금식)</li>
+                <li>Vomiting or diarrhoea</li>
+                <li>Poor oral intake</li>
+                <li>Increased exercise (활동량 증가)</li>
+                <li>Renal impairment로 약효가 오래 지속</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li><strong>깨어 있고 안전하게 삼킬 수 있음</strong> → fast-acting carbohydrate 또는 glucose gel</li>
+                <li><strong>Drowsy / unconscious / 삼키기 어려움</strong> → 아무것도 입으로 주지 않고 즉시 escalation</li>
+                <li>처방 · 프로토콜에 따라 <strong>IV glucose</strong> 또는 <strong>glucagon</strong></li>
+              </ul>
+              <div class="flag" style="margin:10px 0 0;padding:10px 14px">
+                <div class="ttl" style="font-size:.82rem;margin-bottom:4px">Hypo 치료 후</div>
+                <p style="font-size:.82rem;margin:0;color:var(--muted)">다시 <strong>BGL 재확인</strong>하고, <strong>장시간 작용하는 탄수화물</strong>과 다음 식사 계획도 확인하세요.</p>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="vitals-note" style="margin-top:10px">BGL은 모든 환자의 routine obs는 아닙니다. Diabetes, steroid, TPN, illness, altered LOC 환자에게 자주 측정합니다.</p>
+  </section>
+
+  <footer>
+    바이탈사인 핸드북 · Vital Signs Interpretation Guide<br>
+    수치·기준은 일반 성인 참고치이며, 항상 소속 병원의 정책과 차트 정상범위를 따르세요.
+  </footer>
+
+</div>
+
+</body>
+</html>
