@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ANSAT Self Evaluation · Progressive Assessment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1b2230;
+    --muted:#5d6675;
+    --faint:#8a93a3;
+    --paper:#eef1f5;
+    --card:#ffffff;
+    --line:#e3e8ef;
+    --ansat:#2563eb;
+    --ansat-bg:#eff6ff;
+    --ansat-line:#bfdbfe;
+    --pass:#16a34a;
+    --pass-bg:#f0fdf4;
+    --fail:#dc2626;
+    --fail-bg:#fef2f2;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:'Noto Sans KR',system-ui,sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{max-width:960px;margin:0 auto;padding:0 22px 90px}
+
+  /* ---------- hero ---------- */
+  header.hero{
+    background:linear-gradient(135deg, #1e3a5f 0%, #2563eb 50%, #1e40af 100%);
+    color:#fff;
+    padding:48px 22px 42px;
+    margin-bottom:26px;
+  }
+  .hero-inner{max-width:960px;margin:0 auto}
+  .hero .eyebrow{
+    font-family:var(--mono);font-size:.72rem;letter-spacing:.28em;
+    text-transform:uppercase;color:#93c5fd;margin:0 0 14px;
+  }
+  .hero h1{
+    font-weight:900;font-size:clamp(1.6rem,4vw,2.4rem);
+    line-height:1.15;margin:0 0 10px;letter-spacing:-.01em;
+  }
+  .hero p.sub{margin:0;max-width:640px;color:#bfdbfe;font-size:.95rem;font-weight:300}
+  .hero .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+  .hero .tags span{
+    font-family:var(--mono);font-size:.68rem;font-weight:700;letter-spacing:.04em;
+    padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.22);
+  }
+
+  /* ---------- toolbar ---------- */
+  .toolbar{
+    position:sticky;top:0;z-index:40;
+    background:rgba(255,255,255,.92);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+    margin-bottom:26px;
+  }
+  .toolbar-inner{
+    max-width:960px;margin:0 auto;padding:10px 22px;
+    display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  }
+  .toolbar-inner a.back{
+    font-size:.82rem;font-weight:600;color:var(--ansat);text-decoration:none;
+    display:flex;align-items:center;gap:4px;
+  }
+  .toolbar-inner a.back:hover{text-decoration:underline}
+  .progress-bar-wrap{
+    flex:1;display:flex;align-items:center;gap:10px;min-width:160px;
+  }
+  .progress-bar{
+    flex:1;height:8px;background:var(--line);border-radius:99px;overflow:hidden;
+  }
+  .progress-bar-fill{
+    height:100%;background:linear-gradient(90deg,#2563eb,#16a34a);
+    border-radius:99px;transition:width .4s ease;width:0%;
+  }
+  .progress-text{
+    font-family:var(--mono);font-size:.72rem;font-weight:700;color:var(--muted);
+    white-space:nowrap;
+  }
+  .btn-save{
+    font-family:var(--mono);font-size:.72rem;font-weight:700;cursor:pointer;
+    border:1px solid var(--ansat);background:var(--ansat);color:#fff;
+    padding:6px 14px;border-radius:8px;transition:.15s;white-space:nowrap;
+  }
+  .btn-save:hover{background:#1d4ed8}
+  .btn-reset{
+    font-family:var(--mono);font-size:.72rem;font-weight:700;cursor:pointer;
+    border:1px solid var(--line);background:#fff;color:var(--muted);
+    padding:6px 14px;border-radius:8px;transition:.15s;white-space:nowrap;
+  }
+  .btn-reset:hover{border-color:var(--fail);color:var(--fail)}
+
+  /* ---------- info card ---------- */
+  .info-card{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:24px;margin-bottom:24px;
+  }
+  .info-card h3{
+    font-size:.82rem;font-weight:700;color:var(--ansat);
+    letter-spacing:.08em;text-transform:uppercase;margin:0 0 14px;
+  }
+  .info-grid{
+    display:grid;grid-template-columns:180px 1fr;gap:8px 16px;font-size:.88rem;
+  }
+  .info-grid dt{color:var(--muted);font-weight:500}
+  .info-grid dd{margin:0;font-weight:600}
+  @media(max-width:520px){.info-grid{grid-template-columns:1fr}}
+
+  /* ---------- rating scale legend ---------- */
+  .legend{
+    background:var(--ansat-bg);border:1px solid var(--ansat-line);
+    border-radius:12px;padding:18px 22px;margin-bottom:28px;
+  }
+  .legend h3{font-size:.88rem;font-weight:700;margin:0 0 10px;color:var(--ansat)}
+  .legend-items{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.82rem}
+  .legend-item{display:flex;align-items:center;gap:6px}
+  .legend-num{
+    font-family:var(--mono);font-weight:700;width:24px;height:24px;
+    border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-size:.72rem;border:2px solid var(--line);color:var(--muted);
+  }
+  .legend-num.n1,.legend-num.n2{border-color:var(--fail);color:var(--fail)}
+  .legend-num.n3{border-color:var(--pass);color:var(--pass);background:var(--pass-bg)}
+  .legend-num.n4,.legend-num.n5{border-color:var(--ansat);color:var(--ansat)}
+  .legend-desc{color:var(--muted)}
+  .legend-desc strong{color:var(--ink)}
+  .legend-note{
+    margin-top:10px;font-size:.76rem;color:var(--fail);font-weight:600;
+    padding:6px 10px;background:var(--fail-bg);border-radius:6px;display:inline-block;
+  }
+
+  /* ---------- domain section ---------- */
+  .domain{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    margin-bottom:20px;overflow:hidden;
+  }
+  .domain-header{
+    background:linear-gradient(135deg,#1e3a5f,#2563eb);
+    color:#fff;padding:14px 20px;
+    display:flex;align-items:center;gap:12px;
+  }
+  .domain-num{
+    font-family:var(--mono);font-size:.72rem;font-weight:700;
+    background:rgba(255,255,255,.2);padding:4px 10px;border-radius:6px;
+    letter-spacing:.05em;
+  }
+  .domain-title{font-weight:700;font-size:.95rem}
+  .domain-title-kr{font-size:.78rem;color:#93c5fd;font-weight:300;margin-left:8px}
+  .domain-score{
+    margin-left:auto;font-family:var(--mono);font-size:.82rem;font-weight:700;
+    background:rgba(255,255,255,.15);padding:4px 12px;border-radius:8px;
+  }
+
+  .domain-items{padding:4px 0}
+  .item{
+    display:flex;align-items:flex-start;gap:16px;
+    padding:14px 20px;border-bottom:1px solid var(--line);
+    transition:background .15s;
+  }
+  .item:last-child{border-bottom:none}
+  .item:hover{background:#fafbff}
+  .item-text{flex:1;font-size:.86rem;color:var(--ink);line-height:1.55}
+  .item-text .kr{display:block;font-size:.78rem;color:var(--muted);font-weight:300;margin-top:3px}
+  .item-rating{
+    display:flex;gap:4px;align-items:center;flex-shrink:0;
+  }
+  .item-rating label{
+    display:flex;align-items:center;justify-content:center;
+    width:34px;height:34px;border-radius:50%;
+    border:2px solid var(--line);
+    font-family:var(--mono);font-size:.78rem;font-weight:700;
+    color:var(--faint);cursor:pointer;transition:all .15s;
+    user-select:none;
+  }
+  .item-rating label:hover{border-color:var(--ansat);color:var(--ansat);background:var(--ansat-bg)}
+  .item-rating input[type="radio"]{display:none}
+  .item-rating input[type="radio"]:checked + label{
+    border-color:var(--ansat);background:var(--ansat);color:#fff;
+  }
+  /* fail colors for 1 and 2 */
+  .item-rating input[value="1"]:checked + label,
+  .item-rating input[value="2"]:checked + label{
+    border-color:var(--fail);background:var(--fail);color:#fff;
+  }
+  /* pass color for 3 */
+  .item-rating input[value="3"]:checked + label{
+    border-color:var(--pass);background:var(--pass);color:#fff;
+  }
+
+  /* ---------- reflection section ---------- */
+  .reflection{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    margin-bottom:20px;overflow:hidden;
+  }
+  .reflection-header{
+    background:#475569;color:#fff;padding:14px 20px;font-weight:700;font-size:.95rem;
+  }
+  .reflection-body{padding:20px}
+  .reflection-q{margin-bottom:22px}
+  .reflection-q:last-child{margin-bottom:0}
+  .reflection-q label{
+    display:block;font-size:.88rem;font-weight:600;color:var(--ink);margin-bottom:8px;
+  }
+  .reflection-q label .kr{font-weight:300;color:var(--muted);font-size:.8rem}
+  .reflection-q textarea{
+    width:100%;min-height:90px;border:1px solid var(--line);border-radius:10px;
+    padding:12px 14px;font-family:'Noto Sans KR',sans-serif;font-size:.86rem;
+    color:var(--ink);resize:vertical;transition:border .15s;line-height:1.6;
+  }
+  .reflection-q textarea:focus{outline:none;border-color:var(--ansat);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+
+  /* ---------- outcome section ---------- */
+  .outcome{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    overflow:hidden;margin-bottom:28px;
+  }
+  .outcome-header{
+    background:#334155;color:#fff;padding:14px 20px;font-weight:700;font-size:.9rem;
+    letter-spacing:.04em;
+  }
+  .outcome-row{
+    display:grid;grid-template-columns:180px 1fr;border-bottom:1px solid var(--line);
+    font-size:.84rem;
+  }
+  .outcome-row:last-child{border-bottom:none}
+  .outcome-label{
+    padding:14px 18px;font-weight:700;display:flex;align-items:flex-start;
+    border-right:1px solid var(--line);
+  }
+  .outcome-label.sat{color:var(--pass)}
+  .outcome-label.unsat{color:var(--fail)}
+  .outcome-desc{padding:14px 18px;color:var(--muted);line-height:1.6}
+
+  /* ---------- footer ---------- */
+  footer{text-align:center;color:var(--faint);font-size:.78rem;padding-top:20px;border-top:1px solid var(--line)}
+
+  /* ---------- save toast ---------- */
+  .toast{
+    position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);
+    background:#1e293b;color:#fff;padding:12px 24px;border-radius:12px;
+    font-size:.84rem;font-weight:600;z-index:100;
+    transition:transform .3s ease;pointer-events:none;
+    box-shadow:0 8px 24px rgba(0,0,0,.2);
+  }
+  .toast.show{transform:translateX(-50%) translateY(0)}
+
+  @media(max-width:640px){
+    .item{flex-direction:column;gap:10px}
+    .item-rating{align-self:flex-end}
+    .info-grid{grid-template-columns:1fr;gap:4px 0}
+    .info-grid dt{margin-top:8px}
+    .outcome-row{grid-template-columns:1fr}
+    .outcome-label{border-right:none;border-bottom:1px solid var(--line);padding:10px 18px}
+  }
+
+  @media print{
+    .toolbar{display:none}
+    body{background:#fff}
+    .domain,.reflection,.outcome,.info-card,.legend{break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">ANSAT · Progressive Assessment</p>
+    <h1>Student Self Evaluation</h1>
+    <p class="sub">Australian Nursing Standards Assessment Tool — 자가평가 연습용</p>
+    <div class="tags">
+      <span>ANSAT</span>
+      <span>7 DOMAINS</span>
+      <span>SELF-EVAL</span>
+    </div>
+  </div>
+</header>
+
+<nav class="toolbar">
+  <div class="toolbar-inner">
+    <a class="back" href="index.html">&larr; Home</a>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar"><div class="progress-bar-fill" id="progressFill"></div></div>
+      <span class="progress-text" id="progressText">0 / 21</span>
+    </div>
+    <button class="btn-save" onclick="saveAll()">Save</button>
+    <button class="btn-reset" onclick="resetAll()">Reset</button>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- Student Info -->
+  <div class="info-card">
+    <h3>Student Information</h3>
+    <dl class="info-grid">
+      <dt>Student Name</dt><dd>Sangjin Kang</dd>
+      <dt>Course Name/Code</dt><dd>3145 NUR227 G11 N4 2026</dd>
+      <dt>Student ID</dt><dd>1198040</dd>
+      <dt>Clinical Location</dt><dd>SCHHS_SCUH_3C_Renal/Gastroenterology/Hepatology</dd>
+      <dt>Placement Dates</dt><dd>20/07/2026 – 9/08/2026</dd>
+      <dt>Clinical Assessor</dt><dd>Ms Katrina Coppinger (Calvert)</dd>
+    </dl>
+  </div>
+
+  <!-- Rating Scale Legend -->
+  <div class="legend">
+    <h3>Rating Scale</h3>
+    <div class="legend-items">
+      <div class="legend-item"><span class="legend-num n1">1</span><span class="legend-desc">Expected behaviours and practices <strong>not performed</strong></span></div>
+      <div class="legend-item"><span class="legend-num n2">2</span><span class="legend-desc"><strong>Below</strong> acceptable/satisfactory standard</span></div>
+      <div class="legend-item"><span class="legend-num n3">3</span><span class="legend-desc">Performed at a <strong>satisfactory/pass</strong> standard</span></div>
+      <div class="legend-item"><span class="legend-num n4">4</span><span class="legend-desc">Performed at a <strong>proficient</strong> standard</span></div>
+      <div class="legend-item"><span class="legend-num n5">5</span><span class="legend-desc">Performed at an <strong>excellent</strong> standard</span></div>
+    </div>
+    <div class="legend-note">** 1 또는 2를 받으면 해당 Standard를 달성하지 못한 것으로 간주됩니다.</div>
+  </div>
+
+  <!-- ===== DOMAIN 1 ===== -->
+  <div class="domain" id="domain-1">
+    <div class="domain-header">
+      <span class="domain-num">STD 1</span>
+      <span class="domain-title">Thinks critically and analyses nursing practice<span class="domain-title-kr">비판적 사고와 간호 실무 분석</span></span>
+      <span class="domain-score" id="score-1">— / 5</span>
+    </div>
+    <div class="domain-items">
+      <div class="item">
+        <div class="item-text">Complies and practices according to relevant legislation and local policy<span class="kr">관련 법률과 지역 정책에 따라 준수하고 실행한다</span></div>
+        <div class="item-rating" data-domain="1">
+          <input type="radio" name="q1_1" value="1" id="q1_1_1"><label for="q1_1_1">1</label>
+          <input type="radio" name="q1_1" value="2" id="q1_1_2"><label for="q1_1_2">2</label>
+          <input type="radio" name="q1_1" value="3" id="q1_1_3"><label for="q1_1_3">3</label>
+          <input type="radio" name="q1_1" value="4" id="q1_1_4"><label for="q1_1_4">4</label>
+          <input type="radio" name="q1_1" value="5" id="q1_1_5"><label for="q1_1_5">5</label>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-text">Uses an ethical framework to guide decision making and practice<span class="kr">윤리적 프레임워크를 사용하여 의사결정과 실무를 안내한다</span></div>
+        <div class="item-rating" data-domain="1">
+          <input type="radio" name="q1_2" value="1" id="q1_2_1"><label for="q1_2_1">1</label>
+          <input type="radio" name="q1_2" value="2" id="q1_2_2"><label for="q1_2_2">2</label>
+          <input type="radio" name="q1_2" value="3" id="q1_2_3"><label for="q1_2_3">3</label>
+          <input type="radio" name="q1_2" value="4" id="q1_2_4"><label for="q1_2_4">4</label>
+          <input type="radio" name="q1_2" value="5" id="q1_2_5"><label for="q1_2_5">5</label>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-text">Demonstrates respect for individual and cultural (including Aboriginal and Torres Strait Islander) preference and differences<span class="kr">개인적·문화적(원주민 및 토레스 해협 원주민 포함) 선호와 차이에 대한 존중을 보여준다</span></div>
+        <div class="item-rating" data-domain="1">
+          <input type="radio" name="q1_3" value="1" id="q1_3_1"><label for="q1_3_1">1</label>
+          <input type="radio" name="q1_3" value="2" id="q1_3_2"><label for="q1_3_2">2</label>
+          <input type="radio" name="q1_3" value="3" id="q1_3_3"><label for="q1_3_3">3</label>
+          <input type="radio" name="q1_3" value="4" id="q1_3_4"><label for="q1_3_4">4</label>
+          <input type="radio" name="q1_3" value="5" id="q1_3_5"><label for="q1_3_5">5</label>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-text">Sources and critically evaluates relevant literature and research evidence to deliver quality practice<span class="kr">관련 문헌과 연구 근거를 찾아 비판적으로 평가하여 양질의 실무를 제공한다</span></div>
+        <div class="item-rating" data-domain="1">
+          <input type="radio" name="q1_4" value="1" id="q1_4_1"><label for="q1_4_1">1</label>
+          <input type="radio" name="q1_4" value="2" id="q1_4_2"><label for="q1_4_2">2</label>
+          <input type="radio" name="q1_4" value="3" id="q1_4_3"><label for="q1_4_3">3</label>
+          <input type="radio" name="q1_4" value="4" id="q1_4_4"><label for="q1_4_4">4</label>
+          <input type="radio" name="q1_4" value="5" id="q1_4_5"><label for="q1_4_5">5</label>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-text">Maintains the use of clear and accurate documentation<span class="kr">명확하고 정확한 기록을 유지한다</span></div>
+        <div class="item-rating" data-domain="1">
+          <input type="radio" name="q1_5" value="1" id="q1_5_1"><label for="q1_5_1">1</label>
+          <input type="radio" name="q1_5" value="2" id="q1_5_2"><label for="q1_5_2">2</label>
+          <input type="radio" name="q1_5" value="3" id="q1_5_3"><label for="q1_5_3">3</label>
+          <input type="radio" name="q1_5" value="4" id="q1_5_4"><label for="q1_5_4">4</label>
+          <input type="radio" name="q1_5" value="5" id="q1_5_5"><label for="q1_5_5">5</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== DOMAIN 2 ===== -->
+  <div class="domain" id="domain-2">
+    <div class="domain-header">
+      <span class="domain-num">STD 2</span>
+      <span class="domain-title">Engages in therapeutic and professional relationships<span class="domain-title-kr">치료적·전문적 관계에 참여</span></span>
+      <span class="domain-score" id="score-2">— / 5</span>
+    </div>
+    <div class="domain-items">
+      <div class="item">
+        <div class="item-text">Communicates effectively to maintain personal and professional boundaries<span class="kr">효과적으로 의사소통하여 개인적·전문적 경계를 유지한다</span></div>
+        <div class="item-rating" data-domain="2">
+          <input type="radio" name="q2_1" value="1" id="q2_1_1"><label for="q2_1_1">1</label>
+          <input type="radio" name="q2_1" value="2" id="q2_1_2"><label for="q2_1_2">2</label>
+          <input type="radio" name="q2_1" value="3" id="q2_1_3"><label for="q2_1_3">3</label>
+          <input type="radio" name="q2_1" value="4" id="q2_1_4"><label for="q2_1_4">4</label>
+          <input type="radio" name="q2_1" value="5" id="q2_1_5"><label for="q2_1_5">5</label>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-text">Collaborates with the health care team and others to share knowledge that promotes person-centred care<span class="kr">의료팀 및 타인과 협력하여 환자 중심 간호를 촉진하는 지식을 공유한다</span></div>
+        <div class="item-rating" data-domain="2">
+          <input type="radio" name="q2_2" value="1" id="q2_2_1"><label for="q2_2_1">1</label>
+          <input type="radio" name="q2_2" value="2" id="q2_2_2"><label for="q2_2_2">2</label>
+          <input type="radio" name="q2_2" value="3" id="q2_2_3"><label for="q2_2_3">3</label>
+          <input type="radio" name="q2_2" value="4" id="q2_2_4"><label for="q2_2_4">4</label>
+          <input type="radio" name="q2_2" value="5" id="q2_2_5"><label for="q2_2_5">5</label>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-text">Participates as an active member of the healthcare team to achieve optimum health outcomes<span class="kr">최적의 건강 결과를 달성하기 위해 의료팀의 능동적 구성원으로 참여한다</span></div>
+        <div class="item-rating" data-domain="2">
+          <input type="radio" name="q2_3" value="1" id="q2_3_1"><label for="q2_3_1">1</label>
+          <input type="radio" name="q2_3" value="2" id="q2_3_2"><label for="q2_3_2">2</label>
+          <input type="radio" name="q2_3" value="3" id="q2_3_3"><label for="q2_3_3">3</label>
+          <input type="radio" name="q2_3" value="4" id="q2_3_4"><label for="q2_3_4">4</label>
+          <input type="radio" name="q2_3" value="5" id="q2_3_5"><label for="q2_3_5">5</label>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-text">Demonstrates respect for a persons rights and wishes and advocates on their behalf<span class="kr">환자의 권리와 의사를 존중하고 대변한다</span></div>
+        <div class="item-rating" data-domain="2">
+          <input type="radio" name="q2_4" value="1" id="q2_4_1"><label for="q2_4_1">1</label>
+          <input type="radio" name="q2_4" value="2" id="q2_4_2"><label for="q2_4_2">2</label>
+          <input type="radio" name="q2_4" value="3" id="q2_4_3"><label for="q2_4_3">3</label>
+          <input type="radio" name="q2_4" value="4" id="q2_4_4"><label for="q2_4_4">4</label>
+          <input type="radio" name="q2_4" value="5" id="q2_4_5"><label for="q2_4_5">5</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== DOMAIN 3 ===== -->
+  <div class="domain" id="domain-3">
+    <div class="domain-header">
+      <span class="domain-num">STD 3</span>
+      <span class="domain-title">Maintains the capability for practice<span class="domain-title-kr">실무 역량 유지</span></span>
+      <span class="domain-score" id="score-3">— / 5</span>
+    </div>
+    <div class="domain-items">
+      <div class="item">
+        <div class="item-text">Demonstrates commitment to life-long learning of self and others<span class="kr">자신과 타인의 평생학습에 대한 헌신을 보여준다</span></div>
+        <div class="item-rating" data-domain="3">
+          <input type="radio" name="q3_1" value="1" id="q3_1_1"><label for="q3_1_1">1</label>
+          <input type="radio" name="q3_1" value="2" id="q3_1_2"><label for="q3_1_2">2</label>
+          <input type="radio" name="q3_1" value="3" id="q3_1_3"><label for="q3_1_3">3</label>
+          <input type="radio" name="q3_1" value="4" id="q3_1_4"><label for="q3_1_4">4</label>
+          <input type="radio" name="q3_1" value="5" id="q3_1_5"><label for="q3_1_5">5</label>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-text">Reflects on practice and responds to feedback for continuing professional development<span class="kr">실무를 성찰하고 지속적인 전문성 개발을 위해 피드백에 반응한다</span></div>
+        <div class="item-rating" data-domain="3">
+          <input type="radio" name="q3_2" value="1" id="q3_2_1"><label for="q3_2_1">1</label>
+          <input type="radio" name="q3_2" value="2" id="q3_2_2"><label for="q3_2_2">2</label>
+          <input type="radio" name="q3_2" value="3" id="q3_2_3"><label for="q3_2_3">3</label>
+          <input type="radio" name="q3_2" value="4" id="q3_2_4"><label for="q3_2_4">4</label>
+          <input type="radio" name="q3_2" value="5" id="q3_2_5"><label for="q3_2_5">5</label>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-text">Demonstrates skills in health education to enable people to make decisions and take action about their health<span class="kr">건강 교육 기술을 보여주어 사람들이 건강에 대해 결정하고 행동할 수 있게 한다</span></div>
+        <div class="item-rating" data-domain="3">
+          <input type="radio" name="q3_3" value="1" id="q3_3_1"><label for="q3_3_1">1</label>
+          <input type="radio" name="q3_3" value="2" id="q3_3_2"><label for="q3_3_2">2</label>
+          <input type="radio" name="q3_3" value="3" id="q3_3_3"><label for="q3_3_3">3</label>
+          <input type="radio" name="q3_3" value="4" id="q3_3_4"><label for="q3_3_4">4</label>
+          <input type="radio" name="q3_3" value="5" id="q3_3_5"><label for="q3_3_5">5</label>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-text">Recognises and responds appropriately when own or other's capability for practice is impaired<span class="kr">자신이나 타인의 실무 역량이 저하되었을 때 적절히 인식하고 대응한다</span></div>
+        <div class="item-rating" data-domain="3">
+          <input type="radio" name="q3_4" value="1" id="q3_4_1"><label for="q3_4_1">1</label>
+          <input type="radio" name="q3_4" value="2" id="q3_4_2"><label for="q3_4_2">2</label>
+          <input type="radio" name="q3_4" value="3" id="q3_4_3"><label for="q3_4_3">3</label>
+          <input type="radio" name="q3_4" value="4" id="q3_4_4"><label for="q3_4_4">4</label>
+          <input type="radio" name="q3_4" value="5" id="q3_4_5"><label for="q3_4_5">5</label>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-text">Demonstrates accountability for decisions and actions appropriate to their role<span class="kr">자신의 역할에 적합한 결정과 행동에 대한 책임을 보여준다</span></div>
+        <div class="item-rating" data-domain="3">
+          <input type="radio" name="q3_5" value="1" id="q3_5_1"><label for="q3_5_1">1</label>
+          <input type="radio" name="q3_5" value="2" id="q3_5_2"><label for="q3_5_2">2</label>
+          <input type="radio" name="q3_5" value="3" id="q3_5_3"><label for="q3_5_3">3</label>
+          <input type="radio" name="q3_5" value="4" id="q3_5_4"><label for="q3_5_4">4</label>
+          <input type="radio" name="q3_5" value="5" id="q3_5_5"><label for="q3_5_5">5</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== DOMAIN 4 ===== -->
+  <div class="domain" id="domain-4">
+    <div class="domain-header">
+      <span class="domain-num">STD 4</span>
+      <span class="domain-title">Comprehensively conducts assessments<span class="domain-title-kr">포괄적 사정 수행</span></span>
+      <span class="domain-score" id="score-4">— / 5</span>
+    </div>
+    <div class="domain-items">
+      <div class="item">
+        <div class="item-text">Completes comprehensive and systematic assessments using appropriate and available sources<span class="kr">적절하고 이용 가능한 자료를 활용하여 포괄적이고 체계적인 사정을 완료한다</span></div>
+        <div class="item-rating" data-domain="4">
+          <input type="radio" name="q4_1" value="1" id="q4_1_1"><label for="q4_1_1">1</label>
+          <input type="radio" name="q4_1" value="2" id="q4_1_2"><label for="q4_1_2">2</label>
+          <input type="radio" name="q4_1" value="3" id="q4_1_3"><label for="q4_1_3">3</label>
+          <input type="radio" name="q4_1" value="4" id="q4_1_4"><label for="q4_1_4">4</label>
+          <input type="radio" name="q4_1" value="5" id="q4_1_5"><label for="q4_1_5">5</label>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-text">Accurately analyses and interprets assessment data to inform practices<span class="kr">사정 데이터를 정확히 분석·해석하여 실무에 반영한다</span></div>
+        <div class="item-rating" data-domain="4">
+          <input type="radio" name="q4_2" value="1" id="q4_2_1"><label for="q4_2_1">1</label>
+          <input type="radio" name="q4_2" value="2" id="q4_2_2"><label for="q4_2_2">2</label>
+          <input type="radio" name="q4_2" value="3" id="q4_2_3"><label for="q4_2_3">3</label>
+          <input type="radio" name="q4_2" value="4" id="q4_2_4"><label for="q4_2_4">4</label>
+          <input type="radio" name="q4_2" value="5" id="q4_2_5"><label for="q4_2_5">5</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== DOMAIN 5 ===== -->
+  <div class="domain" id="domain-5">
+    <div class="domain-header">
+      <span class="domain-num">STD 5</span>
+      <span class="domain-title">Develops a plan for nursing practice<span class="domain-title-kr">간호 실무 계획 수립</span></span>
+      <span class="domain-score" id="score-5">— / 5</span>
+    </div>
+    <div class="domain-items">
+      <div class="item">
+        <div class="item-text">Collaboratively constructs a plan informed by the patient/client assessment<span class="kr">환자/대상자 사정에 기반하여 협력적으로 계획을 수립한다</span></div>
+        <div class="item-rating" data-domain="5">
+          <input type="radio" name="q5_1" value="1" id="q5_1_1"><label for="q5_1_1">1</label>
+          <input type="radio" name="q5_1" value="2" id="q5_1_2"><label for="q5_1_2">2</label>
+          <input type="radio" name="q5_1" value="3" id="q5_1_3"><label for="q5_1_3">3</label>
+          <input type="radio" name="q5_1" value="4" id="q5_1_4"><label for="q5_1_4">4</label>
+          <input type="radio" name="q5_1" value="5" id="q5_1_5"><label for="q5_1_5">5</label>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-text">Plans care in partnership with individuals/significant others/health care team to achieve expected outcomes<span class="kr">기대하는 결과를 달성하기 위해 개인/중요한 타인/의료팀과 파트너십으로 간호를 계획한다</span></div>
+        <div class="item-rating" data-domain="5">
+          <input type="radio" name="q5_2" value="1" id="q5_2_1"><label for="q5_2_1">1</label>
+          <input type="radio" name="q5_2" value="2" id="q5_2_2"><label for="q5_2_2">2</label>
+          <input type="radio" name="q5_2" value="3" id="q5_2_3"><label for="q5_2_3">3</label>
+          <input type="radio" name="q5_2" value="4" id="q5_2_4"><label for="q5_2_4">4</label>
+          <input type="radio" name="q5_2" value="5" id="q5_2_5"><label for="q5_2_5">5</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== DOMAIN 6 ===== -->
+  <div class="domain" id="domain-6">
+    <div class="domain-header">
+      <span class="domain-num">STD 6</span>
+      <span class="domain-title">Provides safe, appropriate and responsive quality nursing practice<span class="domain-title-kr">안전하고 적절하며 반응적인 양질의 간호 실무 제공</span></span>
+      <span class="domain-score" id="score-6">— / 5</span>
+    </div>
+    <div class="domain-items">
+      <div class="item">
+        <div class="item-text">Delivers safe and effective care within their scope of practice to meet outcomes<span class="kr">자신의 실무 범위 내에서 안전하고 효과적인 간호를 제공하여 결과를 달성한다</span></div>
+        <div class="item-rating" data-domain="6">
+          <input type="radio" name="q6_1" value="1" id="q6_1_1"><label for="q6_1_1">1</label>
+          <input type="radio" name="q6_1" value="2" id="q6_1_2"><label for="q6_1_2">2</label>
+          <input type="radio" name="q6_1" value="3" id="q6_1_3"><label for="q6_1_3">3</label>
+          <input type="radio" name="q6_1" value="4" id="q6_1_4"><label for="q6_1_4">4</label>
+          <input type="radio" name="q6_1" value="5" id="q6_1_5"><label for="q6_1_5">5</label>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-text">Provides effective supervision and delegates care safely within their role and scope of practice<span class="kr">자신의 역할과 실무 범위 내에서 효과적으로 감독하고 안전하게 간호를 위임한다</span></div>
+        <div class="item-rating" data-domain="6">
+          <input type="radio" name="q6_2" value="1" id="q6_2_1"><label for="q6_2_1">1</label>
+          <input type="radio" name="q6_2" value="2" id="q6_2_2"><label for="q6_2_2">2</label>
+          <input type="radio" name="q6_2" value="3" id="q6_2_3"><label for="q6_2_3">3</label>
+          <input type="radio" name="q6_2" value="4" id="q6_2_4"><label for="q6_2_4">4</label>
+          <input type="radio" name="q6_2" value="5" id="q6_2_5"><label for="q6_2_5">5</label>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-text">Recognise and responds to practice that may be below expected organisational, legal or regulatory standards<span class="kr">조직적·법적·규제적 기준에 미달할 수 있는 실무를 인식하고 대응한다</span></div>
+        <div class="item-rating" data-domain="6">
+          <input type="radio" name="q6_3" value="1" id="q6_3_1"><label for="q6_3_1">1</label>
+          <input type="radio" name="q6_3" value="2" id="q6_3_2"><label for="q6_3_2">2</label>
+          <input type="radio" name="q6_3" value="3" id="q6_3_3"><label for="q6_3_3">3</label>
+          <input type="radio" name="q6_3" value="4" id="q6_3_4"><label for="q6_3_4">4</label>
+          <input type="radio" name="q6_3" value="5" id="q6_3_5"><label for="q6_3_5">5</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== DOMAIN 7 ===== -->
+  <div class="domain" id="domain-7">
+    <div class="domain-header">
+      <span class="domain-num">STD 7</span>
+      <span class="domain-title">Evaluates outcomes to inform nursing practice<span class="domain-title-kr">간호 실무를 위한 결과 평가</span></span>
+      <span class="domain-score" id="score-7">— / 5</span>
+    </div>
+    <div class="domain-items">
+      <div class="item">
+        <div class="item-text">Monitors progress toward expected goals and health outcomes<span class="kr">기대하는 목표와 건강 결과를 향한 진행 상황을 모니터링한다</span></div>
+        <div class="item-rating" data-domain="7">
+          <input type="radio" name="q7_1" value="1" id="q7_1_1"><label for="q7_1_1">1</label>
+          <input type="radio" name="q7_1" value="2" id="q7_1_2"><label for="q7_1_2">2</label>
+          <input type="radio" name="q7_1" value="3" id="q7_1_3"><label for="q7_1_3">3</label>
+          <input type="radio" name="q7_1" value="4" id="q7_1_4"><label for="q7_1_4">4</label>
+          <input type="radio" name="q7_1" value="5" id="q7_1_5"><label for="q7_1_5">5</label>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-text">Modifies plan according to evaluation of goals and outcomes in consultation with the health care team and others<span class="kr">의료팀 및 타인과 협의하여 목표와 결과 평가에 따라 계획을 수정한다</span></div>
+        <div class="item-rating" data-domain="7">
+          <input type="radio" name="q7_2" value="1" id="q7_2_1"><label for="q7_2_1">1</label>
+          <input type="radio" name="q7_2" value="2" id="q7_2_2"><label for="q7_2_2">2</label>
+          <input type="radio" name="q7_2" value="3" id="q7_2_3"><label for="q7_2_3">3</label>
+          <input type="radio" name="q7_2" value="4" id="q7_2_4"><label for="q7_2_4">4</label>
+          <input type="radio" name="q7_2" value="5" id="q7_2_5"><label for="q7_2_5">5</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== STUDENT REFLECTION ===== -->
+  <div class="reflection">
+    <div class="reflection-header">STUDENT REFLECTION ON OVERALL CLINICAL EXPERIENCE</div>
+    <div class="reflection-body">
+      <p style="font-size:.82rem;color:var(--muted);margin:0 0 20px;line-height:1.6">
+        At both your Progressive and Summative Assessment you will participate in a reflection with your clinical assessor/facilitator. This conversation will cover your overall clinical experience on placement relating to the Australian Nursing Standards Assessment Tool (ANSAT). You are required to respond to the questions below to assist in this discussion/assessment. Please provide specific examples to discuss with your Clinical Facilitator.
+      </p>
+      <div class="reflection-q">
+        <label>1. What is going well and what have you learnt so far? <span class="kr">지금까지 잘 되고 있는 것과 배운 것은?</span></label>
+        <textarea name="ref1" placeholder="구체적인 예시를 포함하여 작성하세요..."></textarea>
+      </div>
+      <div class="reflection-q">
+        <label>2. Is there anything that continues to challenge you? <span class="kr">계속 어려운 점이 있나요?</span></label>
+        <textarea name="ref2" placeholder="구체적인 예시를 포함하여 작성하세요..."></textarea>
+      </div>
+      <div class="reflection-q">
+        <label>3. How will you improve upon or develop your practice further? <span class="kr">실무를 어떻게 더 개선하거나 발전시킬 건가요?</span></label>
+        <textarea name="ref3" placeholder="구체적인 예시를 포함하여 작성하세요..."></textarea>
+      </div>
+      <div class="reflection-q">
+        <label>4. How would you demonstrate your engagement with the interprofessional team and/or professionals from other disciplines during this placement? <span class="kr">이번 실습에서 다학제팀/타 분야 전문가와의 협력을 어떻게 보여줄 건가요?</span></label>
+        <textarea name="ref4" placeholder="구체적인 예시를 포함하여 작성하세요..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== OUTCOME DESCRIPTIONS ===== -->
+  <div class="outcome">
+    <div class="outcome-header">OUTCOME OF CLINICAL PLACEMENT</div>
+    <div class="outcome-row">
+      <div class="outcome-label sat">Satisfactory</div>
+      <div class="outcome-desc">The student, with support that is commensurate to the student's level, has demonstrated an acceptable and safe standard of knowledge, skills and attributes, in relation to all seven (7) Practice Standards.</div>
+    </div>
+    <div class="outcome-row">
+      <div class="outcome-label unsat">Unsatisfactory</div>
+      <div class="outcome-desc">The student has been unable to achieve an acceptable standard <strong>in one or more</strong> of the following Standards from the <strong>Nursing and Midwifery Board of Australia (NMBA) Registered Nurse Standards for Practice.</strong> <em>Students who are a risk to patients, staff or themselves in the course of clinical placement may be withdrawn from the facility and deemed unsatisfactory.</em></div>
+    </div>
+  </div>
+
+  <footer>
+    ANSAT Self Evaluation · UniSC School of Health · 실습 자가평가 연습용
+  </footer>
+
+</div>
+
+<div class="toast" id="toast">Saved</div>
+
+<script>
+  const STORAGE_KEY = 'ansat_self_eval_v1';
+  const TOTAL_ITEMS = 21;
+
+  // update progress + domain scores
+  function updateUI(){
+    const radios = document.querySelectorAll('input[type="radio"]:checked');
+    const answered = radios.length;
+    document.getElementById('progressFill').style.width = (answered/TOTAL_ITEMS*100)+'%';
+    document.getElementById('progressText').textContent = answered+' / '+TOTAL_ITEMS;
+
+    // domain scores
+    for(let d=1;d<=7;d++){
+      const items = document.querySelectorAll('[data-domain="'+d+'"] input[type="radio"]:checked');
+      const el = document.getElementById('score-'+d);
+      if(items.length===0){el.textContent='— / 5';continue;}
+      let sum=0;items.forEach(r=>sum+=parseInt(r.value));
+      const avg=(sum/items.length).toFixed(1);
+      el.textContent=avg+' / 5';
+    }
+  }
+
+  // save to localStorage
+  function saveAll(){
+    const data={ratings:{},reflections:{}};
+    document.querySelectorAll('input[type="radio"]:checked').forEach(r=>{
+      data.ratings[r.name]=r.value;
+    });
+    document.querySelectorAll('textarea').forEach(t=>{
+      data.reflections[t.name]=t.value;
+    });
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
+    showToast('Saved!');
+  }
+
+  // load from localStorage
+  function loadAll(){
+    const raw=localStorage.getItem(STORAGE_KEY);
+    if(!raw)return;
+    try{
+      const data=JSON.parse(raw);
+      if(data.ratings){
+        Object.entries(data.ratings).forEach(([name,val])=>{
+          const r=document.querySelector('input[name="'+name+'"][value="'+val+'"]');
+          if(r)r.checked=true;
+        });
+      }
+      if(data.reflections){
+        Object.entries(data.reflections).forEach(([name,val])=>{
+          const t=document.querySelector('textarea[name="'+name+'"]');
+          if(t)t.value=val;
+        });
+      }
+      updateUI();
+    }catch(e){}
+  }
+
+  // reset
+  function resetAll(){
+    if(!confirm('모든 평가와 작성 내용을 초기화하시겠습니까?'))return;
+    localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll('input[type="radio"]').forEach(r=>r.checked=false);
+    document.querySelectorAll('textarea').forEach(t=>t.value='');
+    updateUI();
+    showToast('Reset complete');
+  }
+
+  // toast
+  function showToast(msg){
+    const t=document.getElementById('toast');
+    t.textContent=msg;
+    t.classList.add('show');
+    setTimeout(()=>t.classList.remove('show'),2000);
+  }
+
+  // auto-save on change
+  document.querySelectorAll('input[type="radio"]').forEach(r=>{
+    r.addEventListener('change',()=>{updateUI();saveAll();});
+  });
+  document.querySelectorAll('textarea').forEach(t=>{
+    let timer;
+    t.addEventListener('input',()=>{
+      clearTimeout(timer);
+      timer=setTimeout(saveAll,1000);
+    });
+  });
+
+  // init
+  loadAll();
+</script>
+
+</body>
+</html>
