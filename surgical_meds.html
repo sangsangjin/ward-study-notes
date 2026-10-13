@@ -131,6 +131,7 @@
   .stem-class{font-size:.76rem;color:var(--faint)}
   .stem-ex{font-size:.88rem;color:var(--ink)}
   .stem-note{font-size:.82rem;color:var(--muted)}
+  .stem-se{font-size:.8rem;color:#a2453a;margin-top:2px}
   .box{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-top:10px;font-size:.88rem}
   .box h3{font-size:.82rem;font-weight:700;color:var(--ink);margin-bottom:8px}
   .box ul{padding-left:18px;display:grid;gap:4px}
@@ -169,6 +170,7 @@
   .kv{display:grid;grid-template-columns:110px 1fr;gap:6px 14px}
   .kv dt{font-size:.78rem;color:var(--faint);padding-top:2px}
   .kv dd{color:var(--ink)}
+  .kv dd.se{color:#a2453a}
   .kv code{font-family:var(--mono);font-weight:700}
   .q-actions{display:flex;gap:10px;margin-top:14px}
   .q-actions .btn{flex:1;padding:13px;font-size:.95rem}
@@ -633,68 +635,68 @@ const DRUGS = [
 
 const STEM_GROUPS = [
   {name:'Cardiovascular / Renal', kr:'심장 · 혈압 · 신장', color:'#1d6fb8', items:[
-    ['-pril', true, 'ACE Inhibitor', 'perindopril, ramipril, enalapril', '혈압 ↓, heart failure · renal protection 1차 약'],
-    ['-sartan', true, 'ARB', 'candesartan, irbesartan, telmisartan, valsartan', 'ACEi와 비슷, 기침 부작용 적음'],
-    ['-olol', true, 'Beta Blocker', 'metoprolol, bisoprolol, atenolol', 'HR ↓ · BP ↓ — 투약 전 HR · BP 확인'],
-    ['-dipine', true, 'CCB', 'amlodipine, nifedipine', '혈관 이완 → BP ↓'],
-    ['-statin', true, 'Statin', 'atorvastatin, rosuvastatin, simvastatin', 'cholesterol ↓'],
-    ['-semide', true, 'Loop Diuretic', 'furosemide / frusemide', '강력 이뇨 → fluid overload 줄임'],
-    ['-thiazide', false, 'Thiazide Diuretic', 'hydrochlorothiazide (indapamide는 예외)', '혈압 · 부종 조절'],
-    ['nitr- / -nitrate', false, 'Nitrate', 'glyceryl trinitrate (GTN), isosorbide mononitrate', 'chest pain · angina → 혈관 확장'],
+    ['-pril', true, 'ACE Inhibitor', 'perindopril, ramipril, enalapril', '혈압 ↓, heart failure · renal protection 1차 약', 'Dry cough, hyperkalaemia, hypotension, angioedema (rare)'],
+    ['-sartan', true, 'ARB', 'candesartan, irbesartan, telmisartan, valsartan', 'ACEi와 비슷, 기침 부작용 적음', 'Hypotension / dizziness, hyperkalaemia, AKI'],
+    ['-olol', true, 'Beta Blocker', 'metoprolol, bisoprolol, atenolol', 'HR ↓ · BP ↓ — 투약 전 HR · BP 확인', 'Bradycardia, hypotension, fatigue, bronchospasm (asthma)'],
+    ['-dipine', true, 'CCB', 'amlodipine, nifedipine', '혈관 이완 → BP ↓', 'Ankle oedema, flushing, headache, reflex tachycardia'],
+    ['-statin', true, 'Statin', 'atorvastatin, rosuvastatin, simvastatin', 'cholesterol ↓', 'Myalgia, rhabdomyolysis (rare), LFTs ↑'],
+    ['-semide', true, 'Loop Diuretic', 'furosemide / frusemide', '강력 이뇨 → fluid overload 줄임', 'Hypokalaemia, dehydration, hypotension, ototoxicity (fast IV)'],
+    ['-thiazide', false, 'Thiazide Diuretic', 'hydrochlorothiazide (indapamide는 예외)', '혈압 · 부종 조절', 'Hypokalaemia, hyponatraemia, gout (uric acid ↑), hyperglycaemia'],
+    ['nitr- / -nitrate', false, 'Nitrate', 'glyceryl trinitrate (GTN), isosorbide mononitrate', 'chest pain · angina → 혈관 확장', 'Headache, hypotension, flushing — PDE5 inhibitor (sildenafil) 금기'],
   ]},
   {name:'Anticoagulants', kr:'항응고제', color:'#c0392b', items:[
-    ['-parin', true, 'Heparin 계열', 'heparin, enoxaparin, dalteparin', 'DVT · PE 예방/치료 — bleeding risk 확인'],
-    ['-xaban', true, 'Factor Xa (DOAC)', 'apixaban, rivaroxaban', 'oral anticoagulant — bleeding risk 확인'],
-    ['-gatran', false, 'Direct Thrombin Inh.', 'dabigatran', 'oral anticoagulant'],
-    ['warfarin', false, 'Vit K Antagonist', 'warfarin', 'INR 모니터 필수 — 패턴 없이 그냥 외우기'],
+    ['-parin', true, 'Heparin 계열', 'heparin, enoxaparin, dalteparin', 'DVT · PE 예방/치료 — bleeding risk 확인', 'Bleeding, HIT (platelets ↓)'],
+    ['-xaban', true, 'Factor Xa (DOAC)', 'apixaban, rivaroxaban', 'oral anticoagulant — bleeding risk 확인', 'Bleeding'],
+    ['-gatran', false, 'Direct Thrombin Inh.', 'dabigatran', 'oral anticoagulant', 'Bleeding, dyspepsia'],
+    ['warfarin', false, 'Vit K Antagonist', 'warfarin', 'INR 모니터 필수 — 패턴 없이 그냥 외우기', 'Bleeding (INR ↑), food (vit K) · drug interactions 많음'],
   ]},
   {name:'Antibiotics / Anti-Infectives', kr:'항생제 · 감염', color:'#bb851a', items:[
-    ['-cillin', true, 'Penicillin', 'amoxicillin, flucloxacillin, piperacillin', '항생제 — penicillin allergy 반드시 확인'],
-    ['cef- / ceph-', false, 'Cephalosporin', 'cefazolin, ceftriaxone, cefepime', '항생제 — IV 많이 봄, penicillin 교차알레르기 가능'],
-    ['-floxacin', true, 'Fluoroquinolone', 'ciprofloxacin, moxifloxacin', '항생제'],
-    ['-cycline', false, 'Tetracycline', 'doxycycline', '항생제'],
-    ['-mycin', false, '여러 계열 (주의!)', 'azithromycin (macrolide), gentamicin (aminoglycoside), vancomycin (glycopeptide)', '“항생제?” 하고 감 잡기 — 단, 계열은 제각각!'],
-    ['-penem', false, 'Carbapenem', 'meropenem, ertapenem', 'broad-spectrum IV 항생제 (중증 감염)'],
-    ['-azole', true, 'Antifungal / Antimicrobial', 'fluconazole (항진균), metronidazole (혐기성균)', 'fluconazole = fungal, metronidazole = anaerobe'],
+    ['-cillin', true, 'Penicillin', 'amoxicillin, flucloxacillin, piperacillin', '항생제 — penicillin allergy 반드시 확인', 'Allergy / anaphylaxis, diarrhoea, C. diff'],
+    ['cef- / ceph-', false, 'Cephalosporin', 'cefazolin, ceftriaxone, cefepime', '항생제 — IV 많이 봄, penicillin 교차알레르기 가능', 'Allergy, diarrhoea, C. diff'],
+    ['-floxacin', true, 'Fluoroquinolone', 'ciprofloxacin, moxifloxacin', '항생제', 'Tendinitis / tendon rupture, QT prolongation, confusion (elderly), C. diff'],
+    ['-cycline', false, 'Tetracycline', 'doxycycline', '항생제', 'Photosensitivity, oesophagitis (물과 함께, 똑바로 앉아서 복용)'],
+    ['-mycin', false, '여러 계열 (주의!)', 'azithromycin (macrolide), gentamicin (aminoglycoside), vancomycin (glycopeptide)', '“항생제?” 하고 감 잡기 — 단, 계열은 제각각!', 'Macrolide → GI upset, QT ↑ · Aminoglycoside → nephro/ototoxicity · Vanc → nephrotoxicity, infusion reaction'],
+    ['-penem', false, 'Carbapenem', 'meropenem, ertapenem', 'broad-spectrum IV 항생제 (중증 감염)', 'Allergy, diarrhoea / C. diff, seizures (high dose)'],
+    ['-azole', true, 'Antifungal / Antimicrobial', 'fluconazole (항진균), metronidazole (혐기성균)', 'fluconazole = fungal, metronidazole = anaerobe', 'Fluconazole → LFTs ↑, QT ↑ · Metronidazole → metallic taste, alcohol reaction'],
   ]},
   {name:'GI / Antiemetics', kr:'위장약 · 구토', color:'#0f766e', items:[
-    ['-prazole', true, 'PPI', 'pantoprazole, omeprazole, esomeprazole', 'stomach acid ↓ — 궤양 · GERD · GI bleed'],
-    ['-tidine', false, 'H2 Blocker', 'famotidine', 'stomach acid ↓ (PPI보다 약함)'],
-    ['-setron', true, '5-HT3 Antiemetic', 'ondansetron', 'nausea · vomiting ↓'],
-    ['-pramide', false, 'Prokinetic', 'metoclopramide', 'nausea ↓ + gastric emptying ↑'],
-    ['-lax / lact- / macrogol', false, 'Laxative', 'lactulose, macrogol', 'constipation 관리'],
+    ['-prazole', true, 'PPI', 'pantoprazole, omeprazole, esomeprazole', 'stomach acid ↓ — 궤양 · GERD · GI bleed', 'Headache, diarrhoea · long-term → hypomagnesaemia, C. diff'],
+    ['-tidine', false, 'H2 Blocker', 'famotidine', 'stomach acid ↓ (PPI보다 약함)', 'Headache, confusion (elderly)'],
+    ['-setron', true, '5-HT3 Antiemetic', 'ondansetron', 'nausea · vomiting ↓', 'Headache, constipation, QT prolongation'],
+    ['-pramide', false, 'Prokinetic', 'metoclopramide', 'nausea ↓ + gastric emptying ↑', 'EPS (dystonia), drowsiness — bowel obstruction 금기'],
+    ['-lax / lact- / macrogol', false, 'Laxative', 'lactulose, macrogol', 'constipation 관리', 'Bloating, cramps, diarrhoea → electrolyte imbalance'],
   ]},
   {name:'Pain / Anaesthesia / Sedation', kr:'통증 · 마취 · 진정', color:'#8e44ad', items:[
-    ['-caine', true, 'Local Anaesthetic', 'lignocaine / lidocaine, bupivacaine', '국소마취'],
-    ['-codone', false, 'Opioid', 'oxycodone', 'strong pain relief — RR · sedation 관찰'],
-    ['morph-', false, 'Opioid', 'morphine', 'strong opioid — S8 규제약물'],
-    ['fenta-', false, 'Opioid', 'fentanyl', 'very strong opioid — S8'],
-    ['-pam / -lam', true, 'Benzodiazepine', 'diazepam, midazolam, lorazepam', 'sedation · anxiety · seizure — resp. depression · falls risk'],
-    ['-fenac', false, 'NSAID', 'diclofenac', 'anti-inflammatory pain relief'],
-    ['-coxib', false, 'COX-2 NSAID', 'celecoxib, parecoxib', 'anti-inflammatory (위장 부작용 상대적 ↓)'],
+    ['-caine', true, 'Local Anaesthetic', 'lignocaine / lidocaine, bupivacaine', '국소마취', 'LAST: perioral numbness, tinnitus → seizures, arrhythmia'],
+    ['-codone', false, 'Opioid', 'oxycodone', 'strong pain relief — RR · sedation 관찰', 'Respiratory depression, sedation, constipation, nausea'],
+    ['morph-', false, 'Opioid', 'morphine', 'strong opioid — S8 규제약물', 'Respiratory depression, sedation, constipation, pruritus, N/V'],
+    ['fenta-', false, 'Opioid', 'fentanyl', 'very strong opioid — S8', 'Respiratory depression, sedation (very potent)'],
+    ['-pam / -lam', true, 'Benzodiazepine', 'diazepam, midazolam, lorazepam', 'sedation · anxiety · seizure — resp. depression · falls risk', 'Sedation, falls, respiratory depression (+ opioids), dependence'],
+    ['-fenac', false, 'NSAID', 'diclofenac', 'anti-inflammatory pain relief', 'GI bleeding, AKI, CV risk ↑'],
+    ['-coxib', false, 'COX-2 NSAID', 'celecoxib, parecoxib', 'anti-inflammatory (위장 부작용 상대적 ↓)', 'AKI, fluid retention, CV risk ↑ (GI bleeding은 덜함)'],
   ]},
   {name:'Respiratory', kr:'호흡기', color:'#2c8c6a', items:[
-    ['-terol', false, 'Beta-2 Agonist', 'salbutamol, salmeterol, formoterol', '기관지 확장'],
-    ['-tropium', false, 'Anticholinergic', 'ipratropium, tiotropium', '기관지 확장 (inhaler)'],
-    ['-sonide / -asone', false, 'Inhaled Corticosteroid', 'budesonide, fluticasone', 'inflammation ↓ (흡입 스테로이드)'],
+    ['-terol', false, 'Beta-2 Agonist', 'salbutamol, salmeterol, formoterol', '기관지 확장', 'Tremor, tachycardia, hypokalaemia'],
+    ['-tropium', false, 'Anticholinergic', 'ipratropium, tiotropium', '기관지 확장 (inhaler)', 'Dry mouth, urinary retention, constipation'],
+    ['-sonide / -asone', false, 'Inhaled Corticosteroid', 'budesonide, fluticasone', 'inflammation ↓ (흡입 스테로이드)', 'Oral thrush, hoarse voice → 사용 후 입 헹구기'],
   ]},
   {name:'Diabetes', kr:'당뇨', color:'#6c5ce7', items:[
-    ['-formin', true, 'Biguanide', 'metformin', 'T2DM 1차 약 — 신기능 확인, 조영제 검사 전 중단, lactic acidosis 주의'],
-    ['-gliflozin', true, 'SGLT2 Inhibitor', 'empagliflozin, dapagliflozin', '소변으로 glucose 배출 — UTI · 탈수 · 정상혈당 DKA 주의'],
-    ['-gliptin', true, 'DPP-4 Inhibitor', 'sitagliptin, linagliptin', '인크레틴 분해 ↓ → 혈당 ↓'],
-    ['-tide', false, 'GLP-1 RA', 'semaglutide, dulaglutide', '혈당 ↓ · 체중 ↓'],
-    ['insulin', false, 'Insulin', 'insulin aspart, insulin glargine', '혈당 ↓ — 종류(속효/지속) 반드시 확인'],
+    ['-formin', true, 'Biguanide', 'metformin', 'T2DM 1차 약 — 신기능 확인, 조영제 검사 전 중단, lactic acidosis 주의', 'GI upset (diarrhoea), lactic acidosis (rare), B12 ↓'],
+    ['-gliflozin', true, 'SGLT2 Inhibitor', 'empagliflozin, dapagliflozin', '소변으로 glucose 배출 — UTI · 탈수 · 정상혈당 DKA 주의', 'UTI / genital thrush, dehydration, euglycaemic DKA'],
+    ['-gliptin', true, 'DPP-4 Inhibitor', 'sitagliptin, linagliptin', '인크레틴 분해 ↓ → 혈당 ↓', 'Usually well tolerated — pancreatitis (rare), joint pain'],
+    ['-tide', false, 'GLP-1 RA', 'semaglutide, dulaglutide', '혈당 ↓ · 체중 ↓', 'Nausea / vomiting, delayed gastric emptying (peri-op aspiration risk), pancreatitis (rare)'],
+    ['insulin', false, 'Insulin', 'insulin aspart, insulin glargine', '혈당 ↓ — 종류(속효/지속) 반드시 확인', 'Hypoglycaemia, hypokalaemia, weight gain'],
   ]},
   {name:'Steroids / Immune', kr:'스테로이드 · 면역', color:'#d35400', items:[
-    ['-sone / -solone', true, 'Corticosteroid', 'prednisone, dexamethasone, prednisolone', 'inflammation · immune ↓ — BSL ↑ 주의'],
-    ['-mab', true, 'Monoclonal Ab', 'rituximab, pembrolizumab, infliximab', '면역 · 암 · 염증질환 표적 치료'],
-    ['-nib', true, 'Kinase Inhibitor', 'imatinib, osimertinib', 'cancer · targeted therapy'],
+    ['-sone / -solone', true, 'Corticosteroid', 'prednisone, dexamethasone, prednisolone', 'inflammation · immune ↓ — BSL ↑ 주의', 'Hyperglycaemia, infection risk, insomnia / mood change, long-term osteoporosis'],
+    ['-mab', true, 'Monoclonal Ab', 'rituximab, pembrolizumab, infliximab', '면역 · 암 · 염증질환 표적 치료', 'Infusion reactions, infection risk'],
+    ['-nib', true, 'Kinase Inhibitor', 'imatinib, osimertinib', 'cancer · targeted therapy', 'Diarrhoea, rash, liver toxicity, fatigue'],
   ]},
   {name:'Psychiatry / Neurology', kr:'정신과 · 신경계', color:'#5d6675', items:[
-    ['-oxetine', false, 'SSRI / SNRI', 'fluoxetine, paroxetine, duloxetine', 'depression · anxiety · pain'],
-    ['-pram', false, 'SSRI', 'citalopram, escitalopram', 'depression · anxiety'],
-    ['-apine', false, 'Antipsychotic', 'olanzapine, quetiapine, clozapine', 'psychosis · mood · sedation'],
-    ['-zepine', false, 'Anticonvulsant', 'carbamazepine, oxcarbazepine', 'seizure · mood stabiliser'],
+    ['-oxetine', false, 'SSRI / SNRI', 'fluoxetine, paroxetine, duloxetine', 'depression · anxiety · pain', 'Nausea, insomnia / agitation, hyponatraemia, serotonin syndrome'],
+    ['-pram', false, 'SSRI', 'citalopram, escitalopram', 'depression · anxiety', 'Nausea, hyponatraemia, QT ↑ (citalopram), serotonin syndrome'],
+    ['-apine', false, 'Antipsychotic', 'olanzapine, quetiapine, clozapine', 'psychosis · mood · sedation', 'Sedation, weight gain / metabolic, postural hypotension'],
+    ['-zepine', false, 'Anticonvulsant', 'carbamazepine, oxcarbazepine', 'seizure · mood stabiliser', 'Dizziness, hyponatraemia, rash (SJS), drug interactions'],
   ]},
 ];
 
@@ -811,19 +813,19 @@ $('detail').addEventListener('click', e => {
 });
 
 /* ================= STEMS ================= */
-const STEM_POOL = STEM_GROUPS.flatMap(g => g.items.map(([stem, star, cls, ex, note]) => ({g, stem, star, cls, ex, note})));
+const STEM_POOL = STEM_GROUPS.flatMap(g => g.items.map(([stem, star, cls, ex, note, se]) => ({g, stem, star, cls, ex, note, se})));
 function renderStems(){
   const q = $('stemSearch').value.trim().toLowerCase(), starOnly = $('stemStar').checked;
   $('stemGroups').innerHTML = STEM_GROUPS.map(g => {
-    const rows = g.items.filter(([stem, star, cls, ex, note]) =>
-      (!starOnly || star) && (!q || (stem + ' ' + cls + ' ' + ex + ' ' + note).toLowerCase().includes(q)));
+    const rows = g.items.filter(([stem, star, cls, ex, note, se]) =>
+      (!starOnly || star) && (!q || (stem + ' ' + cls + ' ' + ex + ' ' + note + ' ' + se).toLowerCase().includes(q)));
     if (!rows.length) return '';
     return `<div class="stem-group">
       <h2><span class="dot" style="background:${g.color}"></span>${g.name}<span>${g.kr}</span></h2>
-      <div class="stem-table">${rows.map(([stem, star, cls, ex, note]) => `
+      <div class="stem-table">${rows.map(([stem, star, cls, ex, note, se]) => `
         <div class="stem-row">
           <div><div class="stem-name">${stem}${star ? '<span class="tag common">★</span>' : ''}</div><div class="stem-class">${cls}</div></div>
-          <div><div class="stem-ex">${ex}</div><div class="stem-note">${note}</div></div>
+          <div><div class="stem-ex">${ex}</div><div class="stem-note">${note}</div><div class="stem-se">⚠️ ${se}</div></div>
         </div>`).join('')}</div>
     </div>`;
   }).join('') || '<p class="empty">No results</p>';
@@ -889,11 +891,11 @@ function renderCard(){
       <div class="q-ask">${c.a.ask}</div>`;
     back = bullets(c.d[c.a.key]);
   } else if (c.type === 'stem'){
-    front = `<div class="q-label">STEM → CLASS</div><div class="q-prompt mono">${c.s.stem}</div><div class="q-ask">어떤 계열? 예시 약은?</div>`;
-    back = `<dl class="kv"><dt>Class</dt><dd>${c.s.cls}</dd><dt>Examples</dt><dd>${c.s.ex}</dd><dt>쉽게 말하면</dt><dd>${c.s.note}</dd></dl>`;
+    front = `<div class="q-label">STEM → CLASS</div><div class="q-prompt mono">${c.s.stem}</div><div class="q-ask">어떤 계열? 예시 약은? 부작용은?</div>`;
+    back = `<dl class="kv"><dt>Class</dt><dd>${c.s.cls}</dd><dt>Examples</dt><dd>${c.s.ex}</dd><dt>쉽게 말하면</dt><dd>${c.s.note}</dd><dt>Side effects</dt><dd class="se">${c.s.se}</dd></dl>`;
   } else {
-    front = `<div class="q-label">DRUG → STEM</div><div class="q-prompt">${c.drug}</div><div class="q-ask">stem은? 어떤 계열?</div>`;
-    back = `<dl class="kv"><dt>Stem</dt><dd><code>${c.s.stem}</code></dd><dt>Class</dt><dd>${c.s.cls}</dd><dt>쉽게 말하면</dt><dd>${c.s.note}</dd></dl>`;
+    front = `<div class="q-label">DRUG → STEM</div><div class="q-prompt">${c.drug}</div><div class="q-ask">stem은? 어떤 계열? 부작용은?</div>`;
+    back = `<dl class="kv"><dt>Stem</dt><dd><code>${c.s.stem}</code></dd><dt>Class</dt><dd>${c.s.cls}</dd><dt>쉽게 말하면</dt><dd>${c.s.note}</dd><dt>Side effects</dt><dd class="se">${c.s.se}</dd></dl>`;
   }
   $('quizArea').innerHTML = `
     <div class="card${quiz.revealed ? ' revealed' : ''}">
