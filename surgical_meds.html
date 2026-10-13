@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Surgical 병동 핵심 약물 · Surgical Ward Meds</title>
+<title>Ward Meds · BPH Surgical</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -13,370 +13,276 @@
     --text:#3d4654;
     --muted:#6b7482;
     --faint:#9aa2ae;
-    --paper:#f4f6f9;
+    --paper:#f5f6f8;
     --card:#ffffff;
-    --line:#e6eaf0;
-    --hover:#f1f4f8;
+    --line:#e7eaef;
+    --hover:#f2f4f7;
     --accent:#0f766e;
+    --accent-soft:#eef7f5;
     --flag:#c0392b;
     --mono:'JetBrains Mono',ui-monospace,monospace;
   }
-
   *{box-sizing:border-box;margin:0;padding:0}
   body{
     font-family:'Noto Sans KR',system-ui,sans-serif;
-    color:var(--text);
-    background:var(--paper);
-    line-height:1.6;
-    font-size:15px;
-    -webkit-font-smoothing:antialiased;
+    color:var(--text);background:var(--paper);
+    line-height:1.6;font-size:15px;-webkit-font-smoothing:antialiased;
   }
-  button{font:inherit;cursor:pointer}
+  button{font:inherit;cursor:pointer;color:inherit}
+  input{font:inherit}
 
-  /* ---------- top bar ---------- */
-  .topbar{
-    position:sticky;top:0;z-index:20;
-    background:rgba(255,255,255,.92);backdrop-filter:blur(8px);
-    border-bottom:1px solid var(--line);
-  }
-  .topbar-inner{
-    max-width:1100px;margin:0 auto;padding:12px 16px;
-    display:flex;align-items:center;gap:12px;
-  }
-  .back{color:var(--muted);text-decoration:none;font-size:.85rem;white-space:nowrap}
+  /* ================= header + tabs ================= */
+  .top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .top-inner{max-width:1080px;margin:0 auto;padding:0 16px;display:flex;align-items:center;gap:16px;height:56px}
+  .back{color:var(--faint);text-decoration:none;font-size:.85rem}
   .back:hover{color:var(--ink)}
-  .title{flex:1;min-width:0}
-  .title h1{font-size:1.05rem;font-weight:800;color:var(--ink);line-height:1.3}
-  .title p{font-family:var(--mono);font-size:.66rem;color:var(--faint);letter-spacing:.06em}
-  .quiz-toggle{
-    display:flex;align-items:center;gap:8px;
-    border:1px solid var(--line);background:#fff;border-radius:999px;
-    padding:6px 12px 6px 8px;font-size:.82rem;color:var(--muted);white-space:nowrap;
+  .brand{font-weight:800;color:var(--ink);font-size:1rem;white-space:nowrap}
+  .brand small{font-weight:500;color:var(--faint);font-size:.75rem;margin-left:6px}
+  .tabs{display:flex;gap:2px;margin-left:auto;height:100%}
+  .tab{
+    border:none;background:none;padding:0 14px;height:100%;
+    color:var(--muted);font-size:.9rem;font-weight:500;border-bottom:2px solid transparent;
   }
-  .quiz-toggle .sw{
-    width:30px;height:18px;border-radius:999px;background:#d5dbe3;position:relative;transition:.15s;
-  }
-  .quiz-toggle .sw::after{
-    content:'';position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;
-    background:#fff;transition:.15s;box-shadow:0 1px 2px rgba(0,0,0,.2);
-  }
-  .quiz-toggle[aria-pressed="true"]{color:var(--accent);border-color:#bfe3dd}
-  .quiz-toggle[aria-pressed="true"] .sw{background:var(--accent)}
-  .quiz-toggle[aria-pressed="true"] .sw::after{left:14px}
+  .tab:hover{color:var(--ink)}
+  .tab.on{color:var(--ink);font-weight:700;border-bottom-color:var(--ink)}
+  .view{display:none}
+  .view.on{display:block}
 
-  /* ---------- layout ---------- */
-  .layout{
-    max-width:1100px;margin:0 auto;padding:20px 16px 60px;
-    display:grid;grid-template-columns:340px 1fr;gap:20px;align-items:start;
-  }
-
-  /* ---------- list pane ---------- */
-  .list-pane{
-    position:sticky;top:76px;
-    background:var(--card);border:1px solid var(--line);border-radius:14px;
-    display:flex;flex-direction:column;max-height:calc(100vh - 96px);overflow:hidden;
-  }
-  .list-tools{padding:12px;border-bottom:1px solid var(--line)}
-  .search{
-    width:100%;border:1px solid var(--line);border-radius:10px;background:var(--paper);
-    padding:9px 12px;font:inherit;font-size:.9rem;color:var(--ink);
-  }
-  .search:focus{outline:2px solid #bfe3dd;background:#fff}
-  .filters{display:flex;gap:6px;margin-top:10px;overflow-x:auto;scrollbar-width:none}
-  .filters::-webkit-scrollbar{display:none}
-  .filter{
-    flex:none;border:none;background:none;color:var(--muted);
-    padding:4px 10px;border-radius:999px;font-size:.8rem;
-  }
-  .filter:hover{background:var(--hover)}
-  .filter.on{background:var(--ink);color:#fff}
-
-  .list{overflow-y:auto;padding:6px 0 10px}
-  .group-label{
-    font-family:var(--mono);font-size:.64rem;font-weight:700;letter-spacing:.14em;
-    text-transform:uppercase;color:var(--faint);padding:14px 16px 6px;
-    display:flex;align-items:center;gap:8px;
-  }
-  .group-label i{width:7px;height:7px;border-radius:50%;display:inline-block}
-  .row{
-    width:100%;text-align:left;border:none;background:none;
-    display:flex;align-items:center;gap:10px;padding:9px 16px;
-    border-left:3px solid transparent;
-  }
-  .row:hover{background:var(--hover)}
-  .row.on{background:#eef7f5;border-left-color:var(--accent)}
-  .row-main{flex:1;min-width:0}
-  .row-name{display:block;font-weight:700;color:var(--ink);font-size:.93rem;line-height:1.35}
-  .row-gen{display:block;font-size:.78rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .row-tags{display:flex;gap:4px;flex:none}
-  .tag{
-    font-family:var(--mono);font-size:.58rem;font-weight:700;
-    padding:2px 5px;border-radius:4px;letter-spacing:.03em;
-  }
+  /* ================= shared bits ================= */
+  .tag{font-family:var(--mono);font-size:.6rem;font-weight:700;padding:2px 6px;border-radius:4px;letter-spacing:.03em;white-space:nowrap}
   .tag.s8{background:#fbeae7;color:var(--flag)}
   .tag.common{background:#fff4d6;color:#9a6700}
-  .empty{padding:30px 16px;color:var(--faint);text-align:center;font-size:.85rem;display:none}
-
-  /* ---------- detail pane ---------- */
-  .detail{
-    background:var(--card);border:1px solid var(--line);border-radius:14px;
-    padding:28px 32px 30px;min-height:420px;
+  .tag.ward{background:var(--accent-soft);color:var(--accent)}
+  .search{
+    width:100%;border:1px solid var(--line);border-radius:10px;background:#fff;
+    padding:9px 12px;font-size:.9rem;color:var(--ink);
   }
+  .search:focus{outline:2px solid #c7e6e0;border-color:transparent}
+  .chips{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{flex:none;border:none;background:none;color:var(--muted);padding:5px 11px;border-radius:999px;font-size:.82rem}
+  .chip:hover{background:var(--hover)}
+  .chip.on{background:var(--ink);color:#fff}
+  .btn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 16px;font-size:.88rem;font-weight:500}
+  .btn:hover{background:var(--hover)}
+  .btn.primary{background:var(--ink);border-color:var(--ink);color:#fff}
+  .btn.primary:hover{background:#2b3444}
+  .btn:disabled{opacity:.35;cursor:default}
+  .dot{width:7px;height:7px;border-radius:50%;display:inline-block;flex:none}
+
+  /* ================= DRUGS view ================= */
+  .drugs{max-width:1080px;margin:0 auto;padding:20px 16px 40px;display:grid;grid-template-columns:320px 1fr;gap:20px;align-items:start}
+  .side{
+    position:sticky;top:76px;background:var(--card);border:1px solid var(--line);border-radius:14px;
+    display:flex;flex-direction:column;max-height:calc(100vh - 96px);overflow:hidden;
+  }
+  .side-tools{padding:12px;display:grid;gap:10px;border-bottom:1px solid var(--line)}
+  .side-tools .search{background:var(--paper)}
+  .list{overflow-y:auto;padding:4px 0 10px}
+  .group{font-size:.7rem;font-weight:700;color:var(--faint);padding:14px 16px 4px;display:flex;align-items:center;gap:7px;letter-spacing:.02em}
+  .row{width:100%;text-align:left;border:none;background:none;display:flex;align-items:center;gap:10px;padding:8px 16px}
+  .row:hover{background:var(--hover)}
+  .row.on{background:var(--accent-soft)}
+  .row.on .row-name{color:var(--accent)}
+  .row-main{flex:1;min-width:0}
+  .row-name{display:block;font-weight:700;color:var(--ink);font-size:.92rem;line-height:1.35}
+  .row-sub{display:block;font-size:.76rem;color:var(--faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .row-tags{display:flex;gap:3px;flex:none}
+  .empty{padding:30px 16px;color:var(--faint);text-align:center;font-size:.85rem}
+
+  .detail{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:30px 34px}
   .sheet-close{display:none}
-  .d-cat{
-    font-family:var(--mono);font-size:.68rem;font-weight:700;letter-spacing:.14em;
-    text-transform:uppercase;display:flex;align-items:center;gap:8px;margin-bottom:10px;
-  }
-  .d-cat i{width:8px;height:8px;border-radius:50%;display:inline-block}
-  .d-name{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-  .d-name h2{font-size:1.75rem;font-weight:900;color:var(--ink);letter-spacing:-.01em;line-height:1.2}
-  .d-generic{font-size:1rem;color:var(--muted);margin-top:2px}
-  .d-class{
-    display:inline-block;margin-top:10px;
-    font-size:.78rem;color:var(--text);background:var(--paper);border:1px solid var(--line);
-    padding:3px 10px;border-radius:999px;
-  }
-
-  .say{
-    margin:22px 0 6px;padding:14px 16px;border-radius:12px;
-    background:#f3faf8;border:1px solid #d3ebe6;
-  }
-  .say-label{
-    font-family:var(--mono);font-size:.62rem;font-weight:700;letter-spacing:.14em;
-    color:var(--accent);margin-bottom:4px;display:flex;justify-content:space-between;align-items:center;
-  }
-  .say-text{font-size:.93rem;color:#1f4d45;line-height:1.65}
-
-  .sec{padding:18px 0;border-top:1px solid var(--line)}
+  .d-top{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:.78rem;color:var(--muted);margin-bottom:8px}
+  .d-name{font-size:1.8rem;font-weight:900;color:var(--ink);letter-spacing:-.015em;line-height:1.2}
+  .d-brand{color:var(--muted);margin-top:2px}
+  .d-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+  .pill{font-size:.78rem;color:var(--text);background:var(--paper);border:1px solid var(--line);padding:3px 10px;border-radius:999px}
+  .pill code{font-family:var(--mono);font-weight:700;color:var(--ink)}
+  .say{margin:22px 0 4px;padding:14px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);border-radius:0 10px 10px 0}
+  .say-label{font-size:.7rem;font-weight:700;color:var(--accent);margin-bottom:3px}
+  .say p{font-size:.92rem;color:#1f4d45;line-height:1.65}
+  .sec{display:grid;grid-template-columns:150px 1fr;gap:16px;padding:16px 0;border-top:1px solid var(--line)}
   .sec:first-of-type{border-top:none}
-  .sec-head{display:flex;align-items:baseline;gap:8px;margin-bottom:8px}
-  .sec-head h3{font-size:.8rem;font-weight:700;color:var(--ink);letter-spacing:.02em;text-transform:uppercase}
-  .sec-head span{font-size:.75rem;color:var(--faint)}
-  .sec-body{font-size:.95rem}
-  .sec-body ul{list-style:none;display:grid;gap:6px}
-  .sec-body li{position:relative;padding-left:16px}
-  .sec-body li::before{
-    content:'';position:absolute;left:2px;top:.72em;width:5px;height:5px;border-radius:50%;background:var(--faint);
-  }
+  .sec h3{font-size:.82rem;font-weight:700;color:var(--ink);line-height:1.5}
+  .sec h3 span{display:block;font-weight:400;color:var(--faint);font-size:.75rem}
+  .sec-body ul{list-style:none;display:grid;gap:5px}
+  .sec-body li{position:relative;padding-left:14px}
+  .sec-body li::before{content:'';position:absolute;left:1px;top:.7em;width:5px;height:5px;border-radius:50%;background:#c6ccd5}
+  .sec.warn li::before{background:#e8a59c}
+  .sec.check li::before{background:#8cc9bd}
   .sec-body b{font-weight:600;color:var(--ink)}
-  .sec.warn .sec-body li::before{background:var(--flag)}
-  .sec.check .sec-body li::before{background:var(--accent)}
+  .d-nav{display:flex;justify-content:space-between;margin-top:18px;padding-top:18px;border-top:1px solid var(--line)}
 
-  /* quiz: hide answer until revealed */
-  .reveal-btn{
-    display:none;width:100%;text-align:left;
-    border:1px dashed #cfd6df;background:var(--paper);color:var(--muted);
-    border-radius:10px;padding:12px 14px;font-size:.85rem;
-  }
-  .reveal-btn:hover{border-color:var(--accent);color:var(--accent)}
-  body.quiz .hidden-ans .sec-body,
-  body.quiz .hidden-ans .say-text{display:none}
-  body.quiz .hidden-ans .reveal-btn{display:block}
-
-  .d-nav{display:flex;justify-content:space-between;gap:10px;margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}
-  .nav-btn{
-    border:1px solid var(--line);background:#fff;color:var(--text);
-    border-radius:10px;padding:8px 14px;font-size:.85rem;
-  }
-  .nav-btn:hover{background:var(--hover)}
-  .nav-btn.primary{background:var(--ink);color:#fff;border-color:var(--ink)}
-
-  /* ---------- help (how to answer) ---------- */
-  details.howto{
-    max-width:1100px;margin:16px auto 0;padding:0 16px;
-  }
-  details.howto summary{
-    cursor:pointer;font-size:.85rem;color:var(--muted);list-style:none;
-    display:inline-flex;align-items:center;gap:6px;
-  }
-  details.howto summary::-webkit-details-marker{display:none}
-  details.howto summary::before{content:'▸';transition:.15s}
-  details.howto[open] summary::before{transform:rotate(90deg)}
-  .howto-body{
-    margin-top:10px;background:var(--card);border:1px solid var(--line);border-radius:12px;
-    padding:16px 18px;font-size:.88rem;
-  }
-  .howto-body ol{padding-left:20px;display:grid;gap:3px}
-  .howto-body b{color:var(--ink)}
-  .howto-body .eg{margin-top:10px;color:var(--muted);font-style:italic}
-
-  .note{
-    max-width:1100px;margin:0 auto;padding:0 16px 40px;
-    font-size:.78rem;color:var(--faint);
-  }
-
-
-  /* ---------- view tabs ---------- */
-  .tabs{max-width:1100px;margin:14px auto 0;padding:0 16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-  .seg{display:inline-flex;background:#e8ecf1;border-radius:10px;padding:3px}
-  .seg button{border:none;background:none;color:var(--muted);padding:6px 14px;border-radius:8px;font-size:.85rem;font-weight:500}
-  .seg button.on{background:#fff;color:var(--ink);font-weight:700;box-shadow:0 1px 2px rgba(0,0,0,.08)}
-  body.view-stems .layout, body.view-stems details.howto{display:none}
-  body:not(.view-stems) .stems{display:none}
-
-  /* ---------- stems view ---------- */
-  .stems{max-width:1100px;margin:0 auto;padding:16px 16px 40px;display:grid;gap:16px}
-  .stems-intro{font-size:.88rem;color:var(--muted);max-width:760px}
-  .stems-intro b{color:var(--ink);font-weight:600}
-  .stems-tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-  .stems-tools .search{max-width:320px}
-  .star-only{display:flex;align-items:center;gap:6px;font-size:.85rem;color:var(--muted);cursor:pointer}
-  .panel{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
-  .panel-head{padding:14px 18px 10px;display:flex;align-items:baseline;gap:8px;border-bottom:1px solid var(--line)}
-  .panel-head h2{font-size:.95rem;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:8px}
-  .panel-head h2 i{width:8px;height:8px;border-radius:50%;display:inline-block}
-  .panel-head span{font-size:.78rem;color:var(--faint)}
-  .stem-row{display:grid;grid-template-columns:150px 1fr;gap:4px 18px;padding:12px 18px;border-top:1px solid var(--line)}
-  .stem-row:first-of-type{border-top:none}
-  .stem-name{font-family:var(--mono);font-weight:700;color:var(--ink);font-size:.95rem}
-  .stem-name .tag{margin-left:4px;vertical-align:2px}
-  .stem-class{font-size:.78rem;color:var(--muted);margin-top:2px}
-  .stem-ex{font-size:.9rem;color:var(--ink)}
-  .stem-note{font-size:.85rem;color:var(--muted)}
-  .caution{background:#fffaf0;border:1px solid #f0dfb8;border-radius:14px;padding:16px 18px;font-size:.88rem}
-  .caution h3, .thinking h3{font-size:.8rem;font-weight:700;color:var(--ink);text-transform:uppercase;letter-spacing:.02em;margin-bottom:8px}
-  .caution ul{padding-left:18px;display:grid;gap:4px}
-  .caution code, .flow code{font-family:var(--mono);font-size:.85em;background:rgba(0,0,0,.05);padding:1px 5px;border-radius:4px}
-  .thinking{padding:16px 18px}
-  .thinking > p{font-size:.85rem;color:var(--muted);margin-bottom:10px}
-  .flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:10px 0;border-top:1px solid var(--line);font-size:.88rem}
+  /* ================= STEMS view ================= */
+  .stems{max-width:860px;margin:0 auto;padding:24px 16px 40px}
+  .lead{font-size:.9rem;color:var(--muted);margin-bottom:16px}
+  .lead b{color:var(--ink);font-weight:600}
+  .stems-tools{display:flex;gap:12px;align-items:center;margin-bottom:18px;flex-wrap:wrap}
+  .stems-tools .search{max-width:300px}
+  .check-label{display:flex;align-items:center;gap:6px;font-size:.85rem;color:var(--muted);cursor:pointer}
+  .stem-group{margin-bottom:22px}
+  .stem-group h2{font-size:.82rem;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:8px;margin:0 0 8px 2px}
+  .stem-group h2 span{font-weight:400;color:var(--faint)}
+  .stem-table{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .stem-row{display:grid;grid-template-columns:170px 1fr;gap:2px 18px;padding:11px 16px;border-top:1px solid var(--line)}
+  .stem-row:first-child{border-top:none}
+  .stem-name{font-family:var(--mono);font-weight:700;color:var(--ink);font-size:.92rem;display:flex;align-items:center;gap:6px}
+  .stem-class{font-size:.76rem;color:var(--faint)}
+  .stem-ex{font-size:.88rem;color:var(--ink)}
+  .stem-note{font-size:.82rem;color:var(--muted)}
+  .box{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-top:10px;font-size:.88rem}
+  .box h3{font-size:.82rem;font-weight:700;color:var(--ink);margin-bottom:8px}
+  .box ul{padding-left:18px;display:grid;gap:4px}
+  .box code{font-family:var(--mono);font-size:.85em;background:var(--paper);padding:1px 5px;border-radius:4px;color:var(--ink)}
+  .flow{display:flex;flex-wrap:wrap;gap:6px;padding:8px 0;border-top:1px solid var(--line);font-size:.86rem}
   .flow:first-of-type{border-top:none}
   .flow b{color:var(--ink)}
-  .flow .arr{color:var(--faint)}
-  @media (max-width:640px){
-    .stem-row{grid-template-columns:1fr}
+  .flow i{font-style:normal;color:var(--faint)}
+
+  /* ================= QUIZ view ================= */
+  .quiz{max-width:600px;margin:0 auto;padding:24px 16px 40px}
+  .q-setup{display:grid;gap:10px;margin-bottom:18px}
+  .seg{display:inline-flex;background:#e9ecf0;border-radius:10px;padding:3px;width:max-content}
+  .seg button{border:none;background:none;padding:6px 16px;border-radius:8px;font-size:.86rem;color:var(--muted);font-weight:500}
+  .seg button.on{background:#fff;color:var(--ink);font-weight:700;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+  .progress{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:.72rem;color:var(--faint);margin-bottom:12px}
+  .bar{flex:1;height:5px;background:#e3e7ec;border-radius:999px;overflow:hidden}
+  .bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .25s}
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:18px;
+    box-shadow:0 6px 24px rgba(20,30,50,.06);
+    min-height:340px;display:flex;flex-direction:column;
   }
+  .card-front{padding:34px 30px 24px;text-align:center;flex:1;display:flex;flex-direction:column;justify-content:center}
+  .q-label{font-size:.75rem;font-weight:700;color:var(--accent);letter-spacing:.04em;margin-bottom:12px}
+  .q-prompt{font-size:2rem;font-weight:900;color:var(--ink);line-height:1.2;letter-spacing:-.01em;word-break:break-word}
+  .q-prompt.mono{font-family:var(--mono);font-weight:700}
+  .q-sub{color:var(--muted);margin-top:6px;font-size:.92rem}
+  .q-ask{color:var(--faint);margin-top:14px;font-size:.85rem}
+  .card-back{display:none;border-top:1px dashed var(--line);padding:20px 28px 22px;font-size:.93rem}
+  .card.revealed .card-back{display:block}
+  .card-back ul{list-style:none;display:grid;gap:5px}
+  .card-back li{position:relative;padding-left:14px}
+  .card-back li::before{content:'';position:absolute;left:1px;top:.7em;width:5px;height:5px;border-radius:50%;background:#c6ccd5}
+  .card-back b{font-weight:600;color:var(--ink)}
+  .kv{display:grid;grid-template-columns:110px 1fr;gap:6px 14px}
+  .kv dt{font-size:.78rem;color:var(--faint);padding-top:2px}
+  .kv dd{color:var(--ink)}
+  .kv code{font-family:var(--mono);font-weight:700}
+  .q-actions{display:flex;gap:10px;margin-top:14px}
+  .q-actions .btn{flex:1;padding:13px;font-size:.95rem}
+  .btn.again{color:var(--flag);border-color:#f0cdc8}
+  .btn.got{background:var(--accent);border-color:var(--accent);color:#fff}
+  .btn.got:hover{background:#0c625b}
+  .kbd{font-family:var(--mono);font-size:.68rem;color:var(--faint);text-align:center;margin-top:10px}
+  .tip{font-size:.82rem;color:var(--muted);margin-top:22px;padding:12px 14px;background:var(--card);border:1px solid var(--line);border-radius:10px}
+  .tip b{color:var(--ink)}
+  .done{text-align:center;padding:50px 20px}
+  .done h2{font-size:1.4rem;color:var(--ink);margin-bottom:6px}
+  .done p{color:var(--muted);margin-bottom:18px}
 
+  .note{max-width:1080px;margin:0 auto;padding:0 16px 40px;font-size:.76rem;color:var(--faint)}
 
-  /* ---------- stems quiz ---------- */
-  #stemGroups{display:grid;gap:16px}
-  body.view-stems .quiz-toggle{display:flex}
-  body.view-stems.quiz #stemGroups, body.view-stems.quiz #stemSearch{display:none}
-  body:not(.quiz) .stem-quiz{display:none}
-  .stem-quiz{padding:22px 22px 20px;max-width:640px}
-  .sq-modes{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap}
-  .sq-modes button{border:1px solid var(--line);background:#fff;color:var(--muted);border-radius:999px;padding:4px 12px;font-size:.8rem}
-  .sq-modes button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
-  .sq-group{font-family:var(--mono);font-size:.66rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:6px}
-  .sq-prompt{font-family:var(--mono);font-size:2.1rem;font-weight:700;color:var(--ink);line-height:1.2;word-break:break-word}
-  .sq-ask{font-size:.88rem;color:var(--muted);margin:6px 0 18px}
-  .sq-answer{display:none;border-top:1px solid var(--line);padding-top:14px;gap:8px}
-  .sq-answer.show{display:grid}
-  .sq-answer .k{font-size:.72rem;font-weight:700;color:var(--faint);text-transform:uppercase;letter-spacing:.04em}
-  .sq-answer .v{font-size:.95rem;color:var(--ink)}
-  .sq-answer .v code{font-family:var(--mono);font-weight:700}
-  .stem-quiz .reveal-btn{display:block}
-  .sq-answer.show ~ .reveal-btn, .stem-quiz .reveal-btn.gone{display:none}
-  .sq-foot{display:flex;justify-content:space-between;align-items:center;margin-top:18px;padding-top:14px;border-top:1px solid var(--line)}
-  .sq-count{font-family:var(--mono);font-size:.72rem;color:var(--faint)}
-
-  /* ---------- mobile: list full width, detail as sheet ---------- */
+  /* ================= mobile ================= */
   @media (max-width:820px){
-    .layout{grid-template-columns:1fr;padding-top:12px}
-    .list-pane{position:static;max-height:none}
+    .top-inner{gap:10px}
+    .brand small{display:none}
+    .tab{padding:0 10px}
+    .drugs{grid-template-columns:1fr;padding-top:12px}
+    .side{position:static;max-height:none}
     .detail{
-      position:fixed;inset:0;z-index:30;border-radius:0;border:none;
-      overflow-y:auto;padding:16px 20px 40px;
-      transform:translateY(100%);transition:transform .22s ease;
+      position:fixed;inset:0;z-index:30;border:none;border-radius:0;overflow-y:auto;
+      padding:16px 20px 40px;transform:translateY(100%);transition:transform .22s ease;
     }
     body.sheet-open{overflow:hidden}
     body.sheet-open .detail{transform:none}
-    .sheet-close{
-      display:inline-flex;align-items:center;gap:4px;
-      border:none;background:none;color:var(--muted);font-size:.9rem;padding:4px 0 14px;
-    }
-    .d-name h2{font-size:1.5rem}
+    .sheet-close{display:inline-block;border:none;background:none;color:var(--muted);padding:2px 0 14px;font-size:.9rem}
+    .d-name{font-size:1.5rem}
+    .sec{grid-template-columns:1fr;gap:6px}
+    .sec h3 span{display:inline;margin-left:6px}
+    .stem-row{grid-template-columns:1fr}
+    .q-prompt{font-size:1.6rem}
+    .card-front{padding:28px 20px 20px}
+    .card-back{padding:18px 20px}
+    .kv{grid-template-columns:1fr;gap:2px}
+    .kv dd{margin-bottom:6px}
+  }
+  @media (max-width:420px){
+    .back{display:none}
   }
 </style>
 </head>
 <body>
 
-<header class="topbar">
-  <div class="topbar-inner">
-    <a class="back" href="index.html">&larr; Hub</a>
-    <div class="title">
-      <h1>Surgical Ward Meds</h1>
-      <p>BPH 3B / 4B · 24 DRUGS</p>
-    </div>
-    <button class="quiz-toggle" id="quizBtn" aria-pressed="false"><span class="sw"></span>Quiz</button>
+<header class="top">
+  <div class="top-inner">
+    <a class="back" href="index.html">&larr;</a>
+    <div class="brand">Ward Meds<small>BPH Surgical</small></div>
+    <nav class="tabs" id="tabs">
+      <button class="tab on" data-view="drugs">Drugs</button>
+      <button class="tab" data-view="stems">Stems</button>
+      <button class="tab" data-view="quiz">Quiz</button>
+    </nav>
   </div>
 </header>
 
-<div class="tabs">
-  <div class="seg" id="viewSeg">
-    <button class="on" data-view="drugs">Surgical drugs</button>
-    <button data-view="stems">Name stems <span style="color:var(--faint)">약 이름 패턴</span></button>
+<!-- ================= DRUGS ================= -->
+<section class="view on" id="view-drugs">
+  <div class="drugs">
+    <aside class="side">
+      <div class="side-tools">
+        <input class="search" id="search" type="search" placeholder="Search generic or brand…" autocomplete="off">
+        <div class="chips" id="filters"></div>
+      </div>
+      <nav class="list" id="list"></nav>
+    </aside>
+    <main class="detail" id="detail"></main>
   </div>
-</div>
+  <p class="note">⚠️ 용량은 일부러 거의 넣지 않았어. 용량, 투약 기준, hold parameter는 반드시 약 차트, BPH Policy Manager, AMH/MIMS로 확인하기. 학생은 RN/RM의 direct supervision 하에서만 투약할 수 있고, second checker는 될 수 없어 (third checker만 가능).</p>
+</section>
 
-<details class="howto">
-  <summary>How to answer — 약 물어보면 이 순서로</summary>
-  <div class="howto-body">
-    <ol>
-      <li><b>What</b> — drug name + class (“It’s a …”)</li>
-      <li><b>Why</b> — indication for this patient (“It’s given for …”)</li>
-      <li><b>How</b> — mechanism in one line (“It works by …”)</li>
-      <li><b>Side effects → nursing checks</b> (“So I check … before / after giving it.”)</li>
-    </ol>
-    <p class="eg">“This is Clexane, a low molecular weight heparin. It’s given to prevent DVT after surgery because the patient is less mobile. It works by inhibiting factor Xa. The main risk is bleeding, so I check platelets and look for signs of bleeding.”</p>
-  </div>
-</details>
-
-<div class="layout">
-  <aside class="list-pane">
-    <div class="list-tools">
-      <input class="search" id="search" type="search" placeholder="Search drugs…" autocomplete="off">
-      <div class="filters" id="filters"></div>
+<!-- ================= STEMS ================= -->
+<section class="view" id="view-stems">
+  <div class="stems">
+    <p class="lead">약 이름의 끝(<b>suffix</b>)이나 앞(<b>prefix</b>)을 보면 계열을 짐작할 수 있어. <b>WHO INN</b> stem 기반 — 호주에서는 brand보다 <b>generic name</b>이 중요해. <span class="tag common">★</span> 우선 암기</p>
+    <div class="stems-tools">
+      <input class="search" id="stemSearch" type="search" placeholder="Search stems or drugs…" autocomplete="off">
+      <label class="check-label"><input type="checkbox" id="stemStar"> ★ only</label>
     </div>
-    <nav class="list" id="list"></nav>
-    <p class="empty" id="empty">No results</p>
-  </aside>
+    <div id="stemGroups"></div>
 
-  <main class="detail" id="detail" aria-live="polite"></main>
-</div>
-
-
-<section class="stems" id="stems">
-  <p class="stems-intro">약 이름의 끝(<b>suffix</b>)이나 앞(<b>prefix</b>)을 보면 어떤 계열인지 감 잡을 수 있어. <b>WHO INN</b>(국제일반명) stem 기반. 호주에서는 brand name보다 <b>generic name (active ingredient)</b>이 중요해. <span class="tag common">★</span> = 우선 암기</p>
-  <div class="stems-tools">
-    <input class="search" id="stemSearch" type="search" placeholder="Search stems / drugs…" autocomplete="off">
-    <label class="star-only"><input type="checkbox" id="starOnly"> ★ only</label>
-    <span style="font-size:.8rem;color:var(--faint)">오른쪽 위 <b>Quiz</b>를 켜면 플래시카드로 연습</span>
-  </div>
-  <div class="panel stem-quiz" id="stemQuiz">
-    <div class="sq-modes" id="sqModes">
-      <button class="on" data-mode="stem">Stem → 계열</button>
-      <button data-mode="drug">Drug → stem · 계열</button>
+    <div class="box">
+      <h3>⚠️ 이름 패턴 ≠ 100% 확정</h3>
+      <ul>
+        <li><code>-pine</code>은 헷갈림: <b>amlodipine</b> = 혈압약(CCB), <b>quetiapine</b> = 항정신병약. 끝부분만 믿으면 안 됨.</li>
+        <li><code>-mycin</code>은 다 같은 계열이 아님: azithromycin (macrolide) ≠ gentamicin (aminoglycoside) ≠ vancomycin (glycopeptide).</li>
+        <li>패턴은 힌트일 뿐 — 최종 확인은 <b>medication chart · MIMS/AMH · RN/pharmacist</b>.</li>
+      </ul>
     </div>
-    <div class="sq-group" id="sqGroup"></div>
-    <div class="sq-prompt" id="sqPrompt"></div>
-    <p class="sq-ask" id="sqAsk"></p>
-    <div class="sq-answer" id="sqAnswer"></div>
-    <button class="reveal-btn" id="sqReveal">Tap to reveal</button>
-    <div class="sq-foot">
-      <span class="sq-count" id="sqCount"></span>
-      <button class="nav-btn primary" id="sqNext">Next &rarr;</button>
+    <div class="box">
+      <h3>🧠 Thinking process — 약 이름 들었을 때 생각 순서</h3>
+      <div id="thinking"></div>
     </div>
-  </div>
-  <div id="stemGroups"></div>
-
-  <div class="caution">
-    <h3>⚠️ 이름 패턴 ≠ 100% 확정</h3>
-    <ul>
-      <li><code>-pine</code>은 헷갈림: <b>amlodipine</b> = 혈압약(CCB), <b>quetiapine</b> = 항정신병약. 끝부분만 믿으면 안 됨.</li>
-      <li><code>-mycin</code>은 다 같은 계열이 아님: azithromycin (macrolide) ≠ gentamicin (aminoglycoside) ≠ vancomycin (glycopeptide).</li>
-      <li>패턴은 힌트일 뿐 — 최종 확인은 <b>medication chart · MIMS/AMH · RN/pharmacist</b>.</li>
-    </ul>
-  </div>
-
-  <div class="panel thinking">
-    <h3>🧠 Thinking process</h3>
-    <p>약 이름 들었을 때 생각 순서</p>
-    <div id="thinking"></div>
   </div>
 </section>
 
-<p class="note">⚠️ 용량은 일부러 거의 넣지 않았어. 용량, 투약 기준, hold parameter는 반드시 약 차트, BPH Policy Manager, AMH/MIMS로 확인하기. 학생은 RN/RM의 direct supervision 하에서만 투약할 수 있고, second checker는 될 수 없어 (third checker만 가능).</p>
+<!-- ================= QUIZ ================= -->
+<section class="view" id="view-quiz">
+  <div class="quiz">
+    <div class="q-setup">
+      <div class="seg" id="deckSeg">
+        <button class="on" data-deck="drugs">Drugs</button>
+        <button data-deck="stems">Stems</button>
+      </div>
+      <div class="chips" id="deckOpts"></div>
+    </div>
+
+    <div class="progress"><div class="bar"><i id="bar"></i></div><span id="progText"></span></div>
+    <div id="quizArea"></div>
+
+    <p class="tip" id="tip"></p>
+  </div>
+</section>
 
 <script>
 const CATS = [
@@ -387,6 +293,8 @@ const CATS = [
   {id:'abx',    name:'Antibiotics',        en:'항생제',            color:'#bb851a'},
   {id:'gi',     name:'GI & Bowels',        en:'위장 · 변비',       color:'#0f766e'},
   {id:'fluid',  name:'Fluids & BGL',       en:'수액 · 혈당',       color:'#6c5ce7'},
+  {id:'cardio', name:'Cardiac & Lipids',   en:'심장 · 콜레스테롤', color:'#d35400'},
+  {id:'other',  name:'Other ward meds',    en:'호흡 · 수면 · 빈혈', color:'#5d6675'},
 ];
 
 // star = 수술 병동에서 거의 매일 보는 약
@@ -399,7 +307,7 @@ const DRUGS = [
    check:['<b>Last dose time</b> (min 4-hourly)','<b>Duplicate paracetamol</b> 확인 (e.g. Panadeine)','<b>Masks fever</b> → infection signs 놓치지 않기'],
    say:'It’s a simple analgesic given regularly for baseline pain relief after surgery. The main risk is liver toxicity in overdose, so I check when the last dose was and make sure the daily max isn’t exceeded.'},
 
-  {cat:'pain', star:true, brand:'Nurofen / Celebrex / Dynastat', generic:'Ibuprofen / Celecoxib / Parecoxib (IV)', cls:'NSAID (COX inhibitor)',
+  {cat:'pain', star:true, brand:'Nurofen / Celebrex / Dynastat', generic:'Ibuprofen / Celecoxib / Parecoxib (IV)', cls:'NSAID (COX inhibitor)', stem:'-coxib (celecoxib, parecoxib)',
    why:'<b>Inflammation + pain</b> ↓ — 특히 <b>orthopaedic surgery</b> 후. <b>Parecoxib</b> = <b>IV</b>, <b>NBM</b>일 때',
    how:'<b>COX enzyme</b> block → <b>prostaglandin ↓</b> → <b>inflammation · pain · fever ↓</b>. Celecoxib/Parecoxib = <b>COX-2 selective</b> → <b>GI side effects</b> 적음',
    se:['<b>GI bleeding / peptic ulcer</b>','<b>AKI</b> (renal blood flow ↓)','<b>BP ↑</b>, <b>fluid retention</b>','<b>Bleeding risk ↑</b> (ibuprofen)'],
@@ -414,14 +322,14 @@ const DRUGS = [
    say:'It’s an adjuvant for nerve pain and to reduce opioid use. It calms overactive nerves. It can cause dizziness and sedation, so I monitor sedation and falls risk, especially with opioids.'},
 
   // ---------- Opioids ----------
-  {cat:'opioid', star:true, s8:true, brand:'Endone', generic:'Oxycodone (IR)', cls:'Opioid — mu agonist',
+  {cat:'opioid', star:true, s8:true, brand:'Endone', generic:'Oxycodone (IR)', cls:'Opioid — mu agonist', stem:'-codone',
    why:'<b>Moderate–severe post-op pain</b>, 특히 <b>PRN breakthrough pain</b>',
    how:'Brain · spinal cord의 <b>mu opioid receptor</b> 자극 → <b>pain signal transmission ↓</b>, <b>pain perception ↓</b>',
    se:['<b>Respiratory depression</b> (most dangerous)','<b>Sedation</b>, <b>dizziness</b> → falls','<b>Constipation</b> (almost always), <b>nausea & vomiting</b>','<b>Urinary retention</b>, <b>pruritus</b>, <b>hypotension</b>'],
    check:['Before: <b>pain score, sedation score, RR</b>','<b>S8</b> → <b>2 RN check</b> + <b>drug register</b>','<b>Re-assess</b> effect 30–60 min after','<b>Aperients</b> charted?','<b>Naloxone</b> 위치 알기'],
    say:'It’s an immediate-release opioid for moderate to severe pain. It acts on mu receptors in the brain and spinal cord. The biggest risk is respiratory depression, so I check pain score, sedation score and resp rate before and after giving it.'},
 
-  {cat:'opioid', star:true, s8:true, brand:'Targin', generic:'Oxycodone + Naloxone (CR)', cls:'Controlled-release opioid',
+  {cat:'opioid', star:true, s8:true, brand:'Targin', generic:'Oxycodone + Naloxone (CR)', cls:'Controlled-release opioid', stem:'-codone',
    why:'<b>Ongoing post-op pain</b> — <b>12-hourly baseline</b> analgesia. Breakthrough → <b>Endone PRN</b>',
    how:'<b>Oxycodone</b> = pain relief. <b>Naloxone</b> = oral로 먹으면 <b>gut</b>에서만 작용 (<b>low bioavailability</b>) → gut opioid receptor block → <b>constipation ↓</b>',
    se:['Same as oxycodone: <b>respiratory depression, sedation, nausea</b>','<b>Constipation</b> — less, but still possible'],
@@ -442,7 +350,7 @@ const DRUGS = [
    check:['<b>Seizure history</b>, <b>antidepressants</b>','<b>Dizziness → falls prevention</b>'],
    say:'It’s a weak opioid that also increases serotonin and noradrenaline. I watch for nausea, dizziness, seizures and serotonin syndrome.'},
 
-  {cat:'opioid', star:true, brand:'Narcan', generic:'Naloxone', cls:'Opioid antagonist (reversal)',
+  {cat:'opioid', star:true, brand:'Narcan', generic:'Naloxone', cls:'Opioid antagonist (reversal)', stem:'—',
    why:'<b>Opioid overdose</b> → <b>respiratory depression / over-sedation</b> reversal (hospital criteria: <b>high sedation score</b> or <b>low RR</b>)',
    how:'<b>Opioid receptor</b>에 대신 결합 (<b>competitive antagonist</b>) → opioid 밀어냄 → <b>breathing · consciousness</b> 회복',
    se:['<b>Sudden return of pain</b>','<b>Withdrawal</b>: agitation, nausea, tachycardia, hypertension','<b>Shorter half-life</b> than most opioids → <b>re-sedation</b>'],
@@ -450,14 +358,14 @@ const DRUGS = [
    say:'It’s an opioid antagonist used to reverse respiratory depression from opioids. Because it wears off faster than most opioids, I keep monitoring for re-sedation, and the pain may come back.'},
 
   // ---------- Antiemetics ----------
-  {cat:'nausea', star:true, brand:'Zofran', generic:'Ondansetron', cls:'5-HT3 antagonist',
+  {cat:'nausea', star:true, brand:'Zofran', generic:'Ondansetron', cls:'5-HT3 antagonist', stem:'-setron',
    why:'<b>PONV</b> (post-operative nausea & vomiting), <b>opioid-induced nausea</b>',
    how:'Gut + brain (<b>CTZ / vomiting centre</b>)의 <b>serotonin (5-HT3) receptor</b> block → vomiting signal ↓',
    se:['<b>Headache</b>','<b>Constipation</b> (+ opioids → worse)','<b>QT prolongation</b>'],
    check:['<b>Re-assess</b>: nausea score, vomiting episodes','<b>QT-prolonging drugs</b> / <b>cardiac history</b>','<b>Bowel chart</b>'],
    say:'It’s a 5-HT3 antagonist for post-op nausea and vomiting. It blocks serotonin receptors in the gut and brain. Side effects include headache, constipation and QT prolongation.'},
 
-  {cat:'nausea', star:true, brand:'Maxolon', generic:'Metoclopramide', cls:'Dopamine (D2) antagonist + prokinetic',
+  {cat:'nausea', star:true, brand:'Maxolon', generic:'Metoclopramide', cls:'Dopamine (D2) antagonist + prokinetic', stem:'-pramide',
    why:'<b>Nausea & vomiting</b>, <b>gastric emptying</b> 촉진 필요할 때',
    how:'<b>CTZ</b>의 <b>dopamine (D2) receptor</b> block + <b>prokinetic</b> (<b>GI motility ↑</b>)',
    se:['<b>Extrapyramidal side effects (EPS)</b>: dystonia, rigidity (young women, elderly ↑)','<b>Drowsiness</b>, <b>restlessness</b>'],
@@ -471,7 +379,7 @@ const DRUGS = [
    check:['<b>BP</b>, <b>postural hypotension</b> → falls','<b>Sedation level</b>'],
    say:'It’s a dopamine-blocking antiemetic, often used second line. It can cause sedation, hypotension and extrapyramidal effects.'},
 
-  {cat:'nausea', brand:'Dexamethasone', generic:'Dexamethasone', cls:'Corticosteroid',
+  {cat:'nausea', brand:'Dexamethasone', generic:'Dexamethasone', cls:'Corticosteroid', stem:'-asone / -sone',
    why:'<b>PONV prophylaxis</b>, <b>swelling · inflammation ↓</b>',
    how:'<b>Potent anti-inflammatory</b> (inflammatory mediators ↓). PONV mechanism → <b>not fully understood</b>',
    se:['<b>Hyperglycaemia</b> (esp. diabetics)','<b>Infection risk ↑</b>, <b>delayed wound healing</b>','Fast IV push → <b>perineal burning / itch</b>'],
@@ -479,21 +387,21 @@ const DRUGS = [
    say:'It’s a steroid used to prevent post-op nausea and reduce swelling. It can raise blood glucose, so I monitor BGLs, especially in diabetic patients.'},
 
   // ---------- VTE ----------
-  {cat:'vte', star:true, brand:'Clexane', generic:'Enoxaparin', cls:'Low molecular weight heparin (LMWH)',
+  {cat:'vte', star:true, ward:true, brand:'Clexane', generic:'Enoxaparin', cls:'Low molecular weight heparin (LMWH)', stem:'-parin',
    why:'<b>Post-op DVT / PE prophylaxis</b> — surgery + <b>reduced mobility</b> → <b>VTE risk ↑</b>. (<b>Treatment dose</b> → DVT/PE 치료)',
    how:'<b>Antithrombin</b> 강화 → <b>factor Xa inhibition</b> → <b>clotting cascade</b> 차단 → <b>clot formation ↓</b>',
    se:['<b>Bleeding</b>, <b>bruising</b> (injection site)','<b>HIT</b> (heparin-induced thrombocytopenia) → <b>platelets ↓</b>','<b>Hyperkalaemia</b> (rare)'],
    check:['<b>Platelets</b>, <b>renal function</b> (low CrCl → dose adjust)','<b>Signs of bleeding</b>: wound, urine, stool, gums','<b>Epidural / spinal catheter</b> → timing!','<b>SC abdomen</b>, prefilled syringe <b>air bubble 빼지 않기</b>, <b>don’t rub</b>'],
    say:'It’s a low molecular weight heparin given to prevent DVT after surgery. It enhances antithrombin and inhibits factor Xa. The main risks are bleeding and HIT, so I check platelets, renal function and signs of bleeding.'},
 
-  {cat:'vte', brand:'Heparin', generic:'Heparin (unfractionated, SC / IV)', cls:'Anticoagulant',
+  {cat:'vte', ward:true, star:true, brand:'Heparin', generic:'Heparin (unfractionated, SC / IV)', cls:'Anticoagulant', stem:'-parin',
    why:'<b>DVT prophylaxis</b> — 특히 <b>renal impairment</b>로 Clexane 어려울 때. <b>IV infusion</b> = treatment',
    how:'<b>Antithrombin</b> 강화 → <b>thrombin (IIa) + factor Xa</b> 둘 다 inhibit',
    se:['<b>Bleeding</b>','<b>HIT</b> (more common than Clexane)'],
    check:['IV infusion → <b>APTT</b> monitoring','<b>Platelets</b>, <b>signs of bleeding</b>','<b>Short-acting</b> (reversal: <b>protamine</b>)'],
    say:'It’s unfractionated heparin, often used for DVT prophylaxis when renal function is poor. It inhibits thrombin and factor Xa. I monitor for bleeding and check APTT if it’s an infusion.'},
 
-  {cat:'vte', brand:'Xarelto / Eliquis', generic:'Rivaroxaban / Apixaban', cls:'DOAC — direct factor Xa inhibitor',
+  {cat:'vte', ward:true, star:true, brand:'Xarelto / Eliquis', generic:'Rivaroxaban / Apixaban', cls:'DOAC — direct factor Xa inhibitor', stem:'-xaban',
    why:'<b>VTE prophylaxis</b> after <b>hip / knee replacement</b> (oral), <b>AF</b>, <b>DVT treatment</b>',
    how:'<b>Factor Xa</b> 직접 block → <b>thrombin generation ↓</b> → <b>clot ↓</b>',
    se:['<b>Bleeding</b>','<b>Anaemia</b>'],
@@ -508,21 +416,21 @@ const DRUGS = [
    say:'It’s an antifibrinolytic that stops clots from being broken down, so it reduces bleeding during and after surgery, especially joint replacements.'},
 
   // ---------- Antibiotics ----------
-  {cat:'abx', star:true, brand:'Kefzol / Keflex', generic:'Cefazolin (IV) / Cephalexin (PO)', cls:'1st-gen cephalosporin',
+  {cat:'abx', star:true, brand:'Kefzol / Keflex', generic:'Cefazolin (IV) / Cephalexin (PO)', cls:'1st-gen cephalosporin', stem:'cef- / ceph-',
    why:'<b>Surgical prophylaxis</b> — <b>skin flora</b> (Staph, Strep). <b>Wound infection</b> 치료',
    how:'<b>Bacterial cell wall synthesis</b> 방해 → bacteria lysis (<b>bactericidal</b>)',
    se:['<b>Allergy</b> (rash → <b>anaphylaxis</b>)','<b>Diarrhoea</b>, <b>C. difficile</b>','<b>Phlebitis</b> (IV site)'],
    check:['<b>Allergy status</b> — esp. <b>penicillin allergy</b>','<b>On time</b> (therapeutic levels 유지)','First dose → <b>observe for reaction</b>'],
    say:'It’s a first-generation cephalosporin used as surgical prophylaxis against skin bacteria. It kills bacteria by stopping cell wall synthesis. I always check allergies, especially penicillin, and watch for diarrhoea.'},
 
-  {cat:'abx', brand:'Flagyl', generic:'Metronidazole', cls:'Nitroimidazole',
+  {cat:'abx', brand:'Flagyl', generic:'Metronidazole', cls:'Nitroimidazole', stem:'-azole',
    why:'<b>Anaerobic bacteria</b> — <b>bowel surgery</b>, <b>intra-abdominal infection</b>, appendicitis, <b>C. diff</b>',
    how:'Bacteria 안에서 <b>DNA damage</b> → bacterial death',
    se:['<b>Metallic taste</b>, <b>nausea</b>','+ Alcohol → <b>disulfiram-like reaction</b> (severe N/V, flushing)','Long-term → <b>peripheral neuropathy</b>'],
    check:['<b>No alcohol</b> 교육 (during + few days after)','Nausea → <b>give with food</b>'],
    say:'It covers anaerobic bacteria, so it’s used for bowel surgery and abdominal infections. It damages bacterial DNA. Patients must avoid alcohol, and it often causes a metallic taste and nausea.'},
 
-  {cat:'abx', brand:'Tazocin', generic:'Piperacillin + Tazobactam', cls:'Broad-spectrum penicillin + β-lactamase inhibitor',
+  {cat:'abx', brand:'Tazocin', generic:'Piperacillin + Tazobactam', cls:'Broad-spectrum penicillin + β-lactamase inhibitor', stem:'-cillin',
    why:'<b>Severe infection</b> — <b>intra-abdominal sepsis</b>, <b>hospital-acquired infection</b>, post-op fever',
    how:'Piperacillin → <b>cell wall synthesis</b> 방해. Tazobactam → <b>β-lactamase</b> (resistance enzyme) block → piperacillin 보호',
    se:['<b>Penicillin allergy → contraindicated</b>','<b>Diarrhoea</b>, <b>C. diff</b>','<b>Hypokalaemia</b>, <b>platelet</b> abnormalities'],
@@ -530,21 +438,21 @@ const DRUGS = [
    say:'It’s a broad-spectrum penicillin with a beta-lactamase inhibitor for serious infections like intra-abdominal sepsis. It’s a penicillin, so I must check for penicillin allergy first.'},
 
   // ---------- GI ----------
-  {cat:'gi', star:true, brand:'Somac', generic:'Pantoprazole', cls:'Proton pump inhibitor (PPI)',
+  {cat:'gi', star:true, brand:'Somac', generic:'Pantoprazole', cls:'Proton pump inhibitor (PPI)', stem:'-prazole',
    why:'<b>Stress ulcer prophylaxis</b>, <b>GI protection</b> with NSAIDs / steroids, <b>GORD</b>',
    how:'Parietal cell의 <b>proton pump (H+/K+ ATPase)</b> block → <b>gastric acid secretion ↓</b>',
    se:['<b>Headache</b>, <b>diarrhoea</b>','Long-term: <b>hypomagnesaemia</b>, <b>C. diff</b>, <b>fracture risk</b>'],
    check:['<b>Before breakfast</b> (30–60 min)','<b>Enteric coated — do not crush</b>'],
    say:'It’s a PPI that blocks the proton pump to reduce stomach acid. It protects against ulcers, especially with NSAIDs or steroids after surgery. It’s best given before breakfast.'},
 
-  {cat:'gi', star:true, brand:'Coloxyl with Senna', generic:'Docusate + Sennosides', cls:'Stool softener + stimulant laxative',
+  {cat:'gi', star:true, ward:true, brand:'Coloxyl with Senna', generic:'Docusate + Sennosides', cls:'Stool softener + stimulant laxative',
    why:'<b>Opioid-induced constipation</b> prevention — opioids 쓰면 거의 같이 charted',
    how:'Docusate → <b>stool softener</b> (water into stool). Senna → <b>stimulant</b> → <b>peristalsis ↑</b>',
    se:['<b>Abdominal cramps</b>','<b>Diarrhoea</b>'],
    check:['<b>Bowel chart</b> — last BO','<b>Loose stools → withhold</b>? RN 확인','<b>Bowel obstruction → contraindicated</b>'],
    say:'It’s a stool softener combined with a stimulant laxative, given to prevent opioid-induced constipation. I check the bowel chart and hold it if the patient has loose stools.'},
 
-  {cat:'gi', brand:'Movicol / Lactulose', generic:'Macrogol / Lactulose', cls:'Osmotic laxative',
+  {cat:'gi', ward:true, brand:'Movicol / Lactulose', generic:'Macrogol / Lactulose', cls:'Osmotic laxative', stem:'macrogol / lact-',
    why:'<b>Constipation</b> — Coloxyl/Senna로 부족할 때',
    how:'<b>Osmotic effect</b> → bowel 안으로 <b>water</b> 끌어당김 → <b>softer, bulkier stool</b>',
    se:['<b>Bloating</b>, <b>flatulence</b> (esp. lactulose)','<b>Diarrhoea</b> → <b>dehydration / electrolyte imbalance</b>'],
@@ -559,159 +467,85 @@ const DRUGS = [
    check:['<b>Fluid balance chart</b> (input / output)','<b>Urine output</b> (≥ 0.5 mL/kg/hr)','<b>Breath sounds</b>, <b>oedema</b>, <b>weight</b>','<b>Rate</b>, line, <b>cannula site (VIP score)</b>'],
    say:'It’s an isotonic crystalloid used to maintain hydration while the patient is nil by mouth. The main risk is fluid overload, so I keep an accurate fluid balance and monitor urine output and breath sounds.'},
 
-  {cat:'fluid', brand:'NovoRapid', generic:'Insulin aspart', cls:'Rapid-acting insulin',
+  {cat:'fluid', brand:'NovoRapid', generic:'Insulin aspart', cls:'Rapid-acting insulin', stem:'insulin',
    why:'Diabetic pts <b>mealtime BGL control</b>, surgery stress / steroids로 ↑된 BGL → <b>correction scale</b>',
    how:'Cells의 <b>glucose uptake ↑</b> → <b>BGL ↓</b>. <b>Onset ~15 min</b> (very fast)',
    se:['<b>Hypoglycaemia</b> (shaky, sweaty, confused)','<b>Hypokalaemia</b>'],
    check:['<b>BGL before</b> giving','<b>Meal ready?</b> (NBM → RN 확인)','<b>2 RN check</b>, <b>hypo protocol</b> 알기'],
    say:'It’s rapid-acting insulin given with meals or as a correction dose. The main risk is hypoglycaemia, so I check the BGL first and make sure the meal is ready before giving it.'},
+
+  // ---------- Cardiac & lipids ----------
+  {cat:'cardio', ward:true, star:true, brand:'Cartia / Astrix', generic:'Aspirin (low dose)', cls:'Antiplatelet (COX-1 inhibitor)', stem:'—',
+   why:'<b>Secondary prevention</b> of <b>MI / stroke</b>, after <b>cardiac stent</b>, <b>IHD / AF</b> history. (일부 병원은 joint replacement 후 <b>VTE prophylaxis</b>로도)',
+   how:'Platelet의 <b>COX-1</b>을 <b>irreversibly</b> block → <b>thromboxane A2 ↓</b> → <b>platelet aggregation ↓</b>. Effect lasts platelet lifespan (<b>~7–10 days</b>)',
+   se:['<b>Bleeding</b>, <b>bruising</b>','<b>GI irritation / GI bleeding</b>','<b>Bronchospasm</b> in aspirin-sensitive asthma','High dose → <b>tinnitus</b>'],
+   check:['<b>Signs of bleeding</b> (wound, melaena, haematuria)','+ <b>Anticoagulants</b> (Clexane, apixaban) → bleeding risk ↑↑','<b>Give with food</b>','Pre-op <b>withheld</b>? 언제 restart? → surgeon/RN 확인'],
+   say:'It’s a low-dose antiplatelet. It irreversibly blocks COX-1 in platelets so they don’t stick together, which prevents heart attacks and strokes. The main risk is bleeding, especially with anticoagulants, so I watch for signs of bleeding and give it with food.'},
+
+  {cat:'cardio', ward:true, star:true, brand:'Lipitor', generic:'Atorvastatin', cls:'Statin (HMG-CoA reductase inhibitor)', stem:'-statin',
+   why:'<b>High cholesterol (LDL)</b> 조절, <b>cardiovascular risk ↓</b> (MI, stroke prevention)',
+   how:'Liver의 <b>HMG-CoA reductase</b> block → <b>cholesterol synthesis ↓</b> → <b>LDL ↓</b> + <b>plaque stabilisation</b>',
+   se:['<b>Myalgia</b> (muscle aches)','<b>Rhabdomyolysis</b> (rare, serious)','<b>LFTs ↑</b>','GI upset, headache'],
+   check:['<b>Unexplained muscle pain / weakness</b> → report','<b>LFTs</b>','Usually <b>once daily</b> (often night)','<b>Grapefruit juice</b> 많이 X'],
+   say:'It’s a statin that lowers LDL cholesterol by blocking HMG-CoA reductase in the liver, so it reduces cardiovascular risk. I ask about muscle pain because it can rarely cause rhabdomyolysis.'},
+
+  {cat:'cardio', ward:true, brand:'Ezetrol', generic:'Ezetimibe', cls:'Cholesterol absorption inhibitor', stem:'—',
+   why:'<b>High cholesterol</b> — statin만으로 부족할 때 <b>add-on</b>, or <b>statin intolerance</b>',
+   how:'<b>Small intestine</b>에서 <b>cholesterol absorption</b> block (NPC1L1) → <b>LDL ↓</b>. (Statin = liver에서 합성 ↓, Ezetimibe = gut에서 흡수 ↓)',
+   se:['<b>GI upset</b>, <b>diarrhoea</b>','<b>Myalgia</b> (esp. with statin)','<b>LFTs ↑</b> (with statin)'],
+   check:['Often combined with statin (e.g. <b>Ezetimibe + atorvastatin</b>)','<b>Muscle pain</b> report','<b>LFTs</b>'],
+   say:'It lowers cholesterol by blocking absorption in the small intestine. It’s often added to a statin, which works in the liver instead. Side effects are mild, mainly GI upset and muscle aches.'},
+
+  // ---------- Other ward meds ----------
+  {cat:'other', ward:true, star:true, brand:'Ventolin', generic:'Salbutamol', cls:'Short-acting beta-2 agonist (SABA)', stem:'-terol 계열 (이름은 예외)',
+   why:'<b>Bronchospasm</b> — <b>asthma / COPD</b> reliever, <b>wheeze</b>, SOB. (Nebulised → <b>hyperkalaemia</b> 치료 보조로도)',
+   how:'Airway의 <b>beta-2 receptor</b> 자극 → <b>bronchial smooth muscle relaxation</b> → <b>bronchodilation</b>. Onset <b>within minutes</b>',
+   se:['<b>Tremor</b>, <b>tachycardia</b>, palpitations','<b>Hypokalaemia</b> (K+ shifts into cells)','<b>Anxiety</b>, headache'],
+   check:['Before/after: <b>RR, SpO₂, HR, wheeze</b>, work of breathing','<b>Inhaler technique</b> — <b>spacer</b> 사용','Frequent use ↑ → <b>asthma control 나쁨</b> → report','Nebs → <b>K+</b>'],
+   say:'It’s a short-acting beta-2 agonist that relaxes the airway smooth muscle, so it relieves bronchospasm in asthma or COPD. It can cause tremor, tachycardia and low potassium, so I check HR, resp rate and SpO2 before and after.'},
+
+  {cat:'other', ward:true, brand:'Serepax', generic:'Oxazepam', cls:'Benzodiazepine', stem:'-pam',
+   why:'<b>Anxiety</b>, <b>insomnia</b>, <b>alcohol withdrawal</b> — <b>liver impairment</b>이나 <b>elderly</b>에서 선호 (no active metabolites)',
+   how:'<b>GABA-A receptor</b>에서 <b>GABA effect ↑</b> → <b>CNS depression</b> → calming, sedation',
+   se:['<b>Sedation</b>, <b>drowsiness</b> → <b>falls</b>','+ Opioids → <b>respiratory depression ↑</b>','Elderly → <b>confusion / delirium</b>','<b>Dependence</b>, <b>withdrawal</b>'],
+   check:['<b>Sedation score</b>, <b>RR</b> (esp. with opioids)','<b>Falls risk</b> assessment','<b>Confusion</b> (elderly)','PRN 사용 이유 + 효과 <b>documentation</b>'],
+   say:'It’s a benzodiazepine that enhances GABA, so it calms the nervous system. It’s used for anxiety, sleep or alcohol withdrawal. I watch for sedation and falls, and respiratory depression if the patient is also on opioids.'},
+
+  {cat:'other', ward:true, brand:'Eprex / Aranesp', generic:'Epoetin (EPO) / Darbepoetin', cls:'Erythropoiesis-stimulating agent (ESA)', stem:'-poetin',
+   why:'<b>Anaemia of CKD</b> (renal patients), chemo-related anaemia → <b>transfusion</b> 필요 ↓',
+   how:'Kidney에서 나오는 hormone <b>erythropoietin</b>을 대신함 → <b>bone marrow</b> 자극 → <b>RBC production ↑</b> → <b>Hb ↑</b>. (CKD → EPO 부족 → anaemia). Darbepoetin = <b>longer-acting</b> (less frequent dosing)',
+   se:['<b>Hypertension</b>','<b>Thrombosis</b> (DVT, stroke) — esp. Hb too high','<b>Headache</b>, injection site pain','Pure red cell aplasia (rare)'],
+   check:['<b>BP</b> before','<b>Hb</b> trend (target 넘지 않게)','<b>Iron studies</b> — iron 부족하면 효과 ↓','<b>SC injection</b>, <b>refrigerate</b>, don’t shake'],
+   say:'It’s an erythropoiesis-stimulating agent. It replaces the erythropoietin hormone that failing kidneys don’t make, so the bone marrow produces more red blood cells. I check BP and Hb, because it can cause hypertension and clots if Hb rises too much.'},
+  {cat:'abx', ward:true, star:true, brand:'Amoxil / Augmentin', generic:'Amoxicillin (± clavulanate)', cls:'Aminopenicillin', stem:'-cillin',
+   why:'<b>Respiratory infection</b> (CAP, sinusitis), <b>UTI</b>, ear/throat infection, <b>H. pylori</b>. <b>Augmentin</b> = + clavulanate → broader cover',
+   how:'<b>Penicillin-binding proteins</b>에 결합 → <b>bacterial cell wall synthesis</b> 방해 → <b>bactericidal</b>. Clavulanate = <b>β-lactamase inhibitor</b>',
+   se:['<b>Allergy</b> — rash → <b>anaphylaxis</b>','<b>Diarrhoea</b>, nausea, <b>C. difficile</b>','<b>Oral thrush</b>'],
+   check:['<b>Penicillin allergy</b> 반드시 확인','<b>Augmentin</b> → with food (GI upset ↓)','<b>Bowel chart</b>, diarrhoea','Course <b>완료</b> 교육'],
+   say:'It’s a penicillin antibiotic used for chest infections, UTIs and similar infections. It stops bacterial cell wall synthesis. I always check for penicillin allergy first and monitor for rash and diarrhoea.'},
+
+  {cat:'abx', ward:true, star:true, brand:'Flucil / Staphylex', generic:'Flucloxacillin', cls:'Narrow-spectrum, penicillinase-resistant penicillin', stem:'-cillin',
+   why:'<b>Staph aureus (MSSA)</b> 감염 — <b>cellulitis</b>, <b>wound infection</b>, surgical site infection, osteomyelitis',
+   how:'<b>Cell wall synthesis</b> 방해. Staph이 만드는 <b>penicillinase</b>에 <b>분해되지 않음</b> → Staph에 효과',
+   se:['<b>Allergy</b> (penicillin)','<b>Diarrhoea</b>, nausea','<b>Cholestatic hepatitis / jaundice</b> (esp. elderly, long course)','IV → <b>phlebitis</b>'],
+   check:['<b>Penicillin allergy</b> 확인','Oral → <b>empty stomach</b> (1 hr before / 2 hr after food)','<b>LFTs</b> on long courses','<b>Wound / cellulitis</b> margins 확인 (marking)'],
+   say:'It’s a narrow-spectrum penicillin that isn’t broken down by staph enzymes, so it’s used for staph skin and wound infections like cellulitis. I check penicillin allergy, give the oral form on an empty stomach, and watch for liver problems on longer courses.'},
+
+  {cat:'cardio', ward:true, star:true, brand:'Avapro', generic:'Irbesartan', cls:'ARB (angiotensin II receptor blocker)', stem:'-sartan',
+   why:'<b>Hypertension</b>, <b>diabetic nephropathy</b> (renal protection), heart failure',
+   how:'<b>Angiotensin II (AT1) receptor</b> block → <b>vasodilation</b> + <b>aldosterone ↓</b> (Na/water retention ↓) → <b>BP ↓</b>',
+   se:['<b>Hypotension</b>, <b>dizziness</b> → falls','<b>Hyperkalaemia</b>','<b>AKI</b> (esp. dehydrated, + NSAIDs)','Cough — ACE inhibitor보다 <b>훨씬 적음</b>'],
+   check:['<b>BP before</b> giving (hold parameter 확인)','<b>K+</b>, <b>Cr / eGFR</b>','<b>Postural hypotension</b>','Peri-op / <b>dehydration · AKI</b> → often <b>withheld</b>'],
+   say:'It’s an ARB that blocks angiotensin II receptors, so blood vessels relax and BP drops. It also protects the kidneys in diabetes. I check BP before giving it and monitor potassium and renal function.'},
+
+  {cat:'other', ward:true, star:true, brand:'Thiamine (Vitamin B1)', generic:'Thiamine', cls:'Vitamin B1 supplement', stem:'—',
+   why:'<b>Alcohol misuse</b>, <b>malnutrition</b>, <b>refeeding risk</b> → <b>Wernicke’s encephalopathy</b> prevention / treatment',
+   how:'<b>Carbohydrate metabolism</b>의 <b>coenzyme</b> (glucose → energy). 부족하면 brain이 energy 못 만듦 → <b>Wernicke’s</b> (confusion, ataxia, eye movement 이상)',
+   se:['Generally <b>very safe</b>','IV → rare <b>anaphylaxis</b>, injection site pain'],
+   check:['<b>Give BEFORE glucose / dextrose</b> (glucose 먼저 → Wernicke’s 악화 가능)','<b>Wernicke’s signs</b>: confusion, ataxia, ophthalmoplegia','<b>Alcohol withdrawal</b> monitoring (often with oxazepam)','<b>Nutrition</b>, refeeding — K+, Mg, PO4'],
+   say:'It’s vitamin B1, given to patients with alcohol misuse or malnutrition to prevent Wernicke’s encephalopathy. It’s a coenzyme for glucose metabolism, so it should be given before any glucose. It’s very safe.'},
 ];
-const SECTIONS = [
-  {key:'why',   en:'Indication',             kr:'왜 줘?'},
-  {key:'how',   en:'Mechanism',              kr:'기전'},
-  {key:'se',    en:'Side effects',           kr:'부작용',   cls:'warn'},
-  {key:'check', en:'Nursing considerations', kr:'확인할 것', cls:'check'},
-];
 
-const $ = id => document.getElementById(id);
-const catOf = id => CATS.find(c => c.id === id);
-DRUGS.forEach((d, i) => d.i = i);
-
-let filter = 'all';
-let current = 0;
-let visible = DRUGS.slice();
-
-function renderFilters(){
-  const opts = [{id:'all', name:'All'}, {id:'star', name:'★ Common'}, ...CATS];
-  $('filters').innerHTML = opts.map(o =>
-    `<button class="filter${o.id === filter ? ' on' : ''}" data-id="${o.id}">${o.name}</button>`).join('');
-}
-
-function renderList(){
-  const q = $('search').value.trim().toLowerCase();
-  visible = DRUGS.filter(d =>
-    (filter === 'all' || (filter === 'star' ? d.star : d.cat === filter)) &&
-    (!q || (d.brand + ' ' + d.generic + ' ' + d.cls).toLowerCase().includes(q)));
-
-  $('list').innerHTML = CATS.map(c => {
-    const items = visible.filter(d => d.cat === c.id);
-    if (!items.length) return '';
-    return `<div class="group-label"><i style="background:${c.color}"></i>${c.name}</div>` +
-      items.map(d => `
-        <button class="row${d.i === current ? ' on' : ''}" data-i="${d.i}">
-          <span class="row-main">
-            <span class="row-name">${d.brand}</span>
-            <span class="row-gen">${d.generic}</span>
-          </span>
-          <span class="row-tags">
-            ${d.s8 ? '<span class="tag s8">S8</span>' : ''}
-            ${d.star ? '<span class="tag common">★</span>' : ''}
-          </span>
-        </button>`).join('');
-  }).join('');
-  $('empty').style.display = visible.length ? 'none' : 'block';
-}
-
-function renderDetail(){
-  const d = DRUGS[current];
-  const c = catOf(d.cat);
-  const body = v => Array.isArray(v) ? '<ul>' + v.map(x => `<li>${x}</li>`).join('') + '</ul>' : `<p>${v}</p>`;
-  const pos = visible.findIndex(x => x.i === current);
-
-  $('detail').innerHTML = `
-    <button class="sheet-close" id="closeSheet">&larr; List</button>
-    <div class="d-cat" style="color:${c.color}"><i style="background:${c.color}"></i>${c.name} · ${c.en}</div>
-    <div class="d-name">
-      <h2>${d.brand}</h2>
-      ${d.s8 ? '<span class="tag s8">S8</span>' : ''}
-      ${d.star ? '<span class="tag common">★ COMMON</span>' : ''}
-    </div>
-    <div class="d-generic">${d.generic}</div>
-    <span class="d-class">${d.cls}</span>
-
-    <div class="say hidden-ans">
-      <div class="say-label">SAY IT IN ENGLISH</div>
-      <button class="reveal-btn">Tap to reveal the one-liner</button>
-      <div class="say-text">“${d.say}”</div>
-    </div>
-
-    ${SECTIONS.map(s => `
-      <section class="sec ${s.cls || ''} hidden-ans">
-        <div class="sec-head"><h3>${s.en}</h3><span>${s.kr}</span></div>
-        <button class="reveal-btn">${s.en} — tap to reveal</button>
-        <div class="sec-body">${body(d[s.key])}</div>
-      </section>`).join('')}
-
-    <div class="d-nav">
-      <button class="nav-btn" id="prevBtn" ${pos <= 0 ? 'disabled style="opacity:.4"' : ''}>&larr; Prev</button>
-      <button class="nav-btn primary" id="nextBtn">${document.body.classList.contains('quiz') ? 'Random next' : 'Next'} &rarr;</button>
-    </div>`;
-}
-
-function select(i, openSheet){
-  current = i;
-  renderDetail();
-  $('list').querySelectorAll('.row').forEach(r => r.classList.toggle('on', +r.dataset.i === i));
-  if (openSheet) document.body.classList.add('sheet-open');
-  $('detail').scrollTop = 0;
-}
-
-function step(dir){
-  if (!visible.length) return;
-  let pos = visible.findIndex(x => x.i === current);
-  if (document.body.classList.contains('quiz') && dir > 0){
-    let n;
-    do { n = Math.floor(Math.random() * visible.length); } while (visible.length > 1 && visible[n].i === current);
-    pos = n;
-  } else {
-    pos = Math.min(Math.max(pos + dir, 0), visible.length - 1);
-  }
-  select(visible[pos].i);
-  const row = $('list').querySelector(`.row[data-i="${current}"]`);
-  if (row) row.scrollIntoView({block:'nearest'});
-}
-
-// ---------- events ----------
-$('filters').addEventListener('click', e => {
-  const b = e.target.closest('.filter');
-  if (!b) return;
-  filter = b.dataset.id;
-  renderFilters();
-  renderList();
-});
-$('search').addEventListener('input', renderList);
-$('list').addEventListener('click', e => {
-  const r = e.target.closest('.row');
-  if (r) select(+r.dataset.i, true);
-});
-$('detail').addEventListener('click', e => {
-  if (e.target.closest('.reveal-btn')) e.target.closest('.hidden-ans').classList.remove('hidden-ans');
-  else if (e.target.closest('#closeSheet')) document.body.classList.remove('sheet-open');
-  else if (e.target.closest('#prevBtn')) step(-1);
-  else if (e.target.closest('#nextBtn')) step(1);
-});
-$('quizBtn').addEventListener('click', () => {
-  const on = document.body.classList.toggle('quiz');
-  $('quizBtn').setAttribute('aria-pressed', on);
-  renderDetail();
-});
-document.addEventListener('keydown', e => {
-  if (e.target.matches('input')) return;
-  if (document.body.classList.contains('view-stems')){
-    if (!document.body.classList.contains('quiz')) return;
-    if (e.key === ' ' || e.key === 'Enter'){
-      e.preventDefault();
-      $('sqAnswer').classList.contains('show') ? nextStemCard() : $('sqReveal').click();
-    }
-    if (e.key === 'ArrowRight') nextStemCard();
-    return;
-  }
-  if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { e.preventDefault(); step(1); }
-  if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
-  if (e.key === 'Escape') document.body.classList.remove('sheet-open');
-});
-
-// ---------- Drug name stems ----------
 const STEM_GROUPS = [
   {name:'Cardiovascular / Renal', kr:'심장 · 혈압 · 신장', color:'#1d6fb8', items:[
     ['-pril', true, 'ACE Inhibitor', 'perindopril, ramipril, enalapril', '혈압 ↓, heart failure · renal protection 1차 약'],
@@ -787,96 +621,254 @@ const STEM_THINKING = [
   ['empagliflozin', '-gliflozin', 'SGLT2 inhibitor', 'UTI · dehydration', 'ketone 주의'],
 ];
 
-renderFilters();
-renderList();
-renderDetail();
+const $ = id => document.getElementById(id);
+const catOf = id => CATS.find(c => c.id === id);
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const bullets = v => Array.isArray(v) ? '<ul>' + v.map(x => `<li>${x}</li>`).join('') + '</ul>' : `<p>${v}</p>`;
+const tags = (d, long) =>
+  (d.s8 ? '<span class="tag s8">S8</span>' : '') +
+  (d.ward ? `<span class="tag ward">${long ? '📍 MY WARD' : '📍'}</span>` : '') +
+  (d.star ? `<span class="tag common">${long ? '★ COMMON' : '★'}</span>` : '');
+DRUGS.forEach((d, i) => d.i = i);
 
-// ---------- view switching ----------
+const SECTIONS = [
+  {key:'why',   en:'Indication',             kr:'왜 줘?'},
+  {key:'how',   en:'Mechanism',              kr:'기전'},
+  {key:'se',    en:'Side effects',           kr:'부작용',    cls:'warn'},
+  {key:'check', en:'Nursing considerations', kr:'확인할 것', cls:'check'},
+];
+
+/* ================= tabs ================= */
 function setView(v){
-  document.body.classList.toggle('view-stems', v === 'stems');
-  $('viewSeg').querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.view === v));
-  if (v === 'stems') document.body.classList.remove('sheet-open');
-  history.replaceState(null, '', v === 'stems' ? '#stems' : location.pathname);
+  document.querySelectorAll('.view').forEach(el => el.classList.toggle('on', el.id === 'view-' + v));
+  $('tabs').querySelectorAll('.tab').forEach(b => b.classList.toggle('on', b.dataset.view === v));
+  document.body.classList.remove('sheet-open');
+  history.replaceState(null, '', v === 'drugs' ? location.pathname : '#' + v);
+  if (v === 'quiz' && !quiz.queue) startQuiz();
+  window.scrollTo(0, 0);
 }
-$('viewSeg').addEventListener('click', e => {
-  const b = e.target.closest('button');
-  if (b) setView(b.dataset.view);
+$('tabs').addEventListener('click', e => { const b = e.target.closest('.tab'); if (b) setView(b.dataset.view); });
+
+/* ================= DRUGS ================= */
+let filter = 'ward', current = DRUGS.find(d => d.ward).i, visible = DRUGS.slice();
+const FILTERS = [{id:'all', name:'All'}, {id:'ward', name:'📍 My ward'}, {id:'star', name:'★ Common'}, ...CATS];
+const matchFilter = (d, f) => f === 'all' || (f === 'ward' ? d.ward : f === 'star' ? d.star : d.cat === f);
+
+function renderFilters(){
+  $('filters').innerHTML = FILTERS.map(o => `<button class="chip${o.id === filter ? ' on' : ''}" data-id="${o.id}">${o.name}</button>`).join('');
+}
+function renderList(){
+  const q = $('search').value.trim().toLowerCase();
+  visible = DRUGS.filter(d => matchFilter(d, filter) && (!q || (d.generic + ' ' + d.brand + ' ' + d.cls).toLowerCase().includes(q)));
+  $('list').innerHTML = CATS.map(c => {
+    const items = visible.filter(d => d.cat === c.id);
+    if (!items.length) return '';
+    return `<div class="group"><span class="dot" style="background:${c.color}"></span>${c.name}</div>` + items.map(d => `
+      <button class="row${d.i === current ? ' on' : ''}" data-i="${d.i}">
+        <span class="row-main"><span class="row-name">${d.generic}</span><span class="row-sub">${d.brand}</span></span>
+        <span class="row-tags">${tags(d)}</span>
+      </button>`).join('');
+  }).join('') || '<p class="empty">No results</p>';
+}
+function renderDetail(){
+  const d = DRUGS[current], c = catOf(d.cat);
+  const pos = visible.findIndex(x => x.i === current);
+  $('detail').innerHTML = `
+    <button class="sheet-close" id="closeSheet">&larr; List</button>
+    <div class="d-top"><span class="dot" style="background:${c.color}"></span>${c.name} · ${c.en} ${tags(d, true)}</div>
+    <h2 class="d-name">${d.generic}</h2>
+    <div class="d-brand">${d.brand}</div>
+    <div class="d-meta">
+      <span class="pill">${d.cls}</span>
+      ${d.stem && d.stem !== '—' ? `<span class="pill">stem <code>${d.stem}</code></span>` : ''}
+    </div>
+    <div class="say"><div class="say-label">Say it in English</div><p>“${d.say}”</p></div>
+    ${SECTIONS.map(s => `
+      <section class="sec ${s.cls || ''}">
+        <h3>${s.en}<span>${s.kr}</span></h3>
+        <div class="sec-body">${bullets(d[s.key])}</div>
+      </section>`).join('')}
+    <div class="d-nav">
+      <button class="btn" id="prevBtn" ${pos <= 0 ? 'disabled' : ''}>&larr; Prev</button>
+      <button class="btn" id="nextBtn" ${pos < 0 || pos >= visible.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+    </div>`;
+}
+function select(i, openSheet){
+  current = i;
+  renderDetail();
+  $('list').querySelectorAll('.row').forEach(r => r.classList.toggle('on', +r.dataset.i === i));
+  if (openSheet) document.body.classList.add('sheet-open');
+  $('detail').scrollTop = 0;
+}
+function step(dir){
+  const pos = visible.findIndex(x => x.i === current);
+  const next = visible[pos + dir];
+  if (!next) return;
+  select(next.i);
+  const row = $('list').querySelector(`.row[data-i="${current}"]`);
+  if (row) row.scrollIntoView({block:'nearest'});
+}
+$('filters').addEventListener('click', e => {
+  const b = e.target.closest('.chip'); if (!b) return;
+  filter = b.dataset.id; renderFilters(); renderList();
+  if (visible.length && !visible.some(d => d.i === current)) select(visible[0].i);
+  else renderDetail();
+});
+$('search').addEventListener('input', renderList);
+$('list').addEventListener('click', e => { const r = e.target.closest('.row'); if (r) select(+r.dataset.i, true); });
+$('detail').addEventListener('click', e => {
+  if (e.target.closest('#closeSheet')) document.body.classList.remove('sheet-open');
+  else if (e.target.closest('#prevBtn')) step(-1);
+  else if (e.target.closest('#nextBtn')) step(1);
 });
 
+/* ================= STEMS ================= */
+const STEM_POOL = STEM_GROUPS.flatMap(g => g.items.map(([stem, star, cls, ex, note]) => ({g, stem, star, cls, ex, note})));
 function renderStems(){
-  const q = $('stemSearch').value.trim().toLowerCase();
-  const starOnly = $('starOnly').checked;
+  const q = $('stemSearch').value.trim().toLowerCase(), starOnly = $('stemStar').checked;
   $('stemGroups').innerHTML = STEM_GROUPS.map(g => {
     const rows = g.items.filter(([stem, star, cls, ex, note]) =>
       (!starOnly || star) && (!q || (stem + ' ' + cls + ' ' + ex + ' ' + note).toLowerCase().includes(q)));
     if (!rows.length) return '';
-    return `<div class="panel">
-      <div class="panel-head"><h2><i style="background:${g.color}"></i>${g.name}</h2><span>${g.kr}</span></div>
-      ${rows.map(([stem, star, cls, ex, note]) => `
+    return `<div class="stem-group">
+      <h2><span class="dot" style="background:${g.color}"></span>${g.name}<span>${g.kr}</span></h2>
+      <div class="stem-table">${rows.map(([stem, star, cls, ex, note]) => `
         <div class="stem-row">
           <div><div class="stem-name">${stem}${star ? '<span class="tag common">★</span>' : ''}</div><div class="stem-class">${cls}</div></div>
           <div><div class="stem-ex">${ex}</div><div class="stem-note">${note}</div></div>
-        </div>`).join('')}
+        </div>`).join('')}</div>
     </div>`;
-  }).join('') || '<p class="empty" style="display:block">No results</p>';
+  }).join('') || '<p class="empty">No results</p>';
 }
 $('stemSearch').addEventListener('input', renderStems);
-$('starOnly').addEventListener('change', renderStems);
-
+$('stemStar').addEventListener('change', renderStems);
 $('thinking').innerHTML = STEM_THINKING.map(([drug, stem, ...rest]) =>
-  `<div class="flow"><b>${drug}</b><span class="arr">→</span><code>${stem}</code>` +
-  rest.map(x => `<span class="arr">→</span><span>${x}</span>`).join('') + '</div>').join('');
+  `<div class="flow"><b>${drug}</b><i>→</i><code>${stem}</code>${rest.map(x => `<i>→</i><span>${x}</span>`).join('')}</div>`).join('');
 
-// ---------- stems quiz ----------
-let sqMode = 'stem', sqLast = null, sqSeen = 0;
-const STEM_POOL = STEM_GROUPS.flatMap(g => g.items.map(([stem, star, cls, ex, note]) => ({g, stem, star, cls, ex, note})));
+/* ================= QUIZ ================= */
+const quiz = {deck:'drugs', opt:'ward', queue:null, total:0, done:0, card:null, revealed:false, firstTry:0, missed:new Set()};
+const DECK_OPTS = {
+  drugs: [{id:'ward', name:'📍 My ward'}, {id:'star', name:'★ Common'}, {id:'all', name:'All drugs'}],
+  stems: [{id:'stem', name:'Stem → class'}, {id:'drug', name:'Drug → stem'}, {id:'starstem', name:'★ only'}],
+};
+const TIPS = {
+  drugs: '<b>How to answer</b> — What (name + class) → Why (indication) → How (mechanism) → Side effects → “So I check …”',
+  stems: '<b>Thinking process</b> — 약 이름 → stem → 계열 → 확인할 것 (e.g. bisoprolol → <code>-olol</code> → beta blocker → HR · BP 확인)',
+};
+const ASPECTS = [
+  {key:'why', label:'INDICATION', ask:'왜 줘? (Why is it given?)'},
+  {key:'how', label:'MECHANISM',  ask:'기전은? (How does it work?)'},
+  {key:'se',  label:'SIDE EFFECTS', ask:'부작용은? (What do you watch for?)'},
+];
 const exampleDrugs = ex => ex.split(',').map(x => x.replace(/\(.*?\)/g, '').split('/')[0].trim()).filter(Boolean);
 
-function nextStemCard(){
-  const pool = STEM_POOL.filter(x => !$('starOnly').checked || x.star);
-  let c;
-  do { c = pool[Math.floor(Math.random() * pool.length)]; } while (pool.length > 1 && c === sqLast);
-  sqLast = c;
-  sqSeen++;
-  $('sqGroup').textContent = c.g.name;
-  if (sqMode === 'stem'){
-    $('sqPrompt').textContent = c.stem;
-    $('sqAsk').textContent = '어떤 계열? 예시 약은?';
-    $('sqAnswer').innerHTML = `
-      <div><div class="k">Class</div><div class="v">${c.cls}</div></div>
-      <div><div class="k">Examples</div><div class="v">${c.ex}</div></div>
-      <div><div class="k">쉽게 말하면</div><div class="v">${c.note}</div></div>`;
-  } else {
-    const drugs = exampleDrugs(c.ex);
-    $('sqPrompt').textContent = drugs[Math.floor(Math.random() * drugs.length)];
-    $('sqAsk').textContent = '이름 패턴(stem)은? 어떤 계열?';
-    $('sqAnswer').innerHTML = `
-      <div><div class="k">Stem</div><div class="v"><code>${c.stem}</code></div></div>
-      <div><div class="k">Class</div><div class="v">${c.cls}</div></div>
-      <div><div class="k">쉽게 말하면</div><div class="v">${c.note}</div></div>`;
+function buildDeck(){
+  if (quiz.deck === 'drugs'){
+    return DRUGS.filter(d => matchFilter(d, quiz.opt)).map(d => ({type:'drug', d, a:ASPECTS[Math.floor(Math.random() * 3)]}));
   }
-  $('sqAnswer').classList.remove('show');
-  $('sqReveal').classList.remove('gone');
-  $('sqCount').textContent = `${sqSeen} seen · ${pool.length} in deck`;
+  const pool = quiz.opt === 'starstem' ? STEM_POOL.filter(s => s.star) : STEM_POOL;
+  return pool.map(s => ({type: quiz.opt === 'drug' ? 'drug2stem' : 'stem', s,
+    drug: (ds => ds[Math.floor(Math.random() * ds.length)])(exampleDrugs(s.ex))}));
 }
-$('sqReveal').addEventListener('click', () => {
-  $('sqAnswer').classList.add('show');
-  $('sqReveal').classList.add('gone');
-});
-$('sqNext').addEventListener('click', nextStemCard);
-$('sqModes').addEventListener('click', e => {
-  const b = e.target.closest('button');
-  if (!b) return;
-  sqMode = b.dataset.mode;
-  $('sqModes').querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b));
-  nextStemCard();
-});
-$('starOnly').addEventListener('change', () => { if (document.body.classList.contains('quiz')) nextStemCard(); });
-$('quizBtn').addEventListener('click', () => { if (document.body.classList.contains('quiz')) nextStemCard(); });
+function startQuiz(){
+  quiz.queue = shuffle(buildDeck());
+  quiz.total = quiz.queue.length; quiz.done = 0; quiz.firstTry = 0; quiz.missed = new Set();
+  $('deckSeg').querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.deck === quiz.deck));
+  $('deckOpts').innerHTML = DECK_OPTS[quiz.deck].map(o => `<button class="chip${o.id === quiz.opt ? ' on' : ''}" data-id="${o.id}">${o.name}</button>`).join('');
+  $('tip').innerHTML = TIPS[quiz.deck];
+  nextCard();
+}
+function nextCard(){
+  quiz.card = quiz.queue[0] || null;
+  quiz.revealed = false;
+  renderCard();
+}
+function renderCard(){
+  $('bar').style.width = (quiz.total ? quiz.done / quiz.total * 100 : 0) + '%';
+  $('progText').textContent = `${quiz.done} / ${quiz.total}`;
+  const c = quiz.card;
+  if (!c){
+    $('quizArea').innerHTML = `<div class="card"><div class="done">
+      <h2>Deck complete 🎉</h2>
+      <p>${quiz.total}장 중 <b>${quiz.firstTry}</b>장을 한 번에 맞혔어.</p>
+      <button class="btn primary" id="restart">다시 하기</button></div></div>`;
+    return;
+  }
+  let front, back;
+  if (c.type === 'drug'){
+    front = `<div class="q-label">${c.a.label}</div>
+      <div class="q-prompt">${c.d.generic}</div><div class="q-sub">${c.d.brand}</div>
+      <div class="q-ask">${c.a.ask}</div>`;
+    back = bullets(c.d[c.a.key]);
+  } else if (c.type === 'stem'){
+    front = `<div class="q-label">STEM → CLASS</div><div class="q-prompt mono">${c.s.stem}</div><div class="q-ask">어떤 계열? 예시 약은?</div>`;
+    back = `<dl class="kv"><dt>Class</dt><dd>${c.s.cls}</dd><dt>Examples</dt><dd>${c.s.ex}</dd><dt>쉽게 말하면</dt><dd>${c.s.note}</dd></dl>`;
+  } else {
+    front = `<div class="q-label">DRUG → STEM</div><div class="q-prompt">${c.drug}</div><div class="q-ask">stem은? 어떤 계열?</div>`;
+    back = `<dl class="kv"><dt>Stem</dt><dd><code>${c.s.stem}</code></dd><dt>Class</dt><dd>${c.s.cls}</dd><dt>쉽게 말하면</dt><dd>${c.s.note}</dd></dl>`;
+  }
+  $('quizArea').innerHTML = `
+    <div class="card${quiz.revealed ? ' revealed' : ''}">
+      <div class="card-front">${front}</div>
+      <div class="card-back">${back}</div>
+    </div>
+    <div class="q-actions">
+      ${quiz.revealed
+        ? '<button class="btn again" id="againBtn">Again</button><button class="btn got" id="gotBtn">Got it</button>'
+        : '<button class="btn primary" id="showBtn">Show answer</button>'}
+    </div>
+    <p class="kbd">${quiz.revealed ? '1 = Again · 2 / Space = Got it' : 'Space = Show answer'}</p>`;
+}
+function answer(got){
+  const c = quiz.queue.shift();
+  if (got){
+    quiz.done++;
+    if (!quiz.missed.has(c)) quiz.firstTry++;
+  } else {
+    quiz.missed.add(c);
+    quiz.queue.splice(Math.min(quiz.queue.length, 3 + Math.floor(Math.random() * 3)), 0, c);
+  }
+  nextCard();
+}
+function reveal(){ quiz.revealed = true; renderCard(); }
 
+$('deckSeg').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  quiz.deck = b.dataset.deck; quiz.opt = DECK_OPTS[quiz.deck][0].id; startQuiz();
+});
+$('deckOpts').addEventListener('click', e => {
+  const b = e.target.closest('.chip'); if (!b) return;
+  quiz.opt = b.dataset.id; startQuiz();
+});
+$('quizArea').addEventListener('click', e => {
+  if (e.target.closest('#showBtn') || (!quiz.revealed && e.target.closest('.card') && quiz.card)) reveal();
+  else if (e.target.closest('#gotBtn')) answer(true);
+  else if (e.target.closest('#againBtn')) answer(false);
+  else if (e.target.closest('#restart')) startQuiz();
+});
+
+/* ================= keyboard ================= */
+document.addEventListener('keydown', e => {
+  if (e.target.matches('input')) return;
+  const view = document.querySelector('.view.on').id;
+  if (view === 'view-quiz' && quiz.card){
+    if (e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); quiz.revealed ? answer(true) : reveal(); }
+    else if (quiz.revealed && e.key === '1') answer(false);
+    else if (quiz.revealed && e.key === '2') answer(true);
+  } else if (view === 'view-drugs'){
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight'){ e.preventDefault(); step(1); }
+    if (e.key === 'ArrowUp' || e.key === 'ArrowLeft'){ e.preventDefault(); step(-1); }
+    if (e.key === 'Escape') document.body.classList.remove('sheet-open');
+  }
+});
+
+/* ================= init ================= */
+renderFilters();
+renderList();
+renderDetail();
 renderStems();
-if (location.hash === '#stems') setView('stems');
-
+const initial = location.hash.slice(1);
+if (initial === 'stems' || initial === 'quiz') setView(initial);
 </script>
 </body>
 </html>
