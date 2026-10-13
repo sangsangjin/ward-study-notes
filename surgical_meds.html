@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Surgical 병동 핵심 약물 · Surgical Ward Meds</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1b2230;
+    --muted:#5d6675;
+    --faint:#8a93a3;
+    --paper:#eef1f5;
+    --card:#ffffff;
+    --line:#e3e8ef;
+
+    --renal:#1d6fb8;      --renal-bg:#eaf3fb;  --renal-line:#bcdcef;
+    --gastro:#2c8c6a;     --gastro-bg:#e7f4ee; --gastro-line:#bfe3d3;
+    --hep:#bb851a;        --hep-bg:#fbf2dc;    --hep-line:#ecd9a8;
+    --flag:#c0392b;       --flag-bg:#fbeae7;   --flag-line:#f0c4bd;
+    --basic:#6c5ce7;      --basic-bg:#f0edfc;  --basic-line:#c8c0f4;
+
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Noto Sans KR',system-ui,sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.5;
+    font-size:14px;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{max-width:960px;margin:0 auto;padding:0 12px 60px}
+
+  /* ---------- hero ---------- */
+  header.hero{
+    background:
+      radial-gradient(110% 130% at 0% 0%, #0f766e 0%, transparent 40%),
+      radial-gradient(110% 130% at 100% 0%, #c0392b 0%, transparent 40%),
+      radial-gradient(130% 150% at 50% 120%, #1d6fb8 0%, transparent 42%),
+      #11161f;
+    color:#fff;
+    padding:36px 16px 30px;
+  }
+  .hero-inner{max-width:960px;margin:0 auto}
+  .hero .back{
+    display:inline-block;color:#cfe0f2;text-decoration:none;
+    font-family:var(--mono);font-size:.7rem;margin-bottom:14px;
+  }
+  .hero .back:hover{color:#fff}
+  .hero .eyebrow{
+    font-family:var(--mono);font-size:.65rem;letter-spacing:.28em;
+    text-transform:uppercase;color:#cfe0f2;margin:0 0 8px;
+  }
+  .hero h1{
+    font-weight:900;font-size:clamp(1.4rem,4vw,2.2rem);
+    line-height:1.15;margin:0 0 8px;letter-spacing:-.01em;
+  }
+  .hero p.sub{color:#c8d2e0;font-weight:300;font-size:.92rem;max-width:620px}
+
+  /* ---------- answer formula ---------- */
+  .formula{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:18px 18px 16px;margin:22px 0 18px;
+  }
+  .formula h2{font-size:1rem;font-weight:800;margin-bottom:10px}
+  .formula ol{padding-left:20px;display:grid;gap:4px;color:var(--muted)}
+  .formula ol b{color:var(--ink)}
+  .formula .eg{
+    margin-top:12px;padding:10px 12px;border-radius:10px;
+    background:var(--gastro-bg);border:1px solid var(--gastro-line);
+    font-size:.88rem;color:#1d5c46;
+  }
+  .formula .eg .lbl{font-family:var(--mono);font-size:.65rem;font-weight:700;letter-spacing:.12em;display:block;margin-bottom:4px}
+
+  /* ---------- toolbar ---------- */
+  .toolbar{
+    position:sticky;top:0;z-index:5;
+    background:rgba(238,241,245,.95);backdrop-filter:blur(6px);
+    padding:10px 0;margin-bottom:6px;
+  }
+  .toolbar-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .search{
+    flex:1;min-width:180px;
+    border:1px solid var(--line);border-radius:10px;
+    padding:9px 12px;font:inherit;background:#fff;
+  }
+  .quiz-btn{
+    border:1px solid var(--basic-line);background:var(--basic-bg);color:var(--basic);
+    border-radius:10px;padding:9px 14px;font:inherit;font-weight:700;cursor:pointer;
+  }
+  .quiz-btn[aria-pressed="true"]{background:var(--basic);color:#fff;border-color:var(--basic)}
+  .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .chip{
+    border:1px solid var(--line);background:#fff;color:var(--muted);
+    border-radius:999px;padding:5px 11px;font:inherit;font-size:.8rem;cursor:pointer;
+  }
+  .chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .quiz-hint{display:none;font-size:.8rem;color:var(--basic);margin-top:8px}
+  body.quiz .quiz-hint{display:block}
+
+  /* ---------- sections & cards ---------- */
+  .cat{margin-top:26px}
+  .cat-head{display:flex;align-items:baseline;gap:10px;margin-bottom:10px}
+  .cat-head h2{font-size:1.1rem;font-weight:800}
+  .cat-head span{font-family:var(--mono);font-size:.7rem;color:var(--faint)}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px}
+
+  .drug{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    overflow:hidden;display:flex;flex-direction:column;
+  }
+  .drug-top{padding:14px 16px 10px;border-top:5px solid var(--accent,#999)}
+  .drug-name{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .drug-name .brand{font-weight:900;font-size:1.08rem}
+  .drug-name .generic{color:var(--muted);font-size:.85rem}
+  .badge{
+    font-family:var(--mono);font-size:.6rem;font-weight:700;
+    padding:2px 6px;border-radius:5px;
+  }
+  .badge.s8{background:var(--flag);color:#fff}
+  .badge.star{background:#fff4d6;color:#a86b00;border:1px solid #ecd9a8}
+  .drug-class{font-family:var(--mono);font-size:.68rem;color:var(--faint);margin-top:3px}
+
+  .qa{padding:0 16px 12px;display:grid;gap:8px}
+  .qa .q{
+    font-size:.72rem;font-weight:800;letter-spacing:.02em;
+    color:var(--accent,#555);margin-bottom:1px;
+  }
+  .qa .a{font-size:.88rem}
+  .qa ul{padding-left:16px}
+  .qa li{margin:1px 0}
+  .qa .a b{font-weight:700}
+
+  .say{
+    margin-top:auto;padding:10px 16px 12px;background:#f7f9fb;border-top:1px dashed var(--line);
+    font-size:.82rem;color:#34404f;font-style:italic;
+  }
+  .say .lbl{font-style:normal;font-family:var(--mono);font-size:.6rem;font-weight:700;color:var(--faint);letter-spacing:.12em;display:block;margin-bottom:2px}
+
+  /* quiz mode: hide answers until tapped */
+  body.quiz .qa .a, body.quiz .say-text{
+    filter:blur(6px);cursor:pointer;user-select:none;transition:filter .15s;
+  }
+  body.quiz .revealed .qa .a, body.quiz .revealed .say-text{filter:none;user-select:auto}
+
+  .empty{display:none;text-align:center;color:var(--faint);padding:40px 0}
+
+  .note{
+    margin-top:34px;padding:14px 16px;border-radius:12px;
+    background:var(--hep-bg);border:1px solid var(--hep-line);color:#7a5810;font-size:.82rem;
+  }
+
+  footer{text-align:center;color:var(--faint);font-size:.75rem;padding:20px 0 30px}
+
+  @media (max-width:520px){
+    .grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <a class="back" href="index.html">&larr; 대시보드</a>
+    <p class="eyebrow">Buderim Private · Surgical 3B / 4B</p>
+    <h1>Surgical 병동 핵심 약물</h1>
+    <p class="sub">프리셉터 단골 질문 3개 — <b>왜 주는지 · 기전 · 부작용</b> — 에 바로 답할 수 있게 정리. 퀴즈 모드로 가리고 연습해보기.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section class="formula">
+    <h2>💬 약 물어보면 이 순서로 대답하기</h2>
+    <ol>
+      <li><b>뭐야</b> — 약 이름 + 계열 (“It’s a …”)</li>
+      <li><b>왜</b> — 이 환자한테 주는 이유 (“It’s given for …”)</li>
+      <li><b>어떻게</b> — 기전 한 줄 (“It works by …”)</li>
+      <li><b>부작용 → 그래서 내가 확인할 것</b> (“So I check … before / after giving it.”)</li>
+    </ol>
+    <div class="eg">
+      <span class="lbl">EXAMPLE</span>
+      “This is Clexane, a low molecular weight heparin. It’s given to prevent DVT after surgery because the patient is less mobile. It works by inhibiting factor Xa so clots don’t form. The main risk is bleeding, so I check the platelets, look for bruising or bleeding, and check the timing if there’s an epidural.”
+    </div>
+  </section>
+
+  <div class="toolbar">
+    <div class="toolbar-row">
+      <input class="search" id="search" type="search" placeholder="약 이름 검색 (brand / generic)…">
+      <button class="quiz-btn" id="quizBtn" aria-pressed="false">🙈 퀴즈 모드</button>
+    </div>
+    <div class="chips" id="chips"></div>
+    <p class="quiz-hint">답이 가려져 있어. 카드를 누르면 정답이 보여.</p>
+  </div>
+
+  <div id="list"></div>
+  <p class="empty" id="empty">검색 결과가 없어.</p>
+
+  <div class="note">
+    ⚠️ 용량은 일부러 거의 넣지 않았어. 용량, 투약 기준, hold parameter는 반드시 <b>약 차트, BPH Policy Manager, AMH/MIMS</b>로 확인하기. 학생은 RN/RM의 <b>직접 감독</b> 하에서만 투약할 수 있고, second checker는 될 수 없어 (third checker만 가능).
+  </div>
+</div>
+
+<footer>Clinical Placement Study Hub · Surgical Ward Medications</footer>
+
+<script>
+const CATS = [
+  {id:'pain',   name:'진통제',          en:'Analgesia',            color:'#c0392b'},
+  {id:'opioid', name:'오피오이드 관련',  en:'Opioids & reversal',   color:'#8e44ad'},
+  {id:'nausea', name:'오심 · 구토',      en:'Antiemetics (PONV)',   color:'#2c8c6a'},
+  {id:'vte',    name:'항응고 · 출혈',    en:'VTE prophylaxis',      color:'#1d6fb8'},
+  {id:'abx',    name:'항생제',           en:'Antibiotics',          color:'#bb851a'},
+  {id:'gi',     name:'위장 · 변비',      en:'GI & bowels',          color:'#0f766e'},
+  {id:'fluid',  name:'수액 · 혈당',      en:'Fluids & BGL',         color:'#6c5ce7'},
+];
+
+// star = 수술 병동에서 거의 매일 보는 약
+const DRUGS = [
+  // ---------- 진통제 ----------
+  {cat:'pain', star:true, brand:'Panadol', generic:'Paracetamol', cls:'Simple analgesic / antipyretic',
+   why:'수술 후 <b>통증 조절의 기본</b> (multimodal analgesia 1단계) + 해열. 다른 진통제랑 같이 써서 오피오이드 필요량을 줄여줌.',
+   how:'주로 <b>뇌(중추)에서 prostaglandin 생성을 억제</b> → 통증 신호 ↓, 체온 조절 중추에 작용해서 열 ↓.',
+   se:['일반 용량에서는 부작용 거의 없음','<b>과량 → 간독성</b> (성인 보통 최대 4 g/day, 저체중·간질환은 더 낮게)'],
+   check:['마지막 투약 시간 (최소 4시간 간격)','다른 paracetamol 포함 약 중복 확인 (e.g. Panadeine)','열을 가릴 수 있음 → 감염 징후 놓치지 않기'],
+   say:'It’s a simple analgesic given regularly for baseline pain relief after surgery. The main risk is liver toxicity in overdose, so I check when the last dose was and make sure the daily max isn’t exceeded.'},
+
+  {cat:'pain', star:true, brand:'Nurofen / Celebrex / Dynastat', generic:'Ibuprofen / Celecoxib / Parecoxib (IV)', cls:'NSAID (COX inhibitor)',
+   why:'수술 부위 <b>염증 + 통증</b> 감소. 정형외과 수술 후 많이 씀. Parecoxib는 금식 중일 때 IV로.',
+   how:'<b>COX 효소 차단 → prostaglandin ↓</b> → 염증·통증·열 ↓. Celecoxib/Parecoxib는 COX-2만 골라서 막아서 위장 부작용이 조금 적음.',
+   se:['<b>위장 출혈 / 위궤양</b>','<b>신장 손상 (AKI)</b>: 신장 혈류 ↓','혈압 ↑, 수분 저류','출혈 위험 ↑ (ibuprofen)'],
+   check:['신기능 (Cr, eGFR), 소변량','음식과 같이 / PPI 같이 처방됐는지','항응고제 같이 쓰는지','천식·심질환 병력'],
+   say:'It’s an NSAID given for pain and inflammation. It blocks COX enzymes so prostaglandins are reduced. Side effects are GI bleeding and kidney injury, so I check renal function and urine output and give it with food.'},
+
+  {cat:'pain', brand:'Lyrica', generic:'Pregabalin', cls:'Gabapentinoid (adjuvant)',
+   why:'<b>신경병증성 통증</b>, 수술 후 multimodal analgesia의 보조약 → 오피오이드 사용량 줄이기.',
+   how:'신경세포의 칼슘 채널(α2δ)에 붙어서 <b>흥분성 신경전달물질 분비 ↓</b> → 과민해진 신경 진정.',
+   se:['어지러움, 졸림 → <b>낙상 위험</b>','오피오이드랑 같이 쓰면 <b>진정·호흡억제 ↑</b>','말초 부종, 시야 흐림'],
+   check:['Sedation score, RR (오피오이드 병용 시 특히)','낙상 위험 평가, 기립 시 어지러움','신기능 (신장으로 배설)'],
+   say:'It’s an adjuvant for nerve pain and to reduce opioid use. It calms overactive nerves. It can cause dizziness and sedation, so I monitor sedation and falls risk, especially with opioids.'},
+
+  // ---------- 오피오이드 ----------
+  {cat:'opioid', star:true, s8:true, brand:'Endone', generic:'Oxycodone (IR)', cls:'Opioid — mu agonist',
+   why:'<b>중등도~심한 수술 후 통증</b>, 특히 PRN 돌발통(breakthrough pain).',
+   how:'뇌·척수의 <b>mu opioid 수용체를 자극</b> → 통증 신호 전달을 막고 통증 인식 ↓.',
+   se:['<b>호흡억제</b> (가장 위험)','진정, 어지러움 → 낙상','<b>변비</b> (거의 항상), 오심·구토','소변 저류, 가려움, 저혈압'],
+   check:['투약 전 <b>pain score, sedation score, RR</b>','S8 → 2명 확인 + drug register 기록','투약 후 효과 재평가 (보통 30–60분 뒤)','완하제 같이 처방됐는지','Naloxone 위치 알기'],
+   say:'It’s an immediate-release opioid for moderate to severe pain. It acts on mu receptors in the brain and spinal cord. The biggest risk is respiratory depression, so I check pain score, sedation score and resp rate before and after giving it.'},
+
+  {cat:'opioid', star:true, s8:true, brand:'Targin', generic:'Oxycodone + Naloxone (CR)', cls:'Controlled-release opioid',
+   why:'<b>지속적인 수술 후 통증</b>을 12시간마다 일정하게 조절 (baseline). 돌발통은 Endone PRN으로.',
+   how:'Oxycodone이 통증 조절. 같이 들어있는 <b>naloxone은 먹으면 거의 장에서만 작용</b> → 장의 오피오이드 수용체를 막아서 <b>변비 ↓</b> (진통 효과는 유지).',
+   se:['Oxycodone과 같음: 호흡억제, 진정, 오심','변비는 덜하지만 생길 수 있음'],
+   check:['<b>절대 자르거나 부수지 않기</b> (CR 제형 → 한꺼번에 방출 위험)','12시간 간격 시간 지키기','Sedation score, RR'],
+   say:'It’s a slow-release oxycodone combined with naloxone. The oxycodone gives steady pain relief and the naloxone works locally in the gut to reduce constipation. It must not be crushed.'},
+
+  {cat:'opioid', s8:true, brand:'Palexia', generic:'Tapentadol (IR / SR)', cls:'Opioid + noradrenaline reuptake inhibitor',
+   why:'중등도~심한 통증. 오피오이드 작용 + 신경병증성 통증에도 효과.',
+   how:'<b>mu 수용체 자극</b> + <b>noradrenaline 재흡수 억제</b> (하행 통증 억제 경로 강화) → 두 가지 방법으로 통증 ↓.',
+   se:['오심, 어지러움, 졸림, 변비 (oxycodone보다 위장 부작용 적은 편)','호흡억제','경련 위험, 항우울제(SSRI 등)와 <b>serotonin syndrome</b>'],
+   check:['Sedation score, RR','SR 제형은 부수지 않기','항우울제 복용 여부'],
+   say:'It’s an opioid that also blocks noradrenaline reuptake, so it works on two pain pathways. Watch for sedation, respiratory depression and serotonin syndrome with antidepressants.'},
+
+  {cat:'opioid', brand:'Tramal', generic:'Tramadol', cls:'Weak opioid + SNRI',
+   why:'경~중등도 통증. 강한 오피오이드 전 단계로 쓰기도 함.',
+   how:'약한 <b>mu 수용체 자극</b> + <b>serotonin·noradrenaline 재흡수 억제</b>.',
+   se:['오심, 어지러움, 땀','<b>경련</b> 역치 ↓ (간질 환자 주의)','항우울제와 <b>serotonin syndrome</b>','노인에서 혼돈(confusion)'],
+   check:['경련 병력, 항우울제 복용 여부','어지러움 → 낙상 예방'],
+   say:'It’s a weak opioid that also increases serotonin and noradrenaline. I watch for nausea, dizziness, seizures and serotonin syndrome.'},
+
+  {cat:'opioid', star:true, brand:'Narcan', generic:'Naloxone', cls:'Opioid antagonist (reversal)',
+   why:'<b>오피오이드 과량 → 호흡억제·과진정</b> 응급 해독. (병원 기준에 따라 sedation score 높거나 RR이 너무 낮을 때)',
+   how:'<b>opioid 수용체에 대신 붙어서</b> 오피오이드를 밀어냄 → 호흡·의식 회복.',
+   se:['<b>통증이 갑자기 돌아옴</b>','금단증상: 불안, 오심, 빈맥, 고혈압','<b>작용 시간이 오피오이드보다 짧음</b> → 다시 진정될 수 있음'],
+   check:['투약 후에도 <b>계속 sedation·RR 모니터링</b> (re-sedation)','먼저 도움 요청 (MERT / Code Blue 기준 확인), 기도·호흡 확보','병동 어디 있는지 미리 알아두기'],
+   say:'It’s an opioid antagonist used to reverse respiratory depression from opioids. Because it wears off faster than most opioids, I keep monitoring for re-sedation, and the pain may come back.'},
+
+  // ---------- 오심/구토 ----------
+  {cat:'nausea', star:true, brand:'Zofran', generic:'Ondansetron', cls:'5-HT3 antagonist',
+   why:'<b>수술 후 오심·구토 (PONV)</b>, 오피오이드로 인한 오심.',
+   how:'장과 뇌(구토 중추)의 <b>serotonin(5-HT3) 수용체 차단</b> → 구토 신호 ↓.',
+   se:['두통','<b>변비</b> (오피오이드랑 겹치면 더)','<b>QT 연장</b>'],
+   check:['효과 재평가 (오심 점수, 구토 횟수)','QT 연장 위험약/심질환 병력','장운동, 배변 기록'],
+   say:'It’s a 5-HT3 antagonist for post-op nausea and vomiting. It blocks serotonin receptors in the gut and brain. Side effects include headache, constipation and QT prolongation.'},
+
+  {cat:'nausea', star:true, brand:'Maxolon', generic:'Metoclopramide', cls:'Dopamine (D2) antagonist + prokinetic',
+   why:'오심·구토, 위 배출을 빠르게 해야 할 때.',
+   how:'구토 중추의 <b>dopamine 수용체 차단</b> + <b>위장 운동 촉진</b> (위를 빨리 비움).',
+   se:['<b>추체외로 증상 (EPS)</b>: 근육 경직, 비정상 움직임 (젊은 여성·노인 더 위험)','졸림, 불안·초조'],
+   check:['<b>장폐색 의심되면 금기</b> (장운동 ↑ → 위험)','파킨슨병 환자 금기','보통 5일 이내 사용'],
+   say:'It’s a dopamine antagonist and prokinetic, so it reduces nausea and speeds up gastric emptying. It can cause extrapyramidal side effects and it’s contraindicated in bowel obstruction.'},
+
+  {cat:'nausea', brand:'Stemetil', generic:'Prochlorperazine', cls:'Phenothiazine (D2 antagonist)',
+   why:'오심·구토, 어지럼증(vertigo). 보통 Zofran/Maxolon 다음 선택.',
+   how:'구토 중추의 <b>dopamine 수용체 차단</b>.',
+   se:['졸림, <b>저혈압</b> (특히 IV/IM)','추체외로 증상 (EPS)'],
+   check:['BP, 기립성 저혈압 → 낙상','진정 정도'],
+   say:'It’s a dopamine-blocking antiemetic, often used second line. It can cause sedation, hypotension and extrapyramidal effects.'},
+
+  {cat:'nausea', brand:'Dexamethasone', generic:'Dexamethasone', cls:'Corticosteroid',
+   why:'수술 중/후 <b>PONV 예방</b>, 부종·염증 감소.',
+   how:'<b>강력한 항염 작용</b> (염증 물질 생성 ↓). PONV 예방 기전은 확실히 밝혀지지 않음.',
+   se:['<b>고혈당</b> (당뇨 환자 특히)','감염 위험 ↑, 상처 치유 지연','IV로 빨리 주면 회음부 화끈거림·가려움'],
+   check:['<b>BGL 모니터링</b> (당뇨 환자)','IV는 천천히','감염 징후'],
+   say:'It’s a steroid used to prevent post-op nausea and reduce swelling. It can raise blood glucose, so I monitor BGLs, especially in diabetic patients.'},
+
+  // ---------- 항응고 ----------
+  {cat:'vte', star:true, brand:'Clexane', generic:'Enoxaparin', cls:'Low molecular weight heparin (LMWH)',
+   why:'<b>수술 후 DVT/PE 예방</b>. 수술 + 움직임 ↓ → 혈전 위험 ↑. (치료 용량으로 DVT/PE 치료도)',
+   how:'<b>antithrombin을 강화 → factor Xa 억제</b> → 응고 과정 차단 → 혈전 생성 ↓.',
+   se:['<b>출혈</b>, 멍 (주사 부위)','<b>HIT</b> (heparin-induced thrombocytopenia): 혈소판 ↓','고칼륨혈증 (드묾)'],
+   check:['<b>혈소판</b>, 신기능 (CrCl 낮으면 용량 조절)','출혈 징후: 상처, 소변, 대변, 잇몸','<b>Epidural/spinal 카테터</b> 있으면 투약·제거 타이밍','SC 복부, 프리필드 주사기 <b>공기방울 빼지 않기</b>, 주사 후 문지르지 않기'],
+   say:'It’s a low molecular weight heparin given to prevent DVT after surgery. It enhances antithrombin and inhibits factor Xa. The main risks are bleeding and HIT, so I check platelets, renal function and signs of bleeding.'},
+
+  {cat:'vte', brand:'Heparin', generic:'Heparin (unfractionated, SC / IV)', cls:'Anticoagulant',
+   why:'DVT 예방 — 특히 <b>신기능이 나빠서 Clexane을 쓰기 어려울 때</b>. IV infusion은 치료용.',
+   how:'<b>antithrombin 강화 → thrombin(IIa)과 factor Xa 둘 다 억제</b>.',
+   se:['출혈','HIT (Clexane보다 더 흔함)'],
+   check:['IV infusion이면 <b>APTT</b> 모니터링','혈소판, 출혈 징후','작용 시간 짧음 (reversal: protamine)'],
+   say:'It’s unfractionated heparin, often used for DVT prophylaxis when renal function is poor. It inhibits thrombin and factor Xa. I monitor for bleeding and check APTT if it’s an infusion.'},
+
+  {cat:'vte', brand:'Xarelto / Eliquis', generic:'Rivaroxaban / Apixaban', cls:'DOAC — direct factor Xa inhibitor',
+   why:'<b>고관절·무릎 인공관절 수술 후 VTE 예방</b> (먹는 약), AF·DVT 치료.',
+   how:'<b>factor Xa를 직접 차단</b> → thrombin 생성 ↓ → 혈전 ↓.',
+   se:['<b>출혈</b>','빈혈'],
+   check:['출혈 징후 (상처 삼출, 혈뇨, 흑변)','신기능','수술 전 언제 중단했는지/언제 다시 시작하는지 확인','<b>Clexane과 중복 투약 X</b>'],
+   say:'It’s a direct oral anticoagulant that inhibits factor Xa. It’s used for VTE prevention after hip or knee replacement. I monitor for bleeding and make sure it’s not doubled up with Clexane.'},
+
+  {cat:'vte', brand:'Cyklokapron', generic:'Tranexamic acid (TXA)', cls:'Antifibrinolytic',
+   why:'<b>수술 중/후 출혈 감소</b> (특히 정형외과 관절 수술).',
+   how:'<b>plasminogen이 plasmin으로 바뀌는 걸 막음</b> → 이미 만들어진 혈전이 녹지 않게 → 출혈 ↓. (응고제가 아니라 “혈전 분해 억제제”)',
+   se:['오심, 설사','<b>혈전 위험</b> 이론상 ↑','고용량에서 경련'],
+   check:['혈전 병력','배액(drain)·상처 출혈량 확인'],
+   say:'It’s an antifibrinolytic that stops clots from being broken down, so it reduces bleeding during and after surgery, especially joint replacements.'},
+
+  // ---------- 항생제 ----------
+  {cat:'abx', star:true, brand:'Kefzol / Keflex', generic:'Cefazolin (IV) / Cephalexin (PO)', cls:'1st-gen cephalosporin',
+   why:'<b>수술 전후 감염 예방 (surgical prophylaxis)</b> — 피부 균 (Staph, Strep). 상처 감염 치료.',
+   how:'<b>세균 세포벽 합성 방해</b> → 세균이 터져서 죽음 (bactericidal).',
+   se:['<b>알레르기</b> (발진 ~ anaphylaxis)','설사, <b>C. difficile</b>','주사 부위 정맥염'],
+   check:['<b>알레르기 확인 (특히 penicillin 알레르기)</b>','투약 시간 정확히 지키기 (혈중농도 유지)','첫 투약 후 알레르기 반응 관찰'],
+   say:'It’s a first-generation cephalosporin used as surgical prophylaxis against skin bacteria. It kills bacteria by stopping cell wall synthesis. I always check allergies, especially penicillin, and watch for diarrhoea.'},
+
+  {cat:'abx', brand:'Flagyl', generic:'Metronidazole', cls:'Nitroimidazole',
+   why:'<b>혐기성 균</b> — 장 수술, 복부 감염, 충수염. C. diff 치료에도.',
+   how:'세균 안에 들어가서 <b>DNA를 손상</b> → 세균 사멸.',
+   se:['<b>금속 맛</b>, 오심','<b>술과 같이 먹으면</b> 심한 오심·구토·홍조 (disulfiram-like)','장기 사용 시 말초신경병증'],
+   check:['음주 금지 교육 (치료 후 며칠까지)','오심 시 음식과 함께'],
+   say:'It covers anaerobic bacteria, so it’s used for bowel surgery and abdominal infections. It damages bacterial DNA. Patients must avoid alcohol, and it often causes a metallic taste and nausea.'},
+
+  {cat:'abx', brand:'Tazocin', generic:'Piperacillin + Tazobactam', cls:'Broad-spectrum penicillin + β-lactamase inhibitor',
+   why:'<b>심한 감염</b> — 복강 내 감염, 패혈증, 병원 감염. 수술 후 열·감염 의심 시.',
+   how:'Piperacillin이 <b>세포벽 합성 방해</b>, tazobactam이 <b>세균의 β-lactamase(내성 효소)를 막아서</b> piperacillin이 분해되지 않게 보호.',
+   se:['<b>Penicillin 알레르기 → 절대 금기</b>','설사, C. diff','저칼륨혈증, 혈소판 이상'],
+   check:['<b>Penicillin 알레르기 확인</b>','K+ 수치','혈액배양을 먼저 채취했는지'],
+   say:'It’s a broad-spectrum penicillin with a beta-lactamase inhibitor for serious infections like intra-abdominal sepsis. It’s a penicillin, so I must check for penicillin allergy first.'},
+
+  // ---------- 위장 ----------
+  {cat:'gi', star:true, brand:'Somac', generic:'Pantoprazole', cls:'Proton pump inhibitor (PPI)',
+   why:'<b>위궤양·스트레스 궤양 예방</b> (수술 스트레스, NSAID·스테로이드 사용 시), GORD.',
+   how:'위벽 세포의 <b>proton pump(H+/K+ ATPase) 차단</b> → 위산 분비 ↓.',
+   se:['두통, 설사','장기 사용: 저마그네슘혈증, C. diff, 골절 위험'],
+   check:['<b>식전 (아침 식사 30–60분 전)</b>','부수지 않기 (장용정)'],
+   say:'It’s a PPI that blocks the proton pump to reduce stomach acid. It protects against ulcers, especially with NSAIDs or steroids after surgery. It’s best given before breakfast.'},
+
+  {cat:'gi', star:true, brand:'Coloxyl with Senna', generic:'Docusate + Sennosides', cls:'Stool softener + stimulant laxative',
+   why:'<b>오피오이드로 인한 변비 예방</b> — 오피오이드 쓰면 거의 같이 처방.',
+   how:'Docusate: <b>대변에 수분 흡수 → 부드럽게</b>. Senna: <b>장 신경 자극 → 장운동 ↑</b>.',
+   se:['복부 경련','설사'],
+   check:['<b>마지막 배변 기록 (bowel chart)</b>','묽은 변이면 hold 고려 → RN 확인','장폐색 의심 시 금기'],
+   say:'It’s a stool softener combined with a stimulant laxative, given to prevent opioid-induced constipation. I check the bowel chart and hold it if the patient has loose stools.'},
+
+  {cat:'gi', brand:'Movicol / Lactulose', generic:'Macrogol / Lactulose', cls:'Osmotic laxative',
+   why:'변비 치료 — Coloxyl/Senna로 부족할 때.',
+   how:'<b>삼투압으로 장 안에 물을 끌어당김</b> → 대변이 부드러워지고 양 ↑.',
+   se:['복부 팽만, 가스 (lactulose 특히)','설사 → 탈수·전해질 이상'],
+   check:['Movicol은 물 125 mL에 녹이기','배변 기록, 수분 섭취'],
+   say:'It’s an osmotic laxative that draws water into the bowel to soften the stool. Side effects are bloating and diarrhoea, so I monitor the bowel chart and hydration.'},
+
+  // ---------- 수액/혈당 ----------
+  {cat:'fluid', star:true, brand:'Hartmann’s / Plasma-Lyte', generic:'Compound sodium lactate / balanced crystalloid', cls:'Isotonic crystalloid IV fluid',
+   why:'<b>금식(NBM) 중 수분·전해질 유지</b>, 수술 중 손실 보충, 저혈압·탈수 교정.',
+   how:'혈장과 비슷한 <b>등장성 용액</b> → 혈관·세포 외액 보충. Na, K, Ca, lactate(→ 간에서 bicarbonate로) 포함.',
+   se:['<b>수분 과다 (fluid overload)</b>: 숨참, crackles, 부종','전해질 불균형'],
+   check:['<b>Fluid balance chart</b> (input / output)','소변량 (보통 ≥ 0.5 mL/kg/hr)','폐음, 부종, 체중','주입 속도·라인·캐뉼라 부위'],
+   say:'It’s an isotonic crystalloid used to maintain hydration while the patient is nil by mouth. The main risk is fluid overload, so I keep an accurate fluid balance and monitor urine output and breath sounds.'},
+
+  {cat:'fluid', brand:'NovoRapid', generic:'Insulin aspart', cls:'Rapid-acting insulin',
+   why:'당뇨 환자의 <b>식사 시 혈당 조절</b>, 수술 스트레스·스테로이드로 올라간 혈당 교정 (correction scale).',
+   how:'세포가 <b>포도당을 흡수하게</b> 해서 혈당 ↓. 작용 시작 ~15분, 매우 빠름.',
+   se:['<b>저혈당</b> (떨림, 땀, 혼돈)','저칼륨혈증'],
+   check:['<b>투약 전 BGL</b>','<b>식사가 바로 나오는지</b> (금식 중이면 RN 확인)','2명 확인, 저혈당 대처 프로토콜 알기'],
+   say:'It’s rapid-acting insulin given with meals or as a correction dose. The main risk is hypoglycaemia, so I check the BGL first and make sure the meal is ready before giving it.'},
+];
+
+const list = document.getElementById('list');
+const chips = document.getElementById('chips');
+const search = document.getElementById('search');
+const quizBtn = document.getElementById('quizBtn');
+const empty = document.getElementById('empty');
+let activeCat = 'all';
+
+function card(d, color){
+  const ul = arr => '<ul>' + arr.map(x => `<li>${x}</li>`).join('') + '</ul>';
+  return `<article class="drug" style="--accent:${color}" data-cat="${d.cat}" data-star="${d.star ? 1 : ''}"
+            data-q="${(d.brand + ' ' + d.generic + ' ' + d.cls).toLowerCase()}">
+    <div class="drug-top">
+      <div class="drug-name">
+        <span class="brand">${d.brand}</span>
+        ${d.s8 ? '<span class="badge s8">S8</span>' : ''}
+        ${d.star ? '<span class="badge star">★ 자주 봄</span>' : ''}
+      </div>
+      <div class="generic">${d.generic}</div>
+      <div class="drug-class">${d.cls}</div>
+    </div>
+    <div class="qa">
+      <div><div class="q">❓ 왜 줘?</div><div class="a">${d.why}</div></div>
+      <div><div class="q">⚙️ 기전</div><div class="a">${d.how}</div></div>
+      <div><div class="q">⚠️ 부작용</div><div class="a">${ul(d.se)}</div></div>
+      <div><div class="q">✅ 그래서 확인할 것</div><div class="a">${ul(d.check)}</div></div>
+    </div>
+    <div class="say"><span class="lbl">SAY IT IN ENGLISH</span><span class="say-text">“${d.say}”</span></div>
+  </article>`;
+}
+
+function render(){
+  list.innerHTML = CATS.map(c => {
+    const items = DRUGS.filter(d => d.cat === c.id);
+    return `<section class="cat" data-cat="${c.id}">
+      <div class="cat-head"><h2 style="color:${c.color}">${c.name}</h2><span>${c.en} · ${items.length}</span></div>
+      <div class="grid">${items.map(d => card(d, c.color)).join('')}</div>
+    </section>`;
+  }).join('');
+
+  chips.innerHTML = [{id:'all', name:'전체'}, {id:'star', name:'★ 자주 봄'}, ...CATS]
+    .map(c => `<button class="chip${c.id === activeCat ? ' on' : ''}" data-id="${c.id}">${c.name}</button>`).join('');
+}
+
+function filter(){
+  const q = search.value.trim().toLowerCase();
+  let shown = 0;
+  list.querySelectorAll('.drug').forEach(el => {
+    const okCat = activeCat === 'all' || (activeCat === 'star' ? el.dataset.star : el.dataset.cat === activeCat);
+    const ok = okCat && (!q || el.dataset.q.includes(q));
+    el.style.display = ok ? '' : 'none';
+    if (ok) shown++;
+  });
+  list.querySelectorAll('.cat').forEach(sec => {
+    sec.style.display = [...sec.querySelectorAll('.drug')].some(e => e.style.display !== 'none') ? '' : 'none';
+  });
+  empty.style.display = shown ? 'none' : 'block';
+}
+
+render();
+
+chips.addEventListener('click', e => {
+  const b = e.target.closest('.chip');
+  if (!b) return;
+  activeCat = b.dataset.id;
+  chips.querySelectorAll('.chip').forEach(x => x.classList.toggle('on', x === b));
+  filter();
+});
+search.addEventListener('input', filter);
+
+quizBtn.addEventListener('click', () => {
+  const on = document.body.classList.toggle('quiz');
+  quizBtn.setAttribute('aria-pressed', on);
+  quizBtn.textContent = on ? '👀 답 보기 모드' : '🙈 퀴즈 모드';
+  list.querySelectorAll('.drug.revealed').forEach(el => el.classList.remove('revealed'));
+});
+list.addEventListener('click', e => {
+  if (!document.body.classList.contains('quiz')) return;
+  const c = e.target.closest('.drug');
+  if (c) c.classList.toggle('revealed');
+});
+</script>
+</body>
+</html>
