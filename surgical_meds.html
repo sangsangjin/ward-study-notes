@@ -97,6 +97,7 @@
   .d-brand{color:var(--muted);margin-top:2px}
   .d-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
   .pill{font-size:.78rem;color:var(--text);background:var(--paper);border:1px solid var(--line);padding:3px 10px;border-radius:999px}
+  .pill.surg{background:#fff;color:var(--muted)}
   .pill code{font-family:var(--mono);font-weight:700;color:var(--ink)}
   .say{margin:22px 0 4px;padding:14px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);border-radius:0 10px 10px 0}
   .say-label{font-size:.7rem;font-weight:700;color:var(--accent);margin-bottom:3px}
@@ -217,7 +218,7 @@
 <header class="top">
   <div class="top-inner">
     <a class="back" href="index.html">&larr;</a>
-    <div class="brand">Ward Meds<small>BPH Surgical</small></div>
+    <div class="brand">Ward Meds<small>BPH 3B Surgical</small></div>
     <nav class="tabs" id="tabs">
       <button class="tab on" data-view="drugs">Drugs</button>
       <button class="tab" data-view="stems">Stems</button>
@@ -300,21 +301,21 @@ const CATS = [
 // star = 수술 병동에서 거의 매일 보는 약
 const DRUGS = [
   // ---------- Analgesia ----------
-  {cat:'pain', star:true, brand:'Panadol', generic:'Paracetamol', cls:'Simple analgesic / antipyretic',
+  {cat:'pain', star:true, surg:['ortho','gen','uro'], brand:'Panadol', generic:'Paracetamol', cls:'Simple analgesic / antipyretic',
    why:'<b>Post-op pain</b> 기본 진통제 — <b>multimodal analgesia</b> 1단계 + <b>antipyretic</b>. <b>Opioid requirement ↓</b>',
    how:'<b>Central (CNS)</b>에서 <b>prostaglandin synthesis ↓</b> → <b>pain ↓</b>, <b>hypothalamus</b>에 작용 → <b>fever ↓</b>',
    se:['Normal dose → side effects <b>rare</b>','<b>Overdose → hepatotoxicity</b> (liver damage)','Max <b>4 g/day</b> (adult) — low body weight / liver disease → lower'],
    check:['<b>Last dose time</b> (min 4-hourly)','<b>Duplicate paracetamol</b> 확인 (e.g. Panadeine)','<b>Masks fever</b> → infection signs 놓치지 않기'],
    say:'It’s a simple analgesic given regularly for baseline pain relief after surgery. The main risk is liver toxicity in overdose, so I check when the last dose was and make sure the daily max isn’t exceeded.'},
 
-  {cat:'pain', star:true, brand:'Nurofen / Celebrex / Dynastat', generic:'Ibuprofen / Celecoxib / Parecoxib (IV)', cls:'NSAID (COX inhibitor)', stem:'-coxib (celecoxib, parecoxib)',
+  {cat:'pain', star:true, surg:['ortho'], brand:'Nurofen / Celebrex / Dynastat', generic:'Ibuprofen / Celecoxib / Parecoxib (IV)', cls:'NSAID (COX inhibitor)', stem:'-coxib (celecoxib, parecoxib)',
    why:'<b>Inflammation + pain</b> ↓ — 특히 <b>orthopaedic surgery</b> 후. <b>Parecoxib</b> = <b>IV</b>, <b>NBM</b>일 때',
    how:'<b>COX enzyme</b> block → <b>prostaglandin ↓</b> → <b>inflammation · pain · fever ↓</b>. Celecoxib/Parecoxib = <b>COX-2 selective</b> → <b>GI side effects</b> 적음',
    se:['<b>GI bleeding / peptic ulcer</b>','<b>AKI</b> (renal blood flow ↓)','<b>BP ↑</b>, <b>fluid retention</b>','<b>Bleeding risk ↑</b> (ibuprofen)'],
    check:['<b>Renal function</b> (Cr, eGFR), <b>urine output</b>','<b>Give with food</b> / <b>PPI</b> co-prescribed?','<b>Anticoagulants</b> 같이 쓰는지','<b>Asthma</b>, <b>cardiac history</b>'],
    say:'It’s an NSAID given for pain and inflammation. It blocks COX enzymes so prostaglandins are reduced. Side effects are GI bleeding and kidney injury, so I check renal function and urine output and give it with food.'},
 
-  {cat:'pain', brand:'Lyrica', generic:'Pregabalin', cls:'Gabapentinoid (adjuvant)',
+  {cat:'pain', surg:['ortho'], brand:'Lyrica', generic:'Pregabalin', cls:'Gabapentinoid (adjuvant)',
    why:'<b>Neuropathic pain</b>, <b>multimodal analgesia</b>의 <b>adjuvant</b> → <b>opioid-sparing</b>',
    how:'<b>Calcium channel (α2δ subunit)</b>에 결합 → <b>excitatory neurotransmitter release ↓</b> → overactive nerves 진정',
    se:['<b>Dizziness, drowsiness</b> → <b>falls risk</b>','+ Opioids → <b>sedation · respiratory depression ↑</b>','<b>Peripheral oedema</b>, <b>blurred vision</b>'],
@@ -322,35 +323,35 @@ const DRUGS = [
    say:'It’s an adjuvant for nerve pain and to reduce opioid use. It calms overactive nerves. It can cause dizziness and sedation, so I monitor sedation and falls risk, especially with opioids.'},
 
   // ---------- Opioids ----------
-  {cat:'opioid', star:true, s8:true, brand:'Endone', generic:'Oxycodone (IR)', cls:'Opioid — mu agonist', stem:'-codone',
+  {cat:'opioid', star:true, s8:true, surg:['ortho','gen','uro'], brand:'Endone', generic:'Oxycodone (IR)', cls:'Opioid — mu agonist', stem:'-codone',
    why:'<b>Moderate–severe post-op pain</b>, 특히 <b>PRN breakthrough pain</b>',
    how:'Brain · spinal cord의 <b>mu opioid receptor</b> 자극 → <b>pain signal transmission ↓</b>, <b>pain perception ↓</b>',
    se:['<b>Respiratory depression</b> (most dangerous)','<b>Sedation</b>, <b>dizziness</b> → falls','<b>Constipation</b> (almost always), <b>nausea & vomiting</b>','<b>Urinary retention</b>, <b>pruritus</b>, <b>hypotension</b>'],
    check:['Before: <b>pain score, sedation score, RR</b>','<b>S8</b> → <b>2 RN check</b> + <b>drug register</b>','<b>Re-assess</b> effect 30–60 min after','<b>Aperients</b> charted?','<b>Naloxone</b> 위치 알기'],
    say:'It’s an immediate-release opioid for moderate to severe pain. It acts on mu receptors in the brain and spinal cord. The biggest risk is respiratory depression, so I check pain score, sedation score and resp rate before and after giving it.'},
 
-  {cat:'opioid', star:true, s8:true, brand:'Targin', generic:'Oxycodone + Naloxone (CR)', cls:'Controlled-release opioid', stem:'-codone',
+  {cat:'opioid', star:true, s8:true, surg:['ortho','gen'], brand:'Targin', generic:'Oxycodone + Naloxone (CR)', cls:'Controlled-release opioid', stem:'-codone',
    why:'<b>Ongoing post-op pain</b> — <b>12-hourly baseline</b> analgesia. Breakthrough → <b>Endone PRN</b>',
    how:'<b>Oxycodone</b> = pain relief. <b>Naloxone</b> = oral로 먹으면 <b>gut</b>에서만 작용 (<b>low bioavailability</b>) → gut opioid receptor block → <b>constipation ↓</b>',
    se:['Same as oxycodone: <b>respiratory depression, sedation, nausea</b>','<b>Constipation</b> — less, but still possible'],
    check:['<b>Do NOT crush / cut</b> (CR → <b>dose dumping</b>)','<b>12-hourly</b> timing 지키기','<b>Sedation score, RR</b>'],
    say:'It’s a slow-release oxycodone combined with naloxone. The oxycodone gives steady pain relief and the naloxone works locally in the gut to reduce constipation. It must not be crushed.'},
 
-  {cat:'opioid', s8:true, brand:'Palexia', generic:'Tapentadol (IR / SR)', cls:'Opioid + noradrenaline reuptake inhibitor',
+  {cat:'opioid', s8:true, surg:['ortho'], brand:'Palexia', generic:'Tapentadol (IR / SR)', cls:'Opioid + noradrenaline reuptake inhibitor',
    why:'<b>Moderate–severe pain</b> + <b>neuropathic pain</b>에도 효과',
    how:'<b>Mu receptor agonist</b> + <b>noradrenaline reuptake inhibition</b> (<b>descending pain pathway</b> 강화) → dual action',
    se:['<b>Nausea, dizziness, drowsiness, constipation</b> (GI SE < oxycodone)','<b>Respiratory depression</b>','<b>Seizures</b>, + SSRI → <b>serotonin syndrome</b>'],
    check:['<b>Sedation score, RR</b>','<b>SR — do not crush</b>','<b>Antidepressants</b> 복용 여부'],
    say:'It’s an opioid that also blocks noradrenaline reuptake, so it works on two pain pathways. Watch for sedation, respiratory depression and serotonin syndrome with antidepressants.'},
 
-  {cat:'opioid', brand:'Tramal', generic:'Tramadol', cls:'Weak opioid + SNRI',
+  {cat:'opioid', surg:['ortho','uro'], brand:'Tramal', generic:'Tramadol', cls:'Weak opioid + SNRI',
    why:'<b>Mild–moderate pain</b>, strong opioid 전 단계',
    how:'Weak <b>mu agonist</b> + <b>serotonin · noradrenaline reuptake inhibition</b>',
    se:['<b>Nausea, dizziness, sweating</b>','<b>Seizure threshold ↓</b> (epilepsy 주의)','+ Antidepressants → <b>serotonin syndrome</b>','Elderly → <b>confusion</b>'],
    check:['<b>Seizure history</b>, <b>antidepressants</b>','<b>Dizziness → falls prevention</b>'],
    say:'It’s a weak opioid that also increases serotonin and noradrenaline. I watch for nausea, dizziness, seizures and serotonin syndrome.'},
 
-  {cat:'opioid', star:true, brand:'Narcan', generic:'Naloxone', cls:'Opioid antagonist (reversal)', stem:'—',
+  {cat:'opioid', star:true, surg:['gen','ortho'], brand:'Narcan', generic:'Naloxone', cls:'Opioid antagonist (reversal)', stem:'—',
    why:'<b>Opioid overdose</b> → <b>respiratory depression / over-sedation</b> reversal (hospital criteria: <b>high sedation score</b> or <b>low RR</b>)',
    how:'<b>Opioid receptor</b>에 대신 결합 (<b>competitive antagonist</b>) → opioid 밀어냄 → <b>breathing · consciousness</b> 회복',
    se:['<b>Sudden return of pain</b>','<b>Withdrawal</b>: agitation, nausea, tachycardia, hypertension','<b>Shorter half-life</b> than most opioids → <b>re-sedation</b>'],
@@ -358,28 +359,28 @@ const DRUGS = [
    say:'It’s an opioid antagonist used to reverse respiratory depression from opioids. Because it wears off faster than most opioids, I keep monitoring for re-sedation, and the pain may come back.'},
 
   // ---------- Antiemetics ----------
-  {cat:'nausea', star:true, brand:'Zofran', generic:'Ondansetron', cls:'5-HT3 antagonist', stem:'-setron',
+  {cat:'nausea', star:true, surg:['gen','ortho','uro'], brand:'Zofran', generic:'Ondansetron', cls:'5-HT3 antagonist', stem:'-setron',
    why:'<b>PONV</b> (post-operative nausea & vomiting), <b>opioid-induced nausea</b>',
    how:'Gut + brain (<b>CTZ / vomiting centre</b>)의 <b>serotonin (5-HT3) receptor</b> block → vomiting signal ↓',
    se:['<b>Headache</b>','<b>Constipation</b> (+ opioids → worse)','<b>QT prolongation</b>'],
    check:['<b>Re-assess</b>: nausea score, vomiting episodes','<b>QT-prolonging drugs</b> / <b>cardiac history</b>','<b>Bowel chart</b>'],
    say:'It’s a 5-HT3 antagonist for post-op nausea and vomiting. It blocks serotonin receptors in the gut and brain. Side effects include headache, constipation and QT prolongation.'},
 
-  {cat:'nausea', star:true, brand:'Maxolon', generic:'Metoclopramide', cls:'Dopamine (D2) antagonist + prokinetic', stem:'-pramide',
+  {cat:'nausea', star:true, surg:['gen'], brand:'Maxolon', generic:'Metoclopramide', cls:'Dopamine (D2) antagonist + prokinetic', stem:'-pramide',
    why:'<b>Nausea & vomiting</b>, <b>gastric emptying</b> 촉진 필요할 때',
    how:'<b>CTZ</b>의 <b>dopamine (D2) receptor</b> block + <b>prokinetic</b> (<b>GI motility ↑</b>)',
    se:['<b>Extrapyramidal side effects (EPS)</b>: dystonia, rigidity (young women, elderly ↑)','<b>Drowsiness</b>, <b>restlessness</b>'],
    check:['<b>Bowel obstruction → contraindicated</b>','<b>Parkinson’s disease → avoid</b>','Usually <b>≤ 5 days</b>'],
    say:'It’s a dopamine antagonist and prokinetic, so it reduces nausea and speeds up gastric emptying. It can cause extrapyramidal side effects and it’s contraindicated in bowel obstruction.'},
 
-  {cat:'nausea', brand:'Stemetil', generic:'Prochlorperazine', cls:'Phenothiazine (D2 antagonist)',
+  {cat:'nausea', surg:['gen'], brand:'Stemetil', generic:'Prochlorperazine', cls:'Phenothiazine (D2 antagonist)',
    why:'<b>Nausea & vomiting</b>, <b>vertigo</b> — 보통 <b>second line</b>',
    how:'<b>CTZ</b>의 <b>dopamine (D2) receptor</b> block',
    se:['<b>Sedation</b>, <b>hypotension</b> (esp. IV/IM)','<b>EPS</b>'],
    check:['<b>BP</b>, <b>postural hypotension</b> → falls','<b>Sedation level</b>'],
    say:'It’s a dopamine-blocking antiemetic, often used second line. It can cause sedation, hypotension and extrapyramidal effects.'},
 
-  {cat:'nausea', brand:'Dexamethasone', generic:'Dexamethasone', cls:'Corticosteroid', stem:'-asone / -sone',
+  {cat:'nausea', surg:['gen','ortho'], brand:'Dexamethasone', generic:'Dexamethasone', cls:'Corticosteroid', stem:'-asone / -sone',
    why:'<b>PONV prophylaxis</b>, <b>swelling · inflammation ↓</b>',
    how:'<b>Potent anti-inflammatory</b> (inflammatory mediators ↓). PONV mechanism → <b>not fully understood</b>',
    se:['<b>Hyperglycaemia</b> (esp. diabetics)','<b>Infection risk ↑</b>, <b>delayed wound healing</b>','Fast IV push → <b>perineal burning / itch</b>'],
@@ -387,28 +388,28 @@ const DRUGS = [
    say:'It’s a steroid used to prevent post-op nausea and reduce swelling. It can raise blood glucose, so I monitor BGLs, especially in diabetic patients.'},
 
   // ---------- VTE ----------
-  {cat:'vte', star:true, ward:true, brand:'Clexane', generic:'Enoxaparin', cls:'Low molecular weight heparin (LMWH)', stem:'-parin',
+  {cat:'vte', star:true, ward:true, surg:['ortho','gen','uro'], brand:'Clexane', generic:'Enoxaparin', cls:'Low molecular weight heparin (LMWH)', stem:'-parin',
    why:'<b>Post-op DVT / PE prophylaxis</b> — surgery + <b>reduced mobility</b> → <b>VTE risk ↑</b>. (<b>Treatment dose</b> → DVT/PE 치료)',
    how:'<b>Antithrombin</b> 강화 → <b>factor Xa inhibition</b> → <b>clotting cascade</b> 차단 → <b>clot formation ↓</b>',
    se:['<b>Bleeding</b>, <b>bruising</b> (injection site)','<b>HIT</b> (heparin-induced thrombocytopenia) → <b>platelets ↓</b>','<b>Hyperkalaemia</b> (rare)'],
    check:['<b>Platelets</b>, <b>renal function</b> (low CrCl → dose adjust)','<b>Signs of bleeding</b>: wound, urine, stool, gums','<b>Epidural / spinal catheter</b> → timing!','<b>SC abdomen</b>, prefilled syringe <b>air bubble 빼지 않기</b>, <b>don’t rub</b>'],
    say:'It’s a low molecular weight heparin given to prevent DVT after surgery. It enhances antithrombin and inhibits factor Xa. The main risks are bleeding and HIT, so I check platelets, renal function and signs of bleeding.'},
 
-  {cat:'vte', ward:true, star:true, brand:'Heparin', generic:'Heparin (unfractionated, SC / IV)', cls:'Anticoagulant', stem:'-parin',
+  {cat:'vte', ward:true, star:true, surg:['gen'], brand:'Heparin', generic:'Heparin (unfractionated, SC / IV)', cls:'Anticoagulant', stem:'-parin',
    why:'<b>DVT prophylaxis</b> — 특히 <b>renal impairment</b>로 Clexane 어려울 때. <b>IV infusion</b> = treatment',
    how:'<b>Antithrombin</b> 강화 → <b>thrombin (IIa) + factor Xa</b> 둘 다 inhibit',
    se:['<b>Bleeding</b>','<b>HIT</b> (more common than Clexane)'],
    check:['IV infusion → <b>APTT</b> monitoring','<b>Platelets</b>, <b>signs of bleeding</b>','<b>Short-acting</b> (reversal: <b>protamine</b>)'],
    say:'It’s unfractionated heparin, often used for DVT prophylaxis when renal function is poor. It inhibits thrombin and factor Xa. I monitor for bleeding and check APTT if it’s an infusion.'},
 
-  {cat:'vte', ward:true, star:true, brand:'Xarelto / Eliquis', generic:'Rivaroxaban / Apixaban', cls:'DOAC — direct factor Xa inhibitor', stem:'-xaban',
+  {cat:'vte', ward:true, star:true, surg:['ortho'], brand:'Xarelto / Eliquis', generic:'Rivaroxaban / Apixaban', cls:'DOAC — direct factor Xa inhibitor', stem:'-xaban',
    why:'<b>VTE prophylaxis</b> after <b>hip / knee replacement</b> (oral), <b>AF</b>, <b>DVT treatment</b>',
    how:'<b>Factor Xa</b> 직접 block → <b>thrombin generation ↓</b> → <b>clot ↓</b>',
    se:['<b>Bleeding</b>','<b>Anaemia</b>'],
    check:['<b>Signs of bleeding</b> (wound ooze, haematuria, melaena)','<b>Renal function</b>','Pre-op <b>withheld</b>? <b>Restart</b> 언제?','<b>Don’t double up with Clexane</b>'],
    say:'It’s a direct oral anticoagulant that inhibits factor Xa. It’s used for VTE prevention after hip or knee replacement. I monitor for bleeding and make sure it’s not doubled up with Clexane.'},
 
-  {cat:'vte', brand:'Cyklokapron', generic:'Tranexamic acid (TXA)', cls:'Antifibrinolytic',
+  {cat:'vte', surg:['ortho','uro'], brand:'Cyklokapron', generic:'Tranexamic acid (TXA)', cls:'Antifibrinolytic',
    why:'<b>Intra-op / post-op blood loss ↓</b> (esp. <b>joint replacement</b>)',
    how:'<b>Plasminogen → plasmin</b> 전환 block → 만들어진 <b>clot breakdown (fibrinolysis) ↓</b> → bleeding ↓. (<b>Anticoagulant 반대</b> 개념)',
    se:['<b>Nausea, diarrhoea</b>','Theoretical <b>thrombosis risk ↑</b>','High dose → <b>seizures</b>'],
@@ -416,21 +417,21 @@ const DRUGS = [
    say:'It’s an antifibrinolytic that stops clots from being broken down, so it reduces bleeding during and after surgery, especially joint replacements.'},
 
   // ---------- Antibiotics ----------
-  {cat:'abx', star:true, brand:'Kefzol / Keflex', generic:'Cefazolin (IV) / Cephalexin (PO)', cls:'1st-gen cephalosporin', stem:'cef- / ceph-',
+  {cat:'abx', star:true, surg:['ortho','gen','uro'], brand:'Kefzol / Keflex', generic:'Cefazolin (IV) / Cephalexin (PO)', cls:'1st-gen cephalosporin', stem:'cef- / ceph-',
    why:'<b>Surgical prophylaxis</b> — <b>skin flora</b> (Staph, Strep). <b>Wound infection</b> 치료',
    how:'<b>Bacterial cell wall synthesis</b> 방해 → bacteria lysis (<b>bactericidal</b>)',
    se:['<b>Allergy</b> (rash → <b>anaphylaxis</b>)','<b>Diarrhoea</b>, <b>C. difficile</b>','<b>Phlebitis</b> (IV site)'],
    check:['<b>Allergy status</b> — esp. <b>penicillin allergy</b>','<b>On time</b> (therapeutic levels 유지)','First dose → <b>observe for reaction</b>'],
    say:'It’s a first-generation cephalosporin used as surgical prophylaxis against skin bacteria. It kills bacteria by stopping cell wall synthesis. I always check allergies, especially penicillin, and watch for diarrhoea.'},
 
-  {cat:'abx', brand:'Flagyl', generic:'Metronidazole', cls:'Nitroimidazole', stem:'-azole',
+  {cat:'abx', surg:['gen'], brand:'Flagyl', generic:'Metronidazole', cls:'Nitroimidazole', stem:'-azole',
    why:'<b>Anaerobic bacteria</b> — <b>bowel surgery</b>, <b>intra-abdominal infection</b>, appendicitis, <b>C. diff</b>',
    how:'Bacteria 안에서 <b>DNA damage</b> → bacterial death',
    se:['<b>Metallic taste</b>, <b>nausea</b>','+ Alcohol → <b>disulfiram-like reaction</b> (severe N/V, flushing)','Long-term → <b>peripheral neuropathy</b>'],
    check:['<b>No alcohol</b> 교육 (during + few days after)','Nausea → <b>give with food</b>'],
    say:'It covers anaerobic bacteria, so it’s used for bowel surgery and abdominal infections. It damages bacterial DNA. Patients must avoid alcohol, and it often causes a metallic taste and nausea.'},
 
-  {cat:'abx', brand:'Tazocin', generic:'Piperacillin + Tazobactam', cls:'Broad-spectrum penicillin + β-lactamase inhibitor', stem:'-cillin',
+  {cat:'abx', surg:['gen','uro'], brand:'Tazocin', generic:'Piperacillin + Tazobactam', cls:'Broad-spectrum penicillin + β-lactamase inhibitor', stem:'-cillin',
    why:'<b>Severe infection</b> — <b>intra-abdominal sepsis</b>, <b>hospital-acquired infection</b>, post-op fever',
    how:'Piperacillin → <b>cell wall synthesis</b> 방해. Tazobactam → <b>β-lactamase</b> (resistance enzyme) block → piperacillin 보호',
    se:['<b>Penicillin allergy → contraindicated</b>','<b>Diarrhoea</b>, <b>C. diff</b>','<b>Hypokalaemia</b>, <b>platelet</b> abnormalities'],
@@ -438,21 +439,21 @@ const DRUGS = [
    say:'It’s a broad-spectrum penicillin with a beta-lactamase inhibitor for serious infections like intra-abdominal sepsis. It’s a penicillin, so I must check for penicillin allergy first.'},
 
   // ---------- GI ----------
-  {cat:'gi', star:true, brand:'Somac', generic:'Pantoprazole', cls:'Proton pump inhibitor (PPI)', stem:'-prazole',
+  {cat:'gi', star:true, surg:['gen'], brand:'Somac', generic:'Pantoprazole', cls:'Proton pump inhibitor (PPI)', stem:'-prazole',
    why:'<b>Stress ulcer prophylaxis</b>, <b>GI protection</b> with NSAIDs / steroids, <b>GORD</b>',
    how:'Parietal cell의 <b>proton pump (H+/K+ ATPase)</b> block → <b>gastric acid secretion ↓</b>',
    se:['<b>Headache</b>, <b>diarrhoea</b>','Long-term: <b>hypomagnesaemia</b>, <b>C. diff</b>, <b>fracture risk</b>'],
    check:['<b>Before breakfast</b> (30–60 min)','<b>Enteric coated — do not crush</b>'],
    say:'It’s a PPI that blocks the proton pump to reduce stomach acid. It protects against ulcers, especially with NSAIDs or steroids after surgery. It’s best given before breakfast.'},
 
-  {cat:'gi', star:true, ward:true, brand:'Coloxyl with Senna', generic:'Docusate + Sennosides', cls:'Stool softener + stimulant laxative',
+  {cat:'gi', star:true, ward:true, surg:['ortho','gen','uro'], brand:'Coloxyl with Senna', generic:'Docusate + Sennosides', cls:'Stool softener + stimulant laxative',
    why:'<b>Opioid-induced constipation</b> prevention — opioids 쓰면 거의 같이 charted',
    how:'Docusate → <b>stool softener</b> (water into stool). Senna → <b>stimulant</b> → <b>peristalsis ↑</b>',
    se:['<b>Abdominal cramps</b>','<b>Diarrhoea</b>'],
    check:['<b>Bowel chart</b> — last BO','<b>Loose stools → withhold</b>? RN 확인','<b>Bowel obstruction → contraindicated</b>'],
    say:'It’s a stool softener combined with a stimulant laxative, given to prevent opioid-induced constipation. I check the bowel chart and hold it if the patient has loose stools.'},
 
-  {cat:'gi', ward:true, brand:'Movicol / Lactulose', generic:'Macrogol / Lactulose', cls:'Osmotic laxative', stem:'macrogol / lact-',
+  {cat:'gi', ward:true, surg:['ortho','gen'], brand:'Movicol / Lactulose', generic:'Macrogol / Lactulose', cls:'Osmotic laxative', stem:'macrogol / lact-',
    why:'<b>Constipation</b> — Coloxyl/Senna로 부족할 때',
    how:'<b>Osmotic effect</b> → bowel 안으로 <b>water</b> 끌어당김 → <b>softer, bulkier stool</b>',
    se:['<b>Bloating</b>, <b>flatulence</b> (esp. lactulose)','<b>Diarrhoea</b> → <b>dehydration / electrolyte imbalance</b>'],
@@ -460,7 +461,7 @@ const DRUGS = [
    say:'It’s an osmotic laxative that draws water into the bowel to soften the stool. Side effects are bloating and diarrhoea, so I monitor the bowel chart and hydration.'},
 
   // ---------- Fluids & BGL ----------
-  {cat:'fluid', star:true, brand:'Hartmann’s / Plasma-Lyte', generic:'Compound sodium lactate / balanced crystalloid', cls:'Isotonic crystalloid IV fluid',
+  {cat:'fluid', star:true, surg:['gen','ortho','uro'], brand:'Hartmann’s / Plasma-Lyte', generic:'Compound sodium lactate / balanced crystalloid', cls:'Isotonic crystalloid IV fluid',
    why:'<b>NBM</b> 중 <b>maintenance fluids</b>, intra-op <b>fluid loss replacement</b>, <b>hypotension / dehydration</b> 교정',
    how:'<b>Isotonic</b> (plasma와 비슷) → <b>intravascular / extracellular volume</b> 보충. Na, K, Ca, <b>lactate</b> (→ liver에서 <b>bicarbonate</b>)',
    se:['<b>Fluid overload</b>: SOB, <b>crackles</b>, <b>oedema</b>','<b>Electrolyte imbalance</b>'],
@@ -475,7 +476,7 @@ const DRUGS = [
    say:'It’s rapid-acting insulin given with meals or as a correction dose. The main risk is hypoglycaemia, so I check the BGL first and make sure the meal is ready before giving it.'},
 
   // ---------- Cardiac & lipids ----------
-  {cat:'cardio', ward:true, star:true, brand:'Cartia / Astrix', generic:'Aspirin (low dose)', cls:'Antiplatelet (COX-1 inhibitor)', stem:'—',
+  {cat:'cardio', ward:true, star:true, surg:['ortho'], brand:'Cartia / Astrix', generic:'Aspirin (low dose)', cls:'Antiplatelet (COX-1 inhibitor)', stem:'—',
    why:'<b>Secondary prevention</b> of <b>MI / stroke</b>, after <b>cardiac stent</b>, <b>IHD / AF</b> history. (일부 병원은 joint replacement 후 <b>VTE prophylaxis</b>로도)',
    how:'Platelet의 <b>COX-1</b>을 <b>irreversibly</b> block → <b>thromboxane A2 ↓</b> → <b>platelet aggregation ↓</b>. Effect lasts platelet lifespan (<b>~7–10 days</b>)',
    se:['<b>Bleeding</b>, <b>bruising</b>','<b>GI irritation / GI bleeding</b>','<b>Bronchospasm</b> in aspirin-sensitive asthma','High dose → <b>tinnitus</b>'],
@@ -524,7 +525,7 @@ const DRUGS = [
    check:['<b>Penicillin allergy</b> 반드시 확인','<b>Augmentin</b> → with food (GI upset ↓)','<b>Bowel chart</b>, diarrhoea','Course <b>완료</b> 교육'],
    say:'It’s a penicillin antibiotic used for chest infections, UTIs and similar infections. It stops bacterial cell wall synthesis. I always check for penicillin allergy first and monitor for rash and diarrhoea.'},
 
-  {cat:'abx', ward:true, star:true, brand:'Flucil / Staphylex', generic:'Flucloxacillin', cls:'Narrow-spectrum, penicillinase-resistant penicillin', stem:'-cillin',
+  {cat:'abx', ward:true, star:true, surg:['ortho'], brand:'Flucil / Staphylex', generic:'Flucloxacillin', cls:'Narrow-spectrum, penicillinase-resistant penicillin', stem:'-cillin',
    why:'<b>Staph aureus (MSSA)</b> 감염 — <b>cellulitis</b>, <b>wound infection</b>, surgical site infection, osteomyelitis',
    how:'<b>Cell wall synthesis</b> 방해. Staph이 만드는 <b>penicillinase</b>에 <b>분해되지 않음</b> → Staph에 효과',
    se:['<b>Allergy</b> (penicillin)','<b>Diarrhoea</b>, nausea','<b>Cholestatic hepatitis / jaundice</b> (esp. elderly, long course)','IV → <b>phlebitis</b>'],
@@ -544,6 +545,90 @@ const DRUGS = [
    se:['Generally <b>very safe</b>','IV → rare <b>anaphylaxis</b>, injection site pain'],
    check:['<b>Give BEFORE glucose / dextrose</b> (glucose 먼저 → Wernicke’s 악화 가능)','<b>Wernicke’s signs</b>: confusion, ataxia, ophthalmoplegia','<b>Alcohol withdrawal</b> monitoring (often with oxazepam)','<b>Nutrition</b>, refeeding — K+, Mg, PO4'],
    say:'It’s vitamin B1, given to patients with alcohol misuse or malnutrition to prevent Wernicke’s encephalopathy. It’s a coenzyme for glucose metabolism, so it should be given before any glucose. It’s very safe.'},
+  // ---------- surgical additions (ortho / gen-bowel / uro) ----------
+  {cat:'opioid', s8:true, surg:['gen','ortho'], brand:'PCA / MS Contin', generic:'Morphine', cls:'Opioid — mu agonist', stem:'morph-',
+   why:'<b>Severe post-op pain</b> — <b>PCA</b> (patient-controlled analgesia), IV / SC / oral. Big <b>abdominal surgery</b> 후 많이 씀',
+   how:'<b>Mu opioid receptor</b> 자극 → <b>pain transmission ↓</b>. Liver에서 대사 → <b>active metabolites</b>는 kidney로 배설',
+   se:['<b>Respiratory depression</b>, <b>sedation</b>','<b>Nausea / vomiting</b>, <b>pruritus</b>','<b>Constipation</b>, <b>urinary retention</b>','<b>Hypotension</b>','<b>Renal impairment</b> → metabolites 축적 → toxicity'],
+   check:['<b>PCA obs</b> (보통 hourly): <b>pain, sedation score, RR</b>, SpO₂','<b>Only the patient</b> presses the PCA button','<b>Renal function</b>','<b>Naloxone</b> + antiemetic charted?','S8 → <b>2 RN check</b>, PCA syringe 확인'],
+   say:'It’s a strong opioid, often given via PCA after major surgery. It acts on mu receptors. I do regular PCA observations of pain, sedation score and resp rate, and only the patient should press the button. It can accumulate in renal impairment.'},
+
+  {cat:'opioid', s8:true, surg:['gen','ortho'], brand:'Sublimaze / Durogesic', generic:'Fentanyl', cls:'Synthetic opioid — potent mu agonist', stem:'fenta-',
+   why:'<b>Severe pain</b> — <b>PCA</b> (esp. <b>renal impairment</b>), intra-op / recovery IV, <b>patches</b> = chronic pain only',
+   how:'<b>Mu receptor</b> agonist — <b>~100× morphine</b> potency, <b>lipid soluble</b> → <b>fast onset</b>, short duration (IV). <b>No active metabolites</b> → renal impairment에 선호',
+   se:['<b>Respiratory depression</b> (rapid, potent)','<b>Sedation</b>, nausea','Rapid high-dose IV → <b>chest wall rigidity</b>'],
+   check:['<b>Sedation score, RR</b>, SpO₂','<b>Patch</b>: <b>heat</b> (heat pack, fever) → absorption ↑, 교체 시 old patch 제거 + 기록','Patch = <b>NOT</b> for opioid-naive acute pain','S8 → <b>2 RN check</b>'],
+   say:'It’s a very potent synthetic opioid with a fast onset. It’s preferred in renal impairment because it has no active metabolites. I monitor sedation and resp rate closely, and with patches I watch for heat increasing absorption.'},
+
+  {cat:'pain', surg:['ortho','gen'], brand:'Naropin', generic:'Ropivacaine', cls:'Local anaesthetic (amide)', stem:'-caine',
+   why:'<b>Nerve blocks</b> (e.g. femoral, adductor canal for knee), <b>epidural</b>, <b>wound infusion catheter</b> → <b>opioid-sparing</b> analgesia',
+   how:'Nerve의 <b>voltage-gated Na⁺ channels</b> block → <b>nerve conduction</b> 차단 → 그 부위 <b>pain signal</b> 안 감',
+   se:['<b>LAST</b> (local anaesthetic systemic toxicity): <b>perioral numbness</b>, <b>metallic taste</b>, tinnitus → <b>seizures</b>, <b>arrhythmias</b>','Epidural → <b>hypotension</b>','<b>Motor block</b> → leg weakness → <b>falls</b>'],
+   check:['<b>Sensory / motor block</b> assessment (dermatome, leg strength)','<b>Falls</b>: blocked limb — mobilise only with assistance','<b>Catheter site</b>, pump, line','LAST signs → <b>stop infusion</b>, call for help (lipid emulsion)'],
+   say:'It’s a local anaesthetic used in nerve blocks, epidurals or wound catheters. It blocks sodium channels in nerves so pain signals can’t pass. I assess the block and falls risk, and watch for toxicity like perioral numbness, tinnitus or seizures.'},
+
+  {cat:'abx', surg:['gen','uro'], brand:'Rocephin', generic:'Ceftriaxone', cls:'3rd-gen cephalosporin', stem:'cef- / ceph-',
+   why:'<b>Intra-abdominal infection</b> (+ metronidazole), <b>CAP</b>, <b>UTI / urosepsis</b>, meningitis — <b>once daily IV</b>',
+   how:'<b>Cell wall synthesis</b> 방해 → bactericidal. 1st gen보다 <b>gram-negative</b> cover ↑',
+   se:['<b>Allergy</b> (penicillin cross-reactivity — low)','<b>Diarrhoea</b>, <b>C. diff</b>','<b>Biliary sludge</b> (rare)'],
+   check:['<b>Allergy status</b>','<b>Calcium-containing IV fluids</b> (e.g. <b>Hartmann’s</b>)와 <b>same line 동시 투여 X</b> → precipitate','<b>Cultures</b> before first dose'],
+   say:'It’s a third-generation cephalosporin given once daily IV for infections like intra-abdominal sepsis, pneumonia or urosepsis. I check allergies and never run it in the same line at the same time as calcium-containing fluids like Hartmann’s.'},
+
+  {cat:'abx', surg:['uro','gen'], brand:'Gentamicin', generic:'Gentamicin', cls:'Aminoglycoside', stem:'-mycin (aminoglycoside)',
+   why:'<b>Gram-negative sepsis</b>, <b>urosepsis</b>, <b>urology surgical prophylaxis</b> — usually <b>short course</b> (≤ 48–72 h empirical)',
+   how:'Bacterial <b>ribosome (30S)</b>에 결합 → <b>protein synthesis</b> 방해 → <b>bactericidal</b>',
+   se:['<b>Nephrotoxicity</b> (AKI)','<b>Ototoxicity</b> — hearing loss, <b>tinnitus</b>, balance problems (can be permanent)'],
+   check:['<b>Renal function</b> (Cr, eGFR), <b>urine output</b>','<b>Drug levels</b> per protocol (timing!)','<b>Hearing / dizziness</b> 물어보기','Course <b>duration</b> 확인'],
+   say:'It’s an aminoglycoside that blocks bacterial protein synthesis, used for gram-negative and urological infections. It’s nephrotoxic and ototoxic, so I monitor renal function, urine output, drug levels and ask about hearing or dizziness.'},
+
+  {cat:'cardio', surg:['gen','ortho','uro'], brand:'Lasix', generic:'Frusemide (Furosemide)', cls:'Loop diuretic', stem:'-semide',
+   why:'<b>Fluid overload</b> (post-op 수액 과다), <b>heart failure</b>, <b>oedema</b>, pulmonary oedema',
+   how:'<b>Loop of Henle</b>의 <b>Na⁺-K⁺-2Cl⁻ cotransporter</b> block → <b>Na + water excretion ↑</b> → <b>diuresis</b>',
+   se:['<b>Hypokalaemia</b>, hyponatraemia, hypomagnesaemia','<b>Dehydration</b>, <b>hypotension</b>, <b>AKI</b>','<b>Ototoxicity</b> (fast high-dose IV)','<b>Urgency</b> → falls'],
+   check:['<b>BP</b>, <b>fluid balance</b>, <b>daily weight</b>','<b>K⁺, Na⁺, Cr</b>','Give <b>morning</b> (night-time diuresis X)','<b>Toileting / falls</b> plan'],
+   say:'It’s a loop diuretic that blocks sodium reabsorption in the loop of Henle, so the patient passes more urine. It’s used for fluid overload. I monitor BP, fluid balance, daily weights and electrolytes, especially potassium.'},
+
+  {cat:'cardio', surg:['gen','ortho','uro'], brand:'Betaloc / Minax', generic:'Metoprolol', cls:'Beta-1 selective beta blocker', stem:'-olol',
+   why:'<b>Hypertension</b>, <b>AF rate control</b>, <b>IHD / angina</b>, heart failure — 많은 수술 환자의 <b>regular med</b>',
+   how:'Heart의 <b>beta-1 receptor</b> block → <b>HR ↓</b>, <b>contractility ↓</b> → <b>BP ↓</b>, myocardial O₂ demand ↓',
+   se:['<b>Bradycardia</b>, <b>hypotension</b>','<b>Dizziness</b>, fatigue','<b>Bronchospasm</b> (asthma 주의)','<b>Masks hypoglycaemia</b> signs (tachycardia)'],
+   check:['<b>HR & BP before</b> giving — <b>hold parameters</b> on chart (e.g. HR, SBP) → RN 확인','<b>Don’t stop abruptly</b> (rebound tachycardia)','<b>Postural hypotension</b> → falls'],
+   say:'It’s a cardio-selective beta blocker that lowers heart rate and BP. I always check HR and BP before giving it against the hold parameters, and it shouldn’t be stopped abruptly.'},
+
+  {cat:'fluid', surg:['gen','ortho','uro'], brand:'KCl (IV) / Slow-K / Chlorvescent', generic:'Potassium chloride', cls:'Electrolyte replacement — HIGH ALERT', stem:'—',
+   why:'<b>Hypokalaemia</b> — post-op, <b>diuretics</b>, vomiting, <b>NG losses</b>, diarrhoea',
+   how:'<b>K⁺</b> 보충 → <b>cardiac</b> · <b>muscle cell membrane potential</b> 정상화 (K⁺ 낮으면 arrhythmia, weakness, ileus)',
+   se:['IV too fast / too much → <b>hyperkalaemia</b> → <b>cardiac arrest</b>','IV → <b>phlebitis</b>, pain','Oral → <b>GI irritation</b>'],
+   check:['<b>HIGH ALERT</b>: IV <b>never push</b>, <b>premixed bag</b>, <b>pump</b>, max rate <b>per policy</b>','<b>K⁺ level</b>, <b>renal function</b>, urine output','High rates → <b>cardiac monitoring</b>','Oral → <b>with food</b>; Slow-K swallow whole, Chlorvescent dissolve'],
+   say:'It’s potassium replacement for hypokalaemia, which is common after surgery or with diuretics and GI losses. IV potassium is high alert: it’s never pushed, only given as a premixed bag on a pump within the policy rate, and I monitor K levels and renal function.'},
+
+  {cat:'fluid', surg:['gen','ortho','uro'], brand:'Diabex / Diaformin', generic:'Metformin', cls:'Biguanide', stem:'-formin',
+   why:'<b>Type 2 diabetes</b> 1st line — 수술 환자의 흔한 <b>regular med</b>',
+   how:'Liver <b>glucose production ↓</b> + <b>insulin sensitivity ↑</b> → <b>BGL ↓</b> (단독으로는 hypo 거의 X)',
+   se:['<b>GI upset</b> — nausea, <b>diarrhoea</b>','<b>Lactic acidosis</b> (rare) — renal impairment, dehydration, sepsis','Long-term → <b>B12 deficiency</b>'],
+   check:['<b>Peri-op</b>: fasting / day of surgery → often <b>withheld</b> (chart · anaesthetist 확인)','<b>IV contrast</b>, <b>AKI</b>, sepsis → withhold','<b>eGFR</b>, <b>BGL</b>','<b>With meals</b>'],
+   say:'It’s a biguanide for type 2 diabetes. It reduces glucose production in the liver and improves insulin sensitivity. It’s often withheld around surgery, with IV contrast or AKI because of the rare risk of lactic acidosis.'},
+
+  {cat:'other', surg:['uro'], brand:'Flomax', generic:'Tamsulosin', cls:'Alpha-1A blocker', stem:'-osin',
+   why:'<b>BPH</b> symptoms, <b>post-op urinary retention</b>, before <b>TWOC</b> (trial without catheter), ureteric stones',
+   how:'<b>Prostate · bladder neck</b>의 <b>alpha-1A receptor</b> block → <b>smooth muscle relaxation</b> → <b>urine flow ↑</b>',
+   se:['<b>Postural hypotension</b>, <b>dizziness</b> → falls','<b>Retrograde ejaculation</b>','<b>Floppy iris</b> syndrome (cataract surgery 시 알려야)'],
+   check:['<b>Postural BP</b>, falls risk','<b>MR capsule</b> — <b>don’t crush / open</b>','Same time daily, <b>after a meal</b>','<b>TWOC</b>: voiding, <b>bladder scan</b> (residual)'],
+   say:'It’s an alpha-1A blocker that relaxes the prostate and bladder neck, so urine flows more easily. It’s used for BPH or urinary retention, often before a trial without catheter. It can cause postural hypotension, so I watch for dizziness and falls.'},
+
+  {cat:'other', surg:['uro'], brand:'Ditropan', generic:'Oxybutynin', cls:'Antimuscarinic (anticholinergic)', stem:'—',
+   why:'<b>Bladder spasm</b> (post-TURP, <b>IDC</b> 있을 때), overactive bladder, urge incontinence',
+   how:'Detrusor muscle의 <b>muscarinic receptor</b> block → <b>bladder relaxation</b> → spasm · urgency ↓',
+   se:['<b>Dry mouth</b>, <b>constipation</b>, blurred vision','<b>Urinary retention</b>','Elderly → <b>confusion / delirium</b> (anticholinergic burden)'],
+   check:['<b>Confusion</b> (elderly) — delirium screen','<b>Bowel chart</b>','<b>Urine output</b>, retention, catheter drainage'],
+   say:'It’s an antimuscarinic that relaxes the bladder muscle, used for bladder spasms after urology surgery or with a catheter. Anticholinergic side effects are common, like dry mouth, constipation and confusion in the elderly.'},
+
+  {cat:'other', surg:['ortho','gen'], brand:'Ferinject', generic:'Ferric carboxymaltose (IV iron)', cls:'IV iron replacement', stem:'—',
+   why:'<b>Iron deficiency anaemia</b> pre- / post-op (<b>Patient Blood Management</b>) → <b>transfusion ↓</b>. Joint replacement 후 흔함',
+   how:'<b>Iron stores</b> 빠르게 보충 → bone marrow의 <b>haemoglobin synthesis ↑</b> → Hb ↑ (몇 주에 걸쳐)',
+   se:['<b>Hypersensitivity</b> (rare but serious)','<b>Hypophosphataemia</b>','<b>Extravasation</b> → <b>permanent brown skin staining</b>','Headache, flu-like symptoms, metallic taste'],
+   check:['<b>Obs before, during, after</b> (per protocol)','<b>Cannula patency</b> — extravasation 예방, stop if pain/swelling','<b>Hb</b>, <b>iron studies</b>, phosphate','Don’t give with <b>oral iron</b> at the same time'],
+   say:'It’s IV iron used to treat iron deficiency anaemia around surgery, to reduce the need for transfusion. It replenishes iron stores so the marrow can make haemoglobin. I do obs before and after, and check the cannula carefully because extravasation can permanently stain the skin.'},
 ];
 
 const STEM_GROUPS = [
@@ -643,7 +728,7 @@ function setView(v){
   document.querySelectorAll('.view').forEach(el => el.classList.toggle('on', el.id === 'view-' + v));
   $('tabs').querySelectorAll('.tab').forEach(b => b.classList.toggle('on', b.dataset.view === v));
   document.body.classList.remove('sheet-open');
-  history.replaceState(null, '', v === 'drugs' ? location.pathname : '#' + v);
+  try { history.replaceState(null, '', v === 'drugs' ? location.pathname : '#' + v); } catch (_) {}
   if (v === 'quiz' && !quiz.queue) startQuiz();
   window.scrollTo(0, 0);
 }
@@ -651,8 +736,10 @@ $('tabs').addEventListener('click', e => { const b = e.target.closest('.tab'); i
 
 /* ================= DRUGS ================= */
 let filter = 'ward', current = DRUGS.find(d => d.ward).i, visible = DRUGS.slice();
-const FILTERS = [{id:'all', name:'All'}, {id:'ward', name:'📍 My ward'}, {id:'star', name:'★ Common'}, ...CATS];
-const matchFilter = (d, f) => f === 'all' || (f === 'ward' ? d.ward : f === 'star' ? d.star : d.cat === f);
+const SURG = {ortho:'🦴 Ortho', gen:'🩹 Gen / Bowel', uro:'💧 Uro'};
+const FILTERS = [{id:'all', name:'All'}, {id:'ward', name:'📍 My ward'}, {id:'star', name:'★ Common'},
+  ...Object.entries(SURG).map(([id, name]) => ({id, name}))];
+const matchFilter = (d, f) => f === 'all' || (f === 'ward' ? d.ward : f === 'star' ? d.star : SURG[f] ? (d.surg || []).includes(f) : d.cat === f);
 
 function renderFilters(){
   $('filters').innerHTML = FILTERS.map(o => `<button class="chip${o.id === filter ? ' on' : ''}" data-id="${o.id}">${o.name}</button>`).join('');
@@ -681,6 +768,7 @@ function renderDetail(){
     <div class="d-meta">
       <span class="pill">${d.cls}</span>
       ${d.stem && d.stem !== '—' ? `<span class="pill">stem <code>${d.stem}</code></span>` : ''}
+      ${(d.surg || []).map(x => `<span class="pill surg">${SURG[x]}</span>`).join('')}
     </div>
     <div class="say"><div class="say-label">Say it in English</div><p>“${d.say}”</p></div>
     ${SECTIONS.map(s => `
@@ -748,7 +836,7 @@ $('thinking').innerHTML = STEM_THINKING.map(([drug, stem, ...rest]) =>
 /* ================= QUIZ ================= */
 const quiz = {deck:'drugs', opt:'ward', queue:null, total:0, done:0, card:null, revealed:false, firstTry:0, missed:new Set()};
 const DECK_OPTS = {
-  drugs: [{id:'ward', name:'📍 My ward'}, {id:'star', name:'★ Common'}, {id:'all', name:'All drugs'}],
+  drugs: [{id:'ward', name:'📍 My ward'}, {id:'star', name:'★ Common'}, {id:'ortho', name:'🦴 Ortho'}, {id:'gen', name:'🩹 Gen / Bowel'}, {id:'uro', name:'💧 Uro'}, {id:'all', name:'All drugs'}],
   stems: [{id:'stem', name:'Stem → class'}, {id:'drug', name:'Drug → stem'}, {id:'starstem', name:'★ only'}],
 };
 const TIPS = {
