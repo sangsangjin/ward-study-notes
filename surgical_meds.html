@@ -135,6 +135,7 @@
     color:var(--accent,#555);margin-bottom:1px;
   }
   .qa .a{font-size:.88rem}
+  .qa .q small{font-weight:500;color:var(--faint);margin-left:4px}
   .qa ul{padding-left:16px}
   .qa li{margin:1px 0}
   .qa .a b{font-weight:700}
@@ -179,12 +180,12 @@
 <div class="wrap">
 
   <section class="formula">
-    <h2>💬 약 물어보면 이 순서로 대답하기</h2>
+    <h2>💬 How to answer — 약 물어보면 이 순서로</h2>
     <ol>
-      <li><b>뭐야</b> — 약 이름 + 계열 (“It’s a …”)</li>
-      <li><b>왜</b> — 이 환자한테 주는 이유 (“It’s given for …”)</li>
-      <li><b>어떻게</b> — 기전 한 줄 (“It works by …”)</li>
-      <li><b>부작용 → 그래서 내가 확인할 것</b> (“So I check … before / after giving it.”)</li>
+      <li><b>What</b> — drug name + class (“It’s a …”)</li>
+      <li><b>Why</b> — indication for this patient (“It’s given for …”)</li>
+      <li><b>How</b> — mechanism in one line (“It works by …”)</li>
+      <li><b>Side effects → nursing checks</b> (“So I check … before / after giving it.”)</li>
     </ol>
     <div class="eg">
       <span class="lbl">EXAMPLE</span>
@@ -213,190 +214,190 @@
 
 <script>
 const CATS = [
-  {id:'pain',   name:'진통제',          en:'Analgesia',            color:'#c0392b'},
-  {id:'opioid', name:'오피오이드 관련',  en:'Opioids & reversal',   color:'#8e44ad'},
-  {id:'nausea', name:'오심 · 구토',      en:'Antiemetics (PONV)',   color:'#2c8c6a'},
-  {id:'vte',    name:'항응고 · 출혈',    en:'VTE prophylaxis',      color:'#1d6fb8'},
-  {id:'abx',    name:'항생제',           en:'Antibiotics',          color:'#bb851a'},
-  {id:'gi',     name:'위장 · 변비',      en:'GI & bowels',          color:'#0f766e'},
-  {id:'fluid',  name:'수액 · 혈당',      en:'Fluids & BGL',         color:'#6c5ce7'},
+  {id:'pain',   name:'Analgesia',          en:'진통제',            color:'#c0392b'},
+  {id:'opioid', name:'Opioids & Reversal', en:'오피오이드',        color:'#8e44ad'},
+  {id:'nausea', name:'Antiemetics',        en:'PONV · 오심/구토',  color:'#2c8c6a'},
+  {id:'vte',    name:'VTE & Bleeding',     en:'항응고 · 출혈',     color:'#1d6fb8'},
+  {id:'abx',    name:'Antibiotics',        en:'항생제',            color:'#bb851a'},
+  {id:'gi',     name:'GI & Bowels',        en:'위장 · 변비',       color:'#0f766e'},
+  {id:'fluid',  name:'Fluids & BGL',       en:'수액 · 혈당',       color:'#6c5ce7'},
 ];
 
 // star = 수술 병동에서 거의 매일 보는 약
 const DRUGS = [
-  // ---------- 진통제 ----------
+  // ---------- Analgesia ----------
   {cat:'pain', star:true, brand:'Panadol', generic:'Paracetamol', cls:'Simple analgesic / antipyretic',
-   why:'수술 후 <b>통증 조절의 기본</b> (multimodal analgesia 1단계) + 해열. 다른 진통제랑 같이 써서 오피오이드 필요량을 줄여줌.',
-   how:'주로 <b>뇌(중추)에서 prostaglandin 생성을 억제</b> → 통증 신호 ↓, 체온 조절 중추에 작용해서 열 ↓.',
-   se:['일반 용량에서는 부작용 거의 없음','<b>과량 → 간독성</b> (성인 보통 최대 4 g/day, 저체중·간질환은 더 낮게)'],
-   check:['마지막 투약 시간 (최소 4시간 간격)','다른 paracetamol 포함 약 중복 확인 (e.g. Panadeine)','열을 가릴 수 있음 → 감염 징후 놓치지 않기'],
+   why:'<b>Post-op pain</b> 기본 진통제 — <b>multimodal analgesia</b> 1단계 + <b>antipyretic</b>. <b>Opioid requirement ↓</b>',
+   how:'<b>Central (CNS)</b>에서 <b>prostaglandin synthesis ↓</b> → <b>pain ↓</b>, <b>hypothalamus</b>에 작용 → <b>fever ↓</b>',
+   se:['Normal dose → side effects <b>rare</b>','<b>Overdose → hepatotoxicity</b> (liver damage)','Max <b>4 g/day</b> (adult) — low body weight / liver disease → lower'],
+   check:['<b>Last dose time</b> (min 4-hourly)','<b>Duplicate paracetamol</b> 확인 (e.g. Panadeine)','<b>Masks fever</b> → infection signs 놓치지 않기'],
    say:'It’s a simple analgesic given regularly for baseline pain relief after surgery. The main risk is liver toxicity in overdose, so I check when the last dose was and make sure the daily max isn’t exceeded.'},
 
   {cat:'pain', star:true, brand:'Nurofen / Celebrex / Dynastat', generic:'Ibuprofen / Celecoxib / Parecoxib (IV)', cls:'NSAID (COX inhibitor)',
-   why:'수술 부위 <b>염증 + 통증</b> 감소. 정형외과 수술 후 많이 씀. Parecoxib는 금식 중일 때 IV로.',
-   how:'<b>COX 효소 차단 → prostaglandin ↓</b> → 염증·통증·열 ↓. Celecoxib/Parecoxib는 COX-2만 골라서 막아서 위장 부작용이 조금 적음.',
-   se:['<b>위장 출혈 / 위궤양</b>','<b>신장 손상 (AKI)</b>: 신장 혈류 ↓','혈압 ↑, 수분 저류','출혈 위험 ↑ (ibuprofen)'],
-   check:['신기능 (Cr, eGFR), 소변량','음식과 같이 / PPI 같이 처방됐는지','항응고제 같이 쓰는지','천식·심질환 병력'],
+   why:'<b>Inflammation + pain</b> ↓ — 특히 <b>orthopaedic surgery</b> 후. <b>Parecoxib</b> = <b>IV</b>, <b>NBM</b>일 때',
+   how:'<b>COX enzyme</b> block → <b>prostaglandin ↓</b> → <b>inflammation · pain · fever ↓</b>. Celecoxib/Parecoxib = <b>COX-2 selective</b> → <b>GI side effects</b> 적음',
+   se:['<b>GI bleeding / peptic ulcer</b>','<b>AKI</b> (renal blood flow ↓)','<b>BP ↑</b>, <b>fluid retention</b>','<b>Bleeding risk ↑</b> (ibuprofen)'],
+   check:['<b>Renal function</b> (Cr, eGFR), <b>urine output</b>','<b>Give with food</b> / <b>PPI</b> co-prescribed?','<b>Anticoagulants</b> 같이 쓰는지','<b>Asthma</b>, <b>cardiac history</b>'],
    say:'It’s an NSAID given for pain and inflammation. It blocks COX enzymes so prostaglandins are reduced. Side effects are GI bleeding and kidney injury, so I check renal function and urine output and give it with food.'},
 
   {cat:'pain', brand:'Lyrica', generic:'Pregabalin', cls:'Gabapentinoid (adjuvant)',
-   why:'<b>신경병증성 통증</b>, 수술 후 multimodal analgesia의 보조약 → 오피오이드 사용량 줄이기.',
-   how:'신경세포의 칼슘 채널(α2δ)에 붙어서 <b>흥분성 신경전달물질 분비 ↓</b> → 과민해진 신경 진정.',
-   se:['어지러움, 졸림 → <b>낙상 위험</b>','오피오이드랑 같이 쓰면 <b>진정·호흡억제 ↑</b>','말초 부종, 시야 흐림'],
-   check:['Sedation score, RR (오피오이드 병용 시 특히)','낙상 위험 평가, 기립 시 어지러움','신기능 (신장으로 배설)'],
+   why:'<b>Neuropathic pain</b>, <b>multimodal analgesia</b>의 <b>adjuvant</b> → <b>opioid-sparing</b>',
+   how:'<b>Calcium channel (α2δ subunit)</b>에 결합 → <b>excitatory neurotransmitter release ↓</b> → overactive nerves 진정',
+   se:['<b>Dizziness, drowsiness</b> → <b>falls risk</b>','+ Opioids → <b>sedation · respiratory depression ↑</b>','<b>Peripheral oedema</b>, <b>blurred vision</b>'],
+   check:['<b>Sedation score, RR</b> (esp. with opioids)','<b>Falls risk</b>, <b>postural dizziness</b>','<b>Renal function</b> (renally cleared)'],
    say:'It’s an adjuvant for nerve pain and to reduce opioid use. It calms overactive nerves. It can cause dizziness and sedation, so I monitor sedation and falls risk, especially with opioids.'},
 
-  // ---------- 오피오이드 ----------
+  // ---------- Opioids ----------
   {cat:'opioid', star:true, s8:true, brand:'Endone', generic:'Oxycodone (IR)', cls:'Opioid — mu agonist',
-   why:'<b>중등도~심한 수술 후 통증</b>, 특히 PRN 돌발통(breakthrough pain).',
-   how:'뇌·척수의 <b>mu opioid 수용체를 자극</b> → 통증 신호 전달을 막고 통증 인식 ↓.',
-   se:['<b>호흡억제</b> (가장 위험)','진정, 어지러움 → 낙상','<b>변비</b> (거의 항상), 오심·구토','소변 저류, 가려움, 저혈압'],
-   check:['투약 전 <b>pain score, sedation score, RR</b>','S8 → 2명 확인 + drug register 기록','투약 후 효과 재평가 (보통 30–60분 뒤)','완하제 같이 처방됐는지','Naloxone 위치 알기'],
+   why:'<b>Moderate–severe post-op pain</b>, 특히 <b>PRN breakthrough pain</b>',
+   how:'Brain · spinal cord의 <b>mu opioid receptor</b> 자극 → <b>pain signal transmission ↓</b>, <b>pain perception ↓</b>',
+   se:['<b>Respiratory depression</b> (most dangerous)','<b>Sedation</b>, <b>dizziness</b> → falls','<b>Constipation</b> (almost always), <b>nausea & vomiting</b>','<b>Urinary retention</b>, <b>pruritus</b>, <b>hypotension</b>'],
+   check:['Before: <b>pain score, sedation score, RR</b>','<b>S8</b> → <b>2 RN check</b> + <b>drug register</b>','<b>Re-assess</b> effect 30–60 min after','<b>Aperients</b> charted?','<b>Naloxone</b> 위치 알기'],
    say:'It’s an immediate-release opioid for moderate to severe pain. It acts on mu receptors in the brain and spinal cord. The biggest risk is respiratory depression, so I check pain score, sedation score and resp rate before and after giving it.'},
 
   {cat:'opioid', star:true, s8:true, brand:'Targin', generic:'Oxycodone + Naloxone (CR)', cls:'Controlled-release opioid',
-   why:'<b>지속적인 수술 후 통증</b>을 12시간마다 일정하게 조절 (baseline). 돌발통은 Endone PRN으로.',
-   how:'Oxycodone이 통증 조절. 같이 들어있는 <b>naloxone은 먹으면 거의 장에서만 작용</b> → 장의 오피오이드 수용체를 막아서 <b>변비 ↓</b> (진통 효과는 유지).',
-   se:['Oxycodone과 같음: 호흡억제, 진정, 오심','변비는 덜하지만 생길 수 있음'],
-   check:['<b>절대 자르거나 부수지 않기</b> (CR 제형 → 한꺼번에 방출 위험)','12시간 간격 시간 지키기','Sedation score, RR'],
+   why:'<b>Ongoing post-op pain</b> — <b>12-hourly baseline</b> analgesia. Breakthrough → <b>Endone PRN</b>',
+   how:'<b>Oxycodone</b> = pain relief. <b>Naloxone</b> = oral로 먹으면 <b>gut</b>에서만 작용 (<b>low bioavailability</b>) → gut opioid receptor block → <b>constipation ↓</b>',
+   se:['Same as oxycodone: <b>respiratory depression, sedation, nausea</b>','<b>Constipation</b> — less, but still possible'],
+   check:['<b>Do NOT crush / cut</b> (CR → <b>dose dumping</b>)','<b>12-hourly</b> timing 지키기','<b>Sedation score, RR</b>'],
    say:'It’s a slow-release oxycodone combined with naloxone. The oxycodone gives steady pain relief and the naloxone works locally in the gut to reduce constipation. It must not be crushed.'},
 
   {cat:'opioid', s8:true, brand:'Palexia', generic:'Tapentadol (IR / SR)', cls:'Opioid + noradrenaline reuptake inhibitor',
-   why:'중등도~심한 통증. 오피오이드 작용 + 신경병증성 통증에도 효과.',
-   how:'<b>mu 수용체 자극</b> + <b>noradrenaline 재흡수 억제</b> (하행 통증 억제 경로 강화) → 두 가지 방법으로 통증 ↓.',
-   se:['오심, 어지러움, 졸림, 변비 (oxycodone보다 위장 부작용 적은 편)','호흡억제','경련 위험, 항우울제(SSRI 등)와 <b>serotonin syndrome</b>'],
-   check:['Sedation score, RR','SR 제형은 부수지 않기','항우울제 복용 여부'],
+   why:'<b>Moderate–severe pain</b> + <b>neuropathic pain</b>에도 효과',
+   how:'<b>Mu receptor agonist</b> + <b>noradrenaline reuptake inhibition</b> (<b>descending pain pathway</b> 강화) → dual action',
+   se:['<b>Nausea, dizziness, drowsiness, constipation</b> (GI SE < oxycodone)','<b>Respiratory depression</b>','<b>Seizures</b>, + SSRI → <b>serotonin syndrome</b>'],
+   check:['<b>Sedation score, RR</b>','<b>SR — do not crush</b>','<b>Antidepressants</b> 복용 여부'],
    say:'It’s an opioid that also blocks noradrenaline reuptake, so it works on two pain pathways. Watch for sedation, respiratory depression and serotonin syndrome with antidepressants.'},
 
   {cat:'opioid', brand:'Tramal', generic:'Tramadol', cls:'Weak opioid + SNRI',
-   why:'경~중등도 통증. 강한 오피오이드 전 단계로 쓰기도 함.',
-   how:'약한 <b>mu 수용체 자극</b> + <b>serotonin·noradrenaline 재흡수 억제</b>.',
-   se:['오심, 어지러움, 땀','<b>경련</b> 역치 ↓ (간질 환자 주의)','항우울제와 <b>serotonin syndrome</b>','노인에서 혼돈(confusion)'],
-   check:['경련 병력, 항우울제 복용 여부','어지러움 → 낙상 예방'],
+   why:'<b>Mild–moderate pain</b>, strong opioid 전 단계',
+   how:'Weak <b>mu agonist</b> + <b>serotonin · noradrenaline reuptake inhibition</b>',
+   se:['<b>Nausea, dizziness, sweating</b>','<b>Seizure threshold ↓</b> (epilepsy 주의)','+ Antidepressants → <b>serotonin syndrome</b>','Elderly → <b>confusion</b>'],
+   check:['<b>Seizure history</b>, <b>antidepressants</b>','<b>Dizziness → falls prevention</b>'],
    say:'It’s a weak opioid that also increases serotonin and noradrenaline. I watch for nausea, dizziness, seizures and serotonin syndrome.'},
 
   {cat:'opioid', star:true, brand:'Narcan', generic:'Naloxone', cls:'Opioid antagonist (reversal)',
-   why:'<b>오피오이드 과량 → 호흡억제·과진정</b> 응급 해독. (병원 기준에 따라 sedation score 높거나 RR이 너무 낮을 때)',
-   how:'<b>opioid 수용체에 대신 붙어서</b> 오피오이드를 밀어냄 → 호흡·의식 회복.',
-   se:['<b>통증이 갑자기 돌아옴</b>','금단증상: 불안, 오심, 빈맥, 고혈압','<b>작용 시간이 오피오이드보다 짧음</b> → 다시 진정될 수 있음'],
-   check:['투약 후에도 <b>계속 sedation·RR 모니터링</b> (re-sedation)','먼저 도움 요청 (MERT / Code Blue 기준 확인), 기도·호흡 확보','병동 어디 있는지 미리 알아두기'],
+   why:'<b>Opioid overdose</b> → <b>respiratory depression / over-sedation</b> reversal (hospital criteria: <b>high sedation score</b> or <b>low RR</b>)',
+   how:'<b>Opioid receptor</b>에 대신 결합 (<b>competitive antagonist</b>) → opioid 밀어냄 → <b>breathing · consciousness</b> 회복',
+   se:['<b>Sudden return of pain</b>','<b>Withdrawal</b>: agitation, nausea, tachycardia, hypertension','<b>Shorter half-life</b> than most opioids → <b>re-sedation</b>'],
+   check:['After: <b>continue monitoring sedation & RR</b>','<b>Call for help</b> (MERT / Code Blue criteria), <b>airway & breathing</b>','병동 <b>naloxone location</b> 미리 알기'],
    say:'It’s an opioid antagonist used to reverse respiratory depression from opioids. Because it wears off faster than most opioids, I keep monitoring for re-sedation, and the pain may come back.'},
 
-  // ---------- 오심/구토 ----------
+  // ---------- Antiemetics ----------
   {cat:'nausea', star:true, brand:'Zofran', generic:'Ondansetron', cls:'5-HT3 antagonist',
-   why:'<b>수술 후 오심·구토 (PONV)</b>, 오피오이드로 인한 오심.',
-   how:'장과 뇌(구토 중추)의 <b>serotonin(5-HT3) 수용체 차단</b> → 구토 신호 ↓.',
-   se:['두통','<b>변비</b> (오피오이드랑 겹치면 더)','<b>QT 연장</b>'],
-   check:['효과 재평가 (오심 점수, 구토 횟수)','QT 연장 위험약/심질환 병력','장운동, 배변 기록'],
+   why:'<b>PONV</b> (post-operative nausea & vomiting), <b>opioid-induced nausea</b>',
+   how:'Gut + brain (<b>CTZ / vomiting centre</b>)의 <b>serotonin (5-HT3) receptor</b> block → vomiting signal ↓',
+   se:['<b>Headache</b>','<b>Constipation</b> (+ opioids → worse)','<b>QT prolongation</b>'],
+   check:['<b>Re-assess</b>: nausea score, vomiting episodes','<b>QT-prolonging drugs</b> / <b>cardiac history</b>','<b>Bowel chart</b>'],
    say:'It’s a 5-HT3 antagonist for post-op nausea and vomiting. It blocks serotonin receptors in the gut and brain. Side effects include headache, constipation and QT prolongation.'},
 
   {cat:'nausea', star:true, brand:'Maxolon', generic:'Metoclopramide', cls:'Dopamine (D2) antagonist + prokinetic',
-   why:'오심·구토, 위 배출을 빠르게 해야 할 때.',
-   how:'구토 중추의 <b>dopamine 수용체 차단</b> + <b>위장 운동 촉진</b> (위를 빨리 비움).',
-   se:['<b>추체외로 증상 (EPS)</b>: 근육 경직, 비정상 움직임 (젊은 여성·노인 더 위험)','졸림, 불안·초조'],
-   check:['<b>장폐색 의심되면 금기</b> (장운동 ↑ → 위험)','파킨슨병 환자 금기','보통 5일 이내 사용'],
+   why:'<b>Nausea & vomiting</b>, <b>gastric emptying</b> 촉진 필요할 때',
+   how:'<b>CTZ</b>의 <b>dopamine (D2) receptor</b> block + <b>prokinetic</b> (<b>GI motility ↑</b>)',
+   se:['<b>Extrapyramidal side effects (EPS)</b>: dystonia, rigidity (young women, elderly ↑)','<b>Drowsiness</b>, <b>restlessness</b>'],
+   check:['<b>Bowel obstruction → contraindicated</b>','<b>Parkinson’s disease → avoid</b>','Usually <b>≤ 5 days</b>'],
    say:'It’s a dopamine antagonist and prokinetic, so it reduces nausea and speeds up gastric emptying. It can cause extrapyramidal side effects and it’s contraindicated in bowel obstruction.'},
 
   {cat:'nausea', brand:'Stemetil', generic:'Prochlorperazine', cls:'Phenothiazine (D2 antagonist)',
-   why:'오심·구토, 어지럼증(vertigo). 보통 Zofran/Maxolon 다음 선택.',
-   how:'구토 중추의 <b>dopamine 수용체 차단</b>.',
-   se:['졸림, <b>저혈압</b> (특히 IV/IM)','추체외로 증상 (EPS)'],
-   check:['BP, 기립성 저혈압 → 낙상','진정 정도'],
+   why:'<b>Nausea & vomiting</b>, <b>vertigo</b> — 보통 <b>second line</b>',
+   how:'<b>CTZ</b>의 <b>dopamine (D2) receptor</b> block',
+   se:['<b>Sedation</b>, <b>hypotension</b> (esp. IV/IM)','<b>EPS</b>'],
+   check:['<b>BP</b>, <b>postural hypotension</b> → falls','<b>Sedation level</b>'],
    say:'It’s a dopamine-blocking antiemetic, often used second line. It can cause sedation, hypotension and extrapyramidal effects.'},
 
   {cat:'nausea', brand:'Dexamethasone', generic:'Dexamethasone', cls:'Corticosteroid',
-   why:'수술 중/후 <b>PONV 예방</b>, 부종·염증 감소.',
-   how:'<b>강력한 항염 작용</b> (염증 물질 생성 ↓). PONV 예방 기전은 확실히 밝혀지지 않음.',
-   se:['<b>고혈당</b> (당뇨 환자 특히)','감염 위험 ↑, 상처 치유 지연','IV로 빨리 주면 회음부 화끈거림·가려움'],
-   check:['<b>BGL 모니터링</b> (당뇨 환자)','IV는 천천히','감염 징후'],
+   why:'<b>PONV prophylaxis</b>, <b>swelling · inflammation ↓</b>',
+   how:'<b>Potent anti-inflammatory</b> (inflammatory mediators ↓). PONV mechanism → <b>not fully understood</b>',
+   se:['<b>Hyperglycaemia</b> (esp. diabetics)','<b>Infection risk ↑</b>, <b>delayed wound healing</b>','Fast IV push → <b>perineal burning / itch</b>'],
+   check:['<b>BGL monitoring</b> (diabetic pts)','<b>IV slowly</b>','<b>Signs of infection</b>'],
    say:'It’s a steroid used to prevent post-op nausea and reduce swelling. It can raise blood glucose, so I monitor BGLs, especially in diabetic patients.'},
 
-  // ---------- 항응고 ----------
+  // ---------- VTE ----------
   {cat:'vte', star:true, brand:'Clexane', generic:'Enoxaparin', cls:'Low molecular weight heparin (LMWH)',
-   why:'<b>수술 후 DVT/PE 예방</b>. 수술 + 움직임 ↓ → 혈전 위험 ↑. (치료 용량으로 DVT/PE 치료도)',
-   how:'<b>antithrombin을 강화 → factor Xa 억제</b> → 응고 과정 차단 → 혈전 생성 ↓.',
-   se:['<b>출혈</b>, 멍 (주사 부위)','<b>HIT</b> (heparin-induced thrombocytopenia): 혈소판 ↓','고칼륨혈증 (드묾)'],
-   check:['<b>혈소판</b>, 신기능 (CrCl 낮으면 용량 조절)','출혈 징후: 상처, 소변, 대변, 잇몸','<b>Epidural/spinal 카테터</b> 있으면 투약·제거 타이밍','SC 복부, 프리필드 주사기 <b>공기방울 빼지 않기</b>, 주사 후 문지르지 않기'],
+   why:'<b>Post-op DVT / PE prophylaxis</b> — surgery + <b>reduced mobility</b> → <b>VTE risk ↑</b>. (<b>Treatment dose</b> → DVT/PE 치료)',
+   how:'<b>Antithrombin</b> 강화 → <b>factor Xa inhibition</b> → <b>clotting cascade</b> 차단 → <b>clot formation ↓</b>',
+   se:['<b>Bleeding</b>, <b>bruising</b> (injection site)','<b>HIT</b> (heparin-induced thrombocytopenia) → <b>platelets ↓</b>','<b>Hyperkalaemia</b> (rare)'],
+   check:['<b>Platelets</b>, <b>renal function</b> (low CrCl → dose adjust)','<b>Signs of bleeding</b>: wound, urine, stool, gums','<b>Epidural / spinal catheter</b> → timing!','<b>SC abdomen</b>, prefilled syringe <b>air bubble 빼지 않기</b>, <b>don’t rub</b>'],
    say:'It’s a low molecular weight heparin given to prevent DVT after surgery. It enhances antithrombin and inhibits factor Xa. The main risks are bleeding and HIT, so I check platelets, renal function and signs of bleeding.'},
 
   {cat:'vte', brand:'Heparin', generic:'Heparin (unfractionated, SC / IV)', cls:'Anticoagulant',
-   why:'DVT 예방 — 특히 <b>신기능이 나빠서 Clexane을 쓰기 어려울 때</b>. IV infusion은 치료용.',
-   how:'<b>antithrombin 강화 → thrombin(IIa)과 factor Xa 둘 다 억제</b>.',
-   se:['출혈','HIT (Clexane보다 더 흔함)'],
-   check:['IV infusion이면 <b>APTT</b> 모니터링','혈소판, 출혈 징후','작용 시간 짧음 (reversal: protamine)'],
+   why:'<b>DVT prophylaxis</b> — 특히 <b>renal impairment</b>로 Clexane 어려울 때. <b>IV infusion</b> = treatment',
+   how:'<b>Antithrombin</b> 강화 → <b>thrombin (IIa) + factor Xa</b> 둘 다 inhibit',
+   se:['<b>Bleeding</b>','<b>HIT</b> (more common than Clexane)'],
+   check:['IV infusion → <b>APTT</b> monitoring','<b>Platelets</b>, <b>signs of bleeding</b>','<b>Short-acting</b> (reversal: <b>protamine</b>)'],
    say:'It’s unfractionated heparin, often used for DVT prophylaxis when renal function is poor. It inhibits thrombin and factor Xa. I monitor for bleeding and check APTT if it’s an infusion.'},
 
   {cat:'vte', brand:'Xarelto / Eliquis', generic:'Rivaroxaban / Apixaban', cls:'DOAC — direct factor Xa inhibitor',
-   why:'<b>고관절·무릎 인공관절 수술 후 VTE 예방</b> (먹는 약), AF·DVT 치료.',
-   how:'<b>factor Xa를 직접 차단</b> → thrombin 생성 ↓ → 혈전 ↓.',
-   se:['<b>출혈</b>','빈혈'],
-   check:['출혈 징후 (상처 삼출, 혈뇨, 흑변)','신기능','수술 전 언제 중단했는지/언제 다시 시작하는지 확인','<b>Clexane과 중복 투약 X</b>'],
+   why:'<b>VTE prophylaxis</b> after <b>hip / knee replacement</b> (oral), <b>AF</b>, <b>DVT treatment</b>',
+   how:'<b>Factor Xa</b> 직접 block → <b>thrombin generation ↓</b> → <b>clot ↓</b>',
+   se:['<b>Bleeding</b>','<b>Anaemia</b>'],
+   check:['<b>Signs of bleeding</b> (wound ooze, haematuria, melaena)','<b>Renal function</b>','Pre-op <b>withheld</b>? <b>Restart</b> 언제?','<b>Don’t double up with Clexane</b>'],
    say:'It’s a direct oral anticoagulant that inhibits factor Xa. It’s used for VTE prevention after hip or knee replacement. I monitor for bleeding and make sure it’s not doubled up with Clexane.'},
 
   {cat:'vte', brand:'Cyklokapron', generic:'Tranexamic acid (TXA)', cls:'Antifibrinolytic',
-   why:'<b>수술 중/후 출혈 감소</b> (특히 정형외과 관절 수술).',
-   how:'<b>plasminogen이 plasmin으로 바뀌는 걸 막음</b> → 이미 만들어진 혈전이 녹지 않게 → 출혈 ↓. (응고제가 아니라 “혈전 분해 억제제”)',
-   se:['오심, 설사','<b>혈전 위험</b> 이론상 ↑','고용량에서 경련'],
-   check:['혈전 병력','배액(drain)·상처 출혈량 확인'],
+   why:'<b>Intra-op / post-op blood loss ↓</b> (esp. <b>joint replacement</b>)',
+   how:'<b>Plasminogen → plasmin</b> 전환 block → 만들어진 <b>clot breakdown (fibrinolysis) ↓</b> → bleeding ↓. (<b>Anticoagulant 반대</b> 개념)',
+   se:['<b>Nausea, diarrhoea</b>','Theoretical <b>thrombosis risk ↑</b>','High dose → <b>seizures</b>'],
+   check:['<b>History of VTE / thrombosis</b>','<b>Drain output</b>, <b>wound bleeding</b>'],
    say:'It’s an antifibrinolytic that stops clots from being broken down, so it reduces bleeding during and after surgery, especially joint replacements.'},
 
-  // ---------- 항생제 ----------
+  // ---------- Antibiotics ----------
   {cat:'abx', star:true, brand:'Kefzol / Keflex', generic:'Cefazolin (IV) / Cephalexin (PO)', cls:'1st-gen cephalosporin',
-   why:'<b>수술 전후 감염 예방 (surgical prophylaxis)</b> — 피부 균 (Staph, Strep). 상처 감염 치료.',
-   how:'<b>세균 세포벽 합성 방해</b> → 세균이 터져서 죽음 (bactericidal).',
-   se:['<b>알레르기</b> (발진 ~ anaphylaxis)','설사, <b>C. difficile</b>','주사 부위 정맥염'],
-   check:['<b>알레르기 확인 (특히 penicillin 알레르기)</b>','투약 시간 정확히 지키기 (혈중농도 유지)','첫 투약 후 알레르기 반응 관찰'],
+   why:'<b>Surgical prophylaxis</b> — <b>skin flora</b> (Staph, Strep). <b>Wound infection</b> 치료',
+   how:'<b>Bacterial cell wall synthesis</b> 방해 → bacteria lysis (<b>bactericidal</b>)',
+   se:['<b>Allergy</b> (rash → <b>anaphylaxis</b>)','<b>Diarrhoea</b>, <b>C. difficile</b>','<b>Phlebitis</b> (IV site)'],
+   check:['<b>Allergy status</b> — esp. <b>penicillin allergy</b>','<b>On time</b> (therapeutic levels 유지)','First dose → <b>observe for reaction</b>'],
    say:'It’s a first-generation cephalosporin used as surgical prophylaxis against skin bacteria. It kills bacteria by stopping cell wall synthesis. I always check allergies, especially penicillin, and watch for diarrhoea.'},
 
   {cat:'abx', brand:'Flagyl', generic:'Metronidazole', cls:'Nitroimidazole',
-   why:'<b>혐기성 균</b> — 장 수술, 복부 감염, 충수염. C. diff 치료에도.',
-   how:'세균 안에 들어가서 <b>DNA를 손상</b> → 세균 사멸.',
-   se:['<b>금속 맛</b>, 오심','<b>술과 같이 먹으면</b> 심한 오심·구토·홍조 (disulfiram-like)','장기 사용 시 말초신경병증'],
-   check:['음주 금지 교육 (치료 후 며칠까지)','오심 시 음식과 함께'],
+   why:'<b>Anaerobic bacteria</b> — <b>bowel surgery</b>, <b>intra-abdominal infection</b>, appendicitis, <b>C. diff</b>',
+   how:'Bacteria 안에서 <b>DNA damage</b> → bacterial death',
+   se:['<b>Metallic taste</b>, <b>nausea</b>','+ Alcohol → <b>disulfiram-like reaction</b> (severe N/V, flushing)','Long-term → <b>peripheral neuropathy</b>'],
+   check:['<b>No alcohol</b> 교육 (during + few days after)','Nausea → <b>give with food</b>'],
    say:'It covers anaerobic bacteria, so it’s used for bowel surgery and abdominal infections. It damages bacterial DNA. Patients must avoid alcohol, and it often causes a metallic taste and nausea.'},
 
   {cat:'abx', brand:'Tazocin', generic:'Piperacillin + Tazobactam', cls:'Broad-spectrum penicillin + β-lactamase inhibitor',
-   why:'<b>심한 감염</b> — 복강 내 감염, 패혈증, 병원 감염. 수술 후 열·감염 의심 시.',
-   how:'Piperacillin이 <b>세포벽 합성 방해</b>, tazobactam이 <b>세균의 β-lactamase(내성 효소)를 막아서</b> piperacillin이 분해되지 않게 보호.',
-   se:['<b>Penicillin 알레르기 → 절대 금기</b>','설사, C. diff','저칼륨혈증, 혈소판 이상'],
-   check:['<b>Penicillin 알레르기 확인</b>','K+ 수치','혈액배양을 먼저 채취했는지'],
+   why:'<b>Severe infection</b> — <b>intra-abdominal sepsis</b>, <b>hospital-acquired infection</b>, post-op fever',
+   how:'Piperacillin → <b>cell wall synthesis</b> 방해. Tazobactam → <b>β-lactamase</b> (resistance enzyme) block → piperacillin 보호',
+   se:['<b>Penicillin allergy → contraindicated</b>','<b>Diarrhoea</b>, <b>C. diff</b>','<b>Hypokalaemia</b>, <b>platelet</b> abnormalities'],
+   check:['<b>Penicillin allergy</b> 확인','<b>K+ level</b>','<b>Blood cultures</b> taken first?'],
    say:'It’s a broad-spectrum penicillin with a beta-lactamase inhibitor for serious infections like intra-abdominal sepsis. It’s a penicillin, so I must check for penicillin allergy first.'},
 
-  // ---------- 위장 ----------
+  // ---------- GI ----------
   {cat:'gi', star:true, brand:'Somac', generic:'Pantoprazole', cls:'Proton pump inhibitor (PPI)',
-   why:'<b>위궤양·스트레스 궤양 예방</b> (수술 스트레스, NSAID·스테로이드 사용 시), GORD.',
-   how:'위벽 세포의 <b>proton pump(H+/K+ ATPase) 차단</b> → 위산 분비 ↓.',
-   se:['두통, 설사','장기 사용: 저마그네슘혈증, C. diff, 골절 위험'],
-   check:['<b>식전 (아침 식사 30–60분 전)</b>','부수지 않기 (장용정)'],
+   why:'<b>Stress ulcer prophylaxis</b>, <b>GI protection</b> with NSAIDs / steroids, <b>GORD</b>',
+   how:'Parietal cell의 <b>proton pump (H+/K+ ATPase)</b> block → <b>gastric acid secretion ↓</b>',
+   se:['<b>Headache</b>, <b>diarrhoea</b>','Long-term: <b>hypomagnesaemia</b>, <b>C. diff</b>, <b>fracture risk</b>'],
+   check:['<b>Before breakfast</b> (30–60 min)','<b>Enteric coated — do not crush</b>'],
    say:'It’s a PPI that blocks the proton pump to reduce stomach acid. It protects against ulcers, especially with NSAIDs or steroids after surgery. It’s best given before breakfast.'},
 
   {cat:'gi', star:true, brand:'Coloxyl with Senna', generic:'Docusate + Sennosides', cls:'Stool softener + stimulant laxative',
-   why:'<b>오피오이드로 인한 변비 예방</b> — 오피오이드 쓰면 거의 같이 처방.',
-   how:'Docusate: <b>대변에 수분 흡수 → 부드럽게</b>. Senna: <b>장 신경 자극 → 장운동 ↑</b>.',
-   se:['복부 경련','설사'],
-   check:['<b>마지막 배변 기록 (bowel chart)</b>','묽은 변이면 hold 고려 → RN 확인','장폐색 의심 시 금기'],
+   why:'<b>Opioid-induced constipation</b> prevention — opioids 쓰면 거의 같이 charted',
+   how:'Docusate → <b>stool softener</b> (water into stool). Senna → <b>stimulant</b> → <b>peristalsis ↑</b>',
+   se:['<b>Abdominal cramps</b>','<b>Diarrhoea</b>'],
+   check:['<b>Bowel chart</b> — last BO','<b>Loose stools → withhold</b>? RN 확인','<b>Bowel obstruction → contraindicated</b>'],
    say:'It’s a stool softener combined with a stimulant laxative, given to prevent opioid-induced constipation. I check the bowel chart and hold it if the patient has loose stools.'},
 
   {cat:'gi', brand:'Movicol / Lactulose', generic:'Macrogol / Lactulose', cls:'Osmotic laxative',
-   why:'변비 치료 — Coloxyl/Senna로 부족할 때.',
-   how:'<b>삼투압으로 장 안에 물을 끌어당김</b> → 대변이 부드러워지고 양 ↑.',
-   se:['복부 팽만, 가스 (lactulose 특히)','설사 → 탈수·전해질 이상'],
-   check:['Movicol은 물 125 mL에 녹이기','배변 기록, 수분 섭취'],
+   why:'<b>Constipation</b> — Coloxyl/Senna로 부족할 때',
+   how:'<b>Osmotic effect</b> → bowel 안으로 <b>water</b> 끌어당김 → <b>softer, bulkier stool</b>',
+   se:['<b>Bloating</b>, <b>flatulence</b> (esp. lactulose)','<b>Diarrhoea</b> → <b>dehydration / electrolyte imbalance</b>'],
+   check:['Movicol → <b>dissolve in 125 mL water</b>','<b>Bowel chart</b>, <b>fluid intake</b>'],
    say:'It’s an osmotic laxative that draws water into the bowel to soften the stool. Side effects are bloating and diarrhoea, so I monitor the bowel chart and hydration.'},
 
-  // ---------- 수액/혈당 ----------
+  // ---------- Fluids & BGL ----------
   {cat:'fluid', star:true, brand:'Hartmann’s / Plasma-Lyte', generic:'Compound sodium lactate / balanced crystalloid', cls:'Isotonic crystalloid IV fluid',
-   why:'<b>금식(NBM) 중 수분·전해질 유지</b>, 수술 중 손실 보충, 저혈압·탈수 교정.',
-   how:'혈장과 비슷한 <b>등장성 용액</b> → 혈관·세포 외액 보충. Na, K, Ca, lactate(→ 간에서 bicarbonate로) 포함.',
-   se:['<b>수분 과다 (fluid overload)</b>: 숨참, crackles, 부종','전해질 불균형'],
-   check:['<b>Fluid balance chart</b> (input / output)','소변량 (보통 ≥ 0.5 mL/kg/hr)','폐음, 부종, 체중','주입 속도·라인·캐뉼라 부위'],
+   why:'<b>NBM</b> 중 <b>maintenance fluids</b>, intra-op <b>fluid loss replacement</b>, <b>hypotension / dehydration</b> 교정',
+   how:'<b>Isotonic</b> (plasma와 비슷) → <b>intravascular / extracellular volume</b> 보충. Na, K, Ca, <b>lactate</b> (→ liver에서 <b>bicarbonate</b>)',
+   se:['<b>Fluid overload</b>: SOB, <b>crackles</b>, <b>oedema</b>','<b>Electrolyte imbalance</b>'],
+   check:['<b>Fluid balance chart</b> (input / output)','<b>Urine output</b> (≥ 0.5 mL/kg/hr)','<b>Breath sounds</b>, <b>oedema</b>, <b>weight</b>','<b>Rate</b>, line, <b>cannula site (VIP score)</b>'],
    say:'It’s an isotonic crystalloid used to maintain hydration while the patient is nil by mouth. The main risk is fluid overload, so I keep an accurate fluid balance and monitor urine output and breath sounds.'},
 
   {cat:'fluid', brand:'NovoRapid', generic:'Insulin aspart', cls:'Rapid-acting insulin',
-   why:'당뇨 환자의 <b>식사 시 혈당 조절</b>, 수술 스트레스·스테로이드로 올라간 혈당 교정 (correction scale).',
-   how:'세포가 <b>포도당을 흡수하게</b> 해서 혈당 ↓. 작용 시작 ~15분, 매우 빠름.',
-   se:['<b>저혈당</b> (떨림, 땀, 혼돈)','저칼륨혈증'],
-   check:['<b>투약 전 BGL</b>','<b>식사가 바로 나오는지</b> (금식 중이면 RN 확인)','2명 확인, 저혈당 대처 프로토콜 알기'],
+   why:'Diabetic pts <b>mealtime BGL control</b>, surgery stress / steroids로 ↑된 BGL → <b>correction scale</b>',
+   how:'Cells의 <b>glucose uptake ↑</b> → <b>BGL ↓</b>. <b>Onset ~15 min</b> (very fast)',
+   se:['<b>Hypoglycaemia</b> (shaky, sweaty, confused)','<b>Hypokalaemia</b>'],
+   check:['<b>BGL before</b> giving','<b>Meal ready?</b> (NBM → RN 확인)','<b>2 RN check</b>, <b>hypo protocol</b> 알기'],
    say:'It’s rapid-acting insulin given with meals or as a correction dose. The main risk is hypoglycaemia, so I check the BGL first and make sure the meal is ready before giving it.'},
 ];
 
@@ -415,16 +416,16 @@ function card(d, color){
       <div class="drug-name">
         <span class="brand">${d.brand}</span>
         ${d.s8 ? '<span class="badge s8">S8</span>' : ''}
-        ${d.star ? '<span class="badge star">★ 자주 봄</span>' : ''}
+        ${d.star ? '<span class="badge star">★ Common</span>' : ''}
       </div>
       <div class="generic">${d.generic}</div>
       <div class="drug-class">${d.cls}</div>
     </div>
     <div class="qa">
-      <div><div class="q">❓ 왜 줘?</div><div class="a">${d.why}</div></div>
-      <div><div class="q">⚙️ 기전</div><div class="a">${d.how}</div></div>
-      <div><div class="q">⚠️ 부작용</div><div class="a">${ul(d.se)}</div></div>
-      <div><div class="q">✅ 그래서 확인할 것</div><div class="a">${ul(d.check)}</div></div>
+      <div><div class="q">❓ Indication <small>왜 줘?</small></div><div class="a">${d.why}</div></div>
+      <div><div class="q">⚙️ Mechanism <small>기전</small></div><div class="a">${d.how}</div></div>
+      <div><div class="q">⚠️ Side effects <small>부작용</small></div><div class="a">${ul(d.se)}</div></div>
+      <div><div class="q">✅ Nursing considerations <small>확인할 것</small></div><div class="a">${ul(d.check)}</div></div>
     </div>
     <div class="say"><span class="lbl">SAY IT IN ENGLISH</span><span class="say-text">“${d.say}”</span></div>
   </article>`;
@@ -439,7 +440,7 @@ function render(){
     </section>`;
   }).join('');
 
-  chips.innerHTML = [{id:'all', name:'전체'}, {id:'star', name:'★ 자주 봄'}, ...CATS]
+  chips.innerHTML = [{id:'all', name:'All'}, {id:'star', name:'★ Common'}, ...CATS]
     .map(c => `<button class="chip${c.id === activeCat ? ' on' : ''}" data-id="${c.id}">${c.name}</button>`).join('');
 }
 
