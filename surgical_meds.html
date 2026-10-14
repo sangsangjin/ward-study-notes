@@ -377,7 +377,7 @@ const DRUGS = [
    check:['<b>Last dose time</b> (min 4-hourly)','<b>Duplicate paracetamol</b> 확인 (e.g. Panadeine)','<b>Masks fever</b> → infection signs 놓치지 않기'],
    say:'It’s a simple analgesic given regularly for baseline pain relief after surgery. The main risk is liver toxicity in overdose, so I check when the last dose was and make sure the daily max isn’t exceeded.'},
 
-  {cat:'pain', star:true, surg:['ortho'], brand:'Nurofen / Celebrex / Dynastat', generic:'Ibuprofen / Celecoxib / Parecoxib (IV)', cls:'NSAID (COX inhibitor)', stem:'-coxib (celecoxib, parecoxib)',
+  {cat:'pain', star:true, surg:['ortho'], brand:'Nurofen / Celebrex / Dynastat', generic:'Ibuprofen / Celecoxib / Parecoxib (IV)', cls:'Non-steroidal anti-inflammatory drug (NSAID) — COX inhibitor', stem:'-coxib (celecoxib, parecoxib)',
    why:'<b>Inflammation + pain</b> ↓ — 특히 <b>orthopaedic surgery</b> 후. <b>Parecoxib</b> = <b>IV</b>, <b>NBM</b>일 때',
    how:'<b>COX enzyme</b> block → <b>prostaglandin ↓</b> → <b>inflammation · pain · fever ↓</b>. Celecoxib/Parecoxib = <b>COX-2 selective</b> → <b>GI side effects</b> 적음',
    se:['<b>GI bleeding / peptic ulcer</b>','<b>AKI</b> (renal blood flow ↓)','<b>BP ↑</b>, <b>fluid retention</b>','<b>Bleeding risk ↑</b> (ibuprofen)'],
@@ -413,7 +413,7 @@ const DRUGS = [
    check:['<b>Sedation score, RR</b>','<b>SR — do not crush</b>','<b>Antidepressants</b> 복용 여부'],
    say:'It’s an opioid that also blocks noradrenaline reuptake, so it works on two pain pathways. Watch for sedation, respiratory depression and serotonin syndrome with antidepressants.'},
 
-  {cat:'opioid', surg:['ortho','uro'], brand:'Tramal', generic:'Tramadol', cls:'Weak opioid + SNRI',
+  {cat:'opioid', surg:['ortho','uro'], brand:'Tramal', generic:'Tramadol', cls:'Weak opioid + serotonin-noradrenaline reuptake inhibitor (SNRI)',
    why:'<b>Mild–moderate pain</b>, strong opioid 전 단계',
    how:'Weak <b>mu agonist</b> + <b>serotonin · noradrenaline reuptake inhibition</b>',
    se:['<b>Nausea, dizziness, sweating</b>','<b>Seizure threshold ↓</b> (epilepsy 주의)','+ Antidepressants → <b>serotonin syndrome</b>','Elderly → <b>confusion</b>'],
@@ -428,7 +428,7 @@ const DRUGS = [
    say:'It’s an opioid antagonist used to reverse respiratory depression from opioids. Because it wears off faster than most opioids, I keep monitoring for re-sedation, and the pain may come back.'},
 
   // ---------- Antiemetics ----------
-  {cat:'nausea', star:true, surg:['gen','ortho','uro'], brand:'Zofran', generic:'Ondansetron', cls:'5-HT3 antagonist', stem:'-setron',
+  {cat:'nausea', star:true, surg:['gen','ortho','uro'], brand:'Zofran', generic:'Ondansetron', cls:'Serotonin 5-HT3 receptor antagonist (5-HT3 antagonist)', stem:'-setron',
    why:'<b>PONV</b> (post-operative nausea & vomiting), <b>opioid-induced nausea</b>',
    how:'Gut + brain (<b>CTZ / vomiting centre</b>)의 <b>serotonin (5-HT3) receptor</b> block → vomiting signal ↓',
    se:['<b>Headache</b>','<b>Constipation</b> (+ opioids → worse)','<b>QT prolongation</b>'],
@@ -471,7 +471,7 @@ const DRUGS = [
    check:['IV infusion → <b>APTT</b> monitoring','<b>Platelets</b>, <b>signs of bleeding</b>','<b>Short-acting</b> (reversal: <b>protamine</b>)'],
    say:'It’s unfractionated heparin, often used for DVT prophylaxis when renal function is poor. It inhibits thrombin and factor Xa. I monitor for bleeding and check APTT if it’s an infusion.'},
 
-  {cat:'vte', ward:true, star:true, surg:['ortho'], brand:'Xarelto / Eliquis', generic:'Rivaroxaban / Apixaban', cls:'DOAC — direct factor Xa inhibitor', stem:'-xaban',
+  {cat:'vte', ward:true, star:true, surg:['ortho'], brand:'Xarelto / Eliquis', generic:'Rivaroxaban / Apixaban', cls:'Direct oral anticoagulant (DOAC) — factor Xa inhibitor', stem:'-xaban',
    why:'<b>VTE prophylaxis</b> after <b>hip / knee replacement</b> (oral), <b>AF</b>, <b>DVT treatment</b>',
    how:'<b>Factor Xa</b> 직접 block → <b>thrombin generation ↓</b> → <b>clot ↓</b>',
    se:['<b>Bleeding</b>','<b>Anaemia</b>'],
@@ -545,14 +545,14 @@ const DRUGS = [
    say:'It’s rapid-acting insulin given with meals or as a correction dose. The main risk is hypoglycaemia, so I check the BGL first and make sure the meal is ready before giving it.'},
 
   // ---------- Cardiac & lipids ----------
-  {cat:'cardio', ward:true, star:true, surg:['ortho'], brand:'Cartia / Astrix', generic:'Aspirin (low dose)', cls:'Antiplatelet (COX-1 inhibitor)', stem:'—',
+  {cat:'cardio', ward:true, star:true, surg:['ortho'], brand:'Cartia / Astrix', generic:'Aspirin (low dose)', cls:'Antiplatelet — cyclo-oxygenase-1 (COX-1) inhibitor', stem:'—',
    why:'<b>Secondary prevention</b> of <b>MI / stroke</b>, after <b>cardiac stent</b>, <b>IHD / AF</b> history. (일부 병원은 joint replacement 후 <b>VTE prophylaxis</b>로도)',
    how:'Platelet의 <b>COX-1</b>을 <b>irreversibly</b> block → <b>thromboxane A2 ↓</b> → <b>platelet aggregation ↓</b>. Effect lasts platelet lifespan (<b>~7–10 days</b>)',
    se:['<b>Bleeding</b>, <b>bruising</b>','<b>GI irritation / GI bleeding</b>','<b>Bronchospasm</b> in aspirin-sensitive asthma','High dose → <b>tinnitus</b>'],
    check:['<b>Signs of bleeding</b> (wound, melaena, haematuria)','+ <b>Anticoagulants</b> (Clexane, apixaban) → bleeding risk ↑↑','<b>Give with food</b>','Pre-op <b>withheld</b>? 언제 restart? → surgeon/RN 확인'],
    say:'It’s a low-dose antiplatelet. It irreversibly blocks COX-1 in platelets so they don’t stick together, which prevents heart attacks and strokes. The main risk is bleeding, especially with anticoagulants, so I watch for signs of bleeding and give it with food.'},
 
-  {cat:'cardio', ward:true, star:true, brand:'Lipitor', generic:'Atorvastatin', cls:'Statin (HMG-CoA reductase inhibitor)', stem:'-statin',
+  {cat:'cardio', ward:true, star:true, brand:'Lipitor', generic:'Atorvastatin', cls:'HMG-CoA reductase inhibitor (statin)', stem:'-statin',
    why:'<b>High cholesterol (LDL)</b> 조절, <b>cardiovascular risk ↓</b> (MI, stroke prevention)',
    how:'Liver의 <b>HMG-CoA reductase</b> block → <b>cholesterol synthesis ↓</b> → <b>LDL ↓</b> + <b>plaque stabilisation</b>',
    se:['<b>Myalgia</b> (muscle aches)','<b>Rhabdomyolysis</b> (rare, serious)','<b>LFTs ↑</b>','GI upset, headache'],
@@ -601,7 +601,7 @@ const DRUGS = [
    check:['<b>Penicillin allergy</b> 확인','Oral → <b>empty stomach</b> (1 hr before / 2 hr after food)','<b>LFTs</b> on long courses','<b>Wound / cellulitis</b> margins 확인 (marking)'],
    say:'It’s a narrow-spectrum penicillin that isn’t broken down by staph enzymes, so it’s used for staph skin and wound infections like cellulitis. I check penicillin allergy, give the oral form on an empty stomach, and watch for liver problems on longer courses.'},
 
-  {cat:'cardio', ward:true, star:true, brand:'Avapro', generic:'Irbesartan', cls:'ARB (angiotensin II receptor blocker)', stem:'-sartan',
+  {cat:'cardio', ward:true, star:true, brand:'Avapro', generic:'Irbesartan', cls:'Angiotensin II receptor blocker (ARB)', stem:'-sartan',
    why:'<b>Hypertension</b>, <b>diabetic nephropathy</b> (renal protection), heart failure',
    how:'<b>Angiotensin II (AT1) receptor</b> block → <b>vasodilation</b> + <b>aldosterone ↓</b> (Na/water retention ↓) → <b>BP ↓</b>',
    se:['<b>Hypotension</b>, <b>dizziness</b> → falls','<b>Hyperkalaemia</b>','<b>AKI</b> (esp. dehydrated, + NSAIDs)','Cough — ACE inhibitor보다 <b>훨씬 적음</b>'],
@@ -702,20 +702,20 @@ const DRUGS = [
 
 const STEM_GROUPS = [
   {name:'Cardiovascular / Renal', kr:'심장 · 혈압 · 신장', color:'#1d6fb8', items:[
-    ['-pril', true, 'ACE Inhibitor', 'perindopril, ramipril, enalapril', 'Blocks ACE → angiotensin II ↓ → BP ↓. 1st line for HTN, heart failure, renal protection', 'Dry cough, hyperkalaemia, hypotension, angioedema (rare)'],
-    ['-sartan', true, 'ARB', 'candesartan, irbesartan, telmisartan, valsartan', 'Blocks angiotensin II receptor → BP ↓. Like ACEi but less dry cough', 'Hypotension / dizziness, hyperkalaemia, AKI'],
+    ['-pril', true, 'Angiotensin-Converting Enzyme Inhibitor (ACE-i)', 'perindopril, ramipril, enalapril', 'Blocks ACE → angiotensin II ↓ → BP ↓. 1st line for HTN, heart failure, renal protection', 'Dry cough, hyperkalaemia, hypotension, angioedema (rare)'],
+    ['-sartan', true, 'Angiotensin II Receptor Blocker (ARB)', 'candesartan, irbesartan, telmisartan, valsartan', 'Blocks angiotensin II receptor → BP ↓. Like ACEi but less dry cough', 'Hypotension / dizziness, hyperkalaemia, AKI'],
     ['-olol', true, 'Beta Blocker', 'metoprolol, bisoprolol, atenolol', 'Blocks beta receptors → HR ↓, BP ↓. Check HR & BP before giving', 'Bradycardia, hypotension, fatigue, bronchospasm (asthma)'],
-    ['-dipine', true, 'CCB', 'amlodipine, nifedipine', 'Blocks calcium channels → vasodilation → BP ↓', 'Ankle oedema, flushing, headache, reflex tachycardia'],
-    ['-statin', true, 'Statin', 'atorvastatin, rosuvastatin, simvastatin', 'Blocks cholesterol synthesis in the liver → LDL ↓', 'Myalgia, rhabdomyolysis (rare), LFTs ↑'],
+    ['-dipine', true, 'Calcium Channel Blocker (CCB)', 'amlodipine, nifedipine', 'Blocks calcium channels → vasodilation → BP ↓', 'Ankle oedema, flushing, headache, reflex tachycardia'],
+    ['-statin', true, 'HMG-CoA Reductase Inhibitor (Statin)', 'atorvastatin, rosuvastatin, simvastatin', 'Blocks cholesterol synthesis in the liver → LDL ↓', 'Myalgia, rhabdomyolysis (rare), LFTs ↑'],
     ['-semide', true, 'Loop Diuretic', 'furosemide / frusemide', 'Strong (loop) diuretic → removes fluid. Used for fluid overload', 'Hypokalaemia, dehydration, hypotension, ototoxicity (fast IV)'],
     ['-thiazide', false, 'Thiazide Diuretic', 'hydrochlorothiazide (indapamide = exception)', 'Mild diuretic → BP ↓, oedema ↓ (indapamide = exception in name)', 'Hypokalaemia, hyponatraemia, gout (uric acid ↑), hyperglycaemia'],
     ['nitr- / -nitrate', false, 'Nitrate', 'glyceryl trinitrate (GTN), isosorbide mononitrate', 'Vasodilator → relieves chest pain / angina', 'Headache, hypotension, flushing — contraindicated with PDE5 inhibitors (sildenafil)'],
   ]},
   {name:'Anticoagulants', kr:'항응고제', color:'#c0392b', items:[
     ['-parin', true, 'Heparin family', 'heparin, enoxaparin, dalteparin', 'Anticoagulant (injection) → DVT / PE prevention & treatment. Watch bleeding', 'Bleeding, HIT (platelets ↓)'],
-    ['-xaban', true, 'Factor Xa (DOAC)', 'apixaban, rivaroxaban', 'Oral anticoagulant (factor Xa inhibitor). Watch bleeding', 'Bleeding'],
-    ['-gatran', false, 'Direct Thrombin Inh.', 'dabigatran', 'Oral anticoagulant (direct thrombin inhibitor)', 'Bleeding, dyspepsia'],
-    ['warfarin', false, 'Vit K Antagonist', 'warfarin', 'Vitamin K antagonist — INR monitoring essential. No stem, just memorise', 'Bleeding (INR ↑), many food (vit K) · drug interactions'],
+    ['-xaban', true, 'Direct Oral Anticoagulant (DOAC) — Factor Xa Inhibitor', 'apixaban, rivaroxaban', 'Oral anticoagulant (factor Xa inhibitor). Watch bleeding', 'Bleeding'],
+    ['-gatran', false, 'Direct Oral Anticoagulant (DOAC) — Direct Thrombin Inhibitor', 'dabigatran', 'Oral anticoagulant (direct thrombin inhibitor)', 'Bleeding, dyspepsia'],
+    ['warfarin', false, 'Vitamin K Antagonist (VKA)', 'warfarin', 'Vitamin K antagonist — INR monitoring essential. No stem, just memorise', 'Bleeding (INR ↑), many food (vit K) · drug interactions'],
   ]},
   {name:'Antibiotics / Anti-Infectives', kr:'항생제 · 감염', color:'#bb851a', items:[
     ['-cillin', true, 'Penicillin', 'amoxicillin, flucloxacillin, piperacillin', 'Penicillin antibiotic — always check penicillin allergy', 'Allergy / anaphylaxis, diarrhoea, C. diff'],
@@ -727,10 +727,10 @@ const STEM_GROUPS = [
     ['-azole', true, 'Antifungal / Antimicrobial', 'fluconazole (antifungal), metronidazole (anaerobes)', 'Fluconazole = antifungal, metronidazole = anaerobic bacteria', 'Fluconazole → LFTs ↑, QT ↑ · Metronidazole → metallic taste, alcohol reaction'],
   ]},
   {name:'GI / Antiemetics', kr:'위장약 · 구토', color:'#0f766e', items:[
-    ['-prazole', true, 'PPI', 'pantoprazole, omeprazole, esomeprazole', 'PPI → stomach acid ↓. For ulcer, GORD, GI bleed', 'Headache, diarrhoea · long-term → hypomagnesaemia, C. diff'],
-    ['-tidine', false, 'H2 Blocker', 'famotidine', 'H2 blocker → stomach acid ↓ (weaker than PPI)', 'Headache, confusion (elderly)'],
-    ['-setron', true, '5-HT3 Antiemetic', 'ondansetron', '5-HT3 blocker → nausea & vomiting ↓', 'Headache, constipation, QT prolongation'],
-    ['-pramide', false, 'Prokinetic', 'metoclopramide', 'Antiemetic + prokinetic → nausea ↓, gastric emptying ↑', 'EPS (dystonia), drowsiness — contraindicated in bowel obstruction'],
+    ['-prazole', true, 'Proton Pump Inhibitor (PPI)', 'pantoprazole, omeprazole, esomeprazole', 'PPI → stomach acid ↓. For ulcer, GORD, GI bleed', 'Headache, diarrhoea · long-term → hypomagnesaemia, C. diff'],
+    ['-tidine', false, 'Histamine-2 Receptor Antagonist (H2RA, H2 blocker)', 'famotidine', 'H2 blocker → stomach acid ↓ (weaker than PPI)', 'Headache, confusion (elderly)'],
+    ['-setron', true, 'Serotonin 5-HT3 Receptor Antagonist (5-HT3 antagonist)', 'ondansetron', '5-HT3 blocker → nausea & vomiting ↓', 'Headache, constipation, QT prolongation'],
+    ['-pramide', false, 'Dopamine D2 Antagonist + Prokinetic', 'metoclopramide', 'Antiemetic + prokinetic → nausea ↓, gastric emptying ↑', 'EPS (dystonia), drowsiness — contraindicated in bowel obstruction'],
     ['-lax / lact- / macrogol', false, 'Laxative', 'lactulose, macrogol', 'Laxative → treats / prevents constipation', 'Bloating, cramps, diarrhoea → electrolyte imbalance'],
   ]},
   {name:'Pain / Anaesthesia / Sedation', kr:'통증 · 마취 · 진정', color:'#8e44ad', items:[
@@ -739,29 +739,29 @@ const STEM_GROUPS = [
     ['morph-', false, 'Opioid', 'morphine', 'Strong opioid — S8 controlled drug', 'Respiratory depression, sedation, constipation, pruritus, N/V'],
     ['fenta-', false, 'Opioid', 'fentanyl', 'Very strong opioid — S8', 'Respiratory depression, sedation (very potent)'],
     ['-pam / -lam', true, 'Benzodiazepine', 'diazepam, midazolam, lorazepam', 'Benzodiazepine → sedation, anxiety, seizures. Watch resp depression & falls', 'Sedation, falls, respiratory depression (+ opioids), dependence'],
-    ['-fenac', false, 'NSAID', 'diclofenac', 'NSAID → anti-inflammatory pain relief', 'GI bleeding, AKI, CV risk ↑'],
-    ['-coxib', false, 'COX-2 NSAID', 'celecoxib, parecoxib', 'COX-2 selective NSAID → anti-inflammatory, fewer GI side effects', 'AKI, fluid retention, CV risk ↑ (less GI bleeding)'],
+    ['-fenac', false, 'Non-Steroidal Anti-Inflammatory Drug (NSAID)', 'diclofenac', 'NSAID → anti-inflammatory pain relief', 'GI bleeding, AKI, CV risk ↑'],
+    ['-coxib', false, 'Cyclo-oxygenase-2 Selective NSAID (COX-2 inhibitor)', 'celecoxib, parecoxib', 'COX-2 selective NSAID → anti-inflammatory, fewer GI side effects', 'AKI, fluid retention, CV risk ↑ (less GI bleeding)'],
   ]},
   {name:'Respiratory', kr:'호흡기', color:'#2c8c6a', items:[
-    ['-terol', false, 'Beta-2 Agonist', 'salbutamol, salmeterol, formoterol', 'Beta-2 agonist → bronchodilator (opens airways)', 'Tremor, tachycardia, hypokalaemia'],
-    ['-tropium', false, 'Anticholinergic', 'ipratropium, tiotropium', 'Anticholinergic inhaler → bronchodilator', 'Dry mouth, urinary retention, constipation'],
-    ['-sonide / -asone', false, 'Inhaled Corticosteroid', 'budesonide, fluticasone', 'Inhaled corticosteroid → airway inflammation ↓ (preventer)', 'Oral thrush, hoarse voice → rinse mouth after use'],
+    ['-terol', false, 'Beta-2 Adrenergic Agonist (SABA / LABA)', 'salbutamol, salmeterol, formoterol', 'Beta-2 agonist → bronchodilator (opens airways)', 'Tremor, tachycardia, hypokalaemia'],
+    ['-tropium', false, 'Muscarinic Antagonist, Anticholinergic (SAMA / LAMA)', 'ipratropium, tiotropium', 'Anticholinergic inhaler → bronchodilator', 'Dry mouth, urinary retention, constipation'],
+    ['-sonide / -asone', false, 'Inhaled Corticosteroid (ICS)', 'budesonide, fluticasone', 'Inhaled corticosteroid → airway inflammation ↓ (preventer)', 'Oral thrush, hoarse voice → rinse mouth after use'],
   ]},
   {name:'Diabetes', kr:'당뇨', color:'#6c5ce7', items:[
     ['-formin', true, 'Biguanide', 'metformin', 'Metformin — T2DM 1st line. Check renal function; withhold before IV contrast / surgery', 'GI upset (diarrhoea), lactic acidosis (rare), B12 ↓'],
-    ['-gliflozin', true, 'SGLT2 Inhibitor', 'empagliflozin, dapagliflozin', 'SGLT2 inhibitor → glucose excreted in urine → BGL ↓', 'UTI / genital thrush, dehydration, euglycaemic DKA'],
-    ['-gliptin', true, 'DPP-4 Inhibitor', 'sitagliptin, linagliptin', 'DPP-4 inhibitor → incretin breakdown ↓ → BGL ↓', 'Usually well tolerated — pancreatitis (rare), joint pain'],
-    ['-tide', false, 'GLP-1 RA', 'semaglutide, dulaglutide', 'GLP-1 agonist → BGL ↓, weight ↓', 'Nausea / vomiting, delayed gastric emptying (peri-op aspiration risk), pancreatitis (rare)'],
+    ['-gliflozin', true, 'Sodium-Glucose Co-Transporter 2 Inhibitor (SGLT2i)', 'empagliflozin, dapagliflozin', 'SGLT2 inhibitor → glucose excreted in urine → BGL ↓', 'UTI / genital thrush, dehydration, euglycaemic DKA'],
+    ['-gliptin', true, 'Dipeptidyl Peptidase-4 Inhibitor (DPP-4i)', 'sitagliptin, linagliptin', 'DPP-4 inhibitor → incretin breakdown ↓ → BGL ↓', 'Usually well tolerated — pancreatitis (rare), joint pain'],
+    ['-tide', false, 'Glucagon-Like Peptide-1 Receptor Agonist (GLP-1 RA)', 'semaglutide, dulaglutide', 'GLP-1 agonist → BGL ↓, weight ↓', 'Nausea / vomiting, delayed gastric emptying (peri-op aspiration risk), pancreatitis (rare)'],
     ['insulin', false, 'Insulin', 'insulin aspart, insulin glargine', 'BGL ↓ — always check the type (rapid vs long-acting)', 'Hypoglycaemia, hypokalaemia, weight gain'],
   ]},
   {name:'Steroids / Immune', kr:'스테로이드 · 면역', color:'#d35400', items:[
     ['-sone / -solone', true, 'Corticosteroid', 'prednisone, dexamethasone, prednisolone', 'Corticosteroid → inflammation & immune response ↓. Watch BGL ↑', 'Hyperglycaemia, infection risk, insomnia / mood change, long-term osteoporosis'],
-    ['-mab', true, 'Monoclonal Ab', 'rituximab, pembrolizumab, infliximab', 'Monoclonal antibody → targeted therapy (immune, cancer, inflammatory disease)', 'Infusion reactions, infection risk'],
-    ['-nib', true, 'Kinase Inhibitor', 'imatinib, osimertinib', 'Kinase inhibitor → targeted cancer therapy', 'Diarrhoea, rash, liver toxicity, fatigue'],
+    ['-mab', true, 'Monoclonal Antibody (mAb)', 'rituximab, pembrolizumab, infliximab', 'Monoclonal antibody → targeted therapy (immune, cancer, inflammatory disease)', 'Infusion reactions, infection risk'],
+    ['-nib', true, 'Kinase Inhibitor (e.g. Tyrosine Kinase Inhibitor, TKI)', 'imatinib, osimertinib', 'Kinase inhibitor → targeted cancer therapy', 'Diarrhoea, rash, liver toxicity, fatigue'],
   ]},
   {name:'Psychiatry / Neurology', kr:'정신과 · 신경계', color:'#5d6675', items:[
-    ['-oxetine', false, 'SSRI / SNRI', 'fluoxetine, paroxetine, duloxetine', 'SSRI / SNRI → depression, anxiety, (duloxetine) nerve pain', 'Nausea, insomnia / agitation, hyponatraemia, serotonin syndrome'],
-    ['-pram', false, 'SSRI', 'citalopram, escitalopram', 'SSRI → depression, anxiety', 'Nausea, hyponatraemia, QT ↑ (citalopram), serotonin syndrome'],
+    ['-oxetine', false, 'Selective Serotonin Reuptake Inhibitor (SSRI) / Serotonin-Noradrenaline Reuptake Inhibitor (SNRI)', 'fluoxetine, paroxetine, duloxetine', 'SSRI / SNRI → depression, anxiety, (duloxetine) nerve pain', 'Nausea, insomnia / agitation, hyponatraemia, serotonin syndrome'],
+    ['-pram', false, 'Selective Serotonin Reuptake Inhibitor (SSRI)', 'citalopram, escitalopram', 'SSRI → depression, anxiety', 'Nausea, hyponatraemia, QT ↑ (citalopram), serotonin syndrome'],
     ['-apine', false, 'Antipsychotic', 'olanzapine, quetiapine, clozapine', 'Antipsychotic → psychosis, mood, sedation', 'Sedation, weight gain / metabolic, postural hypotension'],
     ['-zepine', false, 'Anticonvulsant', 'carbamazepine, oxcarbazepine', 'Anticonvulsant → seizures, mood stabiliser', 'Dizziness, hyponatraemia, rash (SJS), drug interactions'],
   ]},
