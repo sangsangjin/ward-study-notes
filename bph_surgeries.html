@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3B Surgeries · BPH</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1b2230; --text:#3d4654; --muted:#6b7482; --faint:#9aa2ae;
+    --paper:#f5f6f8; --card:#ffffff; --line:#e7eaef; --soft:#f1f3f6;
+    --ortho:#0f766e; --ortho-soft:#ecf7f4;
+    --uro:#2b59c3;   --uro-soft:#eef3fd;
+    --amber:#b7791f; --amber-soft:#fdf6e7;
+    --red:#c0392b;   --red-soft:#fcefed;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans KR',system-ui,sans-serif;color:var(--text);background:var(--paper);line-height:1.65;font-size:15px;-webkit-font-smoothing:antialiased}
+  b{color:var(--ink);font-weight:700}
+
+  .top{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .top-inner{max-width:880px;margin:0 auto;padding:0 16px;height:56px;display:flex;align-items:center;gap:14px}
+  .top a{color:var(--faint);text-decoration:none;font-size:.85rem}
+  .top a:hover{color:var(--ink)}
+  .title{font-weight:800;color:var(--ink)}
+  .title small{font-weight:500;color:var(--faint);font-size:.75rem;margin-left:6px}
+  .top .link{margin-left:auto;border:1px solid var(--line);border-radius:999px;padding:4px 12px;color:var(--muted)}
+
+  main{max-width:880px;margin:0 auto;padding:26px 16px 60px}
+  h1{font-size:clamp(1.4rem,3vw,1.8rem);font-weight:900;color:var(--ink);letter-spacing:-.02em;line-height:1.3}
+  .sub{color:var(--muted);margin-top:4px}
+  h2{font-size:1.05rem;font-weight:800;color:var(--ink);margin:34px 0 4px;display:flex;align-items:center;gap:8px}
+  .h2-note{font-size:.82rem;color:var(--muted);margin-bottom:12px}
+
+  /* study order */
+  .order{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:16px;padding:14px 16px;background:var(--card);border:1px solid var(--line);border-radius:14px}
+  .order .lbl{font-size:.75rem;font-weight:700;color:var(--faint);margin-right:4px}
+  .order span.step{font-size:.85rem;font-weight:700;color:var(--ink);background:var(--soft);border-radius:8px;padding:4px 10px}
+  .order span.step.hot{background:var(--ortho);color:#fff}
+  .order i{font-style:normal;color:var(--faint)}
+
+  /* surgery cards */
+  .cards{display:grid;gap:10px}
+  .surg{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--c);border-radius:12px;padding:14px 16px;display:grid;grid-template-columns:1fr 1.1fr;gap:6px 22px}
+  .surg .name{font-weight:800;color:var(--ink);line-height:1.35}
+  .surg .name .pri{font-family:var(--mono);font-size:.66rem;font-weight:700;color:var(--c);background:var(--cs);border-radius:5px;padding:1px 6px;margin-right:6px;vertical-align:2px}
+  .surg .kr{font-size:.82rem;color:var(--muted)}
+  .surg .dx{font-size:.82rem;color:var(--text);margin-top:6px}
+  .surg .dx b{font-weight:600}
+  .surg .lbl{font-size:.68rem;font-weight:700;color:var(--faint);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+  .chips{display:flex;flex-wrap:wrap;gap:5px}
+  .chips span{font-size:.78rem;background:var(--cs);color:var(--ink);border-radius:999px;padding:2px 10px}
+  .ortho{--c:var(--ortho);--cs:var(--ortho-soft)}
+  .uro{--c:var(--uro);--cs:var(--uro-soft)}
+
+  .note{font-size:.8rem;color:var(--faint);margin-top:8px}
+
+  /* key concepts */
+  .concepts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .concept{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .concept h3{font-size:.92rem;font-weight:800;color:var(--ink);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+  .concept p, .concept li{font-size:.86rem}
+  .concept ul{list-style:none;display:grid;gap:3px}
+  .concept li{position:relative;padding-left:13px}
+  .concept li::before{content:'';position:absolute;left:1px;top:.68em;width:5px;height:5px;border-radius:50%;background:#c6ccd5}
+  .concept.wide{grid-column:1 / -1}
+  .nv{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;margin-top:4px}
+  .nv div{background:var(--ortho-soft);border-radius:8px;padding:8px 6px;text-align:center}
+  .nv b{display:block;font-size:.84rem;color:var(--ortho)}
+  .nv span{font-size:.72rem;color:var(--muted);line-height:1.35;display:block}
+  .wb{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:4px}
+  .wb div{border-radius:8px;padding:8px 10px;background:var(--soft)}
+  .wb .k{font-family:var(--mono);font-weight:700;color:var(--ink);font-size:.86rem}
+  .wb .f{font-size:.76rem;color:var(--text)}
+  .wb .m{font-size:.72rem;color:var(--muted)}
+  .wb .n{border-left:3px solid var(--red)} .wb .p{border-left:3px solid var(--amber)} .wb .w{border-left:3px solid var(--ortho)}
+
+  .callout{display:flex;gap:10px;background:var(--amber-soft);border:1px solid #f1dfb6;border-radius:12px;padding:12px 14px;font-size:.86rem;margin-top:12px}
+
+  footer{text-align:center;color:var(--faint);font-size:.76rem;padding:10px 0 40px}
+
+  @media (max-width:680px){
+    .surg{grid-template-columns:1fr}
+    .concepts{grid-template-columns:1fr}
+    .nv{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .wb{grid-template-columns:1fr}
+    .title small{display:none}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-inner">
+    <a href="index.html">&larr;</a>
+    <div class="title">3B Surgeries<small>Buderim Private · Surgical</small></div>
+    <a class="link" href="surgical_meds.html">💊 Ward Meds</a>
+  </div>
+</header>
+
+<main>
+  <h1>먼저 알아갈 수술과 질환</h1>
+  <p class="sub">수술 이름만 외우기보다, 아래 <b>간호 개념 5가지</b>에 연결해서 공부하면 병동에서 바로 써먹을 수 있어.</p>
+
+  <div class="order">
+    <span class="lbl">시간 없으면 이 순서로</span>
+    <span class="step hot">TKR</span><i>→</i>
+    <span class="step hot">THR</span><i>→</i>
+    <span class="step hot">ORIF</span><i>→</i>
+    <span class="step">Neurovascular assessment</span><i>→</i>
+    <span class="step">Pain management · VTE prevention</span>
+  </div>
+
+  <!-- ===== Ortho ===== -->
+  <h2>🦴 Orthopaedics <span class="h2-note" style="margin:0;font-weight:400">· 우선 공부</span></h2>
+  <p class="h2-note">병원은 고관절·무릎 치환술, 어깨 수술, 척추 수술 등을 실제로 하고 있어.</p>
+  <div class="cards">
+    <div class="surg ortho">
+      <div>
+        <div class="name"><span class="pri">⭐ 1</span>Total knee replacement (TKR)</div>
+        <div class="kr">인공 무릎관절 치환술</div>
+        <div class="dx">질환 · <b>Osteoarthritis</b> (골관절염)</div>
+      </div>
+      <div><div class="lbl">간호 포인트</div><div class="chips"><span>Pain</span><span>Wound</span><span>Neurovascular obs</span><span>Mobility · rehab</span><span>VTE prevention</span></div></div>
+    </div>
+    <div class="surg ortho">
+      <div>
+        <div class="name"><span class="pri">⭐ 1</span>Total hip replacement (THR)</div>
+        <div class="kr">인공 고관절 치환술</div>
+        <div class="dx">질환 · <b>Osteoarthritis</b>, 일부 <b>hip fracture</b> (고관절 골절)</div>
+      </div>
+      <div><div class="lbl">간호 포인트</div><div class="chips"><span>Weight-bearing orders</span><span>Hip precautions (수술 접근법별 움직임 제한)</span><span>Mobility</span></div></div>
+    </div>
+    <div class="surg ortho">
+      <div>
+        <div class="name"><span class="pri">⭐ 1</span>Open reduction internal fixation (ORIF)</div>
+        <div class="kr">골절을 맞추고 금속으로 고정하는 수술</div>
+        <div class="dx">질환 · <b>Fracture</b> (골절)</div>
+      </div>
+      <div><div class="lbl">간호 포인트</div><div class="chips"><span>Neurovascular obs</span><span>Bleeding · swelling</span><span>Compartment syndrome (구획증후군)</span><span>Weight-bearing limits</span></div></div>
+    </div>
+    <div class="surg ortho">
+      <div>
+        <div class="name"><span class="pri">2</span>Rotator cuff repair / shoulder replacement</div>
+        <div class="kr">회전근개 봉합 · 어깨관절 치환술</div>
+        <div class="dx">질환 · <b>Rotator cuff tear</b> (회전근개 파열), arthritis</div>
+      </div>
+      <div><div class="lbl">간호 포인트</div><div class="chips"><span>Sling</span><span>Arm movement limits</span><span>Hand sensation · circulation</span></div></div>
+    </div>
+    <div class="surg ortho">
+      <div>
+        <div class="name"><span class="pri">2</span>Spinal decompression / fusion</div>
+        <div class="kr">척추 감압술 · 유합술</div>
+        <div class="dx">질환 · <b>Spinal stenosis</b> (척추관 협착증)</div>
+      </div>
+      <div><div class="lbl">간호 포인트</div><div class="chips"><span>Leg strength · sensation</span><span>Bladder changes (배뇨 변화)</span><span>Log roll · transfers</span></div></div>
+    </div>
+  </div>
+
+  <!-- ===== Urology ===== -->
+  <h2>💧 Urology <span class="h2-note" style="margin:0;font-weight:400">· 배정되면 추가로</span></h2>
+  <p class="h2-note">병원에서 비뇨기과 수술도 하지만, 3B에 얼마나 입원하는지는 공개 자료로 확인되지 않았어.</p>
+  <div class="cards">
+    <div class="surg uro">
+      <div>
+        <div class="name">Transurethral resection of the prostate (TURP)</div>
+        <div class="kr">경요도 전립선 절제술</div>
+        <div class="dx">질환 · <b>Benign prostatic hyperplasia (BPH)</b> (양성 전립선 비대증)</div>
+      </div>
+      <div><div class="lbl">공부할 포인트</div><div class="chips"><span>Indwelling catheter (IDC)</span><span>Haematuria · clots</span><span>Continuous bladder irrigation (방광 세척)</span></div></div>
+    </div>
+    <div class="surg uro">
+      <div>
+        <div class="name">Ureteroscopy ± stent</div>
+        <div class="kr">요관경 · 스텐트 삽입</div>
+        <div class="dx">질환 · <b>Kidney / ureteric stones</b> (신장 · 요관 결석)</div>
+      </div>
+      <div><div class="lbl">공부할 포인트</div><div class="chips"><span>Urine output</span><span>Pain</span><span>Haematuria</span><span>Infection</span></div></div>
+    </div>
+    <div class="surg uro">
+      <div>
+        <div class="name">Nephrectomy</div>
+        <div class="kr">신장 절제술</div>
+        <div class="dx">질환 · <b>Kidney tumour</b> 등</div>
+      </div>
+      <div><div class="lbl">공부할 포인트</div><div class="chips"><span>Urine output</span><span>Renal function</span><span>Bleeding</span></div></div>
+    </div>
+    <div class="surg uro">
+      <div>
+        <div class="name">Prostatectomy</div>
+        <div class="kr">전립선 절제술</div>
+        <div class="dx">질환 · <b>Prostate cancer</b> (전립선암)</div>
+      </div>
+      <div><div class="lbl">공부할 포인트</div><div class="chips"><span>Indwelling catheter (IDC)</span><span>Wound · drain</span><span>Bleeding</span></div></div>
+    </div>
+  </div>
+
+  <!-- ===== Key concepts ===== -->
+  <h2>🔗 수술마다 연결할 간호 개념 5가지</h2>
+  <p class="h2-note">어떤 수술 환자를 받아도 이 5개로 사정하고 보고하면 돼.</p>
+  <div class="concepts">
+    <div class="concept wide">
+      <h3>🦵 Neurovascular assessment <span class="kr" style="font-weight:400;color:var(--muted);font-size:.78rem">수술한 팔다리 + 반대쪽 비교</span></h3>
+      <div class="nv">
+        <div><b>Pain</b><span>통증 · 진통제에 안 듣는 통증?</span></div>
+        <div><b>Colour</b><span>피부색 (창백 · 청색)</span></div>
+        <div><b>Temp</b><span>피부 온도</span></div>
+        <div><b>Cap refill</b><span>모세혈관 재충혈 &lt;2–3 sec</span></div>
+        <div><b>Pulses</b><span>말초 맥박 (dorsalis pedis 등)</span></div>
+        <div><b>Sensation · Movement</b><span>저림 · 감각 · 움직임</span></div>
+      </div>
+      <p class="note" style="margin-top:8px">⚠️ 진통제에도 안 잡히는 심한 통증 + 붓기 = <b style="color:var(--red)">compartment syndrome</b> 의심 → 바로 RN에게 보고.</p>
+    </div>
+    <div class="concept">
+      <h3>⚠️ Post-op complications</h3>
+      <ul>
+        <li>Bleeding (출혈)</li>
+        <li>Infection (감염)</li>
+        <li>Deep vein thrombosis (DVT) / pulmonary embolism (PE)</li>
+        <li>Urinary retention (요정체)</li>
+        <li>Constipation (변비)</li>
+        <li>Delirium (섬망)</li>
+      </ul>
+    </div>
+    <div class="concept">
+      <h3>💊 Pain management</h3>
+      <ul>
+        <li>Pain score 먼저 확인</li>
+        <li>Opioid 준 뒤 <b>respiratory rate (RR)</b> · <b>sedation score</b> 확인</li>
+        <li>30–60분 후 효과 재평가</li>
+        <li>약은 <a href="surgical_meds.html">Ward Meds</a>의 🦴 Ortho 필터에서</li>
+      </ul>
+    </div>
+    <div class="concept wide">
+      <h3>🚶 Mobility orders <span class="kr" style="font-weight:400;color:var(--muted);font-size:.78rem">체중 부하 지시 · 차트 · 버디 확인</span></h3>
+      <div class="wb">
+        <div class="n"><div class="k">NWB</div><div class="f">Non-weight bearing</div><div class="m">체중 부하 금지</div></div>
+        <div class="p"><div class="k">PWB</div><div class="f">Partial weight bearing</div><div class="m">부분 부하</div></div>
+        <div class="w"><div class="k">WBAT</div><div class="f">Weight bearing as tolerated</div><div class="m">견딜 수 있는 만큼 부하</div></div>
+      </div>
+    </div>
+    <div class="concept wide">
+      <h3>🩺 Comorbidities <span class="kr" style="font-weight:400;color:var(--muted);font-size:.78rem">기저질환</span></h3>
+      <ul>
+        <li><b>Diabetes</b> → 상처 회복 느림, blood glucose level (BGL) 관리, 금식 중 hypo 주의</li>
+        <li><b>Hypertension (HTN)</b> → 혈압약 hold 여부, 수술 후 저혈압 / 고혈압</li>
+        <li><b>Chronic kidney disease (CKD)</b> → 약 용량 조절, 수액 · fluid balance 관리</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout">💬 <span>첫날 버디에게 물어보기: <b>"What kind of surgeries do patients on 3B usually have?"</b> — 답에 맞춰 우선순위를 바꾸면 돼.</span></div>
+</main>
+
+<footer>Clinical Placement Study Hub · BPH 3B Surgeries</footer>
+</body>
+</html>
