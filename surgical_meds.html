@@ -147,6 +147,7 @@
   .qs-detail .k{display:block;font-size:.66rem;font-weight:700;color:var(--faint);text-transform:uppercase;letter-spacing:.04em}
   .qs-detail .v{color:var(--ink)}
   .qs-detail .v.se{color:#a2453a}
+  .qs-detail .v.cls{font-weight:700;color:var(--c)}
   .stem-detail{margin:12px 0 26px;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--c, var(--ink));border-radius:12px;padding:14px 16px;display:none}
   .stem-detail.show{display:block}
   .stem-detail .sd-top{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:6px}
@@ -917,6 +918,7 @@ function toggleStemDetail(btn){
   const x = STEM_POOL[+btn.dataset.k];
   btn.classList.add('sel');
   btn.insertAdjacentHTML('afterend', `<div class="qs-detail">
+    <div><span class="k">Drug class</span><span class="v cls">${x.cls}</span></div>
     <div><span class="k">Examples</span><span class="v">${x.ex}</span></div>
     <div><span class="k">Key point</span><span class="v">${x.note}</span></div>
     <div><span class="k">Side effects</span><span class="v se">${x.se}</span></div>
