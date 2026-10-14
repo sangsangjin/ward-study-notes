@@ -118,6 +118,51 @@
   .stems{max-width:860px;margin:0 auto;padding:24px 16px 40px}
   .lead{font-size:.9rem;color:var(--muted);margin-bottom:16px}
   .lead b{color:var(--ink);font-weight:600}
+  .board-bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:0 0 10px}
+  .board-bar .btn{padding:6px 12px;font-size:.82rem}
+  .board-bar .hint{font-size:.78rem;color:var(--faint);margin-left:auto}
+  .quad{display:grid;grid-template-columns:1fr 1fr;border:1.5px solid var(--ink);border-radius:18px;overflow:hidden;background:var(--card)}
+  .qd{padding:14px 14px 12px;background:var(--bg);min-width:0}
+  .qd:nth-child(1){border-right:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink)}
+  .qd:nth-child(2){border-bottom:1.5px solid var(--ink)}
+  .qd:nth-child(3){border-right:1.5px solid var(--ink)}
+  .qd-head{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px}
+  .qd-pos{font-size:1.2rem;line-height:1;color:var(--c);font-weight:900}
+  .qd-title{flex:1;min-width:0}
+  .qd-title b{display:block;color:var(--ink);font-size:.95rem;line-height:1.25}
+  .qd-title span{font-size:.72rem;color:var(--muted)}
+  .qd-quiz{flex:none;border:1px solid var(--c);color:var(--c);background:#fff;border-radius:999px;font-size:.7rem;font-weight:700;padding:2px 9px}
+  .qd-quiz:hover{background:var(--c);color:#fff}
+  .qd-sub{font-size:.66rem;font-weight:700;color:var(--c);letter-spacing:.06em;text-transform:uppercase;margin:8px 0 2px 6px;opacity:.85}
+  .qs{display:flex;align-items:baseline;justify-content:space-between;gap:8px;width:100%;text-align:left;border:none;background:none;padding:4px 6px;border-radius:7px}
+  .qs:hover{background:rgba(255,255,255,.75)}
+  .qs.sel{background:#fff;box-shadow:0 0 0 1.5px var(--c)}
+  .qs-stem{font-family:var(--mono);font-weight:700;color:var(--ink);font-size:.86rem;white-space:nowrap}
+  .qs-stem i{font-style:normal;color:#c58a00;font-size:.7rem;margin-left:2px}
+  .qs-cls{font-size:.76rem;color:var(--muted);text-align:right;line-height:1.35}
+  body.cover .qs-cls{filter:blur(5px);user-select:none}
+  body.cover .qs.peek .qs-cls{filter:none}
+  .qs-detail{margin:2px 0 6px;background:#fff;border-radius:8px;box-shadow:0 0 0 1.5px var(--c);padding:8px 10px;font-size:.8rem;line-height:1.5}
+  .qs-detail div + div{margin-top:4px}
+  .qs-detail .k{display:block;font-size:.66rem;font-weight:700;color:var(--faint);text-transform:uppercase;letter-spacing:.04em}
+  .qs-detail .v{color:var(--ink)}
+  .qs-detail .v.se{color:#a2453a}
+  .stem-detail{margin:12px 0 26px;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--c, var(--ink));border-radius:12px;padding:14px 16px;display:none}
+  .stem-detail.show{display:block}
+  .stem-detail .sd-top{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+  .stem-detail .sd-stem{font-family:var(--mono);font-weight:700;font-size:1.15rem;color:var(--ink)}
+  .stem-detail .sd-cls{font-size:.85rem;color:var(--muted)}
+  .stem-detail dl{display:grid;grid-template-columns:96px 1fr;gap:4px 12px;font-size:.88rem}
+  .stem-detail dt{color:var(--faint);font-size:.78rem;padding-top:2px}
+  .stem-detail dd{color:var(--ink)}
+  .stem-detail dd.se{color:#a2453a}
+  .details-title{font-size:.95rem;font-weight:800;color:var(--ink);margin:6px 0 10px}
+  .method{font-size:.82rem;color:var(--muted);background:var(--card);border:1px dashed var(--line);border-radius:10px;padding:10px 12px;margin-bottom:14px}
+  .method b{color:var(--ink)}
+  body.cover .stem-row .stem-right{filter:blur(6px);user-select:none;cursor:pointer;transition:filter .15s}
+  body.cover .stem-row .stem-class{filter:blur(5px);user-select:none}
+  body.cover .stem-row.peek .stem-right, body.cover .stem-row.peek .stem-class{filter:none;user-select:auto}
+  body.cover .stem-row{cursor:pointer}
   .stems-tools{display:flex;gap:12px;align-items:center;margin-bottom:18px;flex-wrap:wrap}
   .stems-tools .search{max-width:300px}
   .check-label{display:flex;align-items:center;gap:6px;font-size:.85rem;color:var(--muted);cursor:pointer}
@@ -207,6 +252,15 @@
     .sec{grid-template-columns:1fr;gap:6px}
     .sec h3 span{display:inline;margin-left:6px}
     .stem-row{grid-template-columns:1fr}
+    .qd{padding:10px 8px 8px}
+    .qd-head{flex-wrap:wrap}
+    .qd-title b{font-size:.84rem}
+    .qs{flex-direction:column;gap:0;padding:3px 5px}
+    .qs-cls{text-align:left;font-size:.7rem}
+    .qs-stem{font-size:.8rem;white-space:normal;word-break:break-word}
+    .qd-title span{display:block;font-size:.66rem}
+    .stem-detail dl{grid-template-columns:1fr;gap:0}
+    .stem-detail dd{margin-bottom:6px}
     .q-prompt{font-size:1.6rem}
     .card-front{padding:28px 20px 20px}
     .card-back{padding:18px 20px}
@@ -251,6 +305,14 @@
 <section class="view" id="view-stems">
   <div class="stems">
     <p class="lead">약 이름의 끝(<b>suffix</b>)이나 앞(<b>prefix</b>)을 보면 계열을 짐작할 수 있어. <b>WHO INN</b> stem 기반 — 호주에서는 brand보다 <b>generic name</b>이 중요해. <span class="tag common">★</span> 우선 암기</p>
+    <div class="method">🧭 <b>4사분면 암기법</b> — 위치로 기억해. <b>↖ 심장 · 피</b> · <b>↗ 감염 · 위장</b> · <b>↙ 통증 · 호흡</b> · <b>↘ 당뇨 · 면역 · 정신</b>. ① 판 전체를 눈에 담기 → ② <b>🙈 가리기</b>로 stem만 보고 계열 떠올리기 (누르면 정답) → ③ 사분면별 <b>Quiz</b>.</div>
+    <div class="board-bar">
+      <button class="btn" id="coverBtn">🙈 가리기</button>
+      <button class="btn primary" id="quizAllStems">Quiz all →</button>
+      <span class="hint">stem을 누르면 바로 밑에 설명</span>
+    </div>
+    <div class="quad" id="quad"></div>
+    <h3 class="details-title">📋 Details — 전체 표</h3>
     <div class="stems-tools">
       <input class="search" id="stemSearch" type="search" placeholder="Search stems or drugs…" autocomplete="off">
       <label class="check-label"><input type="checkbox" id="stemStar"> ★ only</label>
@@ -281,6 +343,7 @@
         <button data-deck="stems">Stems</button>
       </div>
       <div class="chips" id="deckOpts"></div>
+      <div class="chips" id="deckParts"></div>
     </div>
 
     <div class="progress"><div class="bar"><i id="bar"></i></div><span id="progText"></span></div>
@@ -816,10 +879,52 @@ $('detail').addEventListener('click', e => {
 });
 
 /* ================= STEMS ================= */
+const PARTS = [
+  {id:1, title:'Heart & Blood',        kr:'심장 · 혈압 · 항응고',   color:'#1d6fb8', groups:['Cardiovascular / Renal', 'Anticoagulants']},
+  {id:2, title:'Infection & Gut',      kr:'항생제 · 위장 · 구토',   color:'#bb851a', groups:['Antibiotics / Anti-Infectives', 'GI / Antiemetics']},
+  {id:3, title:'Pain & Breathing',     kr:'통증 · 진정 · 호흡기',   color:'#8e44ad', groups:['Pain / Anaesthesia / Sedation', 'Respiratory']},
+  {id:4, title:'Sugar, Immune & Mind', kr:'당뇨 · 스테로이드 · 정신', color:'#6c5ce7', groups:['Diabetes', 'Steroids / Immune', 'Psychiatry / Neurology']},
+];
+STEM_GROUPS.forEach(g => { g.part = PARTS.find(p => p.groups.includes(g.name)).id; });
 const STEM_POOL = STEM_GROUPS.flatMap(g => g.items.map(([stem, star, cls, ex, note, se]) => ({g, stem, star, cls, ex, note, se})));
+let stemPart = 0;
+const POS = {1:'↖', 2:'↗', 3:'↙', 4:'↘'};
+const QBG = {1:'#f1f6fd', 2:'#fdf7ea', 3:'#f7f1fb', 4:'#f2f0fd'};
+
+function renderQuad(){
+  $('quad').innerHTML = PARTS.map(p => {
+    const groups = STEM_GROUPS.filter(g => g.part === p.id);
+    const n = groups.reduce((a, g) => a + g.items.length, 0);
+    return `<div class="qd" style="--c:${p.color};--bg:${QBG[p.id]}">
+      <div class="qd-head">
+        <span class="qd-pos">${POS[p.id]}</span>
+        <div class="qd-title"><b>${p.title}</b><span>${p.kr} · ${n}</span></div>
+        <button class="qd-quiz" data-part="${p.id}">Quiz ▸</button>
+      </div>
+      ${groups.map(g => `<div class="qd-sub">${g.name.split(' / ')[0]}</div>` +
+        g.items.map(([stem, star, cls]) => {
+          const k = STEM_POOL.findIndex(x => x.stem === stem);
+          return `<button class="qs" data-k="${k}"><span class="qs-stem">${stem}${star ? '<i>★</i>' : ''}</span><span class="qs-cls">${cls}</span></button>`;
+        }).join('')).join('')}
+    </div>`;
+  }).join('');
+}
+function toggleStemDetail(btn){
+  const open = btn.nextElementSibling && btn.nextElementSibling.classList.contains('qs-detail');
+  $('quad').querySelectorAll('.qs-detail').forEach(d => d.remove());
+  $('quad').querySelectorAll('.qs.sel').forEach(x => x.classList.remove('sel'));
+  if (open) return;
+  const x = STEM_POOL[+btn.dataset.k];
+  btn.classList.add('sel');
+  btn.insertAdjacentHTML('afterend', `<div class="qs-detail">
+    <div><span class="k">Examples</span><span class="v">${x.ex}</span></div>
+    <div><span class="k">Key point</span><span class="v">${x.note}</span></div>
+    <div><span class="k">Side effects</span><span class="v se">${x.se}</span></div>
+  </div>`);
+}
 function renderStems(){
   const q = $('stemSearch').value.trim().toLowerCase(), starOnly = $('stemStar').checked;
-  $('stemGroups').innerHTML = STEM_GROUPS.map(g => {
+  $('stemGroups').innerHTML = STEM_GROUPS.filter(g => !stemPart || g.part === stemPart).map(g => {
     const rows = g.items.filter(([stem, star, cls, ex, note, se]) =>
       (!starOnly || star) && (!q || (stem + ' ' + cls + ' ' + ex + ' ' + note + ' ' + se).toLowerCase().includes(q)));
     if (!rows.length) return '';
@@ -828,18 +933,37 @@ function renderStems(){
       <div class="stem-table">${rows.map(([stem, star, cls, ex, note, se]) => `
         <div class="stem-row">
           <div><div class="stem-name">${stem}${star ? '<span class="tag common">★</span>' : ''}</div><div class="stem-class">${cls}</div></div>
-          <div><div class="stem-ex">${ex}</div><div class="stem-note">${note}</div><div class="stem-se">⚠️ ${se}</div></div>
+          <div class="stem-right"><div class="stem-ex">${ex}</div><div class="stem-note">${note}</div><div class="stem-se">⚠️ ${se}</div></div>
         </div>`).join('')}</div>
     </div>`;
   }).join('') || '<p class="empty">No results</p>';
 }
 $('stemSearch').addEventListener('input', renderStems);
+$('quad').addEventListener('click', e => {
+  const qb = e.target.closest('.qd-quiz');
+  if (qb){ quiz.deck = 'stems'; quiz.opt = 'stem'; quiz.part = +qb.dataset.part; setView('quiz'); startQuiz(); return; }
+  const b = e.target.closest('.qs'); if (!b) return;
+  if (document.body.classList.contains('cover')){ b.classList.toggle('peek'); return; }
+  toggleStemDetail(b);
+});
+$('quizAllStems').addEventListener('click', () => { quiz.deck = 'stems'; quiz.opt = 'stem'; quiz.part = 'all'; setView('quiz'); startQuiz(); });
+$('coverBtn').addEventListener('click', () => {
+  const on = document.body.classList.toggle('cover');
+  $('coverBtn').textContent = on ? '👀 다 보기' : '🙈 가리기';
+  document.querySelectorAll('#stemGroups .peek, #quad .peek').forEach(r => r.classList.remove('peek'));
+  $('quad').querySelectorAll('.qs-detail').forEach(d => d.remove());
+  $('quad').querySelectorAll('.qs.sel').forEach(x => x.classList.remove('sel'));
+});
+$('stemGroups').addEventListener('click', e => {
+  if (!document.body.classList.contains('cover')) return;
+  const r = e.target.closest('.stem-row'); if (r) r.classList.toggle('peek');
+});
 $('stemStar').addEventListener('change', renderStems);
 $('thinking').innerHTML = STEM_THINKING.map(([drug, stem, ...rest]) =>
   `<div class="flow"><b>${drug}</b><i>→</i><code>${stem}</code>${rest.map(x => `<i>→</i><span>${x}</span>`).join('')}</div>`).join('');
 
 /* ================= QUIZ ================= */
-const quiz = {deck:'drugs', opt:'ward', queue:null, total:0, done:0, card:null, revealed:false, firstTry:0, missed:new Set()};
+const quiz = {deck:'drugs', opt:'ward', part:'all', queue:null, total:0, done:0, card:null, revealed:false, firstTry:0, missed:new Set()};
 const DECK_OPTS = {
   drugs: [{id:'ward', name:'📍 My ward'}, {id:'star', name:'★ Common'}, {id:'ortho', name:'🦴 Ortho'}, {id:'gen', name:'🩹 Gen / Bowel'}, {id:'uro', name:'💧 Uro'}, {id:'all', name:'All drugs'}],
   stems: [{id:'stem', name:'Stem → class'}, {id:'drug', name:'Drug → stem'}, {id:'starstem', name:'★ only'}],
@@ -859,7 +983,7 @@ function buildDeck(){
   if (quiz.deck === 'drugs'){
     return DRUGS.filter(d => matchFilter(d, quiz.opt)).map(d => ({type:'drug', d, a:ASPECTS[Math.floor(Math.random() * 3)]}));
   }
-  const pool = quiz.opt === 'starstem' ? STEM_POOL.filter(s => s.star) : STEM_POOL;
+  const pool = STEM_POOL.filter(s => (quiz.opt !== 'starstem' || s.star) && (quiz.part === 'all' || s.g.part === quiz.part));
   return pool.map(s => ({type: quiz.opt === 'drug' ? 'drug2stem' : 'stem', s,
     drug: (ds => ds[Math.floor(Math.random() * ds.length)])(exampleDrugs(s.ex))}));
 }
@@ -868,6 +992,9 @@ function startQuiz(){
   quiz.total = quiz.queue.length; quiz.done = 0; quiz.firstTry = 0; quiz.missed = new Set();
   $('deckSeg').querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.deck === quiz.deck));
   $('deckOpts').innerHTML = DECK_OPTS[quiz.deck].map(o => `<button class="chip${o.id === quiz.opt ? ' on' : ''}" data-id="${o.id}">${o.name}</button>`).join('');
+  $('deckParts').innerHTML = quiz.deck !== 'stems' ? '' :
+    [{id:'all', name:'All quadrants'}, ...PARTS.map(p => ({id:p.id, name:`${POS[p.id]} ${p.title}`}))]
+      .map(o => `<button class="chip${o.id === quiz.part ? ' on' : ''}" data-part="${o.id}">${o.name}</button>`).join('');
   $('tip').innerHTML = TIPS[quiz.deck];
   nextCard();
 }
@@ -930,6 +1057,10 @@ $('deckSeg').addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b) return;
   quiz.deck = b.dataset.deck; quiz.opt = DECK_OPTS[quiz.deck][0].id; startQuiz();
 });
+$('deckParts').addEventListener('click', e => {
+  const b = e.target.closest('.chip'); if (!b) return;
+  quiz.part = b.dataset.part === 'all' ? 'all' : +b.dataset.part; startQuiz();
+});
 $('deckOpts').addEventListener('click', e => {
   const b = e.target.closest('.chip'); if (!b) return;
   quiz.opt = b.dataset.id; startQuiz();
@@ -960,6 +1091,7 @@ document.addEventListener('keydown', e => {
 renderFilters();
 renderList();
 renderDetail();
+renderQuad();
 renderStems();
 const initial = location.hash.slice(1);
 if (initial === 'stems' || initial === 'quiz') setView(initial);
