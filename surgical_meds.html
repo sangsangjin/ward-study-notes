@@ -393,14 +393,14 @@ const DRUGS = [
    say:'It’s an adjuvant for nerve pain and to reduce opioid use. It calms overactive nerves. It can cause dizziness and sedation, so I monitor sedation and falls risk, especially with opioids.'},
 
   // ---------- Opioids ----------
-  {cat:'opioid', star:true, s8:true, surg:['ortho','gen','uro'], brand:'Endone', generic:'Oxycodone (IR)', cls:'Opioid — mu agonist', stem:'-codone',
+  {cat:'opioid', star:true, s8:true, surg:['ortho','gen','uro'], brand:'Endone', generic:'Oxycodone (IR)', cls:'Opioid — mu agonist', stem:'—',
    why:'<b>Moderate–severe post-op pain</b>, 특히 <b>PRN breakthrough pain</b>',
    how:'Brain · spinal cord의 <b>mu opioid receptor</b> 자극 → <b>pain signal transmission ↓</b>, <b>pain perception ↓</b>',
    se:['<b>Respiratory depression</b> (most dangerous)','<b>Sedation</b>, <b>dizziness</b> → falls','<b>Constipation</b> (almost always), <b>nausea & vomiting</b>','<b>Urinary retention</b>, <b>pruritus</b>, <b>hypotension</b>'],
    check:['Before: <b>pain score, sedation score, RR</b>','<b>S8</b> → <b>2 RN check</b> + <b>drug register</b>','<b>Re-assess</b> effect 30–60 min after','<b>Aperients</b> charted?','<b>Naloxone</b> 위치 알기'],
    say:'It’s an immediate-release opioid for moderate to severe pain. It acts on mu receptors in the brain and spinal cord. The biggest risk is respiratory depression, so I check pain score, sedation score and resp rate before and after giving it.'},
 
-  {cat:'opioid', star:true, s8:true, surg:['ortho','gen'], brand:'Targin', generic:'Oxycodone + Naloxone (CR)', cls:'Controlled-release opioid', stem:'-codone',
+  {cat:'opioid', star:true, s8:true, surg:['ortho','gen'], brand:'Targin', generic:'Oxycodone + Naloxone (CR)', cls:'Controlled-release opioid', stem:'—',
    why:'<b>Ongoing post-op pain</b> — <b>12-hourly baseline</b> analgesia. Breakthrough → <b>Endone PRN</b>',
    how:'<b>Oxycodone</b> = pain relief. <b>Naloxone</b> = oral로 먹으면 <b>gut</b>에서만 작용 (<b>low bioavailability</b>) → gut opioid receptor block → <b>constipation ↓</b>',
    se:['Same as oxycodone: <b>respiratory depression, sedation, nausea</b>','<b>Constipation</b> — less, but still possible'],
@@ -429,14 +429,14 @@ const DRUGS = [
    say:'It’s an opioid antagonist used to reverse respiratory depression from opioids. Because it wears off faster than most opioids, I keep monitoring for re-sedation, and the pain may come back.'},
 
   // ---------- Antiemetics ----------
-  {cat:'nausea', star:true, surg:['gen','ortho','uro'], brand:'Zofran', generic:'Ondansetron', cls:'Serotonin 5-HT3 receptor antagonist (5-HT3 antagonist)', stem:'-setron',
+  {cat:'nausea', star:true, surg:['gen','ortho','uro'], brand:'Zofran', generic:'Ondansetron', cls:'Serotonin 5-HT3 receptor antagonist (5-HT3 antagonist)', stem:'—',
    why:'<b>PONV</b> (post-operative nausea & vomiting), <b>opioid-induced nausea</b>',
    how:'Gut + brain (<b>CTZ / vomiting centre</b>)의 <b>serotonin (5-HT3) receptor</b> block → vomiting signal ↓',
    se:['<b>Headache</b>','<b>Constipation</b> (+ opioids → worse)','<b>QT prolongation</b>'],
    check:['<b>Re-assess</b>: nausea score, vomiting episodes','<b>QT-prolonging drugs</b> / <b>cardiac history</b>','<b>Bowel chart</b>'],
    say:'It’s a 5-HT3 antagonist for post-op nausea and vomiting. It blocks serotonin receptors in the gut and brain. Side effects include headache, constipation and QT prolongation.'},
 
-  {cat:'nausea', star:true, surg:['gen'], brand:'Maxolon', generic:'Metoclopramide', cls:'Dopamine (D2) antagonist + prokinetic', stem:'-pramide',
+  {cat:'nausea', star:true, surg:['gen'], brand:'Maxolon', generic:'Metoclopramide', cls:'Dopamine (D2) antagonist + prokinetic', stem:'—',
    why:'<b>Nausea & vomiting</b>, <b>gastric emptying</b> 촉진 필요할 때',
    how:'<b>CTZ</b>의 <b>dopamine (D2) receptor</b> block + <b>prokinetic</b> (<b>GI motility ↑</b>)',
    se:['<b>Extrapyramidal side effects (EPS)</b>: dystonia, rigidity (young women, elderly ↑)','<b>Drowsiness</b>, <b>restlessness</b>'],
@@ -616,14 +616,14 @@ const DRUGS = [
    check:['<b>Give BEFORE glucose / dextrose</b> (glucose 먼저 → Wernicke’s 악화 가능)','<b>Wernicke’s signs</b>: confusion, ataxia, ophthalmoplegia','<b>Alcohol withdrawal</b> monitoring (often with oxazepam)','<b>Nutrition</b>, refeeding — K+, Mg, PO4'],
    say:'It’s vitamin B1, given to patients with alcohol misuse or malnutrition to prevent Wernicke’s encephalopathy. It’s a coenzyme for glucose metabolism, so it should be given before any glucose. It’s very safe.'},
   // ---------- surgical additions (ortho / gen-bowel / uro) ----------
-  {cat:'opioid', s8:true, surg:['gen','ortho'], brand:'PCA / MS Contin', generic:'Morphine', cls:'Opioid — mu agonist', stem:'morph-',
+  {cat:'opioid', s8:true, surg:['gen','ortho'], brand:'PCA / MS Contin', generic:'Morphine', cls:'Opioid — mu agonist', stem:'—',
    why:'<b>Severe post-op pain</b> — <b>PCA</b> (patient-controlled analgesia), IV / SC / oral. Big <b>abdominal surgery</b> 후 많이 씀',
    how:'<b>Mu opioid receptor</b> 자극 → <b>pain transmission ↓</b>. Liver에서 대사 → <b>active metabolites</b>는 kidney로 배설',
    se:['<b>Respiratory depression</b>, <b>sedation</b>','<b>Nausea / vomiting</b>, <b>pruritus</b>','<b>Constipation</b>, <b>urinary retention</b>','<b>Hypotension</b>','<b>Renal impairment</b> → metabolites 축적 → toxicity'],
    check:['<b>PCA obs</b> (보통 hourly): <b>pain, sedation score, RR</b>, SpO₂','<b>Only the patient</b> presses the PCA button','<b>Renal function</b>','<b>Naloxone</b> + antiemetic charted?','S8 → <b>2 RN check</b>, PCA syringe 확인'],
    say:'It’s a strong opioid, often given via PCA after major surgery. It acts on mu receptors. I do regular PCA observations of pain, sedation score and resp rate, and only the patient should press the button. It can accumulate in renal impairment.'},
 
-  {cat:'opioid', s8:true, surg:['gen','ortho'], brand:'Sublimaze / Durogesic', generic:'Fentanyl', cls:'Synthetic opioid — potent mu agonist', stem:'fenta-',
+  {cat:'opioid', s8:true, surg:['gen','ortho'], brand:'Sublimaze / Durogesic', generic:'Fentanyl', cls:'Synthetic opioid — potent mu agonist', stem:'—',
    why:'<b>Severe pain</b> — <b>PCA</b> (esp. <b>renal impairment</b>), intra-op / recovery IV, <b>patches</b> = chronic pain only',
    how:'<b>Mu receptor</b> agonist — <b>~100× morphine</b> potency, <b>lipid soluble</b> → <b>fast onset</b>, short duration (IV). <b>No active metabolites</b> → renal impairment에 선호',
    se:['<b>Respiratory depression</b> (rapid, potent)','<b>Sedation</b>, nausea','Rapid high-dose IV → <b>chest wall rigidity</b>'],
@@ -672,7 +672,7 @@ const DRUGS = [
    check:['<b>HIGH ALERT</b>: IV <b>never push</b>, <b>premixed bag</b>, <b>pump</b>, max rate <b>per policy</b>','<b>K⁺ level</b>, <b>renal function</b>, urine output','High rates → <b>cardiac monitoring</b>','Oral → <b>with food</b>; Slow-K swallow whole, Chlorvescent dissolve'],
    say:'It’s potassium replacement for hypokalaemia, which is common after surgery or with diuretics and GI losses. IV potassium is high alert: it’s never pushed, only given as a premixed bag on a pump within the policy rate, and I monitor K levels and renal function.'},
 
-  {cat:'fluid', surg:['gen','ortho','uro'], brand:'Diabex / Diaformin', generic:'Metformin', cls:'Biguanide', stem:'-formin',
+  {cat:'fluid', surg:['gen','ortho','uro'], brand:'Diabex / Diaformin', generic:'Metformin', cls:'Biguanide', stem:'—',
    why:'<b>Type 2 diabetes</b> 1st line — 수술 환자의 흔한 <b>regular med</b>',
    how:'Liver <b>glucose production ↓</b> + <b>insulin sensitivity ↑</b> → <b>BGL ↓</b> (단독으로는 hypo 거의 X)',
    se:['<b>GI upset</b> — nausea, <b>diarrhoea</b>','<b>Lactic acidosis</b> (rare) — renal impairment, dehydration, sepsis','Long-term → <b>B12 deficiency</b>'],
@@ -715,32 +715,32 @@ const STEM_GROUPS = [
   {name:'Anticoagulants', kr:'항응고제', color:'#c0392b', items:[
     ['-parin', true, 'Heparin family', 'heparin, enoxaparin, dalteparin', 'Blood thinner injection — boosts antithrombin → stops clots like deep vein thrombosis (DVT). Watch bleeding.', 'Bleeding, heparin-induced thrombocytopenia (HIT) — platelets ↓'],
     ['-xaban', true, 'Direct Oral Anticoagulant (DOAC) — Factor Xa Inhibitor', 'apixaban, rivaroxaban', 'Blood thinner tablet — directly blocks clotting factor Xa → stops new clots. For atrial fibrillation (AF).', 'Bleeding'],
-    ['-gatran', false, 'Direct Oral Anticoagulant (DOAC) — Direct Thrombin Inhibitor', 'dabigatran', 'Blood thinner tablet — directly blocks thrombin, the last step of clotting. Mainly for atrial fibrillation (AF).', 'Bleeding, dyspepsia'],
+    ['dabigatran', false, 'Direct Oral Anticoagulant (DOAC) — Direct Thrombin Inhibitor', 'dabigatran', 'Blood thinner tablet — directly blocks thrombin, the last step of clotting. Mainly for atrial fibrillation (AF).', 'Bleeding, dyspepsia'],
     ['warfarin', false, 'Vitamin K Antagonist (VKA)', 'warfarin', 'Blocks vitamin K, needed to make clotting factors. Needs regular International Normalised Ratio (INR) blood tests.', 'Bleeding when the INR is too high, many food (vitamin K) and drug interactions'],
   ]},
   {name:'Antibiotics / Anti-Infectives', kr:'항생제 · 감염', color:'#bb851a', items:[
     ['-cillin', true, 'Penicillin', 'amoxicillin, flucloxacillin, piperacillin', 'Breaks the bacteria’s cell wall → bacteria burst. Chest, skin, throat infections. Check penicillin allergy!', 'Allergy / anaphylaxis, diarrhoea, Clostridioides difficile (C. diff)'],
     ['cef- / ceph-', false, 'Cephalosporin', 'cefazolin, ceftriaxone, cefepime', 'Penicillin’s cousin — breaks the cell wall. Cefazolin = surgery prophylaxis; ceftriaxone = serious infections.', 'Allergy, diarrhoea, Clostridioides difficile (C. diff)'],
     ['-floxacin', true, 'Fluoroquinolone', 'ciprofloxacin, moxifloxacin', 'Stops bacteria copying their DNA → kills many types. The tablet works almost as well as intravenous (IV).', 'Tendinitis / tendon rupture, QT prolongation, confusion (elderly), Clostridioides difficile (C. diff)'],
-    ['-cycline', false, 'Tetracycline', 'doxycycline', 'Stops bacteria making the proteins they need to grow. Doxycycline: chest and skin infections.', 'Photosensitivity, oesophagitis (take with water, sit upright)'],
+    ['doxycycline', false, 'Tetracycline', 'doxycycline', 'Stops bacteria making the proteins they need to grow. Doxycycline: chest and skin infections.', 'Photosensitivity, oesophagitis (take with water, sit upright)'],
     ['-mycin', false, 'Various classes (careful!)', 'azithromycin (macrolide), gentamicin (aminoglycoside), vancomycin (glycopeptide)', 'Azithromycin = chest infections, gentamicin = serious urine / blood infections, vancomycin = resistant staph.', 'Macrolide → gastrointestinal (GI) upset, QT prolongation · Aminoglycoside → nephro/ototoxicity · Vancomycin → nephrotoxicity, infusion reaction'],
     ['-penem', false, 'Carbapenem', 'meropenem, ertapenem', 'Covers almost every bacteria. Last-line intravenous (IV) antibiotic for serious or resistant infections.', 'Allergy, diarrhoea / Clostridioides difficile (C. diff), seizures (high dose)'],
     ['-azole', true, 'Antifungal / Antimicrobial', 'fluconazole (antifungal), metronidazole (anaerobes)', 'Fluconazole kills fungus (such as thrush). Metronidazole kills anaerobic gut bacteria.', 'Fluconazole → liver function tests (LFTs) ↑, QT prolongation · Metronidazole → metallic taste, alcohol reaction'],
   ]},
   {name:'GI / Antiemetics', kr:'위장약 · 구토', color:'#0f766e', items:[
     ['-prazole', true, 'Proton Pump Inhibitor (PPI)', 'pantoprazole, omeprazole, esomeprazole', 'Switches off the stomach’s acid pumps → less acid. For reflux, ulcers and stomach protection.', 'Headache, diarrhoea · long-term → hypomagnesaemia, Clostridioides difficile (C. diff)'],
-    ['-tidine', false, 'Histamine-2 Receptor Antagonist (H2RA, H2 blocker)', 'famotidine', 'Blocks the histamine signal that tells the stomach to make acid → less acid. Weaker than -prazole.', 'Headache, confusion (elderly)'],
-    ['-setron', true, 'Serotonin 5-HT3 Receptor Antagonist (5-HT3 antagonist)', 'ondansetron', 'Blocks serotonin signals that trigger vomiting → nausea ↓. First choice for nausea after surgery.', 'Headache, constipation, QT prolongation'],
-    ['-pramide', false, 'Dopamine D2 Antagonist + Prokinetic', 'metoclopramide', 'Blocks dopamine in the vomiting centre + empties the stomach faster → nausea ↓.', 'Extrapyramidal side effects (EPS) such as dystonia, drowsiness — contraindicated in bowel obstruction'],
+    ['famotidine', false, 'Histamine-2 Receptor Antagonist (H2RA, H2 blocker)', 'famotidine', 'Blocks the histamine signal that tells the stomach to make acid → less acid. Weaker than -prazole.', 'Headache, confusion (elderly)'],
+    ['ondansetron', true, 'Serotonin 5-HT3 Receptor Antagonist (5-HT3 antagonist)', 'ondansetron', 'Blocks serotonin signals that trigger vomiting → nausea ↓. First choice for nausea after surgery.', 'Headache, constipation, QT prolongation'],
+    ['metoclopramide', false, 'Dopamine D2 Antagonist + Prokinetic', 'metoclopramide', 'Blocks dopamine in the vomiting centre + empties the stomach faster → nausea ↓.', 'Extrapyramidal side effects (EPS) such as dystonia, drowsiness — contraindicated in bowel obstruction'],
     ['-lax / lact- / macrogol', false, 'Laxative', 'lactulose, macrogol', 'Draws water into the bowel → softer stool, easier to pass. Treats or prevents constipation (opioids).', 'Bloating, cramps, diarrhoea → electrolyte imbalance'],
   ]},
   {name:'Pain / Anaesthesia / Sedation', kr:'통증 · 마취 · 진정', color:'#8e44ad', items:[
     ['-caine', true, 'Local Anaesthetic', 'lignocaine / lidocaine, bupivacaine', 'Blocks sodium channels in nerves → that area goes numb. Nerve blocks, epidurals, procedures.', 'Local anaesthetic systemic toxicity (LAST): perioral numbness, tinnitus → seizures, arrhythmia'],
-    ['-codone', false, 'Opioid', 'oxycodone', 'Opioid tablet → strong pain relief via brain & spinal cord. Can slow breathing → check respiratory rate (RR).', 'Respiratory depression, sedation, constipation, nausea'],
-    ['morph-', false, 'Opioid', 'morphine', 'Classic strong opioid — often via a patient-controlled analgesia (PCA) pump. Builds up in kidney failure.', 'Respiratory depression, sedation, constipation, pruritus, nausea and vomiting'],
-    ['fenta-', false, 'Opioid', 'fentanyl', 'About 100× stronger than morphine, works in minutes. Safer in kidney failure. Patches = long-term pain only.', 'Respiratory depression, sedation (very potent)'],
+    ['oxycodone', false, 'Opioid', 'oxycodone', 'Opioid tablet → strong pain relief via brain & spinal cord. Can slow breathing → check respiratory rate (RR).', 'Respiratory depression, sedation, constipation, nausea'],
+    ['morphine', false, 'Opioid', 'morphine', 'Classic strong opioid — often via a patient-controlled analgesia (PCA) pump. Builds up in kidney failure.', 'Respiratory depression, sedation, constipation, pruritus, nausea and vomiting'],
+    ['fentanyl', false, 'Opioid', 'fentanyl', 'About 100× stronger than morphine, works in minutes. Safer in kidney failure. Patches = long-term pain only.', 'Respiratory depression, sedation (very potent)'],
     ['-pam / -lam', true, 'Benzodiazepine', 'diazepam, midazolam, lorazepam', 'Boosts GABA, the brain’s calming signal → less anxiety, sleepy, stops seizures. Watch breathing & falls.', 'Sedation, falls, respiratory depression (+ opioids), dependence'],
-    ['-fenac', false, 'Non-Steroidal Anti-Inflammatory Drug (NSAID)', 'diclofenac', 'Blocks cyclo-oxygenase (COX) enzymes → pain, swelling & fever ↓ (like ibuprofen). Give with food.', 'Gastrointestinal (GI) bleeding, acute kidney injury (AKI), cardiovascular (CV) risk ↑'],
+    ['diclofenac', false, 'Non-Steroidal Anti-Inflammatory Drug (NSAID)', 'diclofenac', 'Blocks cyclo-oxygenase (COX) enzymes → pain, swelling & fever ↓ (like ibuprofen). Give with food.', 'Gastrointestinal (GI) bleeding, acute kidney injury (AKI), cardiovascular (CV) risk ↑'],
     ['-coxib', false, 'Cyclo-oxygenase-2 (COX-2) Selective Non-Steroidal Anti-Inflammatory Drug (NSAID)', 'celecoxib, parecoxib', 'Blocks only COX-2, the inflammation enzyme → pain & swelling ↓ with less stomach damage.', 'Acute kidney injury (AKI), fluid retention, cardiovascular (CV) risk ↑ — less gastrointestinal (GI) bleeding than other NSAIDs'],
   ]},
   {name:'Respiratory', kr:'호흡기', color:'#2c8c6a', items:[
@@ -749,7 +749,7 @@ const STEM_GROUPS = [
     ['-sonide / -asone', false, 'Inhaled Corticosteroid (ICS)', 'budesonide, fluticasone', 'Inhaled steroid → calms airway swelling. Daily “preventer”, not for attacks. Rinse mouth after.', 'Oral thrush, hoarse voice → rinse mouth after use'],
   ]},
   {name:'Diabetes', kr:'당뇨', color:'#6c5ce7', items:[
-    ['-formin', true, 'Biguanide', 'metformin', 'Liver releases less sugar + insulin works better → blood glucose level (BGL) ↓. Rarely causes hypos.', 'Gastrointestinal (GI) upset such as diarrhoea, lactic acidosis (rare), vitamin B12 ↓'],
+    ['metformin', true, 'Biguanide', 'metformin', 'Liver releases less sugar + insulin works better → blood glucose level (BGL) ↓. Rarely causes hypos.', 'Gastrointestinal (GI) upset such as diarrhoea, lactic acidosis (rare), vitamin B12 ↓'],
     ['-gliflozin', true, 'Sodium-Glucose Co-Transporter 2 Inhibitor (SGLT2i)', 'empagliflozin, dapagliflozin', 'Kidneys excrete extra sugar in the urine → blood glucose level (BGL) ↓. Also protects heart & kidneys.', 'Urinary tract infection (UTI) / genital thrush, dehydration, euglycaemic diabetic ketoacidosis (DKA)'],
     ['-gliptin', true, 'Dipeptidyl Peptidase-4 Inhibitor (DPP-4i)', 'sitagliptin, linagliptin', 'Stops gut hormones (incretins) breaking down → more insulin after meals → blood glucose level (BGL) ↓.', 'Usually well tolerated — pancreatitis (rare), joint pain'],
     ['-tide', false, 'Glucagon-Like Peptide-1 Receptor Agonist (GLP-1 RA)', 'semaglutide, dulaglutide', 'Copies a gut hormone → more insulin, feel full sooner → blood glucose level (BGL) ↓, weight ↓.', 'Nausea / vomiting, delayed gastric emptying (aspiration risk around surgery), pancreatitis (rare)'],
@@ -986,7 +986,8 @@ function buildDeck(){
   if (quiz.deck === 'drugs'){
     return DRUGS.filter(d => matchFilter(d, quiz.opt)).map(d => ({type:'drug', d, a:ASPECTS[Math.floor(Math.random() * 3)]}));
   }
-  const pool = STEM_POOL.filter(s => (quiz.opt !== 'starstem' || s.star) && (quiz.part === 'all' || s.g.part === quiz.part));
+  const pool = STEM_POOL.filter(s => (quiz.opt !== 'starstem' || s.star) && (quiz.part === 'all' || s.g.part === quiz.part)
+    && !(quiz.opt === 'drug' && s.stem === s.ex));
   return pool.map(s => ({type: quiz.opt === 'drug' ? 'drug2stem' : 'stem', s,
     drug: (ds => ds[Math.floor(Math.random() * ds.length)])(exampleDrugs(s.ex))}));
 }
