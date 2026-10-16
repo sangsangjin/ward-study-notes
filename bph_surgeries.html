@@ -60,7 +60,7 @@
 
   /* key concepts */
   .concepts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-  .concept{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .concept{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;min-width:0}
   .concept h3{font-size:.92rem;font-weight:800;color:var(--ink);margin-bottom:6px;display:flex;align-items:center;gap:6px}
   .concept p, .concept li{font-size:.86rem}
   .concept ul{list-style:none;display:grid;gap:3px}
@@ -78,12 +78,34 @@
   .wb .m{font-size:.72rem;color:var(--muted)}
   .wb .n{border-left:3px solid var(--red)} .wb .p{border-left:3px solid var(--amber)} .wb .w{border-left:3px solid var(--ortho)}
 
+  .nv-when{font-size:.84rem;color:var(--text);margin-bottom:10px}
+  .nv-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+  .nv-tbl{width:100%;border-collapse:collapse;font-size:.82rem}
+  .nv-tbl th,.nv-tbl td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  .nv-tbl tr:last-child td{border-bottom:none}
+  .nv-tbl th{background:var(--soft);font-size:.72rem;color:var(--ink);white-space:nowrap}
+  .nv-tbl td:first-child{font-family:var(--mono);font-weight:700;color:var(--ortho);width:24px}
+  .nv-tbl td b{display:block;color:var(--ink)}
+  .nv-tbl td span{font-size:.72rem;color:var(--muted)}
+  .nv-tbl td.bad{color:var(--red)}
+  .nv-foot{margin-top:10px;display:grid;gap:6px;font-size:.84rem}
+  .nv-foot .chart{background:var(--soft);border-radius:8px;padding:8px 10px;color:var(--text)}
   .callout{display:flex;gap:10px;background:var(--amber-soft);border:1px solid #f1dfb6;border-radius:12px;padding:12px 14px;font-size:.86rem;margin-top:12px}
 
   footer{text-align:center;color:var(--faint);font-size:.76rem;padding:10px 0 40px}
 
   @media (max-width:680px){
     .surg{grid-template-columns:1fr}
+    .nv-wrap{border:none;overflow:visible}
+    .nv-tbl thead{display:none}
+    .nv-tbl, .nv-tbl tbody{display:block}
+    .nv-tbl tr{display:grid;grid-template-columns:22px 1fr;gap:2px 8px;padding:10px 0;border-bottom:1px solid var(--line)}
+    .nv-tbl tr:last-child{border-bottom:none}
+    .nv-tbl td{border:none;padding:0;display:block}
+    .nv-tbl td:first-child{grid-row:span 4;width:auto}
+    .nv-tbl td:nth-child(3)::before{content:'How · ';font-weight:700;color:var(--faint);font-size:.72rem}
+    .nv-tbl td:nth-child(4)::before{content:'Normal · ';font-weight:700;color:var(--faint);font-size:.72rem}
+    .nv-tbl td:nth-child(5)::before{content:'Report if · ';font-weight:700;color:var(--faint);font-size:.72rem}
     .concepts{grid-template-columns:1fr}
     .nv{grid-template-columns:repeat(3,minmax(0,1fr))}
     .wb{grid-template-columns:1fr}
@@ -203,16 +225,26 @@
   <p class="h2-note">어떤 수술 환자를 받아도 이 5개로 사정하고 보고하면 돼.</p>
   <div class="concepts">
     <div class="concept wide">
-      <h3>🦵 Neurovascular assessment <span class="kr" style="font-weight:400;color:var(--muted);font-size:.78rem">수술한 팔다리 + 반대쪽 비교</span></h3>
-      <div class="nv">
-        <div><b>Pain</b><span>통증 · 진통제에 안 듣는 통증?</span></div>
-        <div><b>Colour</b><span>피부색 (창백 · 청색)</span></div>
-        <div><b>Temp</b><span>피부 온도</span></div>
-        <div><b>Cap refill</b><span>모세혈관 재충혈 &lt;2–3 sec</span></div>
-        <div><b>Pulses</b><span>말초 맥박 (dorsalis pedis 등)</span></div>
-        <div><b>Sensation · Movement</b><span>저림 · 감각 · 움직임</span></div>
+      <h3>🦵 Neurovascular assessment <span class="kr" style="font-weight:400;color:var(--muted);font-size:.78rem">신경혈관 사정 · 피가 잘 가는지 + 신경이 살아 있는지</span></h3>
+      <p class="nv-when"><b>언제</b> — 정형외과 수술 후, 골절, cast · 부목 · 꽉 조이는 드레싱. <b>빈도</b>는 병원 정책 · 처방대로 (수술 직후 자주 → 안정되면 4시간마다 등). <b>항상 반대쪽 팔다리와 비교.</b></p>
+      <div class="nv-wrap"><table class="nv-tbl">
+        <thead><tr><th>#</th><th>Check</th><th>How</th><th>Normal</th><th>Report if</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td><b>Pain</b><span>통증</span></td><td>“Can you rate your pain 0–10?”</td><td>진통제로 조절됨</td><td class="bad">진통제에도 안 듣는 심한 통증, 손발가락을 펴줄 때 더 아픔</td></tr>
+          <tr><td>2</td><td><b>Colour</b><span>색</span></td><td>손톱 끝 · 발가락 피부색 보기</td><td>분홍색, 양쪽 같음</td><td class="bad">창백 (pale), 푸르스름 (cyanosed), 얼룩덜룩</td></tr>
+          <tr><td>3</td><td><b>Temperature</b><span>온도</span></td><td>손등으로 양쪽 동시에 만지기</td><td>따뜻함, 양쪽 같음</td><td class="bad">차가움</td></tr>
+          <tr><td>4</td><td><b>Capillary refill</b><span>모세혈관 재충혈</span></td><td>손톱을 5초 누르고 떼서 색 돌아오는 시간 세기</td><td>2 seconds 이내</td><td class="bad">3 seconds 넘음</td></tr>
+          <tr><td>5</td><td><b>Pulses</b><span>맥박</span></td><td>다리: dorsalis pedis · posterior tibial / 팔: radial</td><td>잘 만져짐, 양쪽 같음</td><td class="bad">약하거나 안 만져짐</td></tr>
+          <tr><td>6</td><td><b>Sensation</b><span>감각</span></td><td>살짝 만지며 “Can you feel me touching here?”</td><td>정상적으로 느낌</td><td class="bad">저림, 따끔거림 (pins and needles), 감각 없음</td></tr>
+          <tr><td>7</td><td><b>Movement</b><span>움직임</span></td><td>“Can you wiggle your toes / fingers for me?”</td><td>잘 움직임</td><td class="bad">약함, 못 움직임</td></tr>
+          <tr><td>+</td><td><b>Swelling</b><span>부종</span></td><td>양쪽 크기 비교, cast · 붕대가 조이는지</td><td>경미함</td><td class="bad">점점 심해지는 부종, cast가 조임</td></tr>
+        </tbody>
+      </table></div>
+      <div class="nv-foot">
+        <p>🚨 <b>진통제에도 안 듣는 통증 + 붓기 + 펴줄 때 통증</b> = <b style="color:var(--red)">compartment syndrome</b> 의심 → 응급. 바로 버디 registered nurse (RN)에게 보고.</p>
+        <p>🧠 <b>6 Ps</b> — <b>P</b>ain · <b>P</b>allor (창백) · <b>P</b>ulse · <b>P</b>araesthesia (저림) · <b>P</b>aralysis (마비) · <b>P</b>oikilothermia (차가움)</p>
+        <p class="chart">📝 <i>“Neurovascular observations R leg: warm, pink, capillary refill &lt;2 seconds, dorsalis pedis pulse palpable, sensation and movement intact, mild swelling. Equal to L leg. Pain 3/10.”</i></p>
       </div>
-      <p class="note" style="margin-top:8px">⚠️ 진통제에도 안 잡히는 심한 통증 + 붓기 = <b style="color:var(--red)">compartment syndrome</b> 의심 → 바로 RN에게 보고.</p>
     </div>
     <div class="concept">
       <h3>⚠️ Post-op complications</h3>
