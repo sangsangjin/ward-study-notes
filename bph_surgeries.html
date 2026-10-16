@@ -90,6 +90,10 @@
   .nv-tbl td.bad{color:var(--red)}
   .nv-foot{margin-top:10px;display:grid;gap:6px;font-size:.84rem}
   .nv-foot .chart{background:var(--soft);border-radius:8px;padding:8px 10px;color:var(--text)}
+  .core{margin-top:14px;background:var(--ortho);color:#e7f6f3;border-radius:12px;padding:12px 16px;font-size:.92rem}
+  .core b{color:#fff}
+  .core span{display:block;font-size:.78rem;color:#bfe6de;margin-top:3px}
+  .aka{font-size:.74rem;font-weight:500;color:var(--muted);margin-left:4px}
   .callout{display:flex;gap:10px;background:var(--amber-soft);border:1px solid #f1dfb6;border-radius:12px;padding:12px 14px;font-size:.86rem;margin-top:12px}
 
   footer{text-align:center;color:var(--faint);font-size:.76rem;padding:10px 0 40px}
@@ -126,12 +130,14 @@
 <main>
   <h1>먼저 알아갈 수술과 질환</h1>
   <p class="sub">수술 이름만 외우기보다, 아래 <b>간호 개념 5가지</b>에 연결해서 공부하면 병동에서 바로 써먹을 수 있어.</p>
+  <div class="core">🦴 정형외과 병동의 핵심 = <b>수술 후 상태</b> + <b>팔 · 다리의 신경과 혈액순환</b> + <b>안전한 이동</b><span>실제 간호는 수술 후 처방, 병동 지침, 담당 registered nurse (RN)의 지도를 따라.</span></div>
 
   <div class="order">
     <span class="lbl">시간 없으면 이 순서로</span>
     <span class="step hot">TKR</span><i>→</i>
     <span class="step hot">THR</span><i>→</i>
     <span class="step hot">ORIF</span><i>→</i>
+    <span class="step hot">NOF · Hemiarthroplasty</span><i>→</i>
     <span class="step">Neurovascular assessment</span><i>→</i>
     <span class="step">Pain management · VTE prevention</span>
   </div>
@@ -142,7 +148,7 @@
   <div class="cards">
     <div class="surg ortho">
       <div>
-        <div class="name"><span class="pri">⭐ 1</span>Total knee replacement (TKR)</div>
+        <div class="name"><span class="pri">⭐ 1</span>Total knee replacement (TKR)<span class="aka">= total knee arthroplasty (TKA)</span></div>
         <div class="kr">인공 무릎관절 치환술</div>
         <div class="dx">질환 · <b>Osteoarthritis</b> (골관절염)</div>
       </div>
@@ -150,9 +156,9 @@
     </div>
     <div class="surg ortho">
       <div>
-        <div class="name"><span class="pri">⭐ 1</span>Total hip replacement (THR)</div>
+        <div class="name"><span class="pri">⭐ 1</span>Total hip replacement (THR)<span class="aka">= total hip arthroplasty (THA)</span></div>
         <div class="kr">인공 고관절 치환술</div>
-        <div class="dx">질환 · <b>Osteoarthritis</b>, 일부 <b>hip fracture</b> (고관절 골절)</div>
+        <div class="dx">질환 · <b>Osteoarthritis</b>, 일부 <b>neck of femur fracture (NOF)</b></div>
       </div>
       <div><div class="lbl">간호 포인트</div><div class="chips"><span>Weight-bearing orders</span><span>Hip precautions (수술 접근법별 움직임 제한)</span><span>Mobility</span></div></div>
     </div>
@@ -166,6 +172,14 @@
     </div>
     <div class="surg ortho">
       <div>
+        <div class="name"><span class="pri">⭐ 1</span>Neck of femur fracture (NOF) → Hemiarthroplasty</div>
+        <div class="kr">대퇴골 경부 골절 → 반치환술 (고관절의 일부만 인공관절로 교체)</div>
+        <div class="dx">환자 · 주로 <b>넘어진 노인</b>. 골절 위치에 따라 hemiarthroplasty, THR, 또는 고정술</div>
+      </div>
+      <div><div class="lbl">간호 포인트</div><div class="chips"><span>Delirium (섬망)</span><span>Falls risk</span><span>Pressure injury</span><span>Pain</span><span>VTE prevention</span><span>Early mobilisation</span></div></div>
+    </div>
+    <div class="surg ortho">
+      <div>
         <div class="name"><span class="pri">2</span>Rotator cuff repair / shoulder replacement</div>
         <div class="kr">회전근개 봉합 · 어깨관절 치환술</div>
         <div class="dx">질환 · <b>Rotator cuff tear</b> (회전근개 파열), arthritis</div>
@@ -174,9 +188,17 @@
     </div>
     <div class="surg ortho">
       <div>
-        <div class="name"><span class="pri">2</span>Spinal decompression / fusion</div>
-        <div class="kr">척추 감압술 · 유합술</div>
-        <div class="dx">질환 · <b>Spinal stenosis</b> (척추관 협착증)</div>
+        <div class="name"><span class="pri">2</span>Arthroscopy</div>
+        <div class="kr">관절경 수술 — 작은 카메라를 관절에 넣어 검사 · 치료</div>
+        <div class="dx">질환 · 주로 <b>무릎 · 어깨 관절 손상</b> (연골 · 인대)</div>
+      </div>
+      <div><div class="lbl">간호 포인트</div><div class="chips"><span>Small wounds · dressing</span><span>Swelling · ice · elevation</span><span>Neurovascular obs</span><span>Often day surgery</span></div></div>
+    </div>
+    <div class="surg ortho">
+      <div>
+        <div class="name"><span class="pri">2</span>Spinal decompression (laminectomy) / Spinal fusion</div>
+        <div class="kr">척추 감압술 — 후궁절제술: 신경 압박을 줄이려고 뼈 일부 제거 · 유합술: 척추뼈를 연결해 안정화</div>
+        <div class="dx">질환 · <b>Spinal stenosis</b> (척추관 협착증 — 신경이 지나가는 공간이 좁아짐)</div>
       </div>
       <div><div class="lbl">간호 포인트</div><div class="chips"><span>Leg strength · sensation</span><span>Bladder changes (배뇨 변화)</span><span>Log roll · transfers</span></div></div>
     </div>
