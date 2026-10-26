@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Handover Guide · 3B</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1b2230; --text:#3d4654; --muted:#6b7482; --faint:#9aa2ae;
+    --paper:#f5f6f8; --card:#ffffff; --line:#e7eaef; --soft:#f1f3f6;
+    --accent:#2b59c3; --accent-soft:#eef3fd;
+    --ortho:#0f766e; --ortho-soft:#ecf7f4;
+    --amber:#b7791f; --amber-soft:#fdf6e7;
+    --red:#c0392b;   --red-soft:#fcefed;
+    --purple:#7c3aed; --purple-soft:#f4effe;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans KR',system-ui,sans-serif;color:var(--text);background:var(--paper);line-height:1.65;font-size:15px;-webkit-font-smoothing:antialiased}
+  b{color:var(--ink);font-weight:700}
+  button{font:inherit;cursor:pointer}
+
+  .top{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .top-inner{max-width:900px;margin:0 auto;padding:0 16px;height:56px;display:flex;align-items:center;gap:12px}
+  .top a{color:var(--faint);text-decoration:none;font-size:.85rem}
+  .top a:hover{color:var(--ink)}
+  .title{font-weight:800;color:var(--ink);white-space:nowrap}
+  .title small{font-weight:500;color:var(--faint);font-size:.75rem;margin-left:6px}
+  .nav{margin-left:auto;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+  .nav a{white-space:nowrap;border-radius:999px;padding:4px 10px;color:var(--muted)}
+  .nav a:hover{background:var(--soft)}
+
+  main{max-width:900px;margin:0 auto;padding:26px 16px 60px}
+  h1{font-size:clamp(1.4rem,3vw,1.8rem);font-weight:900;color:var(--ink);letter-spacing:-.02em;line-height:1.3}
+  .sub{color:var(--muted);margin-top:4px}
+  .privacy{display:flex;gap:10px;margin-top:14px;background:var(--red-soft);border:1px solid #f2cfca;border-radius:12px;padding:12px 14px;font-size:.86rem}
+  section{margin-top:38px;scroll-margin-top:70px}
+  h2{font-size:1.15rem;font-weight:800;color:var(--ink);display:flex;align-items:baseline;gap:8px;margin-bottom:4px}
+  h2 .n{font-family:var(--mono);font-size:.8rem;color:var(--accent)}
+  .lead{font-size:.86rem;color:var(--muted);margin-bottom:12px}
+
+  /* mock sheet */
+  .mock{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:.78rem}
+  .mock-head{background:#fbf3b8;padding:6px 12px;font-weight:700;color:var(--ink);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+  .mock-grid{display:grid;grid-template-columns:.5fr .8fr 1.1fr .9fr .5fr .5fr 1.6fr 2.2fr;border-top:1px solid var(--line)}
+  .mock-grid > div{padding:8px 8px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .mock-grid > div:nth-child(8n){border-right:none}
+  .mock-grid .h{background:var(--soft);font-weight:700;color:var(--ink);font-size:.72rem}
+  .mock-grid .n{font-family:var(--mono);color:var(--accent);font-weight:700;margin-right:3px}
+  .mock-wrap{overflow-x:auto}
+  .mock-wrap .mock{min-width:760px}
+
+  .cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}
+  .col{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:.84rem;display:flex;gap:10px}
+  .col .k{flex:none;font-family:var(--mono);font-weight:700;color:var(--accent);width:22px}
+  .col b{display:block}
+
+  .types{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+  .types span{font-size:.8rem;border-radius:999px;padding:3px 10px;background:var(--soft)}
+  .types span b{font-family:var(--mono);margin-right:4px}
+
+  .shared{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
+  .sh{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:10px;padding:10px 12px}
+  .sh .L{font-family:var(--mono);font-size:1.3rem;font-weight:700;color:var(--c);line-height:1}
+  .sh .t{font-weight:800;color:var(--ink);font-size:.88rem;margin-top:4px}
+  .sh .d{font-size:.78rem;color:var(--muted)}
+  .sh .e{font-size:.76rem;color:var(--text);background:var(--soft);border-radius:6px;padding:4px 6px;margin-top:6px;font-family:var(--mono)}
+
+  /* abbreviation dictionary */
+  .abbr-tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+  .search{flex:1;min-width:200px;max-width:320px;border:1px solid var(--line);border-radius:10px;padding:8px 12px;font:inherit;font-size:.88rem;background:#fff}
+  .chip{border:none;background:none;color:var(--muted);padding:4px 10px;border-radius:999px;font-size:.8rem}
+  .chip:hover{background:var(--soft)}
+  .chip.on{background:var(--ink);color:#fff}
+  .abbr-group{margin-bottom:14px}
+  .abbr-group h3{font-size:.8rem;font-weight:700;color:var(--ink);margin:0 0 6px 2px}
+  .abbr-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .ab{background:var(--card);padding:8px 12px;display:grid;grid-template-columns:96px 1fr;gap:10px;align-items:baseline}
+  .ab .k{font-family:var(--mono);font-weight:700;color:var(--ink);font-size:.84rem}
+  .ab .f{font-size:.84rem;color:var(--ink)}
+  .ab .m{display:block;font-size:.76rem;color:var(--muted)}
+  .ab .q{font-size:.68rem;color:var(--amber);font-weight:700}
+
+  /* patient types */
+  .ptypes{display:grid;gap:10px}
+  .pt{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--c);border-radius:12px;padding:12px 16px}
+  .pt-head{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+  .pt-head b{font-size:.95rem}
+  .pt-head .tag{font-family:var(--mono);font-size:.66rem;font-weight:700;background:var(--cs);color:var(--c);border-radius:5px;padding:1px 6px}
+  .pt-head .freq{margin-left:auto;font-size:.72rem;color:var(--faint)}
+  .pt-body{display:grid;grid-template-columns:1fr 1fr;gap:4px 18px;margin-top:6px;font-size:.84rem}
+  .pt-body .lbl{font-size:.68rem;font-weight:700;color:var(--faint);text-transform:uppercase;letter-spacing:.05em}
+  .pt ul{list-style:none;display:grid;gap:2px}
+  .pt li{position:relative;padding-left:12px}
+  .pt li::before{content:'';position:absolute;left:1px;top:.68em;width:5px;height:5px;border-radius:50%;background:#c6ccd5}
+  .ortho{--c:var(--ortho);--cs:var(--ortho-soft)}
+  .sur{--c:var(--accent);--cs:var(--accent-soft)}
+  .vas{--c:var(--red);--cs:var(--red-soft)}
+  .med{--c:var(--amber);--cs:var(--amber-soft)}
+  .uro{--c:var(--purple);--cs:var(--purple-soft)}
+
+  /* practice */
+  .practice{display:grid;gap:12px}
+  .case{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .case-head{padding:12px 16px;border-bottom:1px solid var(--line);display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+  .case-head b{font-size:.95rem}
+  .case-head .fic{font-size:.68rem;font-weight:700;color:var(--faint);border:1px dashed var(--faint);border-radius:5px;padding:0 6px}
+  .sheetline{padding:10px 16px;font-family:var(--mono);font-size:.76rem;background:#fffbe6;color:var(--ink);border-bottom:1px solid var(--line)}
+  .isbar{display:none;padding:10px 16px 14px}
+  .case.open .isbar{display:block}
+  .isbar div{display:grid;grid-template-columns:110px 1fr;gap:10px;padding:5px 0;border-top:1px solid var(--line);font-size:.86rem}
+  .isbar div:first-child{border-top:none}
+  .isbar .k{font-weight:700;color:var(--accent)}
+  .isbar .v{color:var(--ink);font-style:italic}
+  .reveal{width:100%;border:none;border-top:1px solid var(--line);background:var(--soft);padding:9px;font-size:.84rem;color:var(--muted)}
+  .case.open .reveal{display:none}
+  .tryit{font-size:.82rem;color:var(--muted);padding:8px 16px 0}
+
+  footer{text-align:center;color:var(--faint);font-size:.76rem;padding:10px 0 40px}
+
+  @media (max-width:680px){
+    .cols,.abbr-list,.pt-body{grid-template-columns:1fr}
+    .shared{grid-template-columns:1fr 1fr}
+    .title small{display:none}
+    .isbar div{grid-template-columns:1fr;gap:0}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-inner">
+    <a href="index.html">&larr;</a>
+    <div class="title">Handover Guide<small>3B · Surgical</small></div>
+    <nav class="nav">
+      <a href="#read">읽는 법</a>
+      <a href="#abbr">약어</a>
+      <a href="#types">환자 유형</a>
+      <a href="#practice">연습</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <h1>핸드오버 시트 읽는 법</h1>
+  <p class="sub">3B 핸드오버 시트의 구조, 실제로 나오는 약어, 자주 오는 환자 유형을 정리했어. 마지막에 가상 환자로 ISBAR 연습도 있어.</p>
+  <div class="privacy">🔒 <span>이 페이지에는 <b>실제 환자 정보가 없어.</b> 연습 예시는 전부 가상이야. 진짜 핸드오버 시트는 병동 밖으로 가져가거나 사진 찍지 말고, 시프트 끝나면 <b>confidential bin</b>에 버려.</span></div>
+
+  <!-- ================= 1. read ================= -->
+  <section id="read">
+    <h2><span class="n">1</span>시트 구조</h2>
+    <p class="lead">시트는 TrendCare에서 뽑은 표야. 한 줄이 환자 한 명이고, 칸 순서는 항상 같아.</p>
+
+    <div class="mock-wrap"><div class="mock">
+      <div class="mock-head"><span>Handover Sheet · Ward: 3B</span><span>Shift: Day Shift, Thursday</span></div>
+      <div class="mock-grid">
+        <div class="h"><span class="n">1</span>Bed</div><div class="h"><span class="n">2</span>Patient no.</div><div class="h"><span class="n">3</span>Patient</div><div class="h"><span class="n">4</span>Type · Status · Doctor</div><div class="h"><span class="n">5</span>Age</div><div class="h"><span class="n">6</span>LOS</div><div class="h"><span class="n">7</span>Diagnosis</div><div class="h"><span class="n">8</span>Notes</div>
+        <div>07A</div><div>●●●●●</div><div>(이름)</div><div>ORT · Dr ●●</div><div>72y</div><div>2</div><div>TOTAL KNEE REPLACEMENT {OT date}</div><div>S - OT day 0 … H - HTN, OA … A - TEDs, foot pumps, Iceman, TXA, IVABs</div>
+      </div>
+    </div></div>
+
+    <div class="cols">
+      <div class="col"><span class="k">1</span><div><b>Bed</b>병상 번호. 01A, 13B처럼 방 + 자리. 9001처럼 숫자만 있으면 아직 병상 배정 전 (오늘 들어올 환자)</div></div>
+      <div class="col"><span class="k">2</span><div><b>Patient number</b>병원 환자번호 (URN). 투약 · 채혈 전 ID band와 대조하는 번호야</div></div>
+      <div class="col"><span class="k">4</span><div><b>Type · Status · Doctor</b>환자 분류 (아래 칩), 상태, 담당 전문의</div></div>
+      <div class="col"><span class="k">6</span><div><b>LOS</b> — length of stay. <b>입원 며칠째</b>인지. 1이면 입원 첫날, 수술 환자는 보통 POD (post-operative day)랑 비슷하게 봐</div></div>
+      <div class="col"><span class="k">7</span><div><b>Diagnosis</b>진단 또는 수술명. 중괄호 <b>{20/10}</b> = 수술 · 입원 날짜, <b>{20/10PM}</b> = 그날 오후 수술</div></div>
+      <div class="col"><span class="k">8</span><div><b>Notes</b>제일 중요한 칸. <b>S / H / A / R / E / D</b> 순서로 적혀 있어 (아래)</div></div>
+    </div>
+
+    <h3 style="font-size:.9rem;color:var(--ink);margin:16px 0 0">Patient type</h3>
+    <div class="types">
+      <span><b>ORT</b>Orthopaedic 정형외과 — 3B에서 제일 많아</span>
+      <span><b>SUR</b>Surgical 일반외과</span>
+      <span><b>VAS</b>Vascular 혈관외과</span>
+      <span><b>MED</b>Medical 내과 (병상이 남아서 온 환자)</span>
+      <span><b>URO</b>Urology 비뇨기과</span>
+      <span><b>Tin</b>오늘 입원 예정 (to come in) <span class="q" style="color:var(--amber);font-size:.7rem">병동에서 확인</span></span>
+    </div>
+
+    <h3 style="font-size:.9rem;color:var(--ink);margin:18px 0 0">Notes 칸 — S / H / A / R / E / D</h3>
+    <p class="lead" style="margin:2px 0 0">BPH 오리엔테이션 핸드북의 ISHARED 핸드오버 틀이랑 같은 구조야.</p>
+    <div class="shared">
+      <div class="sh" style="--c:#2b59c3"><div class="L">S</div><div class="t">Situation</div><div class="d">지금 상황 · 왜 왔는지 · 언제 수술했는지</div><div class="e">S - OT 20/10 RTW 1200</div></div>
+      <div class="sh" style="--c:#6b7482"><div class="L">H</div><div class="t">History</div><div class="d">과거력 · 기저질환</div><div class="e">H - HTN, GORD, OA, T2DM</div></div>
+      <div class="sh" style="--c:#0f766e"><div class="L">A</div><div class="t">Assessment / Actions</div><div class="d">지금 하고 있는 간호 · 기구 · 라인</div><div class="e">A - TEDs, foot pumps, Iceman, TXA, IVABs</div></div>
+      <div class="sh" style="--c:#c0392b"><div class="L">R</div><div class="t">Risk</div><div class="d">알러지 · 낙상 · 감염 · 이동 위험</div><div class="e">R - Falls risk, staph in wound</div></div>
+      <div class="sh" style="--c:#b7791f"><div class="L">E</div><div class="t">Expectation</div><div class="d">오늘 예정된 검사 · 시술 · 계획</div><div class="e">E - Bloods + X-ray, CT 1330</div></div>
+      <div class="sh" style="--c:#7c3aed"><div class="L">D</div><div class="t">Discharge</div><div class="d">퇴원 계획 · 집 상황 · 담당의</div><div class="e">D - Lives alone, OT / SW referral</div></div>
+    </div>
+  </section>
+
+  <!-- ================= 2. abbreviations ================= -->
+  <section id="abbr">
+    <h2><span class="n">2</span>시트에 나오는 약어</h2>
+    <p class="lead">3B 시트에 실제로 나온 약어만 모았어. 핸드오버 들으면서 모르는 게 나오면 여기서 찾아봐.</p>
+    <div class="abbr-tools">
+      <input class="search" id="abbrSearch" type="search" placeholder="약어 검색 (e.g. IVC, TXA)…" autocomplete="off">
+      <div id="abbrChips"></div>
+    </div>
+    <div id="abbrBox"></div>
+  </section>
+
+  <!-- ================= 3. patient types ================= -->
+  <section id="types">
+    <h2><span class="n">3</span>3B에 자주 오는 환자 유형</h2>
+    <p class="lead">시트에서 반복해서 보이는 패턴이야. 핸드오버에서 이 유형이 나오면 "무엇을 확인할지"가 바로 떠오르게 외워두면 좋아.</p>
+    <div class="ptypes">
+      <div class="pt ortho">
+        <div class="pt-head"><span class="tag">ORT</span><b>Primary TKR / THR</b><span class="freq">가장 많음 · 보통 LOS 1–3</span></div>
+        <div class="pt-body">
+          <div><div class="lbl">시트에 이렇게 나와</div><ul><li>S - OT 20/10, RTW 1200</li><li>A - TEDs, foot pumps, Iceman / icepacks, TXA, IVABs, elevate legs</li></ul></div>
+          <div><div class="lbl">확인할 것</div><ul><li>Neurovascular observations, wound / dressing</li><li>Pain score + opioid 후 sedation</li><li>Weight bearing (보통 WBAT), physio 일정</li><li>Post-operative low BP — 약 hold 기준 확인</li><li>Bowels (opioid), TEDs · foot pumps 착용</li></ul></div>
+        </div>
+      </div>
+      <div class="pt ortho">
+        <div class="pt-head"><span class="tag">ORT</span><b>Revision TKR · knee washout (infection)</b><span class="freq">LOS 길어 (1주 이상)</span></div>
+        <div class="pt-body">
+          <div><div class="lbl">시트에 이렇게 나와</div><ul><li>Washout, staph in wound, IVABs</li><li>Chronic pain → ketamine infusion</li><li>여러 진통제 allergy</li></ul></div>
+          <div><div class="lbl">확인할 것</div><ul><li>IVABs 시간 · line (PICC)</li><li>Wound · temperature (감염 징후)</li><li>Ketamine infusion 중이면 sedation · 환각</li><li>Allergy 목록 꼭 확인</li></ul></div>
+        </div>
+      </div>
+      <div class="pt ortho">
+        <div class="pt-head"><span class="tag">ORT</span><b>ACL 재건 · arthroscopy · reverse shoulder · ankle fixation</b><span class="freq">짧은 입원</span></div>
+        <div class="pt-body">
+          <div><div class="lbl">시트에 이렇게 나와</div><ul><li>Splint / brace, bolster sling</li><li>TWB on crutches with brace</li></ul></div>
+          <div><div class="lbl">확인할 것</div><ul><li>Splint · sling 제대로 착용</li><li>손 · 발 neurovascular observations</li><li>Weight bearing 지시 (NWB / TWB / WBAT)</li><li>퇴원 전 crutches · 운동 교육</li></ul></div>
+        </div>
+      </div>
+      <div class="pt sur">
+        <div class="pt-head"><span class="tag">SUR</span><span class="tag" style="--c:var(--amber);--cs:var(--amber-soft)">MED</span><b>병상 때문에 온 외과 · 내과 환자</b><span class="freq">유형 다양</span></div>
+        <div class="pt-body">
+          <div><div class="lbl">예시 패턴</div><ul><li>Leg cellulitis → IVABs via PICC, hoist</li><li>Pneumonia → droplet precautions</li><li>Shortness of breath + AKI → diuretic withheld</li><li>Post-operative pain / rigors → blood cultures</li></ul></div>
+          <div><div class="lbl">확인할 것</div><ul><li>Infection precautions (contact / droplet)</li><li>Fluid restriction · fluid balance</li><li>Blood cultures · MSU 결과</li><li>Mobility aid (hoist, Sara Stedy)</li></ul></div>
+        </div>
+      </div>
+      <div class="pt vas">
+        <div class="pt-head"><span class="tag">VAS</span><b>Angiogram · angioplasty · stent · carotid</b><span class="freq">day case 많음</span></div>
+        <div class="pt-body">
+          <div><div class="lbl">시트에 이렇게 나와</div><ul><li>Angio – R femoral site</li><li>NBM from midnight for OT, continue dual antiplatelets</li></ul></div>
+          <div><div class="lbl">확인할 것</div><ul><li>Groin (femoral) site — 출혈 · 혈종</li><li>그 다리 distal pulses, colour, temperature</li><li>Fasting 시간, antiplatelet 계속 여부</li></ul></div>
+        </div>
+      </div>
+      <div class="pt uro">
+        <div class="pt-head"><span class="tag">URO</span><b>Prostate biopsy 등 비뇨기 day case</b><span class="freq">당일 퇴원</span></div>
+        <div class="pt-body">
+          <div><div class="lbl">시트에 이렇게 나와</div><ul><li>Spinal anaesthetic, IDC can be removed when obs return</li><li>E - Day case</li></ul></div>
+          <div><div class="lbl">확인할 것</div><ul><li>Spinal 후 다리 감각 · 움직임 회복</li><li>IDC 제거 → 소변 봤는지 (trial without catheter)</li><li>Haematuria, 통증, 퇴원 교육</li></ul></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 4. practice ================= -->
+  <section id="practice">
+    <h2><span class="n">4</span>가상 핸드오버로 ISBAR 연습</h2>
+    <p class="lead">실제 환자가 아니라 패턴만 섞어 만든 가상 예시야. 시트 줄을 보고 먼저 소리 내서 ISBAR로 말해본 다음, 버튼을 눌러 예시 답안이랑 비교해봐.</p>
+    <div class="practice" id="practiceBox"></div>
+  </section>
+</main>
+
+<footer>Clinical Placement Study Hub · Handover Guide (no patient data)</footer>
+
+<script>
+/* ---------- abbreviation dictionary (from 3B sheets, no patient data) ---------- */
+const ABBR = {
+  '수술 · 이동': [
+    ['OT', 'Operating theatre', '수술실. "OT 20/10" = 20일에 수술'],
+    ['RTW', 'Returned to ward', '수술 후 병동 복귀 시간'],
+    ['ATW', 'Arrived to ward', '병동 도착 시간'],
+    ['EC / EC adm', 'Emergency centre (admission)', '응급실 (응급실 통해 입원)'],
+    ['IHT', 'Inter-hospital transfer', '다른 병원에서 이송'],
+    ['TKR / LKR', 'Total knee replacement / Left knee replacement', '인공 무릎관절'],
+    ['THR', 'Total hip replacement', '인공 고관절'],
+    ['ACL', 'Anterior cruciate ligament', '전방십자인대'],
+    ['#', 'Fracture', '골절. "# femur" = 대퇴골 골절'],
+    ['Washout', 'Surgical washout', '감염된 관절 · 상처 세척 수술'],
+    ['Day case', 'Day surgery', '당일 수술 · 당일 퇴원'],
+  ],
+  '라인 · 기구 · 상처': [
+    ['IVC', 'Intravenous cannula', '말초 정맥관'],
+    ['PICC', 'Peripherally inserted central catheter', '팔로 넣는 중심정맥관 (장기 항생제)'],
+    ['IVT / IVF', 'Intravenous therapy / Intravenous fluids', '정맥 수액'],
+    ['IDC', 'Indwelling catheter', '유치도뇨관 (소변줄)'],
+    ['TEDs', 'Thromboembolic deterrent stockings', '혈전 예방 압박 스타킹'],
+    ['Foot pumps / SCDs', 'Foot pumps / Sequential compression devices', '혈전 예방 공기압 기계'],
+    ['Iceman', 'Cold therapy machine', '얼음물 순환 냉찜질 기계 (붓기 · 통증 ↓)'],
+    ['PICO / Avelle', 'Negative pressure wound dressing', '음압 상처 드레싱 (상품명)'],
+    ['Bolster sling', 'Shoulder sling with pillow', '어깨 수술 후 베개 달린 팔걸이'],
+    ['Splint / brace', 'Splint / Brace', '부목 · 보조기 (무릎 수술 후)'],
+    ['Hoist / Sara Stedy', 'Lifting machine / Stand aid', '리프트 · 서기 보조 기구'],
+  ],
+  '약 · 진통': [
+    ['IVABs / IV Abx', 'Intravenous antibiotics', '정맥 항생제'],
+    ['TXA', 'Tranexamic acid', '출혈 줄이는 약 (관절 수술)'],
+    ['PCA', 'Patient-controlled analgesia', '자가 통증 조절 펌프'],
+    ['Spinal morph', 'Spinal (intrathecal) morphine', '척추마취 때 같이 넣은 morphine → 호흡수 관찰'],
+    ['Ketamine infusion', 'Subcutaneous ketamine infusion', '복잡한 통증 조절용 지속 주입'],
+    ['Midodrine', 'Midodrine', '저혈압 때 혈압 올리는 약 (처방 기준 확인)'],
+    ['Dual antiplatelets', 'Aspirin + clopidogrel 등', '혈소판 억제제 2개 (혈관 시술 후)'],
+  ],
+  '검사': [
+    ['Bloods', 'Blood tests', '피검사 (FBC, EUC 등)'],
+    ['BC', 'Blood cultures', '혈액 배양 (열날 때). "x3 sets" = 3세트'],
+    ['MSU / CSU', 'Mid-stream urine / Catheter specimen of urine', '소변 배양 (중간뇨 / 소변줄에서)'],
+    ['C/S', 'Culture and sensitivity', '배양 · 항생제 감수성 검사'],
+    ['4plex', 'Respiratory virus PCR panel', 'COVID · influenza A/B · RSV 검사'],
+    ['CXR', 'Chest X-ray', '흉부 X선'],
+    ['CTPA', 'CT pulmonary angiogram', '폐색전증 확인 CT'],
+    ['US / USS', 'Ultrasound (scan)', '초음파. "US & asp" = 초음파 보며 흡인'],
+    ['Angio', 'Angiogram', '혈관 조영술'],
+    ['NAD / -ve', 'Nothing abnormal detected / Negative', '이상 없음 / 음성'],
+    ['Path', 'Pathology', '병리 · 피검사'],
+  ],
+  '병력 (H)': [
+    ['HTN / HT', 'Hypertension', '고혈압'],
+    ['T2DM / NIDDM', 'Type 2 diabetes / Non-insulin-dependent diabetes', '2형 당뇨'],
+    ['AF', 'Atrial fibrillation', '심방세동'],
+    ['PPM', 'Permanent pacemaker', '영구 심박동기'],
+    ['IHD', 'Ischaemic heart disease', '허혈성 심질환'],
+    ['CCF', 'Congestive cardiac failure', '울혈성 심부전'],
+    ['COPD', 'Chronic obstructive pulmonary disease', '만성폐쇄성폐질환'],
+    ['OSA / CPAP', 'Obstructive sleep apnoea / Continuous positive airway pressure', '수면무호흡 / 수면 양압기'],
+    ['GORD / GOR', 'Gastro-oesophageal reflux (disease)', '위식도역류'],
+    ['OA / RA / OP', 'Osteoarthritis / Rheumatoid arthritis / Osteoporosis', '골관절염 / 류마티스 / 골다공증'],
+    ['PMR', 'Polymyalgia rheumatica', '류마티스성 다발근통'],
+    ['Chol↑ / ^Lipids', 'High cholesterol / High lipids', '고콜레스테롤 · 고지혈증'],
+    ['CA', 'Cancer', '암. "CA bowel" = 대장암'],
+    ['AKI', 'Acute kidney injury', '급성 신손상'],
+    ['UTI / URTI', 'Urinary tract infection / Upper respiratory tract infection', '요로감염 / 상기도감염'],
+    ['PTSD', 'Post-traumatic stress disorder', '외상 후 스트레스 장애'],
+  ],
+  '계획 · 기타': [
+    ['NBM (from) MN', 'Nil by mouth from midnight', '자정부터 금식'],
+    ['1.5L FR', '1.5 L fluid restriction', '하루 수분 1.5 L 제한'],
+    ['WBAT / TWB', 'Weight bearing as tolerated / Touch weight bearing', '견딜 만큼 부하 / 발만 살짝 닿게'],
+    ['Stand T/F', 'Stand transfer', '서서 옮겨 앉기'],
+    ['FASF', 'Forearm support frame', '팔꿈치 받침 보행기'],
+    ['ARP', 'Acute Resuscitation Plan', '급성 소생 계획 (resus 여부)'],
+    ['Contact / Droplet', 'Infection precautions', '감염 격리 종류'],
+    ['A/W', 'Awaiting', '~ 기다리는 중'],
+    ['cxled', 'Cancelled', '취소됨'],
+    ['R/V / r/v', 'Review', '진료 · 재평가'],
+    ['D/C', 'Discharge', '퇴원'],
+    ['Bil / L / R', 'Bilateral / Left / Right', '양쪽 / 왼쪽 / 오른쪽'],
+  ],
+};
+let abbrCat = 'all';
+function renderAbbr(){
+  const q = document.getElementById('abbrSearch').value.trim().toLowerCase();
+  document.getElementById('abbrChips').innerHTML = ['all', ...Object.keys(ABBR)]
+    .map(c => `<button class="chip${c === abbrCat ? ' on' : ''}" data-c="${c}">${c === 'all' ? 'All' : c}</button>`).join('');
+  document.getElementById('abbrBox').innerHTML = Object.entries(ABBR)
+    .filter(([c]) => abbrCat === 'all' || c === abbrCat)
+    .map(([c, rows]) => {
+      const hit = rows.filter(r => !q || r.join(' ').toLowerCase().includes(q));
+      if (!hit.length) return '';
+      return `<div class="abbr-group"><h3>${c}</h3><div class="abbr-list">${hit.map(([k, f, m]) =>
+        `<div class="ab"><span class="k">${k}</span><span class="f">${f}<span class="m">${m}</span></span></div>`).join('')}</div></div>`;
+    }).join('') || '<p class="lead">No results</p>';
+}
+document.getElementById('abbrSearch').addEventListener('input', renderAbbr);
+document.getElementById('abbrChips').addEventListener('click', e => {
+  const b = e.target.closest('.chip'); if (!b) return;
+  abbrCat = b.dataset.c; renderAbbr();
+});
+renderAbbr();
+
+/* ---------- fictional practice cases ---------- */
+const CASES = [
+  {title:'가상 환자 A · TKR 수술 다음 날', tag:'ORT',
+   line:'Bed 05 | ORT | 71y | LOS 2 | TOTAL KNEE REPLACEMENT (R) | S - OT yesterday | H - HTN, OA | A - TEDs, foot pumps, Iceman, IVABs, WBAT | E - Bloods + X-ray today',
+   isbar:[
+    ['Identify', '“This is (name), student nurse. I’m handing over Mrs A, 71, in bed 5.”'],
+    ['Situation', '“She’s day 1 after a right total knee replacement.”'],
+    ['Background', '“History of hypertension and osteoarthritis. She’s on IV antibiotics, with TEDs, foot pumps and the Iceman.”'],
+    ['Assessment', '“Obs are stable. Neurovascular observations are normal in the right leg. Pain is 4 out of 10 after oxycodone. She mobilised with physio, weight bearing as tolerated.”'],
+    ['Recommendation', '“Bloods and X-ray are due today. Please keep checking her pain and encourage mobilising.”'],
+   ]},
+  {title:'가상 환자 B · 고관절 감염으로 washout 후', tag:'ORT',
+   line:'Bed 16 | ORT | 63y | LOS 5 | Infected THR – washout | S - IVABs via PICC | H - T2DM, OSA | R - Wound swab positive | E - Infectious diseases review',
+   isbar:[
+    ['Identify', '“This is (name), student nurse, about Mr B, 63, in bed 16.”'],
+    ['Situation', '“He had a washout of an infected hip replacement and is on IV antibiotics through a PICC.”'],
+    ['Background', '“He has type 2 diabetes and sleep apnoea, and the wound swab was positive.”'],
+    ['Assessment', '“He’s afebrile, the wound is dry, BGLs are 6 to 9. Pain is controlled.”'],
+    ['Recommendation', '“The infectious diseases team is reviewing his antibiotics today. Please give the next dose on time.”'],
+   ]},
+  {title:'가상 환자 C · 혈관조영술 · 스텐트 당일', tag:'VAS',
+   line:'Bed 20 | VAS | 74y | LOS 1 | Angiogram + angioplasty + stent | S - R femoral access | H - AF, HTN | A - Bed rest as per protocol | E - Day case',
+   isbar:[
+    ['Identify', '“This is (name), student nurse, about Mrs C, 74, in bed 20.”'],
+    ['Situation', '“She had an angioplasty and stent today through the right femoral artery.”'],
+    ['Background', '“History of atrial fibrillation and hypertension. She’s on bed rest as per the protocol.”'],
+    ['Assessment', '“The groin site is dry with no haematoma. Right foot is warm, pink, and the pedal pulses are present.”'],
+    ['Recommendation', '“Please keep checking the groin site and pulses. She may go home this evening if everything stays stable.”'],
+   ]},
+];
+document.getElementById('practiceBox').innerHTML = CASES.map((c, i) => `
+  <div class="case" id="case${i}">
+    <div class="case-head"><b>${c.title}</b><span class="fic">FICTIONAL</span></div>
+    <div class="sheetline">${c.line}</div>
+    <p class="tryit">👉 이 줄을 보고 먼저 ISBAR로 말해봐.</p>
+    <div class="isbar">${c.isbar.map(([k, v]) => `<div><span class="k">${k}</span><span class="v">${v}</span></div>`).join('')}</div>
+    <button class="reveal" data-i="${i}">예시 답안 보기</button>
+  </div>`).join('');
+document.getElementById('practiceBox').addEventListener('click', e => {
+  const b = e.target.closest('.reveal'); if (!b) return;
+  document.getElementById('case' + b.dataset.i).classList.add('open');
+});
+</script>
+</body>
+</html>
