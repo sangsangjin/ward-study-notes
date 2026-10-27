@@ -385,7 +385,7 @@ const DRUGS = [
    check:['<b>Renal function</b> — creatinine, estimated glomerular filtration rate (eGFR), <b>urine output</b>','<b>Give with food</b> / <b>proton pump inhibitor (PPI)</b> co-prescribed?','<b>Anticoagulants</b> 같이 쓰는지','<b>Asthma</b>, <b>cardiac history</b>'],
    say:'It’s a non-steroidal anti-inflammatory drug (NSAID) given for pain and inflammation. It blocks cyclo-oxygenase (COX) enzymes so prostaglandins are reduced. Side effects are gastrointestinal (GI) bleeding and kidney injury, so I check renal function and urine output and give it with food.'},
 
-  {cat:'pain', surg:['ortho'], brand:'Lyrica', generic:'Pregabalin', cls:'Gabapentinoid (adjuvant)',
+  {cat:'pain', ward:true, surg:['ortho'], brand:'Lyrica', generic:'Pregabalin', cls:'Gabapentinoid (adjuvant)',
    why:'<b>Neuropathic pain</b>, <b>multimodal analgesia</b>의 <b>adjuvant</b> → <b>opioid-sparing</b>',
    how:'<b>Calcium channel (α2δ subunit)</b>에 결합 → <b>excitatory neurotransmitter release ↓</b> → overactive nerves 진정',
    se:['<b>Dizziness, drowsiness</b> → <b>falls risk</b>','+ Opioids → <b>sedation · respiratory depression ↑</b>','<b>Peripheral oedema</b>, <b>blurred vision</b>'],
@@ -407,7 +407,7 @@ const DRUGS = [
    check:['<b>Do NOT crush / cut</b> — controlled-release (CR) tablet → <b>dose dumping</b>','<b>12-hourly</b> timing 지키기','<b>Sedation score, respiratory rate (RR)</b>'],
    say:'It’s a slow-release oxycodone combined with naloxone. The oxycodone gives steady pain relief and the naloxone works locally in the gut to reduce constipation. It must not be crushed.'},
 
-  {cat:'opioid', s8:true, surg:['ortho'], brand:'Palexia', generic:'Tapentadol — immediate-release (IR) / sustained-release (SR)', cls:'Opioid + noradrenaline reuptake inhibitor',
+  {cat:'opioid', s8:true, ward:true, surg:['ortho'], brand:'Palexia', generic:'Tapentadol — immediate-release (IR) / sustained-release (SR)', cls:'Opioid + noradrenaline reuptake inhibitor',
    why:'<b>Moderate–severe pain</b> + <b>neuropathic pain</b>에도 효과',
    how:'<b>Mu receptor agonist</b> + <b>noradrenaline reuptake inhibition</b> (<b>descending pain pathway</b> 강화) → dual action',
    se:['<b>Nausea, dizziness, drowsiness, constipation</b> (gastrointestinal side effects < oxycodone)','<b>Respiratory depression</b>','<b>Seizures</b>, + selective serotonin reuptake inhibitor (SSRI) → <b>serotonin syndrome</b>'],
